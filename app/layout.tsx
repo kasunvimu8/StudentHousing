@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Open_Sans } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 
-const open_sans = Open_Sans({ subsets: ["latin"] });
+const roboto = Roboto({ subsets: ["latin"], weight: ["300", "500"] });
 export const metadata: Metadata = {
   title: "Student Housing",
   description: "Student Housing Web Application",
@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={open_sans.className}>{children}</body>
+      <body className={roboto.className}>{children}</body>
     </html>
   );
 }
