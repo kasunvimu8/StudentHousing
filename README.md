@@ -73,6 +73,6 @@ First, run the development server:
 
 ## 📝 Coding Design & Guidelines
 
-### Automated Fixes
+### Design
 
 Figma design for the project can be found [here](https://www.figma.com/file/lPeRLZfiV24L872YwWm4ZJ/Student-Housing?type=design&node-id=18%3A2055&mode=design&t=QfrTuZD2Xzrv8BE3-1) 
