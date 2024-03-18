@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const roboto = Roboto({ subsets: ["latin"], weight: ["300", "500"] });
+const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Student Housing",
   description: "Student Housing Web Application",
   icons: {
-    icon: '/assets/images/logo.svg'
-  }
+    icon: "/assets/images/logo.svg",
+  },
 };
 
 export default function RootLayout({
@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={roboto.className}>{children}</body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
