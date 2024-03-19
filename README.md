@@ -71,7 +71,7 @@ First, run the development server:
    npm run dev
    ```
 
-## 📝 Coding Design & Guidelines
+## 📝 Design & Guidelines
 
 ### Design
 
