@@ -1,3 +1,5 @@
+// ------ Main Menu Links ------- //
+
 export const headerLinks = [
   {
     label: "Properties",
@@ -12,6 +14,8 @@ export const headerLinks = [
     route: "/information",
   },
 ];
+
+// ------ Side Menu Links shows in the profile section ------- //
 
 export const normalUserNavMenu = [
   {

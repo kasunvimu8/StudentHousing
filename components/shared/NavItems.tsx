@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
+// ---------------- Main Menu Component in the Header ---------------------//
+
 const NavItems = () => {
   const pathname = usePathname();
 

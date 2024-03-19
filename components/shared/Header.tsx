@@ -13,6 +13,8 @@ import {
 import MenuItem from "./MenuItem";
 import { normalUserNavMenu } from "@/constants";
 
+// ----- Header Component - Shared in all components except login, register & logout pages ----------//
+
 const Header = () => {
   return (
     <header className="w-full px-5 md:px-10 py-8">

@@ -3,6 +3,8 @@ import Image from "next/image";
 import NavItems from "./NavItems";
 import { LuAlignLeft } from "react-icons/lu";
 
+// ---------------- Mobile Memu Component ---------------------//
+
 const MobileNav = () => {
   return (
     <nav className="md:hidden">

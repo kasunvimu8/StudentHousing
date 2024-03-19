@@ -3,8 +3,9 @@ import Link from "next/link";
 import { LuLogOut, LuHome, LuUserCog2 } from "react-icons/lu";
 import { IconType } from "react-icons";
 
+// ---------------- Menu Item Component ---------------------//
+
 const MenuItem = ({ menu }: any) => {
-  console.log(menu);
   let Icon: IconType;
   if (menu.icon == "LuLogOut") {
     Icon = LuLogOut;
@@ -15,16 +16,14 @@ const MenuItem = ({ menu }: any) => {
   }
 
   return (
-    <>
-      <Link
-        key={menu.title}
-        href={menu.href}
-        className="primary-font-color p-1 gap-1 rounded-md font-medium text-sm hover:section-light-background-color flex items-center"
-      >
-        <Icon className="icon" />
-        {menu.title}
-      </Link>
-    </>
+    <Link
+      key={menu.title}
+      href={menu.href}
+      className="primary-font-color p-1 gap-1 rounded-md font-medium text-sm hover:section-light-background-color flex items-center"
+    >
+      <Icon className="icon" />
+      {menu.title}
+    </Link>
   );
 };
 
