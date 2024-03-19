@@ -17,7 +17,6 @@ const MenuItem = ({ menu }: any) => {
 
   return (
     <Link
-      key={menu.title}
       href={menu.href}
       className="primary-font-color p-1 gap-1 rounded-md font-medium text-sm hover:section-light-background-color flex items-center"
     >

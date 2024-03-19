@@ -17,7 +17,7 @@ const NavItems = () => {
 
         return (
           <li
-            key={link.route}
+            key={link.id}
             className={`${
               isActive ? "font-semibold hightlight-font-color" : "font-light"
             } flex-center text-[20px]  whitespace-nowrap`}
