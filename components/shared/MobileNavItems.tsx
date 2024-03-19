@@ -1,14 +1,14 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Image from "next/image";
 import NavItems from "./NavItems";
-import { LuMenu } from "react-icons/lu";
+import { LuAlignLeft } from "react-icons/lu";
 
 const MobileNav = () => {
   return (
     <nav className="md:hidden">
       <Sheet>
         <SheetTrigger className="align-middle">
-          <LuMenu size={30} className="primary-font-color" />
+          <LuAlignLeft size={30} className="primary-font-color" />
         </SheetTrigger>
         <SheetContent
           side="left"
