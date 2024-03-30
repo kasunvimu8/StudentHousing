@@ -40,3 +40,7 @@ export const normalUserNavMenu = [
     id: "logout",
   },
 ];
+
+//--------------------- Pagination configurations ---------------------------------//
+
+export const numberOfPropertiesInPage = 5
