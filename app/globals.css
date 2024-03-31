@@ -18,9 +18,10 @@ body {
     --primary-light-font-color: 75, 69, 69, 50%;
     --secondary-font-color: 255, 255, 255;
     --hightlight-font-color: 243, 145, 0;
-    --hightlighted-light-font-color: 243, 145, 0, 50%;
+    --hightlight-light-font-color: 243, 145, 0, 50%;
 
     --section-background-color: 245, 245, 245;
+    --hightlight-background-color: 243, 145, 0;
     --section-light-background-color: 216, 216, 216, 20%;
   }
 }
@@ -56,6 +57,10 @@ body {
 
   .section-background-color {
     background: rgb(var(--section-background-color));
+  }
+
+  .section-highlight-background-color {
+    background: rgb(var(--hightlight-background-color));
   }
 
   .section-light-background-color {

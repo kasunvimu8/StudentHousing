@@ -50,9 +50,9 @@ const PropertyPagination = ({
   };
 
   return (
-    <div>
+    <React.Fragment>
       {children}
-      <Pagination>
+      <Pagination className="my-[50px]">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
@@ -93,7 +93,7 @@ const PropertyPagination = ({
           </PaginationItem>
         </PaginationContent>
       </Pagination>
-    </div>
+    </React.Fragment>
   );
 };
 
