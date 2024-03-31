@@ -43,4 +43,5 @@ export const normalUserNavMenu = [
 
 //--------------------- Pagination configurations ---------------------------------//
 
-export const numberOfPropertiesInPage = 5
+export const numberOfPropertiesInPage = 1
+export const numberPagesDisplayInPagination = 3

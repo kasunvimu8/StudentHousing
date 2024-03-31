@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -11,18 +11,33 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { numberPagesDisplayInPagination } from "@/constants";
 
 const PropertyPagination = ({
   children,
   totalPages,
+  currentPage,
 }: {
   children: ReactNode;
   totalPages: number;
+  currentPage: number;
 }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-  const currentPage = searchParams.get("page")?.toString();
+
+  let page = currentPage;
+  page = !page || page < 1 ? 1 : page;
+  const prevPage = page - 1 > 0 ? page - 1 : 1;
+  const nextPage = page + 1;
+  const perPage = numberPagesDisplayInPagination - 1;
+
+  const pageNumbers = [];
+  for (let i = page - perPage; i <= page + perPage; i++) {
+    if (i >= 1 && i <= totalPages && pageNumbers.length <= perPage) {
+      pageNumbers.push(i);
+    }
+  }
 
   const handlePagination = (pageNumber: number) => {
     const params = new URLSearchParams(searchParams);
@@ -34,39 +49,47 @@ const PropertyPagination = ({
     replace(`${pathname}?${params.toString()}`);
   };
 
-  useEffect(() => {
-    handlePagination(1);
-  }, []);
-
   return (
     <div>
       {children}
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious href="#" />
+            <PaginationPrevious
+              href={`?page=${prevPage}`}
+              className={
+                currentPage === 1
+                  ? "pointer-events-none primary-light-font-color"
+                  : ""
+              }
+            />
           </PaginationItem>
           <>
-            {Array.from({ length: totalPages }, (_, index) => {
-              const pageNumber = index + 1;
-              return (
-                <PaginationItem key={pageNumber}>
-                  <PaginationLink
-                    isActive={String(pageNumber) === currentPage}
-                    href="#"
-                    onClick={() => handlePagination(pageNumber)}
-                  >
-                    {pageNumber}
-                  </PaginationLink>
-                </PaginationItem>
-              );
-            })}
+            {pageNumbers.map((pageNumber, index) => (
+              <PaginationItem key={pageNumber}>
+                <PaginationLink
+                  key={index}
+                  isActive={pageNumber === currentPage}
+                  href={`?page=${pageNumber}`}
+                  onClick={() => handlePagination(pageNumber)}
+                >
+                  {pageNumber}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
           </>
           <PaginationItem>
             <PaginationEllipsis />
           </PaginationItem>
           <PaginationItem>
-            <PaginationNext href="#" className="disabled" />
+            <PaginationNext
+              href={`?page=${nextPage}`}
+              className={
+                page === totalPages
+                  ? "pointer-events-none primary-light-font-color"
+                  : ""
+              }
+            />
           </PaginationItem>
         </PaginationContent>
       </Pagination>

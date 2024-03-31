@@ -22,11 +22,12 @@ const PropertyList = async ({
 
   properties = JSON.parse(JSON.stringify(propertiesData));
   totalProperties = total;
+
   return (
     <>
-      <h1> Property List Page</h1>
       <PropertyPagination
         totalPages={Math.ceil(totalProperties / numberOfPropertiesInPage)}
+        currentPage={page}
       >
         {properties.length > 0 &&
           properties.map((property: Property) => {
