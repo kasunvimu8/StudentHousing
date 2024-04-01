@@ -43,5 +43,10 @@ export const normalUserNavMenu = [
 
 //--------------------- Pagination configurations ---------------------------------//
 
-export const numberOfPropertiesInPage = 6
-export const numberPagesDisplayInPagination = 3
+export const numberOfPropertiesInPage = 6;
+export const numberPagesDisplayInPagination = 3;
+
+// --------------------- Map configurations -----------------------------------//
+
+export const campusLongitude = 48.17222349291457;
+export const campusLatitude = 12.831968304732202;

@@ -1,10 +1,9 @@
-import { getProperties, getProperyCount } from "@/actions/properties";
 import React from "react";
-
 import { numberOfPropertiesInPage } from "@/constants";
 import PropertyPagination from "./PropertyPagination";
 import PropertyItem from "./PropertyItem";
 import { Property } from "@/types";
+import { getProperties, getProperyCount } from "@/actions/properties";
 
 const PropertyList = async ({
   query,
@@ -14,7 +13,7 @@ const PropertyList = async ({
   page: number;
 }) => {
   let totalProperties: number = 0;
-  let properties: any = [];
+  let properties: Property[] = [];
 
   const data = getProperties(numberOfPropertiesInPage, page);
   const count = getProperyCount();

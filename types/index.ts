@@ -1,5 +1,8 @@
 // ------------------ Type Definitions ---------------- //
 
+import { LatLngExpression } from "leaflet";
+import { ReactNode } from "react";
+
 // ------------------------SCHDCN UI Types----------------------------------------
 export type UrlQueryParams = {
   params: string;
@@ -38,3 +41,11 @@ export type Property = {
   documents: [string],
   images: [string],
 }
+
+// ------------------------ Map Marker Types --------------------------------
+
+export type MarkerType = {
+  id: string;
+  geocode: LatLngExpression;
+  popUp: ReactNode;
+};

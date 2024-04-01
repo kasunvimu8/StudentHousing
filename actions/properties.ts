@@ -25,6 +25,15 @@ export async function getProperties(
       .limit(numberOfDocsInPage);
     return properties;
   } catch (error) {
-    throw new Error("Failed to fetch Properties.");
+    throw new Error("Failed to fetch properties.");
+  }
+}
+
+export async function getAllProperties() {
+  try {
+    await connectToDatabase();
+    return await Property.find({});
+  } catch (error) {
+    throw new Error("Failed to fetch all properties.");
   }
 }

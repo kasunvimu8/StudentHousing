@@ -1,6 +1,9 @@
 import PropertyList from "@/components/custom/PropertyList";
+import PropertyMapParent from "@/components/custom/PropertyMapParent";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { LuMap, LuList } from "react-icons/lu";
 
-export default function Home({
+export default async function Home({
   searchParams,
 }: {
   searchParams?: {
@@ -14,9 +17,30 @@ export default function Home({
   return (
     <div className="w-full h-full">
       <div className="bg-neutral-100 mb-5">Filter Area</div>
-      <div className="bg-neutral-100 mb-5">Map List Selection</div>
       <div className="mb-5">
-        <PropertyList query={query} page={page} />
+        <Tabs defaultValue="list" className="w-full mb-5">
+          {/* list and map tabs */}
+          <TabsList className="grid grid-cols-2 gap-1 section-light-background-color">
+            <TabsTrigger value="list">
+              <LuList className="text-lg" />
+              <span className="pl-2 text-base">List</span>
+            </TabsTrigger>
+            <TabsTrigger value="map">
+              <LuMap className="text-lg" />
+              <span className="pl-2 text-base">Map</span>
+            </TabsTrigger>
+          </TabsList>
+
+          {/* property list */}
+          <TabsContent value="list" className="h-full w-full">
+            <PropertyList query={query} page={page} />
+          </TabsContent>
+
+          {/* property map */}
+          <TabsContent value="map" className="h-full w-full">
+            <PropertyMapParent />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
