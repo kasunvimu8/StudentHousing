@@ -1,3 +1,4 @@
+import PropertyFilter from "@/components/custom/PropertyFilter";
 import PropertyList from "@/components/custom/PropertyList";
 import PropertyMapParent from "@/components/custom/PropertyMapParent";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,11 +17,11 @@ export default async function Home({
 
   return (
     <div className="w-full h-full">
-      <div className="bg-neutral-100 mb-5">Filter Area</div>
+      <PropertyFilter />
       <div className="mb-5">
         <Tabs defaultValue="list" className="w-full mb-5">
           {/* list and map tabs */}
-          <TabsList className="grid grid-cols-2 gap-1 section-light-background-color">
+          <TabsList className="grid grid-cols-2 gap-1 section-light-background-color mb-5">
             <TabsTrigger value="list">
               <LuList className="text-lg" />
               <span className="pl-2 text-base">List</span>

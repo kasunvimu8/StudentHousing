@@ -7,7 +7,7 @@ export async function getProperyCount() {
   try {
     await connectToDatabase();
 
-    return await Property.countDocuments();
+    return await Property.countDocuments({ status : 'available'});
   } catch (error) {
     throw new Error("Failed to fetch properties count");
   }
@@ -20,7 +20,7 @@ export async function getProperties(
   try {
     await connectToDatabase();
 
-    const properties = await Property.find({})
+    const properties = await Property.find({ status : 'available'})
       .skip(numberOfDocsInPage * (currentPage - 1))
       .limit(numberOfDocsInPage);
     return properties;
@@ -32,7 +32,7 @@ export async function getProperties(
 export async function getAllProperties() {
   try {
     await connectToDatabase();
-    return await Property.find({});
+    return await Property.find({ status : 'available'});
   } catch (error) {
     throw new Error("Failed to fetch all properties.");
   }

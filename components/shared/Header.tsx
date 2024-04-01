@@ -43,7 +43,7 @@ const Header = () => {
                   Kasun Vimukthi
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="bg-white">
-                  <ul className="grid w-[150px] gap-3 p-2 md:w-[180px]">
+                  <ul className="grid w-[160px] gap-3 p-2">
                     {normalUserNavMenu.map((menu) => (
                       <MenuItem menu={menu} key={menu.id}/>
                     ))}

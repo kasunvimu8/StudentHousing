@@ -21,7 +21,7 @@ body {
     --hightlight-light-font-color: 243, 145, 0, 50%;
 
     --primary-background-color: 38, 39, 41;
-    --section-background-color: 245, 245, 245;
+    --section-background-color: 245, 245, 245, 50%;
     --hightlight-background-color: 243, 145, 0;
     --section-light-background-color: 216, 216, 216, 20%;
   }
