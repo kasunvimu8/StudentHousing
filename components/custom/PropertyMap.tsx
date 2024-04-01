@@ -50,7 +50,9 @@ const getMarkers = (properties: Property[]) => {
           >
             {property.title}
           </div>
-          <div className={`text-sm primary-font-color  ${GeistSans.className}`}>
+          <div
+            className={`text-sm primary-font-color flex justify-center items-center ${GeistSans.className} hidden md:block`}
+          >
             {property.address}
           </div>
           <div
@@ -61,7 +63,9 @@ const getMarkers = (properties: Property[]) => {
               className="flex items-center justify-center text-sm gap-2"
             >
               <Button className="section-highlight-background-color flex items-center justify-center gap-2">
-                <span className="secondary-font-color">More Details</span>
+                <span className="secondary-font-color hidden md:block">
+                  More Details
+                </span>
                 <LuMoveRight
                   strokeWidth={3}
                   className="w-5 h-5 secondary-font-color"
@@ -107,9 +111,9 @@ const PropertyMap = ({ properties }: { properties: Property[] }) => {
         <Marker position={[48.17237, 12.83196]} icon={createCustomIcon("uni")}>
           <Popup>
             <div
-              className={`text-base	 font-medium primary-font-color ${GeistSans.className}`}
+              className={`text-base	font-medium primary-font-color ${GeistSans.className}`}
             >
-              TH Rosenheim, Burghausen Campus
+              TH Rosenheim, Burghausen
             </div>
           </Popup>
         </Marker>

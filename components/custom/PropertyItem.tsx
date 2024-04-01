@@ -35,7 +35,7 @@ const PropertyItem = ({ property }: { property: Property }) => {
         <img className="rounded-t-lg" src="/images/sample_bed.jpg" alt="" />
         <div className="p-5">
           <div className="grid grid-cols-3 gap-2 mb-2">
-            <h2 className="col-span-2 text-xl font-medium">
+            <h2 className="col-span-2 text-lg font-medium">
               {property?.title}
             </h2>
             <div className="col-span-1 text-2xl justify-self-center">
@@ -99,7 +99,7 @@ const PropertyItem = ({ property }: { property: Property }) => {
             <div className="col-span-3">
               <div className="flex justify-end">
                 <a href={`property/${property._id}`}>
-                  <Button className="section-highlight-background-color">
+                  <Button className="section-highlight-background-color" size="sm">
                     <LuMoveRight
                       className="h-5 w-5 text-xl secondary-font-color"
                       strokeWidth={3}
