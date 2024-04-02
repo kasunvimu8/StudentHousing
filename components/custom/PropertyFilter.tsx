@@ -26,8 +26,8 @@ const PropertyFilter = async () => {
   });
 
   const filter = async () => {
-    'use server'
-    console.log('Filtering')
+    "use server";
+    console.log("Filtering");
   };
 
   return (
@@ -112,7 +112,7 @@ const PropertyFilter = async () => {
             />
           </div>
         </div>
-        <div className="col-start-5 col-end-7 flex justify-center md:justify-end lg:justify-end">
+        <div className="col-span-6 md:col-start-5 md:col-end-7 flex justify-end">
           <PropertyFilterButton filter={filter} />
         </div>
       </div>
