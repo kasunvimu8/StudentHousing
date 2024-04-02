@@ -1,6 +1,5 @@
 import React from "react";
 import { Label } from "../ui/label";
-import { Button } from "../ui/button";
 import { numberOfRooms, propertyTypes, sortOptions } from "@/constants";
 import { DropdownComponent } from "../ui/dropdown/URLSyncDropdown";
 import { DatePickerComponent } from "../ui/calendar/URLSyncDropdown";
@@ -9,6 +8,7 @@ import { City, ICity } from "country-state-city";
 import { isCitiesWithinArea, removeSpaceAndCasesensitivity } from "@/lib/utils";
 import { ComboContentType } from "@/types";
 import URLSyncCombo from "../ui/combo/URLSyncCombo";
+import PropertyFilterButton from "./PropertyFilterButton";
 
 const PropertyFilter = async () => {
   // get all the cities in Bavaria
@@ -24,6 +24,11 @@ const PropertyFilter = async () => {
       formattedCity.push({ id: cityId, value: cityId, label: city.name });
     }
   });
+
+  const filter = async () => {
+    'use server'
+    console.log('Filtering')
+  };
 
   return (
     <div className="mb-5 rounded-lg section-background-color">
@@ -108,12 +113,7 @@ const PropertyFilter = async () => {
           </div>
         </div>
         <div className="col-start-5 col-end-7 flex justify-center md:justify-end lg:justify-end">
-          <div className="grid grid-cols-2 gap-2 justify-end">
-            <Button className="py-5 px-7 self-end">Reset</Button>
-            <Button className="py-5 px-7 primary-background-color secondary-font-color self-end">
-              Filter
-            </Button>
-          </div>
+          <PropertyFilterButton filter={filter} />
         </div>
       </div>
     </div>
