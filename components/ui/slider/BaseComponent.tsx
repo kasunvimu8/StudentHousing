@@ -32,7 +32,7 @@ const BaseComponent = ({
       onValueChange={onValueChange}
       onValueCommit={onValueCommit}
       className={cn(
-        "relative flex w-full touch-none select-none mb-6 items-center",
+        "relative flex touch-none select-none mb-6 items-center w-[250px]",
         className
       )}
       {...props}
