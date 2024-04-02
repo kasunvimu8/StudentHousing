@@ -21,6 +21,7 @@
     "@radix-ui/react-tabs": "^1.0.4",
     "class-variance-authority": "^0.7.0",
     "cmdk": "^1.0.0",
+    "country-state-city": "^3.2.1",
     "date-fns": "^3.6.0",
     "geist": "^1.2.2",
     "leaflet": "^1.9.4",

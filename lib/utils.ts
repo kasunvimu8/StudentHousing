@@ -27,9 +27,9 @@ export const formatDateTime = (dateString: Date) => {
   };
 
   const simpleDate: Intl.DateTimeFormatOptions = {
-    day: '2-digit', // Display day as a two-digit number
-    month: 'short', // Display month as a short name (e.g., Apr)
-    year: 'numeric' // Display year as a number
+    day: "2-digit", // Display day as a two-digit number
+    month: "short", // Display month as a short name (e.g., Apr)
+    year: "numeric", // Display year as a number
   };
 
   const timeOptions: Intl.DateTimeFormatOptions = {
@@ -114,4 +114,21 @@ export function removeKeysFromQuery({
 export const handleError = (error: unknown) => {
   console.error(error);
   throw new Error(typeof error === "string" ? error : JSON.stringify(error));
+};
+
+export const removeSpaceAndCasesensitivity = (str: string) =>
+  str.toLowerCase().replace(/\s/g, "");
+
+export const isCitiesWithinArea = (latitude: number, longitude: number) => {
+  const minLat = 47.9460886576076;
+  const maxLat = 48.39901420809428;
+  const minLon = 12.481255680127154;
+  const maxLon = 13.183061833385718;
+
+  return (
+    latitude >= minLat &&
+    latitude <= maxLat &&
+    longitude >= minLon &&
+    longitude <= maxLon
+  );
 };

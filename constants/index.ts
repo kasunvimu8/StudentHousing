@@ -3,7 +3,7 @@
 export const headerLinks = [
   {
     label: "Properties",
-    route: "/",
+    route: "/properties",
     id: "properties",
   },
   {
@@ -50,3 +50,58 @@ export const numberPagesDisplayInPagination = 3;
 
 export const campusLongitude = 48.17222349291457;
 export const campusLatitude = 12.831968304732202;
+
+// --------------------- Property configurations -----------------------------------//
+
+export const propertyTypes = [
+  {
+    id: "apartment",
+    description: "Apartment",
+  },
+  {
+    id: "house",
+    description: "House",
+  },
+  {
+    id: "shared",
+    description: "Room in Shared Apartment",
+  },
+];
+
+export const numberOfRooms = [
+  {
+    id: "1",
+    description: "From 1 room",
+  },
+  {
+    id: "1.5",
+    description: "From 1.5 rooms",
+  },
+  {
+    id: "2",
+    description: "From 2 rooms",
+  },
+  {
+    id: "3",
+    description: "From 3 rooms",
+  },
+  {
+    id: "4",
+    description: "More than 4 rooms",
+  },
+];
+
+export const sortOptions = [
+  {
+    id: "newest",
+    description: "Newest First",
+  },
+  {
+    id: "highest",
+    description: "Highest Rent",
+  },
+  {
+    id: "lowest",
+    description: "Lowest Rent",
+  },
+];

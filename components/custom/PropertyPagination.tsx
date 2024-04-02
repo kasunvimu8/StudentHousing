@@ -46,6 +46,7 @@ const PropertyPagination = ({
     } else {
       params.set("page", "1");
     }
+
     replace(`${pathname}?${params.toString()}`);
   };
 
@@ -56,11 +57,11 @@ const PropertyPagination = ({
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
-              href={`?page=${prevPage}`}
+              onClick={() => handlePagination(prevPage)}
               className={
                 currentPage === 1
                   ? "pointer-events-none primary-light-font-color"
-                  : ""
+                  : "cursor-pointer"
               }
             />
           </PaginationItem>
@@ -70,8 +71,8 @@ const PropertyPagination = ({
                 <PaginationLink
                   key={index}
                   isActive={pageNumber === currentPage}
-                  href={`?page=${pageNumber}`}
                   onClick={() => handlePagination(pageNumber)}
+                  className="cursor-pointer"
                 >
                   {pageNumber}
                 </PaginationLink>
@@ -83,11 +84,11 @@ const PropertyPagination = ({
           </PaginationItem>
           <PaginationItem>
             <PaginationNext
-              href={`?page=${nextPage}`}
+              onClick={() => handlePagination(nextPage)}
               className={
                 page === totalPages
                   ? "pointer-events-none primary-light-font-color"
-                  : ""
+                  : "cursor-pointer"
               }
             />
           </PaginationItem>
