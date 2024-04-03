@@ -49,7 +49,7 @@ export const formatDateTime = (dateString: Date) => {
   );
 
   const formattedSimpleDate: string = new Date(dateString).toLocaleString(
-    "en-GB",
+    "en-US",
     simpleDate
   );
 
@@ -131,4 +131,16 @@ export const isCitiesWithinArea = (latitude: number, longitude: number) => {
     longitude >= minLon &&
     longitude <= maxLon
   );
+};
+
+export const formatDateToISOStringWithTimeZone = (
+  date: Date,
+) => {
+  return date
+    ?.toLocaleString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+    ?.replace(/,/g, "");
 };

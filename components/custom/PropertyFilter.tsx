@@ -25,11 +25,6 @@ const PropertyFilter = async () => {
     }
   });
 
-  const filter = async () => {
-    "use server";
-    console.log("Filtering");
-  };
-
   return (
     <div className="mb-5 rounded-lg section-background-color">
       <div className="grid grid-cols-6 gap-4 p-5">
@@ -47,12 +42,12 @@ const PropertyFilter = async () => {
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
-            <Label htmlFor="type">Type</Label>
+            <Label htmlFor="property_type">Property Type</Label>
             <DropdownComponent
               options={propertyTypes}
               optionsLabel="Select Property Types"
               showAllItem={true}
-              inputKey="type"
+              inputKey="property_type"
             />
           </div>
         </div>
@@ -113,7 +108,7 @@ const PropertyFilter = async () => {
           </div>
         </div>
         <div className="col-span-6 md:col-start-5 md:col-end-7 flex justify-end">
-          <PropertyFilterButton filter={filter} />
+          <PropertyFilterButton />
         </div>
       </div>
     </div>

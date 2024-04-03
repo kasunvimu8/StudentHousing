@@ -2,19 +2,14 @@ import PropertyFilter from "@/components/custom/PropertyFilter";
 import PropertyList from "@/components/custom/PropertyList";
 import PropertyMapParent from "@/components/custom/PropertyMapParent";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FilterParamTypes } from "@/types";
 import { LuMap, LuList } from "react-icons/lu";
 
 export default async function Home({
   searchParams,
 }: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-  };
+  searchParams: FilterParamTypes;
 }) {
-  const query = searchParams?.query || "";
-  const page = Number(searchParams?.page) || 1;
-
   return (
     <div className="w-full h-full">
       <PropertyFilter />
@@ -34,7 +29,7 @@ export default async function Home({
 
           {/* property list */}
           <TabsContent value="list" className="h-full w-full">
-            <PropertyList query={query} page={page} />
+            <PropertyList searchParams={searchParams} />
           </TabsContent>
 
           {/* property map */}

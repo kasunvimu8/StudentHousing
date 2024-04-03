@@ -3,6 +3,7 @@
 import { OptionType } from "@/types";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import BaseComponent from "./BaseComponent";
+import { useEffect } from "react";
 
 export function DropdownComponent({
   options,
@@ -22,7 +23,7 @@ export function DropdownComponent({
   const urlParam = searchParams.get(inputKey)?.toString();
   let value = urlParam ? urlParam : showAllItem ? "all" : options?.[0]?.id;
 
-  function handleSelect(term: string) {
+  function updateURL(term: string) {
     const params = new URLSearchParams(searchParams);
     if (term) {
       params.set(inputKey, term);
@@ -40,7 +41,7 @@ export function DropdownComponent({
       options={options}
       optionsLabel={optionsLabel}
       showAllItem={showAllItem}
-      handleSelect={handleSelect}
+      handleSelect={updateURL}
     />
   );
 }

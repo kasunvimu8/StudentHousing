@@ -2,20 +2,26 @@ import React from "react";
 import { numberOfPropertiesInPage } from "@/constants";
 import PropertyPagination from "./PropertyPagination";
 import PropertyItem from "./PropertyItem";
-import { Property } from "@/types";
+import { FilterParamTypes, Property } from "@/types";
 import { getProperties, getProperyCount } from "@/actions/properties";
 
 const PropertyList = async ({
-  query,
-  page,
+  searchParams,
 }: {
-  query: string;
-  page: number;
+  searchParams: FilterParamTypes;
 }) => {
   let totalProperties: number = 0;
   let properties: Property[] = [];
 
-  const data = getProperties(numberOfPropertiesInPage, page);
+  const sort = searchParams.sort;
+  const page = searchParams?.page ? Number(searchParams.page) : 1;
+
+  const data = getProperties(
+    numberOfPropertiesInPage,
+    page,
+    sort,
+    searchParams
+  );
   const count = getProperyCount();
   const [total, propertiesData] = await Promise.all([count, data]);
 

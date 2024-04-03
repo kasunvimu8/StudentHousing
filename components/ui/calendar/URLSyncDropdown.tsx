@@ -2,6 +2,7 @@
 
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import BaseComponent from "./BaseComponent";
+import { formatDateToISOStringWithTimeZone } from "@/lib/utils";
 
 export function DatePickerComponent({ inputKey }: { inputKey: string }) {
   const searchParams = useSearchParams();
@@ -10,6 +11,8 @@ export function DatePickerComponent({ inputKey }: { inputKey: string }) {
 
   const urlParam = searchParams.get(inputKey)?.toString();
   let date: Date | undefined = urlParam ? new Date(urlParam) : undefined;
+
+  // console.log(formatDateToISOStringWithTimeZone(date))
 
   function handleSelect(date: Date | undefined) {
     const params = new URLSearchParams(searchParams);

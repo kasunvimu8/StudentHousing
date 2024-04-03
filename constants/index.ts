@@ -105,3 +105,7 @@ export const sortOptions = [
     description: "Lowest Rent",
   },
 ];
+
+// ----------------------- Filter Constants ----------------------- //
+
+export const availableStatus = "available";

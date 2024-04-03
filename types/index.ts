@@ -22,14 +22,14 @@ export type Property = {
   title: string;
   address: string;
   from: Date;
-  to: Date;
+  to?: Date;
   beds: number;
   size: number;
   type: string;
-  cold_rent: number;
+  cold_rent?: number;
   incidential_cost: number;
   one_time_cost: number;
-  warm_rent: number;
+  warm_rent?: number;
   deposit: number;
   longitude: number;
   latitude: number;
@@ -74,3 +74,16 @@ export type ComboContentType = {
   value: string;
   label: string;
 };
+
+export type FilterParamTypes = {
+  page?: string;
+  city?: string;
+  property_type?: string;
+  from?: string;
+  rooms?: string;
+  size?: string;
+  rent?: string;
+  sort?: string;
+};
+
+export type SortOption = { [key: string]: 1 | -1 };
