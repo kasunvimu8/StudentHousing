@@ -34,7 +34,7 @@ export default async function Home({
 
           {/* property map */}
           <TabsContent value="map" className="h-full w-full">
-            <PropertyMapParent />
+            <PropertyMapParent searchParams={searchParams} />
           </TabsContent>
         </Tabs>
       </div>

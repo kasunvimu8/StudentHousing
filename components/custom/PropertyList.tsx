@@ -22,7 +22,7 @@ const PropertyList = async ({
     sort,
     searchParams
   );
-  const count = getProperyCount();
+  const count = getProperyCount(searchParams);
   const [total, propertiesData] = await Promise.all([count, data]);
 
   properties = JSON.parse(JSON.stringify(propertiesData));

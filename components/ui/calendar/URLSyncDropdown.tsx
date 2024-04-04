@@ -12,12 +12,10 @@ export function DatePickerComponent({ inputKey }: { inputKey: string }) {
   const urlParam = searchParams.get(inputKey)?.toString();
   let date: Date | undefined = urlParam ? new Date(urlParam) : undefined;
 
-  // console.log(formatDateToISOStringWithTimeZone(date))
-
   function handleSelect(date: Date | undefined) {
     const params = new URLSearchParams(searchParams);
     if (date) {
-      params.set(inputKey, String(date));
+      params.set(inputKey, String(formatDateToISOStringWithTimeZone(date)));
     } else {
       params.delete(inputKey);
     }

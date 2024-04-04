@@ -134,7 +134,7 @@ export const isCitiesWithinArea = (latitude: number, longitude: number) => {
 };
 
 export const formatDateToISOStringWithTimeZone = (
-  date: Date,
+  date: Date | undefined,
 ) => {
   return date
     ?.toLocaleString("en-US", {

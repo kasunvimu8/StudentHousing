@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/pagination";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { numberPagesDisplayInPagination } from "@/constants";
+import { LuHome } from "react-icons/lu";
 
 const PropertyPagination = ({
   children,
@@ -53,47 +54,57 @@ const PropertyPagination = ({
   return (
     <React.Fragment>
       {children}
-      <Pagination className="my-[50px]">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              onClick={() => handlePagination(prevPage)}
-              className={
-                currentPage === 1
-                  ? "pointer-events-none primary-light-font-color"
-                  : "cursor-pointer"
-              }
-            />
-          </PaginationItem>
-          <>
-            {pageNumbers.map((pageNumber, index) => (
-              <PaginationItem key={pageNumber}>
-                <PaginationLink
-                  key={index}
-                  isActive={pageNumber === currentPage}
-                  onClick={() => handlePagination(pageNumber)}
-                  className="cursor-pointer"
-                >
-                  {pageNumber}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
-          </>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext
-              onClick={() => handlePagination(nextPage)}
-              className={
-                page === totalPages
-                  ? "pointer-events-none primary-light-font-color"
-                  : "cursor-pointer"
-              }
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+      {totalPages > 0 ? (
+        <Pagination className="my-[50px]">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => handlePagination(prevPage)}
+                className={
+                  currentPage === 1
+                    ? "pointer-events-none primary-light-font-color"
+                    : "cursor-pointer"
+                }
+              />
+            </PaginationItem>
+            <>
+              {pageNumbers.map((pageNumber, index) => (
+                <PaginationItem key={pageNumber}>
+                  <PaginationLink
+                    key={index}
+                    isActive={pageNumber === currentPage}
+                    onClick={() => handlePagination(pageNumber)}
+                    className="cursor-pointer"
+                  >
+                    {pageNumber}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+            </>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => handlePagination(nextPage)}
+                className={
+                  page === totalPages
+                    ? "pointer-events-none primary-light-font-color"
+                    : "cursor-pointer"
+                }
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      ) : (
+        <div className="flex-center wrapper min-h-[200px] w-full flex-col gap-3 py-10 md:py-20 text-center justify-center items-center">
+          <div className="flex justify-center">
+            <LuHome className="align-center w-[40px] h-[40px] primary-font-color opacity-40" />
+          </div>
+          <h3 className="text-lg font-medium">No propterties Found</h3>
+          <div className="text-sm font-normal ">Please try again later !</div>
+        </div>
+      )}
     </React.Fragment>
   );
 };

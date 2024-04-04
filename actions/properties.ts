@@ -3,7 +3,6 @@
 import { availableStatus } from "@/constants";
 import { connectToDatabase } from "@/database";
 import Property from "@/database/models/property.model";
-import { formatDateTime } from "@/lib/utils";
 import { FilterParamTypes, SortOption } from "@/types";
 
 function getFilterOptions(options: FilterParamTypes) {
@@ -39,15 +38,20 @@ function getFilterOptions(options: FilterParamTypes) {
       }
     }
   });
-  console.log(filterCriterions);
   return filterCriterions;
 }
 
-export async function getProperyCount() {
+export async function getProperyCount(filterParams: FilterParamTypes) {
   try {
     await connectToDatabase();
+    const statusFilter = { status: availableStatus };
+    const filterOptions: SortOption[] = getFilterOptions(filterParams);
+    let matchOptions =
+      filterOptions.length > 0
+        ? [statusFilter, ...filterOptions]
+        : [statusFilter];
 
-    return await Property.countDocuments({ status: availableStatus });
+    return await Property.countDocuments({ $and: matchOptions });
   } catch (error) {
     throw new Error("Failed to fetch properties count");
   }
@@ -99,10 +103,17 @@ export async function getProperties(
   }
 }
 
-export async function getAllProperties() {
+export async function getAllProperties(filterParams: FilterParamTypes) {
   try {
     await connectToDatabase();
-    return await Property.find({ status: availableStatus });
+    const statusFilter = { status: availableStatus };
+    const filterOptions: SortOption[] = getFilterOptions(filterParams);
+    let matchOptions =
+      filterOptions.length > 0
+        ? [statusFilter, ...filterOptions]
+        : [statusFilter];
+
+    return await Property.find({ $and: matchOptions });
   } catch (error) {
     throw new Error("Failed to fetch all properties.");
   }
