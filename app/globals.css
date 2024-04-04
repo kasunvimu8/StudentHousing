@@ -18,9 +18,12 @@ body {
     --primary-light-font-color: 75, 69, 69, 50%;
     --secondary-font-color: 255, 255, 255;
     --hightlight-font-color: 243, 145, 0;
-    --hightlighted-light-font-color: 243, 145, 0, 50%;
+    --hightlight-light-font-color: 243, 145, 0, 50%;
 
-    --section-background-color: 245, 245, 245;
+    --primary-background-color: 38, 39, 41;
+    --primary-light-background-color: 38, 39, 41, 20%;
+    --section-background-color: 245, 245, 245, 50%;
+    --hightlight-background-color: 243, 145, 0;
     --section-light-background-color: 216, 216, 216, 20%;
   }
 }
@@ -54,12 +57,42 @@ body {
     color: rgb(var(--hightlight-light-font-color));
   }
 
+  .primary-background-color {
+    background: rgb(var(--primary-background-color));
+  }
+
+  .primary-light-background-color {
+    background: rgb(var(--primary-light-background-color));
+  }
+
   .section-background-color {
     background: rgb(var(--section-background-color));
   }
 
+  .section-highlight-background-color {
+    background: rgb(var(--hightlight-background-color));
+  }
+
   .section-light-background-color {
     background: rgb(var(--section-light-background-color));
+  }
+
+  .leaflet-container {
+    height: 70vh;
+    border-radius: 10px;
+  }
+
+  .cluster-icon {
+    background-color: #333;
+    height: 2em;
+    width: 2em;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    box-shadow: 0 0 0px 5px #fff;
   }
 }
 

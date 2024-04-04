@@ -17,7 +17,7 @@ import { normalUserNavMenu } from "@/constants";
 
 const Header = () => {
   return (
-    <header className="w-full px-5 md:px-10 py-8">
+    <header className="w-full py-10">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
           <nav className="flex md:hidden items-center justify-start w-25">
@@ -42,10 +42,10 @@ const Header = () => {
                 <NavigationMenuTrigger className="font-medium text-sm">
                   Kasun Vimukthi
                 </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[150px] gap-3 p-2 md:w-[180px]">
+                <NavigationMenuContent className="bg-white">
+                  <ul className="grid w-[160px] gap-3 p-2">
                     {normalUserNavMenu.map((menu) => (
-                      <MenuItem menu={menu} />
+                      <MenuItem menu={menu} key={menu.id}/>
                     ))}
                   </ul>
                 </NavigationMenuContent>
