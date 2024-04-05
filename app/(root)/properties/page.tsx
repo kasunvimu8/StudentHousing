@@ -15,7 +15,7 @@ export default async function Home({
 }) {
   return (
     <div className="w-full h-full">
-      {/* <PropertyFilter /> */}
+      <PropertyFilter />
       <div className="mb-5">
         <Tabs defaultValue="list" className="w-full mb-5">
           {/* list and map tabs */}
