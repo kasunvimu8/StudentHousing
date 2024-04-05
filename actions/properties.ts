@@ -111,7 +111,6 @@ export async function getAllProperties(filterParams: FilterParamTypes) {
       filterOptions.length > 0
         ? [statusFilter, ...filterOptions]
         : [statusFilter];
-        await new Promise(resolve => setTimeout(resolve, 20000));
 
     return await Property.find(
       { $and: matchOptions },
