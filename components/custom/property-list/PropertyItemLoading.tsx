@@ -1,5 +1,5 @@
 import React from "react";
-import { Skeleton } from "../ui/Skelton";
+import { Skeleton } from "../../ui/Skelton";
 
 export const PropertiesLoading = () => {
   return (

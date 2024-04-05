@@ -2,7 +2,7 @@
 
 import React from "react";
 import { LuArrowUp } from "react-icons/lu";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 
 const PropertyUp = () => {
   const goUp = () => {
