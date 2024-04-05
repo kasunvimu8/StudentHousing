@@ -35,9 +35,9 @@ const PropertyItem = ({ property }: { property: Property }) => {
         <img className="rounded-t-lg" src="/images/sample_bed.jpg" alt="" />
         <div className="p-5">
           <div className="grid grid-cols-3 gap-2 mb-2">
-            <h2 className="col-span-2 text-lg font-medium">
+            <h1 className="col-span-2 text-lg font-medium">
               {property?.title}
-            </h2>
+            </h1>
             <div className="col-span-1 text-2xl justify-self-center">
               <div className="grid grid-row gap-1 ">
                 <div className="flex items-center">
