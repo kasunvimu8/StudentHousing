@@ -4,7 +4,7 @@ import React from "react";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 
-const PropertyFilterButton = () => {
+const PropertyFilterReset = () => {
   const router = useRouter();
 
   const resentFilter = () => {
@@ -20,4 +20,4 @@ const PropertyFilterButton = () => {
   );
 };
 
-export default PropertyFilterButton;
+export default PropertyFilterReset;

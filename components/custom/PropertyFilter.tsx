@@ -8,7 +8,7 @@ import { City, ICity } from "country-state-city";
 import { isCitiesWithinArea, removeSpaceAndCasesensitivity } from "@/lib/utils";
 import { ComboContentType } from "@/types";
 import URLSyncCombo from "../ui/combo/URLSyncCombo";
-import PropertyFilterButton from "./PropertyFilterButton";
+import PropertyFilterReset from "./PropertyFilterReset";
 
 const PropertyFilter = async () => {
   // get all the cities in Bavaria
@@ -108,7 +108,7 @@ const PropertyFilter = async () => {
           </div>
         </div>
         <div className="col-span-6 md:col-start-5 md:col-end-7 flex justify-end">
-          <PropertyFilterButton />
+          <PropertyFilterReset />
         </div>
       </div>
     </div>

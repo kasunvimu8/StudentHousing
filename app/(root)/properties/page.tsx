@@ -1,8 +1,11 @@
 import PropertyFilter from "@/components/custom/PropertyFilter";
+import {MapLoading, PropertiesLoading} from "@/components/custom/PropertyItemLoading";
 import PropertyList from "@/components/custom/PropertyList";
 import PropertyMapParent from "@/components/custom/PropertyMapParent";
+import { Skeleton } from "@/components/ui/Skelton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FilterParamTypes } from "@/types";
+import { Suspense } from "react";
 import { LuMap, LuList } from "react-icons/lu";
 
 export default async function Home({
@@ -12,7 +15,7 @@ export default async function Home({
 }) {
   return (
     <div className="w-full h-full">
-      <PropertyFilter />
+      {/* <PropertyFilter /> */}
       <div className="mb-5">
         <Tabs defaultValue="list" className="w-full mb-5">
           {/* list and map tabs */}
@@ -29,12 +32,20 @@ export default async function Home({
 
           {/* property list */}
           <TabsContent value="list" className="h-full w-full">
-            <PropertyList searchParams={searchParams} />
+            <Suspense
+              fallback={<PropertiesLoading/>}
+            >
+              <PropertyList searchParams={searchParams} />
+            </Suspense>
           </TabsContent>
 
           {/* property map */}
           <TabsContent value="map" className="h-full w-full">
-            <PropertyMapParent searchParams={searchParams} />
+            <Suspense
+              fallback={<MapLoading />}
+            >
+              <PropertyMapParent searchParams={searchParams} />
+            </Suspense>
           </TabsContent>
         </Tabs>
       </div>
