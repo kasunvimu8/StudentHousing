@@ -30,7 +30,7 @@ const PropertyFilter = async () => {
       <div className="grid grid-cols-6 gap-4 p-5">
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
-            <Label htmlFor="location">Location</Label>
+            <Label >Location</Label>
             <URLSyncCombo
               notfoundLabel="No City found."
               placeholder="Search Cities"
@@ -42,7 +42,7 @@ const PropertyFilter = async () => {
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
-            <Label htmlFor="property_type">Property Type</Label>
+            <Label >Property Type</Label>
             <DropdownComponent
               options={propertyTypes}
               optionsLabel="Select Property Types"
@@ -53,7 +53,7 @@ const PropertyFilter = async () => {
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
-            <Label htmlFor="from">Available From</Label>
+            <Label >Available From</Label>
             <div className="min-w-[300px]">
               <DatePickerComponent inputKey={"from"} />
             </div>
@@ -61,7 +61,7 @@ const PropertyFilter = async () => {
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
-            <Label htmlFor="rooms">Number of Rooms</Label>
+            <Label >Number of Rooms</Label>
             <DropdownComponent
               options={numberOfRooms}
               optionsLabel="Select Number of Rooms"
@@ -72,7 +72,7 @@ const PropertyFilter = async () => {
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
-            <Label htmlFor="space">
+            <Label >
               Space (m <sup>2</sup>)
             </Label>
             <Slider
@@ -86,7 +86,7 @@ const PropertyFilter = async () => {
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1 ">
-            <Label htmlFor="rent">Rent (€)</Label>
+            <Label >Rent (€)</Label>
             <Slider
               min={0}
               max={3000}
@@ -98,7 +98,7 @@ const PropertyFilter = async () => {
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
-            <Label htmlFor="rooms">Sort By</Label>
+            <Label >Sort By</Label>
             <DropdownComponent
               options={sortOptions}
               optionsLabel="Select Sort Option"
