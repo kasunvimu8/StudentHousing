@@ -50,7 +50,6 @@ export async function getProperyCount(filterParams: FilterParamTypes) {
       filterOptions.length > 0
         ? [statusFilter, ...filterOptions]
         : [statusFilter];
-
     return await Property.countDocuments({ $and: matchOptions });
   } catch (error) {
     throw new Error("Failed to fetch properties count");
@@ -113,7 +112,10 @@ export async function getAllProperties(filterParams: FilterParamTypes) {
         ? [statusFilter, ...filterOptions]
         : [statusFilter];
 
-    return await Property.find({ $and: matchOptions });
+    return await Property.find(
+      { $and: matchOptions },
+      { _id: 1, longitude: 1, latitude: 1, title: 1, address: 1 }
+    );
   } catch (error) {
     throw new Error("Failed to fetch all properties.");
   }

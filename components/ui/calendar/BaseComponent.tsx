@@ -22,7 +22,7 @@ const BaseComponent = ({
         <Button
           variant={"outline"}
           className={cn(
-            "w-[250px] justify-start text-left font-normal",
+            "w-[250px] justify-start text-left font-normal bg-white",
             !date && "text-muted-foreground"
           )}
         >
