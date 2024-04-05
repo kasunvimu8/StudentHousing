@@ -8,7 +8,7 @@ import {
   LuBedSingle,
   LuBoxSelect,
 } from "react-icons/lu";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 
 const PropertyItem = ({ property }: { property: Property }) => {
   const rentType =

@@ -1,13 +1,13 @@
 import React from "react";
-import { Label } from "../ui/label";
+import { Label } from "../../ui/label";
 import { numberOfRooms, propertyTypes, sortOptions } from "@/constants";
-import { DropdownComponent } from "../ui/dropdown/URLSyncDropdown";
-import { DatePickerComponent } from "../ui/calendar/URLSyncDropdown";
-import { Slider } from "../ui/slider/URLSyncSlider";
+import { DropdownComponent } from "../../ui/dropdown/URLSyncDropdown";
+import { DatePickerComponent } from "../../ui/calendar/URLSyncDropdown";
+import { Slider } from "../../ui/slider/URLSyncSlider";
 import { City, ICity } from "country-state-city";
 import { isCitiesWithinArea, removeSpaceAndCasesensitivity } from "@/lib/utils";
 import { ComboContentType } from "@/types";
-import URLSyncCombo from "../ui/combo/URLSyncCombo";
+import URLSyncCombo from "../../ui/combo/URLSyncCombo";
 import PropertyFilterReset from "./PropertyFilterReset";
 
 const PropertyFilter = async () => {

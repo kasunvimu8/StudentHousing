@@ -1,7 +1,7 @@
-import PropertyFilter from "@/components/custom/PropertyFilter";
-import {MapLoading, PropertiesLoading} from "@/components/custom/PropertyItemLoading";
-import PropertyList from "@/components/custom/PropertyList";
-import PropertyMapParent from "@/components/custom/PropertyMapParent";
+import PropertyFilter from "@/components/custom/property-list/PropertyFilter";
+import {MapLoading, PropertiesLoading} from "@/components/custom/property-list/PropertyItemLoading";
+import PropertyList from "@/components/custom/property-list/PropertyList";
+import PropertyMapParent from "@/components/custom/property-list/PropertyMapParent";
 import { Skeleton } from "@/components/ui/Skelton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FilterParamTypes } from "@/types";

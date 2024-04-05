@@ -120,3 +120,16 @@ export async function getAllProperties(filterParams: FilterParamTypes) {
     throw new Error("Failed to fetch all properties.");
   }
 }
+
+export async function getProperty(propertyId: string) {
+  try {
+    await connectToDatabase();
+
+    const data = await Property.find({ _id: propertyId });
+    const property = data.length > 0 ? JSON.parse(JSON.stringify(data[0])) : {};
+
+    return property;
+  } catch (error) {
+    throw new Error("Failed to fetch all properties.");
+  }
+}

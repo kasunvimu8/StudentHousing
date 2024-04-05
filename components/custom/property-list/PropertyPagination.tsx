@@ -13,7 +13,7 @@ import {
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { numberPagesDisplayInPagination } from "@/constants";
 import { LuHome } from "react-icons/lu";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { LuArrowUp } from "react-icons/lu";
 import PropertyUp from "./PropertyUp";
 

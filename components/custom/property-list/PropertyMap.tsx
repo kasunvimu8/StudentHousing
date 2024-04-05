@@ -8,7 +8,7 @@ import { GeistSans } from "geist/font/sans";
 import { MarkerType, Property } from "@/types";
 import { campusLatitude, campusLongitude } from "@/constants";
 import "leaflet/dist/leaflet.css";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { LuMoveRight } from "react-icons/lu";
 
 interface CustomCluster extends L.Marker {
