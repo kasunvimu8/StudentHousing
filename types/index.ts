@@ -42,6 +42,13 @@ export type Property = {
   images: string[];
 };
 
+export type PropertyDetailsType = {
+  id: string;
+  title: string;
+  inputType: string;
+  optionId?: string;
+};
+
 // ------------------------ Map Marker Types --------------------------------
 
 export type MarkerType = {

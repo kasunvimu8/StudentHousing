@@ -1,6 +1,14 @@
+import { furnishing } from "@/constants";
+import { formatDateTime } from "@/lib/utils";
 import { Property } from "@/types";
 import React from "react";
-import { LuBedSingle, LuBoxSelect, LuEuro, LuSofa } from "react-icons/lu";
+import {
+  LuBedSingle,
+  LuBoxSelect,
+  LuEuro,
+  LuSofa,
+  LuCalendarDays,
+} from "react-icons/lu";
 
 const PropertySummary = ({ property }: { property: Property }) => {
   const rentType =
@@ -21,39 +29,51 @@ const PropertySummary = ({ property }: { property: Property }) => {
       : `${property.beds} Beds`
     : "";
 
+  const propertType = furnishing?.find(
+    (item: { id: string; description: string }) => item.id === property?.type
+  );
+
   return (
-    <div className="flex items-center justify-center p-2">
-      <div className="grid grid-cols-4 items-center justify-center gap-2 md:gap-4 section-light-background-color p-2 rounded-lg">
-        <div className="grid grid-row gap-1 font-medium">
-          <div className="flex items-center justify-self-center">
+    <div className="flex items-center justify-center relative mt-2 md:mt-0 md:-top-10">
+      <div className="grid grid-flow-col items-center justify-center bg-white p-4 md:px-4 rounded-lg shadow-section gap-5 md:gap-8">
+        <div className="grid gap-1">
+          <div className="flex items-center justify-self-center primary-light-font-color">
             <LuSofa className="text-xl" />
           </div>
-          <div className="flex items-center justify-self-center text-center text-xs primary-light-font-color">
-            {property?.type}
+          <div className="flex items-center justify-self-center text-center text-sm lg:text-lg font-semibold primary-font-color">
+            {propertType?.description}
           </div>
         </div>
-        <div className="grid grid-row gap-1 font-medium">
-          <div className="flex items-center justify-self-center">
+        <div className="grid gap-1">
+          <div className="flex items-center justify-self-center primary-light-font-color">
             <LuBedSingle className="text-xl" />
           </div>
-          <div className="flex items-center justify-self-center text-center text-xs primary-light-font-color">
+          <div className="flex items-center justify-self-center text-center text-sm lg:text-lg font-semibold primary-font-color">
             {bedsDisplayText}
           </div>
         </div>
-        <div className="grid grid-row gap-1 font-medium">
-          <div className="flex items-center justify-self-center">
+        <div className="grid gap-1">
+          <div className="flex items-center justify-self-center primary-light-font-color">
             <LuBoxSelect className="text-xl" />
           </div>
-          <div className="flex items-center justify-self-center text-center text-xs primary-light-font-color">
+          <div className="flex items-center justify-self-center text-center text-sm lg:text-lg font-semibold primary-font-color">
             {property?.size} m<sup>2</sup>
           </div>
         </div>
-        <div className="grid grid-row gap-1 font-medium">
-          <div className="flex items-center justify-self-center">
+        <div className="grid gap-1">
+          <div className="flex items-center justify-self-center primary-light-font-color">
             <LuEuro className="text-xl" />
           </div>
-          <div className="flex items-center justify-self-center text-center text-xs primary-light-font-color">
+          <div className="flex items-center justify-self-center text-center text-sm lg:text-lg font-semibold primary-font-color">
             {rent}
+          </div>
+        </div>
+        <div className="hidden md:grid gap-1">
+          <div className="flex items-center justify-self-center primary-light-font-color">
+            <LuCalendarDays className="text-xl" />
+          </div>
+          <div className="flex items-center justify-self-center text-center text-sm lg:text-lg font-semibold primary-font-color">
+            {formatDateTime(property.from).simpleDate}
           </div>
         </div>
       </div>

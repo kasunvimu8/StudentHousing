@@ -1,5 +1,7 @@
 // ------ Main Menu Links ------- //
 
+import { PropertyDetailsType } from "@/types";
+
 export const headerLinks = [
   {
     label: "Properties",
@@ -64,7 +66,18 @@ export const propertyTypes = [
   },
   {
     id: "shared",
-    description: "Room in Shared Apartment",
+    description: "Shared Apartment",
+  },
+];
+
+export const furnishing = [
+  {
+    id: "furnished",
+    description: "Furnished",
+  },
+  {
+    id: "not_furnished",
+    description: "Not Furnished",
   },
 ];
 
@@ -103,6 +116,51 @@ export const sortOptions = [
   {
     id: "lowest",
     description: "Lowest Rent",
+  },
+];
+
+export const propertyDetailConfig = [
+  {
+    id: "type",
+    title: "Furnishing",
+    inputType: "dropdown",
+    optionId: "furnishing",
+  },
+  {
+    id: "rooms",
+    title: "Rooms",
+    inputType: "number",
+  },
+  {
+    id: "from",
+    title: "From Date",
+    inputType: "date",
+  },
+  {
+    id: "property_type",
+    title: "Property Type",
+    inputType: "dropdown",
+    optionId: "propertyTypes",
+  },
+  {
+    id: "size",
+    title: "Area",
+    inputType: "number",
+  },
+  {
+    id: "to",
+    title: "To Date",
+    inputType: "date",
+  },
+  {
+    id: "floor",
+    title: "Floor",
+    inputType: "string",
+  },
+  {
+    id: "room_id",
+    title: "Room Number",
+    inputType: "string",
   },
 ];
 

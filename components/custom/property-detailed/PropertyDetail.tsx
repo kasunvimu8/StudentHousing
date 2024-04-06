@@ -1,0 +1,57 @@
+import SectionTitle from "@/components/shared/SectionTitle";
+import * as configs from "@/constants";
+import { formatDateTime } from "@/lib/utils";
+import { Property, PropertyDetailsType } from "@/types";
+import React from "react";
+
+const PropertyDetail = ({ property }: { property: Property }) => {
+  const getValueForList = (dataKey: string | undefined, valueKey: string) => {
+    const list: any = configs[dataKey as keyof typeof configs];
+    const match = list?.find(
+      (item: { id: string; description: string }) => item.id === valueKey
+    );
+
+    return match?.description;
+  };
+
+  return (
+    <div className="pt-4 md:pt-0 relative md:-top-5">
+      <SectionTitle title="Details" />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-flow-row gap-3 md:gap-5 py-5">
+        {property &&
+          configs.propertyDetailConfig.map((data: PropertyDetailsType) => {
+            const isDate = data.inputType === "date";
+            const isDropdown = data.inputType === "dropdown";
+            const isArea = data.id === "size";
+
+            const value = String(property[data.id as keyof typeof property]);
+            const displayValue = isDate
+              ? formatDateTime(new Date(value)).simpleDate
+              : value;
+            return (
+              <div className="col-span-1" key={data.id}>
+                <div className="grid grid-cols-2">
+                  <div className="text-sm primary-light-font-color">
+                    {data.title}
+                    {isArea && (
+                      <span>
+                        (m<sup>2</sup>)
+                      </span>
+                    )}
+                  </div>
+                  <div className="">
+                    {isDropdown
+                      ? getValueForList(data.optionId, value)
+                      : displayValue}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+      </div>
+    </div>
+  );
+};
+
+export default PropertyDetail;

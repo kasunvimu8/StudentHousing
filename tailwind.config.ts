@@ -6,5 +6,12 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  theme: {
+    extend: {
+      boxShadow: {
+        'section': 'rgba(0, 0, 0, 0.1) 0px 4px 12px 0px',
+      }
+    }
+  }
 };
 export default config;

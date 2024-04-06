@@ -43,16 +43,13 @@ const PropertyImage = ({ images }: { images: string[] }) => {
           {imageData.map((image) => {
             return (
               <CarouselItem key={image.id}>
-                <div className="relative h-[200px] sm:h-[300px] md:h-[500px] rounded-lg">
+                <div className="relative h-[200px] sm:h-[300px] md:h-[500px]">
                   <Image
                     src={image.src}
                     alt={image.alt}
-                    layout="fill"
-                    objectFit="cover"
+                    fill={true}
                     onLoad={() => setLoaded(true)}
-                    style={{
-                      borderRadius: "0.5rem",
-                    }}
+                    className="rounded-xl object-cover"
                   />
                 </div>
               </CarouselItem>
