@@ -127,30 +127,15 @@ export const propertyDetailConfig = [
     optionId: "furnishing",
   },
   {
-    id: "rooms",
-    title: "Rooms",
-    inputType: "number",
-  },
-  {
-    id: "from",
-    title: "From Date",
-    inputType: "date",
-  },
-  {
     id: "property_type",
     title: "Property Type",
     inputType: "dropdown",
     optionId: "propertyTypes",
   },
   {
-    id: "size",
-    title: "Area",
+    id: "rooms",
+    title: "Rooms",
     inputType: "number",
-  },
-  {
-    id: "to",
-    title: "To Date",
-    inputType: "date",
   },
   {
     id: "floor",
@@ -158,9 +143,148 @@ export const propertyDetailConfig = [
     inputType: "string",
   },
   {
+    id: "beds",
+    title: "Beds",
+    inputType: "number",
+  },
+  {
+    id: "size",
+    title: "Area",
+    inputType: "number",
+  },
+  {
+    id: "from",
+    title: "Move in Date",
+    inputType: "date",
+  },
+  {
+    id: "to",
+    title: "Move out Date",
+    inputType: "date",
+  },
+  {
     id: "room_id",
     title: "Room Number",
     inputType: "string",
+  },
+];
+
+export const propertyToolTips = {
+  onetimeCost:
+    "One-time costs may include expenses such as furniture purchases etc.",
+  deposit:
+    "The security deposit, paid by the tenant to the landlord at the start of the tenancy, serves to safeguard the landlord against any damages resulting from the tenant's occupancy.",
+  warm: "The warm rent for this property is the inclusive monthly cost covering utilities and services (Cold rent + Incidental costs)",
+};
+
+export const equipmentsConfig = [
+  {
+    id: "bath-tub",
+    title: "BathTub",
+    icon: "LuHome",
+    iconGroup: "lu",
+  },
+  {
+    id: "shower",
+    title: "Shower",
+    icon: "LuShowerHead",
+    iconGroup: "lu",
+  },
+  {
+    id: "dish-washer",
+    title: "Dishwasher",
+    icon: "LuWalletCards",
+    iconGroup: "lu",
+  },
+  {
+    id: "wash",
+    title: "Washing Machine",
+    icon: "CgSmartHomeWashMachine",
+    iconGroup: "cg",
+  },
+  {
+    id: "fitted-kitchen",
+    title: "Fitted Kitchen",
+    icon: "TbToolsKitchen2",
+    iconGroup: "tb",
+  },
+  {
+    id: "guest-toilet",
+    title: "Guest Toilet",
+    icon: "PiToilet",
+    iconGroup: "pi",
+  },
+  {
+    id: "balcony",
+    title: "Balcony",
+    icon: "MdBalcony ",
+    iconGroup: "md",
+  },
+  {
+    id: "balcony",
+    title: "Balcony",
+    icon: "MdBalcony ",
+    iconGroup: "md",
+  },
+  {
+    id: "garden",
+    title: "Garden",
+    icon: "TbHomeEco",
+    iconGroup: "tb",
+  },
+  {
+    id: "terrace",
+    title: "Terrace",
+    icon: "PiPark",
+    iconGroup: "pi",
+  },
+  {
+    id: "handycap-adopted",
+    title: "Handycap Adopted",
+    icon: "TbDisabled",
+    iconGroup: "tb",
+  },
+  {
+    id: "garage",
+    title: "Garage",
+    icon: "GiHomeGarage",
+    iconGroup: "gi",
+  },
+  {
+    id: "elevator",
+    title: "Elevator",
+    icon: "PiElevator",
+    iconGroup: "pi",
+  },
+  {
+    id: "smoking",
+    title: "Elevator",
+    icon: "MdOutlineSmokingRooms",
+    iconGroup: "md",
+  },
+  {
+    id: "parking",
+    title: "Parking",
+    icon: "LuParkingCircle",
+    iconGroup: "lu",
+  },
+  {
+    id: "parking",
+    title: "Parking",
+    icon: "LuParkingCircle",
+    iconGroup: "lu",
+  },
+  {
+    id: "pet",
+    title: "Pets",
+    icon: "LuDog",
+    iconGroup: "lu",
+  },
+  {
+    id: "bicycle",
+    title: "Bicycle Celler",
+    icon: "PiBicycle",
+    iconGroup: "pi",
   },
 ];
 

@@ -1,4 +1,4 @@
-import { formatDateTime } from "@/lib/utils";
+import { formatDateTime, getDropdownDescription } from "@/lib/utils";
 import { Property } from "@/types";
 import React from "react";
 import {
@@ -72,7 +72,7 @@ const PropertyItem = ({ property }: { property: Property }) => {
                   <LuSofa className="text-xl" />
                 </div>
                 <div className="flex items-center justify-self-center text-center text-xs primary-light-font-color">
-                  {property?.type}
+                  {getDropdownDescription("furnishing", property?.type)}
                 </div>
               </div>
             </div>

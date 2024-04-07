@@ -1,19 +1,10 @@
 import SectionTitle from "@/components/shared/SectionTitle";
 import * as configs from "@/constants";
-import { formatDateTime } from "@/lib/utils";
+import { formatDateTime, getDropdownDescription } from "@/lib/utils";
 import { Property, PropertyDetailsType } from "@/types";
 import React from "react";
 
 const PropertyDetail = ({ property }: { property: Property }) => {
-  const getValueForList = (dataKey: string | undefined, valueKey: string) => {
-    const list: any = configs[dataKey as keyof typeof configs];
-    const match = list?.find(
-      (item: { id: string; description: string }) => item.id === valueKey
-    );
-
-    return match?.description;
-  };
-
   return (
     <div className="pt-4 md:pt-0 relative md:-top-5">
       <SectionTitle title="Details" />
@@ -40,9 +31,9 @@ const PropertyDetail = ({ property }: { property: Property }) => {
                       </span>
                     )}
                   </div>
-                  <div className="">
+                  <div className="text-base">
                     {isDropdown
-                      ? getValueForList(data.optionId, value)
+                      ? getDropdownDescription(data.optionId, value)
                       : displayValue}
                   </div>
                 </div>

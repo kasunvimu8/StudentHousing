@@ -1,11 +1,23 @@
 import React from "react";
+import dynamic from "next/dynamic";
 import { getProperty } from "@/actions/properties";
 import PropertyImage from "@/components/custom/property-detailed/PropertyImage";
 import { Property } from "@/types";
 import PropertySummary from "@/components/custom/property-detailed/PropertySummary";
 import PropertyDetail from "@/components/custom/property-detailed/PropertyDetail";
-import SectionTitle from "@/components/shared/SectionTitle";
-import PropertyLocation from "@/components/custom/property-detailed/PropertyLocation";
+import { Skeleton } from "@/components/ui/Skelton";
+import PropertyCost from "@/components/custom/property-detailed/propertyCost";
+import PropertyEquipment from "@/components/custom/property-detailed/PropertyEquipment";
+
+const PropertyLocation = dynamic(
+  () => import("@/components/custom/property-detailed/PropertyLocation"),
+  {
+    ssr: false,
+    loading: () => (
+      <Skeleton className="h-[300px] sm:h-[350px] py-5 rounded-lg section-light-background-color" />
+    ),
+  }
+);
 
 const PropertyDeatailPage = async ({
   params,
@@ -27,13 +39,15 @@ const PropertyDeatailPage = async ({
       <PropertyImage images={property.images} />
       <PropertySummary property={property} />
       <PropertyDetail property={property} />
-      <PropertyLocation />
+      <PropertyLocation
+        longitude={property?.longitude}
+        latitude={property?.latitude}
+      />
+      <PropertyCost property={property} />
+      <PropertyEquipment />
 
-      <div className="mb-5 h-[100px]">Map</div>
-      <div className="mb-5 h-[100px]">Detailed Information</div>
-      <div className="mb-5 h-[100px]">Cost</div>
-      <div className="mb-5 h-[100px]">Equipment</div>
       <div className="mb-5 h-[100px]">Contract Documents</div>
+      <div className="mb-5 h-[100px]">Additional Information</div>
     </div>
   );
 };

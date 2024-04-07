@@ -31,25 +31,25 @@ const PropertyImage = ({ images }: { images: string[] }) => {
 
   return (
     <div className="py-1 w-full">
-      {!loaded && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-200 bg-opacity-50">
-          <div className="flex items-center justify-center w-full h-full">
-            <LuLoader2 className="primary-font-color animate-spin z-10 w-8 h-8" />
-          </div>
-        </div>
-      )}
       <Carousel>
         <CarouselContent>
           {imageData.map((image) => {
             return (
               <CarouselItem key={image.id}>
-                <div className="relative h-[200px] sm:h-[300px] md:h-[500px]">
+                <div className="relative h-[250px] sm:h-[350px] md:h-[500px]">
+                  {!loaded && (
+                    <div className="absolute inset-0 flex items-center justify-center h-[250px] sm:h-[350px] md:h-[500px]">
+                      <div className="flex items-center justify-center w-full h-full">
+                        <LuLoader2 className="primary-font-color animate-spin z-10 w-8 h-8" />
+                      </div>
+                    </div>
+                  )}
                   <Image
                     src={image.src}
                     alt={image.alt}
                     fill={true}
                     onLoad={() => setLoaded(true)}
-                    className="rounded-xl object-cover"
+                    className="rounded-lg object-cover"
                   />
                 </div>
               </CarouselItem>

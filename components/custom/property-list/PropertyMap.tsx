@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, Fragment } from "react";
+import { Fragment } from "react";
 import L from "leaflet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";

@@ -14,8 +14,8 @@ body {
 
 @layer base {
   :root {
-    --primary-font-color: 75, 69, 69;
-    --primary-light-font-color: 75, 69, 69, 50%;
+    --primary-font-color: 38, 39, 41;
+    --primary-light-font-color: 38, 39, 41, 50%;
     --secondary-font-color: 255, 255, 255;
     --hightlight-font-color: 243, 145, 0;
     --hightlight-light-font-color: 243, 145, 0, 50%;
@@ -82,6 +82,11 @@ body {
     border-radius: 10px;
   }
 
+  .leaflet-section-container {
+    height: 25rem;
+    border-radius: 10px;
+  }
+
   .cluster-icon {
     background-color: #333;
     height: 2em;
@@ -94,6 +99,7 @@ body {
     font-size: 1.2rem;
     box-shadow: 0 0 0px 5px #fff;
   }
+
 }
 
 @layer utilities {
