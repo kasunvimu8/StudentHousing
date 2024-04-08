@@ -13,7 +13,7 @@ export default function RootLayout({
       </div>
       <div
         className="flex px-10 sm:px-20 flex-col primary-font-color pt-[120px]"
-        style={{ minHeight: "calc(100vh - 165px)" }}
+        style={{ minHeight: "calc(100vh - 162px)" }}
       >
         {children}
       </div>
