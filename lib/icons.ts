@@ -7,24 +7,37 @@ import {
 } from "react-icons/lu";
 import { CgSmartHomeWashMachine } from "react-icons/cg";
 import { GiHomeGarage } from "react-icons/gi";
-import { MdOutlineSmokingRooms } from "react-icons/md";
+import {
+  MdOutlineSmokingRooms,
+  MdMiscellaneousServices,
+  MdBalcony,
+} from "react-icons/md";
 import { PiToilet, PiPark, PiElevator, PiBicycle } from "react-icons/pi";
 import { TbToolsKitchen2, TbHomeEco, TbDisabled } from "react-icons/tb";
+import { IconType } from "react-icons";
 
 export const equipmentIcons = {
-  LuHome,
-  LuShowerHead,
-  LuWalletCards,
-  LuParkingCircle,
-  LuDog,
-  CgSmartHomeWashMachine,
-  GiHomeGarage,
-  MdOutlineSmokingRooms,
-  PiToilet,
-  PiPark,
-  PiElevator,
-  PiBicycle,
-  TbToolsKitchen2,
-  TbHomeEco,
-  TbDisabled,
+  LuHome: LuHome,
+  LuShowerHead: LuShowerHead,
+  LuWalletCards: LuWalletCards,
+  LuParkingCircle: LuParkingCircle,
+  LuDog: LuDog,
+  CgSmartHomeWashMachine: CgSmartHomeWashMachine,
+  GiHomeGarage: GiHomeGarage,
+  MdOutlineSmokingRooms: MdOutlineSmokingRooms,
+  PiToilet: PiToilet,
+  PiPark: PiPark,
+  PiElevator: PiElevator,
+  PiBicycle: PiBicycle,
+  TbToolsKitchen2: TbToolsKitchen2,
+  TbHomeEco: TbHomeEco,
+  TbDisabled: TbDisabled,
+  MdBalcony: MdBalcony,
+  MdMiscellaneousServices: MdMiscellaneousServices,
+};
+
+export const getIconFromKey = (id: string): IconType => {
+  return (
+    equipmentIcons[id as keyof typeof equipmentIcons] || MdMiscellaneousServices
+  );
 };

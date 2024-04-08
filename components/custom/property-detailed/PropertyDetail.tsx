@@ -31,7 +31,7 @@ const PropertyDetail = ({ property }: { property: Property }) => {
                       </span>
                     )}
                   </div>
-                  <div className="text-base">
+                  <div className="text-sm">
                     {isDropdown
                       ? getDropdownDescription(data.optionId, value)
                       : displayValue}

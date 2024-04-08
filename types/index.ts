@@ -40,6 +40,13 @@ export type Property = {
   equipments: string[];
   documents: string[];
   images: string[];
+  status: string;
+  city : string;
+  rooms :number,
+  property_type : string,
+  floor: number,
+  room_id : string,
+  additional_information : string
 };
 
 export type PropertyDetailsType = {
@@ -53,7 +60,6 @@ export type PropertyEquipmentType = {
   id: string;
   title: string;
   icon: string;
-  iconGroup: string;
 };
 
 // ------------------------ Map Marker Types --------------------------------

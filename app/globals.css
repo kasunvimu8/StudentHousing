@@ -16,6 +16,7 @@ body {
   :root {
     --primary-font-color: 38, 39, 41;
     --primary-light-font-color: 38, 39, 41, 50%;
+    --primary-disable-font-color: 38, 39, 41, 30%;
     --secondary-font-color: 255, 255, 255;
     --hightlight-font-color: 243, 145, 0;
     --hightlight-light-font-color: 243, 145, 0, 50%;
@@ -43,6 +44,10 @@ body {
 
   .primary-light-font-color {
     color: rgb(var(--primary-light-font-color));
+  }
+
+  .primary-disable-font-color {
+    color: rgb(var(--primary-disable-font-color));
   }
 
   .secondary-font-color {

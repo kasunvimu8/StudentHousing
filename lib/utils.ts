@@ -156,4 +156,9 @@ export const getDropdownDescription = (
   return match?.description;
 };
 
-export const getIcon = (key: string) => {};
+export const getDocumentName = (document: string) => {
+  const urlParts = document.split("/");
+  const filename = urlParts[urlParts.length - 1];
+
+  return filename;
+};

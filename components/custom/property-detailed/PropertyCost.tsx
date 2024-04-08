@@ -12,10 +12,10 @@ const PropertyCost = ({ property }: { property: Property }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 py-5">
         <div className="col-span-1">
-          <div className="grid grid-rows-3 gap-4">
+          <div className="grid grid-rows-3 gap-3 md:gap-5">
             <div className="grid grid-cols-2">
-              <div className="text-sm primary-light-font-color">Cold Rent</div>
-              <div className="text-base flex items-center">
+              <div className="text-sm  primary-light-font-color">Cold Rent</div>
+              <div className="text-sm flex items-center">
                 <span className="self-center">
                   {property?.cold_rent || "-"}
                 </span>
@@ -26,7 +26,7 @@ const PropertyCost = ({ property }: { property: Property }) => {
               <div className="text-sm primary-light-font-color">
                 Incidental Costs
               </div>
-              <div className="text-base flex items-center">
+              <div className="text-sm flex items-center">
                 <span className="self-center">
                   {property?.incidential_cost || "-"}
                 </span>
@@ -40,7 +40,7 @@ const PropertyCost = ({ property }: { property: Property }) => {
                   <LuInfo className="ml-2 text-lg self-center" />
                 </TooltipComponent>
               </div>
-              <div className="text-base flex items-center">
+              <div className="text-sm flex items-center">
                 <span className="self-center">
                   {property?.warm_rent || "-"}
                 </span>
@@ -50,15 +50,15 @@ const PropertyCost = ({ property }: { property: Property }) => {
           </div>
         </div>
         <div className="col-span-1">
-          <div className="grid grid-rows-2 gap-3">
+          <div className="grid grid-rows-2 gap-3 md:gap-5">
             <div className="grid grid-cols-2">
               <div className="flex items-center text-sm primary-light-font-color">
-                <span>One Time Cost</span>
+                <span className="text-sm">One Time Cost</span>
                 <TooltipComponent content={propertyToolTips.onetimeCost}>
                   <LuInfo className="ml-2 text-lg self-center" />
                 </TooltipComponent>
               </div>
-              <div className="text-base flex items-center">
+              <div className="text-sm flex items-center">
                 <span className="self-center">
                   {property?.one_time_cost || "-"}
                 </span>
@@ -72,7 +72,7 @@ const PropertyCost = ({ property }: { property: Property }) => {
                   <LuInfo className="ml-2 text-lg self-center" />
                 </TooltipComponent>
               </div>
-              <div className="text-base flex items-center">
+              <div className="text-sm flex items-center">
                 <span className="self-center">{property?.deposit || "-"}</span>
                 <LuEuro className="ml-1 text-sm" />
               </div>

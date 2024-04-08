@@ -6,8 +6,11 @@ import { Property } from "@/types";
 import PropertySummary from "@/components/custom/property-detailed/PropertySummary";
 import PropertyDetail from "@/components/custom/property-detailed/PropertyDetail";
 import { Skeleton } from "@/components/ui/Skelton";
-import PropertyCost from "@/components/custom/property-detailed/propertyCost";
 import PropertyEquipment from "@/components/custom/property-detailed/PropertyEquipment";
+import PropertyCost from "@/components/custom/property-detailed/PropertyCost";
+import PropertyDocuments from "@/components/custom/property-detailed/PropertyDocuments";
+import PropertyAdditionalInformation from "@/components/custom/property-detailed/PropertyAdditionalInformation";
+import PropertyReserve from "@/components/custom/property-detailed/PropertyReseve";
 
 const PropertyLocation = dynamic(
   () => import("@/components/custom/property-detailed/PropertyLocation"),
@@ -44,10 +47,12 @@ const PropertyDeatailPage = async ({
         latitude={property?.latitude}
       />
       <PropertyCost property={property} />
-      <PropertyEquipment />
-
-      <div className="mb-5 h-[100px]">Contract Documents</div>
-      <div className="mb-5 h-[100px]">Additional Information</div>
+      <PropertyEquipment equipments={property.equipments} />
+      <PropertyDocuments documents={property.documents} />
+      <PropertyAdditionalInformation
+        additional_information={property.additional_information}
+      />
+      <PropertyReserve />
     </div>
   );
 };

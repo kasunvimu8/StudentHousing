@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, useRef, ReactNode } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  ReactNode,
+  MouseEventHandler,
+} from "react";
 import { TbTriangleInvertedFilled } from "react-icons/tb";
 
 interface TooltipProps {
@@ -32,7 +38,10 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
   return (
     <div className="relative inline-block">
       <div
-        onClick={() => setShowTooltip(!showTooltip)}
+        ref={tooltipRef}
+        onClick={() => {
+          setShowTooltip((prevShowTooltip) => !prevShowTooltip);
+        }}
         className="inline-block cursor-pointer primary-font-color"
       >
         {children}
@@ -40,7 +49,6 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
       {showTooltip && (
         <>
           <div
-            ref={tooltipRef}
             className="tooltip-content primary-background-color w-[200px] px-3 py-1.5 text-xs font-medium secondary-font-color rounded-md shadow-lg absolute bottom-full left-1/2 transform -translate-x-[15px] -translate-y-1.5"
             style={{ zIndex: 1000 }}
           >
