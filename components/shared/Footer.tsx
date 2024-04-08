@@ -4,8 +4,8 @@ import React from "react";
 // ----- Footer Component - Shared in all components except login, register & logout pages ----------//
 const Footer = () => {
   return (
-    <footer className="section-background-color rounded-t-lg mt-6">
-      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-6">
+    <footer className="section-background-color rounded-t-lg mt-6 w-full">
+      <div className="w-full py-6">
         <ul className="flex justify-center mt-2 text-sm font-medium gap-10 p-2">
           <li>
             <Link href={"/properties"}>Properties</Link>

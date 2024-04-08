@@ -10,7 +10,7 @@ const MobileNav = () => {
     <nav className="md:hidden">
       <Sheet>
         <SheetTrigger className="align-middle">
-          <LuAlignLeft size={30} className="primary-font-color" />
+          <LuAlignLeft size={25} className="primary-font-color" />
         </SheetTrigger>
         <SheetContent
           side="left"
