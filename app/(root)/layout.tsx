@@ -1,3 +1,4 @@
+import Footer from "@/components/shared/Footer";
 import Header from "@/components/shared/Header";
 
 export default function RootLayout({
@@ -6,9 +7,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex px-10 sm:px-20 h-screen flex-col primary-font-color">
-      <Header />
-      <div className="flex-1">{children}</div>
+    <div className="w-full h-full">
+      <div className="w-full p-2 fixed bg-white z-10">
+        <Header />
+      </div>
+      <div
+        className="flex px-10 sm:px-20 flex-col primary-font-color pt-[120px]"
+        style={{ minHeight: "calc(100vh - 162px)" }}
+      >
+        {children}
+      </div>
+      <Footer />
     </div>
   );
 }
