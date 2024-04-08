@@ -17,7 +17,7 @@ import { normalUserNavMenu } from "@/constants";
 
 const Header = () => {
   return (
-    <header className="w-full py-10">
+    <header className="w-full p-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
           <nav className="flex md:hidden items-center justify-start w-25">
@@ -45,7 +45,7 @@ const Header = () => {
                 <NavigationMenuContent className="bg-white">
                   <ul className="grid w-[160px] gap-3 p-2">
                     {normalUserNavMenu.map((menu) => (
-                      <MenuItem menu={menu} key={menu.id}/>
+                      <MenuItem menu={menu} key={menu.id} />
                     ))}
                   </ul>
                 </NavigationMenuContent>
