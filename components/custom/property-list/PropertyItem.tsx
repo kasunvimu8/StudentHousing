@@ -9,6 +9,7 @@ import {
   LuBoxSelect,
 } from "react-icons/lu";
 import { Button } from "../../ui/button";
+import Image from "next/image";
 
 const PropertyItem = ({ property }: { property: Property }) => {
   const rentType =
@@ -28,17 +29,31 @@ const PropertyItem = ({ property }: { property: Property }) => {
       ? "1 Bed"
       : `${property.beds} Beds`
     : "";
-
+  const src =
+    property.property_type === "single_room"
+      ? "/images/single_room.jpg"
+      : "/images/double_room.jpg";
   return (
     <div className="flex">
       <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow">
-        <img className="rounded-t-lg" src="/images/sample_bed.jpg" alt="" />
+        <div className="relative max-w-[380px] h-[250px]">
+          <img className="rounded-t-lg" src="/images/sample_bed.jpg" alt="" />
+          <Image
+            src={src}
+            alt={property.property_id}
+            fill={true}
+            className="rounded-t-lg object-cover"
+          />
+          <div className="absolute top-2 right-2 font-normal text-base px-[8px] py-[2px] primary-background-color secondary-font-color max-w-[80px] text-center rounded-lg">
+            {property.property_id}
+          </div>
+        </div>
         <div className="p-5">
           <div className="grid grid-cols-3 gap-2 mb-2">
             <h1 className="col-span-2 text-lg font-medium">
               {property?.title}
             </h1>
-            <div className="col-span-1 text-2xl justify-self-center">
+            <div className="col-span-1 text-2xl justify-self-end">
               <div className="grid grid-row gap-1 ">
                 <div className="flex items-center">
                   <LuEuro

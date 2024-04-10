@@ -45,8 +45,8 @@ export type Property = {
   rooms :number,
   property_type : string,
   floor: number,
-  room_id : string,
   additional_information : string
+  property_id: string;
 };
 
 export type PropertyDetailsType = {

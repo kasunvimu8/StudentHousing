@@ -61,12 +61,20 @@ export const propertyTypes = [
     description: "Apartment",
   },
   {
-    id: "house",
-    description: "House",
+    id: "single_room",
+    description: "Single Room",
   },
   {
     id: "shared",
     description: "Shared Apartment",
+  },
+  {
+    id: "shared_2_bed",
+    description: "Two Beds Shared Room",
+  },
+  {
+    id: "shared_3_bed",
+    description: "Three Beds Shared Room",
   },
 ];
 
