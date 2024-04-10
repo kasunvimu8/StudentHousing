@@ -13,6 +13,9 @@ import {
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { numberPagesDisplayInPagination } from "@/constants";
 import { LuHome } from "react-icons/lu";
+import { Button } from "../../ui/button";
+import { LuArrowUp } from "react-icons/lu";
+import PropertyUp from "./PropertyUp";
 
 const PropertyPagination = ({
   children,
@@ -26,6 +29,7 @@ const PropertyPagination = ({
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+  const router = useRouter();
 
   let page = currentPage;
   page = !page || page < 1 ? 1 : page;
@@ -48,54 +52,57 @@ const PropertyPagination = ({
       params.set("page", "1");
     }
 
-    replace(`${pathname}?${params.toString()}`);
+    replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   return (
     <React.Fragment>
       {children}
       {totalPages > 0 ? (
-        <Pagination className="my-[50px]">
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                onClick={() => handlePagination(prevPage)}
-                className={
-                  currentPage === 1
-                    ? "pointer-events-none primary-light-font-color"
-                    : "cursor-pointer"
-                }
-              />
-            </PaginationItem>
-            <>
-              {pageNumbers.map((pageNumber, index) => (
-                <PaginationItem key={pageNumber}>
-                  <PaginationLink
-                    key={index}
-                    isActive={pageNumber === currentPage}
-                    onClick={() => handlePagination(pageNumber)}
-                    className="cursor-pointer"
-                  >
-                    {pageNumber}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
-            </>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext
-                onClick={() => handlePagination(nextPage)}
-                className={
-                  page === totalPages
-                    ? "pointer-events-none primary-light-font-color"
-                    : "cursor-pointer"
-                }
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        <>
+          <PropertyUp />
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => handlePagination(prevPage)}
+                  className={
+                    currentPage === 1
+                      ? "pointer-events-none primary-light-font-color"
+                      : "cursor-pointer"
+                  }
+                />
+              </PaginationItem>
+              <>
+                {pageNumbers.map((pageNumber, index) => (
+                  <PaginationItem key={pageNumber}>
+                    <PaginationLink
+                      key={index}
+                      isActive={pageNumber === currentPage}
+                      onClick={() => handlePagination(pageNumber)}
+                      className="cursor-pointer"
+                    >
+                      {pageNumber}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+              </>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() => handlePagination(nextPage)}
+                  className={
+                    page === totalPages
+                      ? "pointer-events-none primary-light-font-color"
+                      : "cursor-pointer"
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </>
       ) : (
         <div className="flex-center wrapper min-h-[200px] w-full flex-col gap-3 py-10 md:py-20 text-center justify-center items-center">
           <div className="flex justify-center">
