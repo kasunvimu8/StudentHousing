@@ -47,6 +47,7 @@ export type Property = {
   floor: number,
   additional_information : string
   property_id: string;
+  room_id: string;
 };
 
 export type PropertyDetailsType = {

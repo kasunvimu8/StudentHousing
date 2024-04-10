@@ -70,11 +70,11 @@ export const propertyTypes = [
   },
   {
     id: "shared_2_bed",
-    description: "Two Beds Shared Room",
+    description: "2 Beds Shared Room",
   },
   {
     id: "shared_3_bed",
-    description: "Three Beds Shared Room",
+    description: "3 Beds Shared Room",
   },
 ];
 
@@ -266,6 +266,11 @@ export const equipmentsConfig = [
     id: "handycap-adopted",
     title: "Handycap Adopted",
     icon: "TbDisabled",
+  },
+  {
+    id: "breakfast",
+    title: "Breakfast Included",
+    icon: "MdOutlineFreeBreakfast",
   },
 ];
 

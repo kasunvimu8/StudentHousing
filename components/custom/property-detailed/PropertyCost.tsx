@@ -14,7 +14,7 @@ const PropertyCost = ({ property }: { property: Property }) => {
         <div className="col-span-1">
           <div className="grid grid-rows-3 gap-3 md:gap-5">
             <div className="grid grid-cols-2">
-              <div className="text-sm  primary-light-font-color">Cold Rent</div>
+              <div className="text-sm primary-light-font-color">Cold Rent</div>
               <div className="text-sm flex items-center">
                 <span className="self-center">
                   {property?.cold_rent || "-"}

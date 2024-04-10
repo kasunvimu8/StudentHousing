@@ -33,7 +33,7 @@ const PropertyDeatailPage = async ({
     <div className="w-full h-full">
       <div className="p-2 rounded-lg mb-2 bg-white">
         <h1 className="text-xl md:text-2xl font-semibold text-center">
-          {property?.title}
+          {property?.title} - {property?.property_id}
         </h1>
         <h3 className="text-sm md:text-base font-normal text-center">
           {property?.address}

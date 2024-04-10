@@ -15,13 +15,13 @@ const PropertyImage = ({ images }: { images: string[] }) => {
   const getImages = () => {
     return [
       {
-        src: "/images/sample_bed.jpg",
+        src: "/images/single_room.jpg",
         alt: "Image 1",
         id: "1",
       },
       {
-        src: "/images/sample_bed_not_found.png",
-        alt: "Image 1",
+        src: "/images/double_room.jpg",
+        alt: "Image 2",
         id: "2",
       },
     ];

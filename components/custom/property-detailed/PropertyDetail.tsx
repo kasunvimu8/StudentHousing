@@ -23,7 +23,7 @@ const PropertyDetail = ({ property }: { property: Property }) => {
             return (
               <div className="col-span-1" key={data.id}>
                 <div className="grid grid-cols-2">
-                  <div className="text-sm primary-light-font-color">
+                  <div className="text-sm font-normal primary-light-font-color">
                     {data.title}
                     {isArea && (
                       <span>
@@ -31,7 +31,7 @@ const PropertyDetail = ({ property }: { property: Property }) => {
                       </span>
                     )}
                   </div>
-                  <div className="text-sm">
+                  <div className="text-sm font-normal">
                     {isDropdown
                       ? getDropdownDescription(data.optionId, value)
                       : displayValue}

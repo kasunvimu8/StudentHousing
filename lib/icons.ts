@@ -11,6 +11,7 @@ import {
   MdOutlineSmokingRooms,
   MdMiscellaneousServices,
   MdBalcony,
+  MdOutlineFreeBreakfast,
 } from "react-icons/md";
 import { PiToilet, PiPark, PiElevator, PiBicycle } from "react-icons/pi";
 import { TbToolsKitchen2, TbHomeEco, TbDisabled } from "react-icons/tb";
@@ -34,6 +35,7 @@ export const equipmentIcons = {
   TbDisabled: TbDisabled,
   MdBalcony: MdBalcony,
   MdMiscellaneousServices: MdMiscellaneousServices,
+  MdOutlineFreeBreakfast: MdOutlineFreeBreakfast,
 };
 
 export const getIconFromKey = (id: string): IconType => {

@@ -114,7 +114,7 @@ export async function getAllProperties(filterParams: FilterParamTypes) {
 
     return await Property.find(
       { $and: matchOptions },
-      { _id: 1, longitude: 1, latitude: 1, title: 1, address: 1 }
+      { _id: 1, longitude: 1, latitude: 1, title: 1, address: 1, property_id: 1 },
     );
   } catch (error) {
     throw new Error("Failed to fetch all properties.");
