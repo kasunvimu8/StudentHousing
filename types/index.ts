@@ -40,6 +40,7 @@ export type Property = {
   equipments: [string];
   documents: [string];
   images: [string];
+  property_id: string;
 };
 
 // ------------------------ Map Marker Types --------------------------------
