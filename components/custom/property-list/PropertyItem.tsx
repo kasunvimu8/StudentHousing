@@ -1,4 +1,4 @@
-import { formatDateTime } from "@/lib/utils";
+import { formatDateTime, getDropdownDescription } from "@/lib/utils";
 import { Property } from "@/types";
 import React from "react";
 import {
@@ -50,9 +50,9 @@ const PropertyItem = ({ property }: { property: Property }) => {
         </div>
         <div className="p-5">
           <div className="grid grid-cols-3 gap-2 mb-2">
-            <h2 className="col-span-2 text-lg font-medium">
+            <h1 className="col-span-2 text-lg font-medium">
               {property?.title}
-            </h2>
+            </h1>
             <div className="col-span-1 text-2xl justify-self-end">
               <div className="grid grid-row gap-1 ">
                 <div className="flex items-center">
@@ -87,7 +87,7 @@ const PropertyItem = ({ property }: { property: Property }) => {
                   <LuSofa className="text-xl" />
                 </div>
                 <div className="flex items-center justify-self-center text-center text-xs primary-light-font-color">
-                  {property?.type}
+                  {getDropdownDescription("furnishing", property?.type)}
                 </div>
               </div>
             </div>

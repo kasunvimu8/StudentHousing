@@ -1,5 +1,7 @@
 // ------ Main Menu Links ------- //
 
+import { PropertyDetailsType } from "@/types";
+
 export const headerLinks = [
   {
     label: "Properties",
@@ -63,12 +65,27 @@ export const propertyTypes = [
     description: "Single Room",
   },
   {
+    id: "shared",
+    description: "Shared Apartment",
+  },
+  {
     id: "shared_2_bed",
-    description: "Two Beds Shared Room",
+    description: "2 Beds Shared Room",
   },
   {
     id: "shared_3_bed",
-    description: "Three Beds Shared Room",
+    description: "3 Beds Shared Room",
+  },
+];
+
+export const furnishing = [
+  {
+    id: "furnished",
+    description: "Furnished",
+  },
+  {
+    id: "not_furnished",
+    description: "Not Furnished",
   },
 ];
 
@@ -107,6 +124,153 @@ export const sortOptions = [
   {
     id: "lowest",
     description: "Lowest Rent",
+  },
+];
+
+export const propertyDetailConfig = [
+  {
+    id: "type",
+    title: "Furnishing",
+    inputType: "dropdown",
+    optionId: "furnishing",
+  },
+  {
+    id: "property_type",
+    title: "Property Type",
+    inputType: "dropdown",
+    optionId: "propertyTypes",
+  },
+  {
+    id: "rooms",
+    title: "Rooms",
+    inputType: "number",
+  },
+  {
+    id: "floor",
+    title: "Floor",
+    inputType: "string",
+  },
+  {
+    id: "beds",
+    title: "Beds",
+    inputType: "number",
+  },
+  {
+    id: "size",
+    title: "Area",
+    inputType: "number",
+  },
+  {
+    id: "from",
+    title: "Move in Date",
+    inputType: "date",
+  },
+  {
+    id: "to",
+    title: "Move out Date",
+    inputType: "date",
+  },
+  {
+    id: "room_id",
+    title: "Room Number",
+    inputType: "string",
+  },
+];
+
+export const propertyToolTips = {
+  onetimeCost:
+    "One-time costs may include expenses such as furniture purchases etc.",
+  deposit:
+    "The security deposit, paid by the tenant to the landlord at the start of the tenancy, serves to safeguard the landlord against any damages resulting from the tenant's occupancy.",
+  warm: "The warm rent for this property is the inclusive monthly cost covering utilities and services (Cold rent + Incidental costs)",
+};
+
+export const equipmentsConfig = [
+  {
+    id: "bath-tub",
+    title: "BathTub",
+    icon: "LuHome",
+  },
+  {
+    id: "shower",
+    title: "Shower",
+    icon: "LuShowerHead",
+  },
+  {
+    id: "dish-washer",
+    title: "Dishwasher",
+    icon: "LuWalletCards",
+  },
+  {
+    id: "washing-machine",
+    title: "Washing Machine",
+    icon: "CgSmartHomeWashMachine",
+  },
+  {
+    id: "fitted-kitchen",
+    title: "Fitted Kitchen",
+    icon: "TbToolsKitchen2",
+  },
+  {
+    id: "guest-toilet",
+    title: "Guest Toilet",
+    icon: "PiToilet",
+  },
+  {
+    id: "balcony",
+    title: "Balcony",
+    icon: "MdBalcony",
+  },
+  {
+    id: "garden",
+    title: "Garden",
+    icon: "TbHomeEco",
+  },
+  {
+    id: "terrace",
+    title: "Terrace",
+    icon: "PiPark",
+  },
+
+  {
+    id: "garage",
+    title: "Garage",
+    icon: "GiHomeGarage",
+  },
+  {
+    id: "elevator",
+    title: "Elevator",
+    icon: "PiElevator",
+  },
+  {
+    id: "smoking",
+    title: "Smoking",
+    icon: "MdOutlineSmokingRooms",
+  },
+  {
+    id: "parking",
+    title: "Parking",
+    icon: "LuParkingCircle",
+  },
+  {
+    id: "pet",
+    title: "Pets",
+    icon: "LuDog",
+  },
+  {
+    id: "bicycle",
+    title: "Bicycle Celler",
+    icon: "PiBicycle",
+  },
+  {
+    id: "handycap-adopted",
+    title: "Handycap Adopted",
+    icon: "TbDisabled",
+  },
+  {
+    id: "breakfast",
+    title: "Breakfast Included",
+    icon: "MdOutlineFreeBreakfast",
   },
 ];
 

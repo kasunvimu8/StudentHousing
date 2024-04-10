@@ -37,10 +37,30 @@ export type Property = {
   updated_at: Date;
   created_by: string;
   updated_by: string;
-  equipments: [string];
-  documents: [string];
-  images: [string];
+  equipments: string[];
+  documents: string[];
+  images: string[];
+  status: string;
+  city : string;
+  rooms :number,
+  property_type : string,
+  floor: number,
+  additional_information : string
   property_id: string;
+  room_id: string;
+};
+
+export type PropertyDetailsType = {
+  id: string;
+  title: string;
+  inputType: string;
+  optionId?: string;
+};
+
+export type PropertyEquipmentType = {
+  id: string;
+  title: string;
+  icon: string;
 };
 
 // ------------------------ Map Marker Types --------------------------------

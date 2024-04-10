@@ -8,7 +8,8 @@ export default function RootLayout({
 }) {
   return (
     <div className="w-full h-full">
-      <div className="w-full p-2 fixed bg-white z-10">
+      {/* Have to increase the Z Index to overcome the Map layer */}
+      <div className="w-full p-2 fixed bg-white" style={{ zIndex: "1001" }}>
         <Header />
       </div>
       <div

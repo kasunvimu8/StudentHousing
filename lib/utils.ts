@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
+import * as configs from "@/constants";
 
 import { twMerge } from "tailwind-merge";
 import qs from "query-string";
@@ -133,9 +134,7 @@ export const isCitiesWithinArea = (latitude: number, longitude: number) => {
   );
 };
 
-export const formatDateToISOStringWithTimeZone = (
-  date: Date | undefined,
-) => {
+export const formatDateToISOStringWithTimeZone = (date: Date | undefined) => {
   return date
     ?.toLocaleString("en-US", {
       year: "numeric",
@@ -143,4 +142,23 @@ export const formatDateToISOStringWithTimeZone = (
       day: "2-digit",
     })
     ?.replace(/,/g, "");
+};
+
+export const getDropdownDescription = (
+  dataKey: string | undefined,
+  valueKey: string
+) => {
+  const list: any = configs[dataKey as keyof typeof configs];
+  const match = list?.find(
+    (item: { id: string; description: string }) => item.id === valueKey
+  );
+
+  return match?.description;
+};
+
+export const getDocumentName = (document: string) => {
+  const urlParts = document.split("/");
+  const filename = urlParts[urlParts.length - 1];
+
+  return filename;
 };

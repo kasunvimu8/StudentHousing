@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, Fragment } from "react";
+import { Fragment } from "react";
 import L from "leaflet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
@@ -48,7 +48,7 @@ const getMarkers = (properties: Property[]) => {
           <div
             className={`text-base	font-medium primary-font-color ${GeistSans.className}`}
           >
-            {property.title}
+            {property.title} - {property.property_id}
           </div>
           <div
             className={`text-sm primary-font-color flex justify-center items-center ${GeistSans.className} hidden md:block`}
