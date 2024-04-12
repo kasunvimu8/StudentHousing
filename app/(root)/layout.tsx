@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <div className="w-full h-full">
       {/* Have to increase the Z Index to overcome the Map layer */}
-      <div className="w-full p-2 fixed bg-white" style={{ zIndex: "1001" }}>
+      <div className="w-full p-2 fixed bg-white topest-overlay">
         <Header />
       </div>
       <div

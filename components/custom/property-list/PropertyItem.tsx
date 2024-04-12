@@ -24,24 +24,40 @@ const PropertyItem = ({ property }: { property: Property }) => {
       : rentType === "Cold"
       ? property.cold_rent
       : "";
+  const priceDesc =
+    property.property_type === "apartment"
+      ? ""
+      : property.property_type === "single_room"
+      ? "Per Room"
+      : "Per Bed";
   const bedsDisplayText = property.beds
     ? property.beds === 1
       ? "1 Bed"
       : `${property.beds} Beds`
     : "";
+  const getImages = (images: string[]) => {
+    return images.map((file: string, index: number) => {
+      return {
+        src: `/images/${file}`,
+        alt: `${file}-${index}`,
+        id: `${index}`,
+      };
+    });
+  };
   const src =
-    property.property_type === "single_room"
-      ? "/images/single_room.jpg"
-      : "/images/double_room.jpg";
+    property?.images?.length > 0
+      ? `/images/${property?.images[0]}`
+      : "/images/sample_bed_not_found.png";
+
   return (
     <div className="flex">
       <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow">
-        <div className="relative max-w-[380px] h-[250px]">
-          <img className="rounded-t-lg" src="/images/sample_bed.jpg" alt="" />
+        <div className="relative max-w-[380px] h-[250px] overflow-hidden">
           <Image
             src={src}
             alt={property.property_id}
             fill={true}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="rounded-t-lg object-cover"
           />
           <div className="absolute top-2 right-2 font-normal text-base px-[8px] py-[2px] primary-background-color secondary-font-color max-w-[80px] text-center rounded-lg">
@@ -65,7 +81,7 @@ const PropertyItem = ({ property }: { property: Property }) => {
                   </h2>
                 </div>
                 <h3 className="text-sm font-medium justify-self-center hightlight-light-font-color">
-                  {rentType}
+                  {priceDesc}
                 </h3>
               </div>
             </div>

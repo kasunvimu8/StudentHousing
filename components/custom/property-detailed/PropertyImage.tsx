@@ -12,21 +12,25 @@ import Image from "next/image";
 import { LuLoader2 } from "react-icons/lu";
 
 const PropertyImage = ({ images }: { images: string[] }) => {
-  const getImages = () => {
-    return [
-      {
-        src: "/images/single_room.jpg",
-        alt: "Image 1",
-        id: "1",
-      },
-      {
-        src: "/images/double_room.jpg",
-        alt: "Image 2",
-        id: "2",
-      },
-    ];
+  const getImages = (images: string[]) => {
+    return images.map((file: string, index: number) => {
+      return {
+        src: `/images/${file}`,
+        alt: `${file}-${index}`,
+        id: `${index}`,
+      };
+    });
   };
-  const imageData = getImages();
+  const imageData =
+    images.length > 0
+      ? getImages(images)
+      : [
+          {
+            src: "/images/sample_bed_not_found.png",
+            alt: "sample_bed_not_found",
+            id: "image_bed_not_found",
+          },
+        ];
   const [loaded, setLoaded] = useState(false);
 
   return (

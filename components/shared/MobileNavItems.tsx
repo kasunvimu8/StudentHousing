@@ -14,7 +14,7 @@ const MobileNav = () => {
         </SheetTrigger>
         <SheetContent
           side="left"
-          className="flex flex-col gap-6 bg-white md:hidden"
+          className="flex flex-col gap-6 bg-white md:hidden topest-overlay"
         >
           <Image src="/images/logo.svg" alt="logo" width={102} height={52} />
           <NavItems />

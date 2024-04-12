@@ -4,17 +4,20 @@ import {
   LuWalletCards,
   LuParkingCircle,
   LuDog,
+  LuWifi,
 } from "react-icons/lu";
 import { CgSmartHomeWashMachine } from "react-icons/cg";
 import { GiHomeGarage } from "react-icons/gi";
+import { RiHomeSmileLine } from "react-icons/ri";
 import {
   MdOutlineSmokingRooms,
   MdMiscellaneousServices,
   MdBalcony,
   MdOutlineFreeBreakfast,
+  MdOutlineBathtub,
 } from "react-icons/md";
 import { PiToilet, PiPark, PiElevator, PiBicycle } from "react-icons/pi";
-import { TbToolsKitchen2, TbHomeEco, TbDisabled } from "react-icons/tb";
+import { TbToolsKitchen2, TbHomeEco, TbDisabled, TbWashDry3 } from "react-icons/tb";
 import { IconType } from "react-icons";
 
 export const equipmentIcons = {
@@ -36,6 +39,10 @@ export const equipmentIcons = {
   MdBalcony: MdBalcony,
   MdMiscellaneousServices: MdMiscellaneousServices,
   MdOutlineFreeBreakfast: MdOutlineFreeBreakfast,
+  MdOutlineBathtub: MdOutlineBathtub,
+  RiHomeSmileLine: RiHomeSmileLine,
+  LuWifi: LuWifi,
+  TbWashDry3: TbWashDry3
 };
 
 export const getIconFromKey = (id: string): IconType => {
