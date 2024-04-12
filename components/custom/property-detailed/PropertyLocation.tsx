@@ -26,7 +26,7 @@ const PropertyLocation = ({
       iconUrl: url,
       iconSize: type === "uni" || type === "lab" ? [35, 35] : [30, 32],
       iconAnchor: [0, 0],
-      popupAnchor: [1, -34],
+      popupAnchor: [15, 0],
       tooltipAnchor: [16, -28],
     });
   };
@@ -37,7 +37,7 @@ const PropertyLocation = ({
       <div className="h-[300px] sm:h-[350px] py-5 rounded-lg">
         <MapContainer
           center={[longitude, latitude]}
-          zoom={13}
+          zoom={16}
           scrollWheelZoom={true}
           className="w-full h-full"
         >
