@@ -65,10 +65,6 @@ export const propertyTypes = [
     description: "Single Room",
   },
   {
-    id: "shared",
-    description: "Shared Apartment",
-  },
-  {
     id: "shared_2_bed",
     description: "2 Beds Shared Room",
   },
@@ -187,9 +183,24 @@ export const propertyToolTips = {
 
 export const equipmentsConfig = [
   {
+    id: "washing-machine",
+    title: "Washing Machine",
+    icon: "CgSmartHomeWashMachine",
+  },
+  {
+    id: "dryer",
+    title: "Dryer",
+    icon: "TbWashDry3",
+  },
+  {
+    id: "kitchen",
+    title: "Kitchen",
+    icon: "TbToolsKitchen2",
+  },
+  {
     id: "bath-tub",
     title: "BathTub",
-    icon: "LuHome",
+    icon: "MdOutlineBathtub",
   },
   {
     id: "shower",
@@ -200,16 +211,6 @@ export const equipmentsConfig = [
     id: "dish-washer",
     title: "Dishwasher",
     icon: "LuWalletCards",
-  },
-  {
-    id: "washing-machine",
-    title: "Washing Machine",
-    icon: "CgSmartHomeWashMachine",
-  },
-  {
-    id: "fitted-kitchen",
-    title: "Fitted Kitchen",
-    icon: "TbToolsKitchen2",
   },
   {
     id: "guest-toilet",
@@ -241,6 +242,16 @@ export const equipmentsConfig = [
     id: "elevator",
     title: "Elevator",
     icon: "PiElevator",
+  },
+  {
+    id: "common-room",
+    title: "Common Room",
+    icon: "RiHomeSmileLine",
+  },
+  {
+    id: "wifi",
+    title: "Wifi",
+    icon: "LuWifi",
   },
   {
     id: "smoking",

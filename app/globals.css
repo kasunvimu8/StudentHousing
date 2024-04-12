@@ -105,6 +105,14 @@ body {
     box-shadow: 0 0 0px 5px #fff;
   }
 
+  /* Increase the Z Index to overcome the Map layer */
+  .topest-overlay {
+    z-index: 1002 !important
+  }
+  .topest-background-overlay {
+    z-index: 1001 !important
+  }
+
 }
 
 @layer utilities {

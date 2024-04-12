@@ -77,7 +77,7 @@ const PropertyFilter = async () => {
             </Label>
             <Slider
               min={0}
-              max={100}
+              max={50}
               minStepsBetweenThumbs={1}
               step={1}
               inputKey="size"
@@ -89,9 +89,9 @@ const PropertyFilter = async () => {
             <Label >Rent (€)</Label>
             <Slider
               min={0}
-              max={3000}
+              max={1500}
               minStepsBetweenThumbs={1}
-              step={50}
+              step={1}
               inputKey="rent"
             />
           </div>

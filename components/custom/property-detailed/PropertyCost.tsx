@@ -19,7 +19,7 @@ const PropertyCost = ({ property }: { property: Property }) => {
                 <span className="self-center">
                   {property?.cold_rent || "-"}
                 </span>
-                <LuEuro className="ml-1 text-sm" />
+                {property?.cold_rent && <LuEuro className="ml-1 text-sm" />}
               </div>
             </div>
             <div className="grid grid-cols-2">
@@ -30,7 +30,9 @@ const PropertyCost = ({ property }: { property: Property }) => {
                 <span className="self-center">
                   {property?.incidential_cost || "-"}
                 </span>
-                <LuEuro className="ml-1 text-sm" />
+                {property?.incidential_cost && (
+                  <LuEuro className="ml-1 text-sm" />
+                )}
               </div>
             </div>
             <div className="grid grid-cols-2">
@@ -44,7 +46,7 @@ const PropertyCost = ({ property }: { property: Property }) => {
                 <span className="self-center">
                   {property?.warm_rent || "-"}
                 </span>
-                <LuEuro className="ml-1 text-sm" />
+                {property?.warm_rent && <LuEuro className="ml-1 text-sm" />}
               </div>
             </div>
           </div>
@@ -62,7 +64,7 @@ const PropertyCost = ({ property }: { property: Property }) => {
                 <span className="self-center">
                   {property?.one_time_cost || "-"}
                 </span>
-                <LuEuro className="ml-1 text-sm" />
+                {property?.one_time_cost && <LuEuro className="ml-1 text-sm" />}
               </div>
             </div>
             <div className="grid grid-cols-2">
@@ -74,7 +76,7 @@ const PropertyCost = ({ property }: { property: Property }) => {
               </div>
               <div className="text-sm flex items-center">
                 <span className="self-center">{property?.deposit || "-"}</span>
-                <LuEuro className="ml-1 text-sm" />
+                {property?.deposit && <LuEuro className="ml-1 text-sm" />}
               </div>
             </div>
           </div>

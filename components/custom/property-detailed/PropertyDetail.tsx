@@ -16,10 +16,13 @@ const PropertyDetail = ({ property }: { property: Property }) => {
             const isDropdown = data.inputType === "dropdown";
             const isArea = data.id === "size";
 
-            const value = String(property[data.id as keyof typeof property]);
-            const displayValue = isDate
-              ? formatDateTime(new Date(value)).simpleDate
-              : value;
+            const value = property[data.id as keyof typeof property];
+            const displayValue = value
+              ? isDate
+                ? formatDateTime(new Date(String(value))).simpleDate
+                : value
+              : "-";
+
             return (
               <div className="col-span-1" key={data.id}>
                 <div className="grid grid-cols-2">
@@ -33,7 +36,7 @@ const PropertyDetail = ({ property }: { property: Property }) => {
                   </div>
                   <div className="text-sm font-normal">
                     {isDropdown
-                      ? getDropdownDescription(data.optionId, value)
+                      ? getDropdownDescription(data.optionId, String(value))
                       : displayValue}
                   </div>
                 </div>

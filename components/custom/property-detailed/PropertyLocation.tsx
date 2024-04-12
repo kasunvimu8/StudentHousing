@@ -15,17 +15,22 @@ const PropertyLocation = ({
   latitude: number;
 }) => {
   const createCustomIcon = function (type: string) {
+    const url =
+      type === "uni"
+        ? "/images/uni.png"
+        : type === "lab"
+        ? "/images/lab.png"
+        : "/images/placeholder.png";
+
     return new L.Icon({
-      iconUrl:
-        type === "placeholder"
-          ? "/images/placeholder.png"
-          : "/images/university.png",
-      iconSize: [28, 30],
-      iconAnchor: [12, 41],
+      iconUrl: url,
+      iconSize: type === "uni" || type === "lab" ? [35, 35] : [30, 32],
+      iconAnchor: [0, 0],
       popupAnchor: [1, -34],
       tooltipAnchor: [16, -28],
     });
   };
+
   return (
     <div className="w-full">
       <SectionTitle title="Location" />
@@ -41,10 +46,6 @@ const PropertyLocation = ({
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <Marker
-            position={[longitude, latitude]}
-            icon={createCustomIcon("placeholder")}
-          ></Marker>
-          <Marker
             position={[48.17237, 12.83196]}
             icon={createCustomIcon("uni")}
           >
@@ -56,6 +57,22 @@ const PropertyLocation = ({
               </div>
             </Popup>
           </Marker>
+          <Marker
+            position={[48.175576560590315, 12.838649438427224]}
+            icon={createCustomIcon("lab")}
+          >
+            <Popup>
+              <div
+                className={`text-base	font-medium primary-font-color ${GeistSans.className}`}
+              >
+                Campus Burghausen Laboratories
+              </div>
+            </Popup>
+          </Marker>
+          <Marker
+            position={[longitude, latitude]}
+            icon={createCustomIcon("placeholder")}
+          ></Marker>
         </MapContainer>
       </div>
     </div>
