@@ -11,11 +11,15 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import MenuItem from "./MenuItem";
-import { normalUserNavMenu } from "@/constants";
+import { adminUsernavigation, normalUserNavMenu } from "@/constants";
+import { getUserType } from "@/actions/profiles";
 
 // ----- Header Component - Shared in all components except login, register & logout pages ----------//
 
-const Header = () => {
+const Header = async () => {
+  const userType = await getUserType();
+  const navOptions =
+    userType === "admin" ? adminUsernavigation : normalUserNavMenu;
   return (
     <header className="w-full p-4">
       <div className="flex items-center justify-between">
@@ -35,7 +39,7 @@ const Header = () => {
         <nav className="hidden md:flex items-center w-full max-w-xs">
           <NavItems />
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 pr-8 md:pr-10">
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
@@ -43,8 +47,8 @@ const Header = () => {
                   Kasun Vimukthi
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="bg-white">
-                  <ul className="grid w-[160px] gap-3 p-2">
-                    {normalUserNavMenu.map((menu) => (
+                  <ul className="grid w-[200px] gap-3 p-2">
+                    {navOptions?.map((menu) => (
                       <MenuItem menu={menu} key={menu.id} />
                     ))}
                   </ul>

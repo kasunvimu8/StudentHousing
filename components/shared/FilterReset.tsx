@@ -1,14 +1,14 @@
 "use client";
 
 import React from "react";
-import { Button } from "../../ui/button";
+import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 
-const PropertyFilterReset = () => {
+const PropertyFilterReset = ({ newPath }: { newPath: string }) => {
   const router = useRouter();
 
   const resentFilter = () => {
-    router.push("/properties");
+    router.push(newPath);
   };
   return (
     <Button

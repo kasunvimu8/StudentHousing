@@ -41,42 +41,45 @@ function getFilterOptions(options: FilterParamTypes) {
   return filterCriterions;
 }
 
-export async function getProperyCount(filterParams: FilterParamTypes) {
+export async function getProperyCount(
+  filterParams: FilterParamTypes,
+  statusType?: string
+) {
   try {
     await connectToDatabase();
-    const statusFilter = { status: availableStatus };
+    const statusFilter =
+      statusType === "available" ? [{ status: availableStatus }] : [];
     const filterOptions: SortOption[] = getFilterOptions(filterParams);
     let matchOptions =
       filterOptions.length > 0
-        ? [statusFilter, ...filterOptions]
-        : [statusFilter];
-    return await Property.countDocuments({ $and: matchOptions });
+        ? [...statusFilter, ...filterOptions]
+        : statusFilter;
+    return await Property.countDocuments(
+      matchOptions.length > 0 ? { $and: matchOptions } : {}
+    );
   } catch (error) {
-    throw new Error("Failed to fetch properties count");
+    console.log(error);
+    // throw new Error("Failed   to fetch properties count");
   }
 }
 
 export async function getProperties(
   numberOfDocsInPage: number,
   currentPage: number,
-  sort: string | undefined,
-  filterParams: FilterParamTypes
+  sortOption: SortOption,
+  filterParams: FilterParamTypes,
+  statusType?: string
 ) {
   try {
     await connectToDatabase();
 
-    const sortOption: SortOption =
-      sort === "lowest"
-        ? { rent: 1 }
-        : sort === "highest"
-        ? { rent: -1 }
-        : { created_at: -1 };
     const filterOptions: SortOption[] = getFilterOptions(filterParams);
-    const statusFilter = { status: availableStatus };
+    const statusFilter =
+      statusType === "available" ? [{ status: availableStatus }] : [];
     let matchOptions =
       filterOptions.length > 0
-        ? [statusFilter, ...filterOptions]
-        : [statusFilter];
+        ? [...statusFilter, ...filterOptions]
+        : statusFilter;
 
     const properties = await Property.aggregate([
       {
@@ -87,9 +90,7 @@ export async function getProperties(
         },
       },
       {
-        $match: {
-          $and: matchOptions,
-        },
+        $match: matchOptions.length > 0 ? { $and: matchOptions } : {},
       },
       { $sort: sortOption },
       { $skip: numberOfDocsInPage * (currentPage - 1) },
@@ -102,7 +103,9 @@ export async function getProperties(
   }
 }
 
-export async function getAllProperties(filterParams: FilterParamTypes) {
+export async function getAllAvailableProperties(
+  filterParams: FilterParamTypes
+) {
   try {
     await connectToDatabase();
     const statusFilter = { status: availableStatus };
@@ -114,7 +117,13 @@ export async function getAllProperties(filterParams: FilterParamTypes) {
 
     return await Property.find(
       { $and: matchOptions },
-      { _id: 1, longitude: 1, latitude: 1, title: 1, address: 1, property_id: 1 },
+      {
+        longitude: 1,
+        latitude: 1,
+        title: 1,
+        address: 1,
+        property_id: 1,
+      }
     );
   } catch (error) {
     throw new Error("Failed to fetch all properties.");
@@ -125,7 +134,7 @@ export async function getProperty(propertyId: string) {
   try {
     await connectToDatabase();
 
-    const data = await Property.find({ _id: propertyId });
+    const data = await Property.find({ property_id: propertyId });
     const property = data.length > 0 ? JSON.parse(JSON.stringify(data[0])) : {};
 
     return property;

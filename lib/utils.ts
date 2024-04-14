@@ -33,6 +33,15 @@ export const formatDateTime = (dateString: Date) => {
     year: "numeric", // Display year as a number
   };
 
+  const simpleDateTime: Intl.DateTimeFormatOptions = {
+    day: "2-digit", // Display day as a two-digit number
+    month: "short", // Display month as a short name (e.g., Apr)
+    year: "numeric", // Display year as a number
+    hour: "numeric", // numeric hour (e.g., '8')
+    minute: "numeric", // numeric minute (e.g., '30')
+    hour12: true, // use 12-hour clock (true) or 24-hour clock (false)
+  };
+
   const timeOptions: Intl.DateTimeFormatOptions = {
     hour: "numeric", // numeric hour (e.g., '8')
     minute: "numeric", // numeric minute (e.g., '30')
@@ -54,6 +63,11 @@ export const formatDateTime = (dateString: Date) => {
     simpleDate
   );
 
+  const formattedSimpleDateTime: string = new Date(dateString).toLocaleString(
+    "en-US",
+    simpleDateTime
+  );
+
   const formattedTime: string = new Date(dateString).toLocaleString(
     "en-US",
     timeOptions
@@ -63,6 +77,7 @@ export const formatDateTime = (dateString: Date) => {
     dateTime: formattedDateTime,
     dateOnly: formattedDate,
     simpleDate: formattedSimpleDate,
+    simpleDateTime: formattedSimpleDateTime,
     timeOnly: formattedTime,
   };
 };

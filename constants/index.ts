@@ -1,7 +1,5 @@
 // ------ Main Menu Links ------- //
 
-import { PropertyDetailsType } from "@/types";
-
 export const headerLinks = [
   {
     label: "Properties",
@@ -32,8 +30,35 @@ export const normalUserNavMenu = [
   {
     title: "My Profile",
     href: "/profile",
-    icon: "LuUserCog2",
+    icon: "LuUser2",
     id: "profile",
+  },
+  {
+    title: "Logout",
+    href: "/logout",
+    icon: "LuLogOut",
+    id: "logout",
+  },
+];
+
+export const adminUsernavigation = [
+  {
+    title: "Manage Properties",
+    href: "/manage-properties",
+    icon: "BsHouseGear",
+    id: "manageProperties",
+  },
+  {
+    title: "Manage Reservations",
+    href: "/manage-reservations",
+    icon: "TbHomeShield",
+    id: "manageReservations",
+  },
+  {
+    title: "Manage Users",
+    href: "/manage-users",
+    icon: "LuUserCog2",
+    id: "manageUsers",
   },
   {
     title: "Logout",
@@ -47,6 +72,7 @@ export const normalUserNavMenu = [
 
 export const numberOfPropertiesInPage = 6;
 export const numberPagesDisplayInPagination = 3;
+export const numberOfPropertiesInDataTable = 4;
 
 // --------------------- Map configurations -----------------------------------//
 
@@ -285,6 +311,53 @@ export const equipmentsConfig = [
   },
 ];
 
+export const propertyStatuses = [
+  {
+    id: "available",
+    description: "Available",
+  },
+  {
+    id: "reserved",
+    description: "Reserved",
+  },
+];
+
+export const adminsortOptions = [
+  {
+    id: "newest",
+    description: "Newest First",
+  },
+  {
+    id: "recent-update",
+    description: "Most Recent Update",
+  },
+  {
+    id: "room-asc",
+    description: "Room Number ASC",
+  },
+  {
+    id: "room-decs",
+    description: "Room Number DECS",
+  },
+];
+
 // ----------------------- Filter Constants ----------------------- //
 
 export const availableStatus = "available";
+
+// ----------------------- Data Table Config ------------------------- //
+
+export const initialVisibility = {
+  id: true,
+  property_id: true,
+  property_type: true,
+  status: true,
+  address: true,
+  rent: true,
+  from: true,
+  tanent: true,
+  created_at: false,
+  created_by: false,
+  updated_at: false,
+  updated_by: false,
+};

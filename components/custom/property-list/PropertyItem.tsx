@@ -91,8 +91,10 @@ const PropertyItem = ({ property }: { property: Property }) => {
             {property?.address}
           </h3>
           <h3 className="text-sm font-medium primary-light-font-color mb-4">
-            {`${formatDateTime(property.from).simpleDate}  -  ${
-              property.to ? formatDateTime(property.to).simpleDate : "Unlimited"
+            {`${formatDateTime(property.from).simpleDate} ${
+              property.to
+                ? ` - ${formatDateTime(property.to).simpleDate}`
+                : " - Unlimited"
             }`}
           </h3>
 
@@ -129,7 +131,7 @@ const PropertyItem = ({ property }: { property: Property }) => {
             </div>
             <div className="col-span-3">
               <div className="flex justify-end">
-                <a href={`property/${property._id}`}>
+                <a href={`property/${property.property_id}`}>
                   <Button
                     className="section-highlight-background-color"
                     size="sm"

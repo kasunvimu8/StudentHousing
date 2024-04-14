@@ -1,9 +1,9 @@
 import React from "react";
 import { numberOfPropertiesInPage } from "@/constants";
-import PropertyPagination from "./PropertyPagination";
 import PropertyItem from "./PropertyItem";
-import { FilterParamTypes, Property } from "@/types";
+import { FilterParamTypes, Property, SortOption } from "@/types";
 import { getProperties, getProperyCount } from "@/actions/properties";
+import PaginationComponent from "@/components/ui/pagination/PaginationComponent";
 
 const PropertyList = async ({
   searchParams,
@@ -16,13 +16,21 @@ const PropertyList = async ({
   const sort = searchParams.sort;
   const page = searchParams?.page ? Number(searchParams.page) : 1;
 
+  const sortOption: SortOption =
+    sort === "lowest"
+      ? { rent: 1 }
+      : sort === "highest"
+      ? { rent: -1 }
+      : { created_at: -1 };
+
   const data = getProperties(
     numberOfPropertiesInPage,
     page,
-    sort,
-    searchParams
+    sortOption,
+    searchParams,
+    "available"
   );
-  const count = getProperyCount(searchParams);
+  const count = getProperyCount(searchParams, "available");
   const [total, propertiesData] = await Promise.all([count, data]);
 
   properties = JSON.parse(JSON.stringify(propertiesData));
@@ -30,7 +38,7 @@ const PropertyList = async ({
 
   return (
     <React.Fragment>
-      <PropertyPagination
+      <PaginationComponent
         totalPages={Math.ceil(totalProperties / numberOfPropertiesInPage)}
         currentPage={page}
       >
@@ -46,7 +54,7 @@ const PropertyList = async ({
               })}
           </ul>
         </div>
-      </PropertyPagination>
+      </PaginationComponent>
     </React.Fragment>
   );
 };

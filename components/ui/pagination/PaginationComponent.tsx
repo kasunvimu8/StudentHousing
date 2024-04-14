@@ -13,11 +13,9 @@ import {
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { numberPagesDisplayInPagination } from "@/constants";
 import { LuHome } from "react-icons/lu";
-import { Button } from "../../ui/button";
-import { LuArrowUp } from "react-icons/lu";
-import PropertyUp from "./PropertyUp";
+import GotoTop from "@/components/ui/pagination/GotoTop";
 
-const PropertyPagination = ({
+const PaginationComponent = ({
   children,
   totalPages,
   currentPage,
@@ -29,7 +27,6 @@ const PropertyPagination = ({
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-  const router = useRouter();
 
   let page = currentPage;
   page = !page || page < 1 ? 1 : page;
@@ -60,7 +57,7 @@ const PropertyPagination = ({
       {children}
       {totalPages > 0 ? (
         <>
-          <PropertyUp />
+          <GotoTop />
           <Pagination>
             <PaginationContent>
               <PaginationItem>
@@ -108,7 +105,7 @@ const PropertyPagination = ({
           <div className="flex justify-center">
             <LuHome className="align-center w-[40px] h-[40px] primary-font-color opacity-40" />
           </div>
-          <h3 className="text-lg font-medium">No propterties Found</h3>
+          <h3 className="text-lg font-medium">No Data Found</h3>
           <div className="text-sm font-normal ">Please try again later !</div>
         </div>
       )}
@@ -116,4 +113,4 @@ const PropertyPagination = ({
   );
 };
 
-export default PropertyPagination;
+export default PaginationComponent;
