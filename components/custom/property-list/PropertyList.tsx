@@ -34,7 +34,7 @@ const PropertyList = async ({
   const [total, propertiesData] = await Promise.all([count, data]);
 
   properties = JSON.parse(JSON.stringify(propertiesData));
-  totalProperties = total;
+  totalProperties = total ? total : 0;
 
   return (
     <React.Fragment>

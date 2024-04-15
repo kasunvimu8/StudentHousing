@@ -15,12 +15,19 @@ import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { PropertyDataTableType } from "@/types";
 import { formatDateTime } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { propertyTypes } from "@/constants";
+
+const handlePropertyDelete = (id: string) => {
+  console.log(id);
+};
 
 export const columns: ColumnDef<PropertyDataTableType | any>[] = [
   {
     accessorKey: "property_id",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("property_id")}</div>
+      <div className="text-center font-medium">
+        {row.getValue("property_id")}
+      </div>
     ),
     header: ({ column }) => {
       return (
@@ -33,20 +40,43 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
         </Button>
       );
     },
+    enableHiding: false,
+  },
+  {
+    accessorKey: "room_id",
+    cell: ({ row }) => (
+      <div className="text-center font-medium">{row.getValue("room_id")}</div>
+    ),
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Room ID
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    enableHiding: false,
   },
   {
     accessorKey: "property_type",
     header: "Property Type",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("property_type")}</div>
-    ),
+    cell: ({ row }) => {
+      const typeId = row.getValue("property_type");
+      const propertyTypeDesc = propertyTypes.find((type) => type.id === typeId);
+      return <div className="capitalize">{propertyTypeDesc?.description}</div>;
+    },
+    enableHiding: false,
   },
   {
     accessorKey: "status",
-    header: "Property Status",
+    header: "Status",
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("status")}</div>
     ),
+    enableHiding: false,
   },
   {
     accessorKey: "address",
@@ -81,21 +111,13 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
     },
   },
   {
-    accessorKey: "tanent",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Tanent Email
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
+    accessorKey: "to",
+    header: "To Date",
+    cell: ({ row }) => {
+      const to = row.getValue("to");
+      const date = to ? formatDateTime(new Date(String(to))).simpleDate : "-";
+      return <div className="capitalize">{date}</div>;
     },
-    cell: ({ row }) => (
-      <div className="lowercase">{row.getValue("tanent")}</div>
-    ),
   },
   {
     accessorKey: "created_by",
@@ -143,7 +165,7 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
         <DropdownMenu>
           <DropdownMenuTrigger asChild className="bg-white">
             <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
+              <span className="sr-only">Open Action Menu</span>
               <DotsHorizontalIcon className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -159,9 +181,7 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
               Edit Property
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => {
-                console.log(" Check on delete ");
-              }}
+              onClick={() => handlePropertyDelete(String(propertyId))}
               className="hover:section-light-background-color"
             >
               Delete Property

@@ -1,37 +1,31 @@
 import AdminFilterSection from "@/components/custom/manage-properties/AdminFilterSection";
 import PageTitle from "@/components/shared/PageTitle";
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { Suspense } from "react";
 import { DataTable } from "@/components/ui/data-table/DataTable";
-import { getProperties, getProperyCount } from "@/actions/properties";
+import { getProperties } from "@/actions/properties";
 import { FilterParamTypes, Property, SortOption } from "@/types";
 import { columns } from "@/components/custom/manage-properties/PropertiesColumns";
-import { initialVisibility, numberOfPropertiesInDataTable } from "@/constants";
+import { initialVisibility } from "@/constants";
+import { Skeleton } from "@/components/ui/Skelton";
 
 const Page = async ({ searchParams }: { searchParams: FilterParamTypes }) => {
   let properties: Property[] = [];
 
   const sort = searchParams.sort;
-  const page = searchParams?.page ? Number(searchParams.page) : 1;
+  const page = 1;
 
   const sortOption: SortOption =
-    sort === "lowest"
-      ? { rent: 1 }
-      : sort === "highest"
-      ? { rent: -1 }
+    sort === "recent-update"
+      ? { updated_at: -1 }
+      : sort === "room-asc"
+      ? { property_id: 1 }
+      : sort === "room-decs"
+      ? { property_id: -1 }
       : { created_at: -1 };
 
-  const data1 = getProperties(
-    numberOfPropertiesInDataTable,
-    page,
-    sortOption,
-    searchParams,
-    "available"
-  );
-  const count = getProperyCount(searchParams);
-  const [total, propertiesData] = await Promise.all([count, data1]);
-
-  properties = JSON.parse(JSON.stringify(propertiesData));
+  const data = await getProperties(-1, page, sortOption, searchParams, "all");
+  properties = JSON.parse(JSON.stringify(data));
 
   return (
     <div className="h-full w-full">
@@ -46,8 +40,19 @@ const Page = async ({ searchParams }: { searchParams: FilterParamTypes }) => {
         </div>
       </div>
       <AdminFilterSection />
-      <div className="container mx-auto py-10">
-        <DataTable columns={columns} data={properties} total={total} initialVisibility={initialVisibility}/>
+      <div className="mx-auto py-5">
+        <Suspense
+          key="manage-properties-table"
+          fallback={
+            <Skeleton className="h-[300px] w-full rounded-lg section-light-background-color" />
+          }
+        >
+          <DataTable
+            columns={columns}
+            data={properties}
+            initialVisibility={initialVisibility}
+          />
+        </Suspense>
       </div>
     </div>
   );

@@ -28,17 +28,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { DataTablePagination } from "./DataTablePagination";
 
 export function DataTable({
   columns,
   data,
-  total,
-  initialVisibility
+  initialVisibility,
 }: {
   data: any;
   columns: any;
-  total: number | undefined;
-  initialVisibility?:  any
+  initialVisibility?: any;
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -78,7 +77,7 @@ export function DataTable({
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
-              .map((column) => {
+              .map((column: any) => {
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
@@ -88,7 +87,7 @@ export function DataTable({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {column.columnDef.header || column.id}
                   </DropdownMenuCheckboxItem>
                 );
               })}
@@ -145,26 +144,7 @@ export function DataTable({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
+      <DataTablePagination table={table} />
     </div>
   );
 }

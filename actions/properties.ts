@@ -4,6 +4,7 @@ import { availableStatus } from "@/constants";
 import { connectToDatabase } from "@/database";
 import Property from "@/database/models/property.model";
 import { FilterParamTypes, SortOption } from "@/types";
+import { getReservationExist } from "./reservations";
 
 function getFilterOptions(options: FilterParamTypes) {
   let filterCriterions: any = [];
@@ -36,6 +37,20 @@ function getFilterOptions(options: FilterParamTypes) {
           rent: { $gte: parseInt(values[0]), $lte: parseInt(values[1]) },
         });
       }
+    } else if (key === "property_id" && options[key]) {
+      filterCriterions.push({
+        property_id: {
+          $regex: options[key],
+          $options: "i",
+        },
+      });
+    } else if (key === "room_id" && options[key]) {
+      filterCriterions.push({
+        room_id: {
+          $regex: options[key],
+          $options: "i",
+        },
+      });
     }
   });
   return filterCriterions;
@@ -80,8 +95,7 @@ export async function getProperties(
       filterOptions.length > 0
         ? [...statusFilter, ...filterOptions]
         : statusFilter;
-
-    const properties = await Property.aggregate([
+    let query: any = [
       {
         $addFields: {
           rent: {
@@ -93,10 +107,14 @@ export async function getProperties(
         $match: matchOptions.length > 0 ? { $and: matchOptions } : {},
       },
       { $sort: sortOption },
-      { $skip: numberOfDocsInPage * (currentPage - 1) },
-      { $limit: numberOfDocsInPage },
-    ]);
+    ];
 
+    if (numberOfDocsInPage >= 1) {
+      query.push({ $skip: numberOfDocsInPage * (currentPage - 1) });
+      query.push({ $limit: numberOfDocsInPage });
+    }
+
+    const properties = await Property.aggregate(query);
     return properties;
   } catch (error) {
     throw new Error("Failed to fetch properties.");
@@ -138,6 +156,28 @@ export async function getProperty(propertyId: string) {
     const property = data.length > 0 ? JSON.parse(JSON.stringify(data[0])) : {};
 
     return property;
+  } catch (error) {
+    throw new Error("Failed to fetch all properties.");
+  }
+}
+
+export async function deleteProperty(_id: string) {
+  try {
+    await connectToDatabase();
+
+    const isReservationExist = await getReservationExist(_id);
+    if (isReservationExist) {
+      return {
+        msg: "Reservaton exists! Please remove the property-related reservation before deleting the property.",
+        type: "error",
+      };
+    } else {
+      const data = await Property.deleteOne({ _id: _id });
+      return {
+        msg: "Property Deleted Successfully !",
+        type: "ok",
+      };
+    }
   } catch (error) {
     throw new Error("Failed to fetch all properties.");
   }

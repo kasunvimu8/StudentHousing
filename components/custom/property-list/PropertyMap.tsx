@@ -45,7 +45,7 @@ const getMarkers = (properties: Property[]) => {
 
   properties?.forEach((property) => {
     markers.push({
-      id: property._id,
+      id: property.property_id,
       geocode: [property.longitude, property.latitude],
       popUp: (
         <Fragment>
@@ -63,7 +63,7 @@ const getMarkers = (properties: Property[]) => {
             className={`text-sm primary-font-color pt-2 ${GeistSans.className}`}
           >
             <a
-              href={`property/${property._id}`}
+              href={`property/${property.property_id}`}
               className="flex items-center justify-center text-sm gap-2"
             >
               <Button className="section-highlight-background-color flex items-center justify-center gap-2">

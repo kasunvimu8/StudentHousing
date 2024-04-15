@@ -9,11 +9,24 @@ import {
 import { DropdownComponent } from "../../ui/dropdown/URLSyncDropdown";
 import { DatePickerComponent } from "../../ui/calendar/URLSyncDropdown";
 import PropertyFilterReset from "../../shared/FilterReset";
+import { InputComponent } from "@/components/ui/input/URLSyncInput";
 
 const AdminFilterSection = () => {
   return (
     <div className="my-5 rounded-lg section-background-color">
       <div className="grid grid-cols-6 gap-4 p-5">
+        <div className="col-span-6 md:col-span-3 lg:col-span-2">
+          <div className="flex flex-col gap-2 p-1">
+            <Label>Property Id</Label>
+            <InputComponent inputKey="property_id" />
+          </div>
+        </div>
+        <div className="col-span-6 md:col-span-3 lg:col-span-2">
+          <div className="flex flex-col gap-2 p-1">
+            <Label>Room Id</Label>
+            <InputComponent inputKey="room_id" />
+          </div>
+        </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
             <Label>Property Type</Label>

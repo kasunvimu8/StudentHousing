@@ -66,12 +66,13 @@ export type PropertyEquipmentType = {
 export type PropertyDataTableType = {
   _id: string;
   property_id: string;
+  room_id: string;
   property_type: string;
   status: string;
   address: string;
   rent: number;
   from: string;
-  tanent: string;
+  to: string;
   created_at: string;
   created_by: string;
   updated_at: string;
@@ -120,6 +121,8 @@ export type FilterParamTypes = {
   size?: string;
   rent?: string;
   sort?: string;
+  property_id?: string;
+  room_id?: string;
 };
 
 export type SortOption = { [key: string]: 1 | -1 };

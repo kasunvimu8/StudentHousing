@@ -348,14 +348,13 @@ export const availableStatus = "available";
 // ----------------------- Data Table Config ------------------------- //
 
 export const initialVisibility = {
-  id: true,
   property_id: true,
+  room_id: true,
   property_type: true,
   status: true,
   address: true,
   rent: true,
   from: true,
-  tanent: true,
   created_at: false,
   created_by: false,
   updated_at: false,
