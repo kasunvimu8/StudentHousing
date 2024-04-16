@@ -1,5 +1,6 @@
 // ------------------ Type Definitions ---------------- //
 
+import { ColumnDef } from "@tanstack/react-table";
 import { LatLngExpression } from "leaflet";
 import { ReactNode } from "react";
 
@@ -41,11 +42,11 @@ export type Property = {
   documents: string[];
   images: string[];
   status: string;
-  city : string;
-  rooms :number,
-  property_type : string,
-  floor: number,
-  additional_information : string
+  city: string;
+  rooms: number;
+  property_type: string;
+  floor: number;
+  additional_information: string;
   property_id: string;
   room_id: string;
 };
@@ -61,6 +62,27 @@ export type PropertyEquipmentType = {
   id: string;
   title: string;
   icon: string;
+};
+
+export type PropertyDataTableType = {
+  _id: string;
+  property_id: string;
+  room_id: string;
+  property_type: string;
+  status: string;
+  address: string;
+  rent: number;
+  from: string;
+  to: string;
+  created_at: string;
+  created_by: string;
+  updated_at: string;
+  updated_by: string;
+};
+
+export type ExtendedColumnDef = ColumnDef<PropertyDataTableType> & {
+  columnTitle?: string;
+  customData?: any;
 };
 
 // ------------------------ Map Marker Types --------------------------------
@@ -105,6 +127,17 @@ export type FilterParamTypes = {
   size?: string;
   rent?: string;
   sort?: string;
+  property_id?: string;
+  room_id?: string;
 };
 
 export type SortOption = { [key: string]: 1 | -1 };
+
+// -------------------------- Nav Types --------------------------------------
+
+export type NavType = {
+  title: string;
+  href: string;
+  icon: string;
+  id: string;
+};

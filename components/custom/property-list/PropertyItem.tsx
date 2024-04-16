@@ -55,7 +55,7 @@ const PropertyItem = ({ property }: { property: Property }) => {
         <div className="relative max-w-[380px] h-[250px] overflow-hidden">
           <Image
             src={src}
-            alt={property.property_id}
+            alt={property._id}
             fill={true}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="rounded-t-lg object-cover"
@@ -91,8 +91,10 @@ const PropertyItem = ({ property }: { property: Property }) => {
             {property?.address}
           </h3>
           <h3 className="text-sm font-medium primary-light-font-color mb-4">
-            {`${formatDateTime(property.from).simpleDate}  -  ${
-              property.to ? formatDateTime(property.to).simpleDate : "Unlimited"
+            {`${formatDateTime(property.from).simpleDate} ${
+              property.to
+                ? ` - ${formatDateTime(property.to).simpleDate}`
+                : " - Unlimited"
             }`}
           </h3>
 

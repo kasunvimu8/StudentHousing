@@ -2,9 +2,9 @@
 
 import React from "react";
 import { LuArrowUp } from "react-icons/lu";
-import { Button } from "../../ui/button";
+import { Button } from "../button";
 
-const PropertyUp = () => {
+const GotoTop = () => {
   const goUp = () => {
     window.scrollTo({
       top: 0,
@@ -21,4 +21,4 @@ const PropertyUp = () => {
   );
 };
 
-export default PropertyUp;
+export default GotoTop;

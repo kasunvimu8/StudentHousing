@@ -1,19 +1,12 @@
 import React from "react";
 import Link from "next/link";
-import { LuLogOut, LuHome, LuUserCog2 } from "react-icons/lu";
-import { IconType } from "react-icons";
+import { getIconFromKey } from "@/lib/icons";
+import { NavType } from "@/types";
 
 // ---------------- Menu Item Component ---------------------//
 
-const MenuItem = ({ menu }: any) => {
-  let Icon: IconType;
-  if (menu.icon == "LuLogOut") {
-    Icon = LuLogOut;
-  } else if (menu.icon == "LuHome") {
-    Icon = LuHome;
-  } else {
-    Icon = LuUserCog2;
-  }
+const MenuItem = ({ menu }: { menu: NavType }) => {
+  const Icon = getIconFromKey(menu.icon);
 
   return (
     <Link

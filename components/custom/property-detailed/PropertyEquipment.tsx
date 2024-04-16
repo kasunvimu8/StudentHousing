@@ -6,7 +6,7 @@ import { getIconFromKey } from "@/lib/icons";
 
 const PropertyEquipment = async ({ equipments }: { equipments: string[] }) => {
   const isItemAvailable = (item: string) =>
-    equipments.find((equipment: string) => equipment === item);
+    equipments?.find((equipment: string) => equipment === item);
 
   return (
     <div className="pt-5">
