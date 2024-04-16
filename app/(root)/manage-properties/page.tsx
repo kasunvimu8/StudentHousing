@@ -2,31 +2,11 @@ import AdminFilterSection from "@/components/custom/manage-properties/AdminFilte
 import PageTitle from "@/components/shared/PageTitle";
 import { Button } from "@/components/ui/button";
 import React, { Suspense } from "react";
-import { DataTable } from "@/components/ui/data-table/DataTable";
-import { getProperties } from "@/actions/properties";
-import { FilterParamTypes, Property, SortOption } from "@/types";
-import { columns } from "@/components/custom/manage-properties/PropertiesColumns";
-import { initialVisibility } from "@/constants";
+import { FilterParamTypes } from "@/types";
 import { Skeleton } from "@/components/ui/Skelton";
+import ManagePropertyTable from "@/components/custom/manage-properties/ManagePropertyTable";
 
 const Page = async ({ searchParams }: { searchParams: FilterParamTypes }) => {
-  let properties: Property[] = [];
-
-  const sort = searchParams.sort;
-  const page = 1;
-
-  const sortOption: SortOption =
-    sort === "recent-update"
-      ? { updated_at: -1 }
-      : sort === "room-asc"
-      ? { property_id: 1 }
-      : sort === "room-decs"
-      ? { property_id: -1 }
-      : { created_at: -1 };
-
-  const data = await getProperties(-1, page, sortOption, searchParams, "all");
-  properties = JSON.parse(JSON.stringify(data));
-
   return (
     <div className="h-full w-full">
       <div className="grid grid-cols-2 gap-2">
@@ -47,11 +27,7 @@ const Page = async ({ searchParams }: { searchParams: FilterParamTypes }) => {
             <Skeleton className="h-[300px] w-full rounded-lg section-light-background-color" />
           }
         >
-          <DataTable
-            columns={columns}
-            data={properties}
-            initialVisibility={initialVisibility}
-          />
+          <ManagePropertyTable searchParams={searchParams} />
         </Suspense>
       </div>
     </div>

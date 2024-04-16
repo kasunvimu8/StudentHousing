@@ -112,6 +112,9 @@ body {
   .topest-background-overlay {
     z-index: 1001 !important
   }
+  .topest-toast-overlay {
+    z-index: 1003 !important
+  }
 
 }
 

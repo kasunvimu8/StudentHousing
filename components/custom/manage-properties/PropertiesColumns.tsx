@@ -9,19 +9,40 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { PropertyDataTableType } from "@/types";
-import { formatDateTime } from "@/lib/utils";
+import { formatDateTime, isFunction } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { propertyTypes } from "@/constants";
+import { ExtendedColumnDef } from "@/types";
 
-const handlePropertyDelete = (id: string) => {
-  console.log(id);
+/* Server Action to Delete Property */
+import { deleteProperty } from "@/actions/properties";
+
+const handlePropertyDelete = async (
+  id: string,
+  property_id: string,
+  customData: any
+) => {
+  const res = await deleteProperty(id);
+  const toast = isFunction(customData?.toast) ? customData?.toast : undefined;
+
+  if (res && toast) {
+    toast({
+      title: `Property ${property_id} : Delete ${
+        res.type === "ok" ? "Success" : "Failed"
+      }`,
+      description: res.msg,
+    });
+  }
 };
 
-export const columns: ColumnDef<PropertyDataTableType | any>[] = [
+export const columns: ExtendedColumnDef[] = [
+  {
+    accessorKey: "_id",
+    cell: ({ row }) => <div className="capitalize">{row.getValue("_id")}</div>,
+    enableHiding: false,
+  },
   {
     accessorKey: "property_id",
     cell: ({ row }) => (
@@ -41,6 +62,7 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
       );
     },
     enableHiding: false,
+    columnTitle: "Property ID",
   },
   {
     accessorKey: "room_id",
@@ -59,6 +81,7 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
       );
     },
     enableHiding: false,
+    columnTitle: "Room ID",
   },
   {
     accessorKey: "property_type",
@@ -69,6 +92,7 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
       return <div className="capitalize">{propertyTypeDesc?.description}</div>;
     },
     enableHiding: false,
+    columnTitle: "Property Type",
   },
   {
     accessorKey: "status",
@@ -77,6 +101,7 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
       <div className="capitalize">{row.getValue("status")}</div>
     ),
     enableHiding: false,
+    columnTitle: "Status",
   },
   {
     accessorKey: "address",
@@ -84,6 +109,7 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("address")}</div>
     ),
+    columnTitle: "Address",
   },
   {
     accessorKey: "rent",
@@ -91,7 +117,6 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
     cell: ({ row }) => {
       const amount = parseInt(row.getValue("rent"));
 
-      // Format the amount as a euro amount
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "EUR",
@@ -100,6 +125,7 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
 
       return <div className="text-right font-medium">{formatted}</div>;
     },
+    columnTitle: "Rent",
   },
   {
     accessorKey: "from",
@@ -109,6 +135,7 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
       const date = formatDateTime(new Date(String(from))).simpleDate;
       return <div className="capitalize">{date}</div>;
     },
+    columnTitle: "From Date",
   },
   {
     accessorKey: "to",
@@ -118,6 +145,7 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
       const date = to ? formatDateTime(new Date(String(to))).simpleDate : "-";
       return <div className="capitalize">{date}</div>;
     },
+    columnTitle: "To Date",
   },
   {
     accessorKey: "created_by",
@@ -125,6 +153,7 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("created_by")}</div>
     ),
+    columnTitle: "Created By",
   },
   {
     accessorKey: "created_at",
@@ -135,6 +164,7 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
 
       return <div className="capitalize">{date}</div>;
     },
+    columnTitle: "Created At",
   },
   {
     accessorKey: "updated_by",
@@ -142,6 +172,7 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("updated_by")}</div>
     ),
+    columnTitle: "Updated By",
   },
   {
     accessorKey: "updated_at",
@@ -152,14 +183,16 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
 
       return <div className="capitalize">{date}</div>;
     },
+    columnTitle: "Updated At",
   },
 
   {
     id: "actions",
     enableHiding: false,
-    cell: ({ row }) => {
-      const propertyId = row.getValue("property_id");
+    cell: ({ row, ...rest }) => {
+      const propertyId = row.getValue("_id");
       const router = useRouter();
+      const columnDef: ExtendedColumnDef = rest?.column?.columnDef;
 
       return (
         <DropdownMenu>
@@ -181,7 +214,13 @@ export const columns: ColumnDef<PropertyDataTableType | any>[] = [
               Edit Property
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => handlePropertyDelete(String(propertyId))}
+              onClick={() =>
+                handlePropertyDelete(
+                  String(propertyId),
+                  row.getValue("property_id"),
+                  columnDef?.customData
+                )
+              }
               className="hover:section-light-background-color"
             >
               Delete Property

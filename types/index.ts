@@ -1,5 +1,6 @@
 // ------------------ Type Definitions ---------------- //
 
+import { ColumnDef } from "@tanstack/react-table";
 import { LatLngExpression } from "leaflet";
 import { ReactNode } from "react";
 
@@ -77,6 +78,11 @@ export type PropertyDataTableType = {
   created_by: string;
   updated_at: string;
   updated_by: string;
+};
+
+export type ExtendedColumnDef = ColumnDef<PropertyDataTableType> & {
+  columnTitle?: string;
+  customData?: any;
 };
 
 // ------------------------ Map Marker Types --------------------------------

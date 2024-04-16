@@ -22,6 +22,14 @@ const PropertySchema = new Schema({
   equipments: [String],
   documents: [String],
   images: [String],
+  status: String,
+  city: String,
+  rooms: Number,
+  property_type: String,
+  floor: String,
+  additional_information: String,
+  property_id: String,
+  room_id: String,
 });
 
 const Property = models.Property || model("Property", PropertySchema);

@@ -29,6 +29,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DataTablePagination } from "./DataTablePagination";
+import { useToast } from "@/components/ui/use-toast";
+import { ExtendedColumnDef } from "@/types";
 
 export function DataTable({
   columns,
@@ -46,6 +48,18 @@ export function DataTable({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>(initialVisibility);
   const [rowSelection, setRowSelection] = React.useState({});
+  const { toast } = useToast();
+
+  /* Passing custom data by attaching them to the column definitions */
+  columns = columns.map((column: ExtendedColumnDef) => {
+    return {
+      ...column,
+      customData: {
+        toast: toast,
+      },
+    };
+  });
+
   const table = useReactTable({
     data,
     columns,
@@ -63,7 +77,6 @@ export function DataTable({
       rowSelection,
     },
   });
-
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
@@ -87,7 +100,7 @@ export function DataTable({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.columnDef.header || column.id}
+                    {column?.columnDef?.columnTitle}
                   </DropdownMenuCheckboxItem>
                 );
               })}
@@ -137,7 +150,7 @@ export function DataTable({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  No Results
                 </TableCell>
               </TableRow>
             )}

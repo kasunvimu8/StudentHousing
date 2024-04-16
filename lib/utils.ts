@@ -177,3 +177,9 @@ export const getDocumentName = (document: string) => {
 
   return filename;
 };
+
+export const isFunction = (functionToCheck: any) => {
+  return (
+    functionToCheck && {}.toString.call(functionToCheck) === "[object Function]"
+  );
+};

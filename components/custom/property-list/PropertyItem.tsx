@@ -55,7 +55,7 @@ const PropertyItem = ({ property }: { property: Property }) => {
         <div className="relative max-w-[380px] h-[250px] overflow-hidden">
           <Image
             src={src}
-            alt={property.property_id}
+            alt={property._id}
             fill={true}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="rounded-t-lg object-cover"
@@ -131,7 +131,7 @@ const PropertyItem = ({ property }: { property: Property }) => {
             </div>
             <div className="col-span-3">
               <div className="flex justify-end">
-                <a href={`property/${property.property_id}`}>
+                <a href={`property/${property._id}`}>
                   <Button
                     className="section-highlight-background-color"
                     size="sm"

@@ -5,6 +5,7 @@ import { connectToDatabase } from "@/database";
 import Property from "@/database/models/property.model";
 import { FilterParamTypes, SortOption } from "@/types";
 import { getReservationExist } from "./reservations";
+import { revalidatePath } from "next/cache";
 
 function getFilterOptions(options: FilterParamTypes) {
   let filterCriterions: any = [];
@@ -141,6 +142,7 @@ export async function getAllAvailableProperties(
         title: 1,
         address: 1,
         property_id: 1,
+        _id: 1,
       }
     );
   } catch (error) {
@@ -152,7 +154,7 @@ export async function getProperty(propertyId: string) {
   try {
     await connectToDatabase();
 
-    const data = await Property.find({ property_id: propertyId });
+    const data = await Property.find({ _id: propertyId });
     const property = data.length > 0 ? JSON.parse(JSON.stringify(data[0])) : {};
 
     return property;
@@ -172,7 +174,9 @@ export async function deleteProperty(_id: string) {
         type: "error",
       };
     } else {
-      const data = await Property.deleteOne({ _id: _id });
+      await Property.deleteOne({ _id: _id });
+      revalidatePath("/manage-properties");
+
       return {
         msg: "Property Deleted Successfully !",
         type: "ok",
