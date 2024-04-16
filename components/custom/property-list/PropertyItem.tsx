@@ -131,7 +131,7 @@ const PropertyItem = ({ property }: { property: Property }) => {
             </div>
             <div className="col-span-3">
               <div className="flex justify-end">
-                <a href={`property/${property._id}`}>
+                <a href={`property/view/${property._id}`}>
                   <Button
                     className="section-highlight-background-color"
                     size="sm"
