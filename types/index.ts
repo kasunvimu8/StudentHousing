@@ -4,6 +4,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import { LatLngExpression } from "leaflet";
 import { ReactNode } from "react";
 
+// ------------------ Intefaces ------------------------//
+export interface DetailsSectionProps {
+  propertyState: Record<string, any>;
+  updateLocalState: (key: string, value: any) => void;
+}
+
 // ------------------------SCHDCN UI Types----------------------------------------
 export type UrlQueryParams = {
   params: string;
@@ -20,35 +26,35 @@ export type RemoveUrlQueryParams = {
 
 export type Property = {
   _id: string;
+  property_id: string;
+  room_id: string;
   title: string;
   address: string;
-  from: Date;
-  to?: Date;
+  from: Date | undefined;
+  status: string;
+  city: string;
+  property_type: string;
   beds: number;
   size: number;
   type: string;
-  cold_rent?: number;
-  incidential_cost: number;
-  one_time_cost: number;
-  warm_rent?: number;
-  deposit: number;
   longitude: number;
   latitude: number;
-  created_at: Date;
-  updated_at: Date;
+  created_at: Date | undefined;
+  updated_at: Date | undefined;
   created_by: string;
   updated_by: string;
   equipments: string[];
   documents: string[];
   images: string[];
-  status: string;
-  city: string;
-  rooms: number;
-  property_type: string;
-  floor: number;
-  additional_information: string;
-  property_id: string;
-  room_id: string;
+  rooms?: number;
+  floor?: number;
+  to?: Date | undefined;
+  additional_information?: string;
+  cold_rent?: number;
+  incidential_cost?: number;
+  one_time_cost?: number;
+  warm_rent?: number;
+  deposit?: number;
 };
 
 export type PropertyDetailsType = {

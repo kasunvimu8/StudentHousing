@@ -2,7 +2,6 @@ import PropertyFilter from "@/components/custom/property-list/PropertyFilter";
 import {MapLoading, PropertiesLoading} from "@/components/custom/property-list/PropertyItemLoading";
 import PropertyList from "@/components/custom/property-list/PropertyList";
 import PropertyMapParent from "@/components/custom/property-list/PropertyMapParent";
-import { Skeleton } from "@/components/ui/Skelton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FilterParamTypes } from "@/types";
 import { Suspense } from "react";

@@ -2,8 +2,7 @@
 
 import { OptionType } from "@/types";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import BaseComponent from "./BaseComponent";
-import { useEffect } from "react";
+import { BaseComponent } from "./BaseComponent";
 
 export function DropdownComponent({
   options,

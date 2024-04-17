@@ -362,3 +362,5 @@ export const initialVisibility = {
   updated_at: false,
   updated_by: false,
 };
+
+// ----------------------- Update Property Config ------------------------- //

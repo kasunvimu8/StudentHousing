@@ -9,7 +9,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn, formatDateTime } from "@/lib/utils";
 
-const BaseComponent = ({
+export const BaseComponent = ({
   date,
   handleSelect,
 }: {
@@ -42,5 +42,3 @@ const BaseComponent = ({
     </Popover>
   );
 };
-
-export default BaseComponent;

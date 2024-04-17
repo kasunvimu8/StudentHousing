@@ -4,7 +4,7 @@ import React from "react";
 const PropertyAdditionalInformation = ({
   additional_information,
 }: {
-  additional_information: string;
+  additional_information: string | undefined;
 }) => {
   return (
     <div className="pt-4">
