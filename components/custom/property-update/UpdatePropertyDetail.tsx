@@ -3,7 +3,11 @@
 import React, { useState } from "react";
 import { Property } from "@/types";
 import DetailsSection from "@/components/custom/property-update/DetailsSection";
-import ImageSectioon from "./ImageSectioon";
+import ImageSectioon from "./ImageSection";
+import LocationSection from "./LocationSection";
+import EquipmentSection from "./EquipmentSection";
+import CostSection from "./CostSection";
+import ContractDocumentSection from "./ContractDocumentSection";
 
 const initialState: Property = {
   _id: "",
@@ -43,10 +47,20 @@ const UpdatePropertyDetail = ({ property }: { property: Property }) => {
   const [propertyState, setPropertyState] = useState(defaultState);
 
   const updateLocalState = (key: string, value: any) => {
-    setPropertyState({
-      ...propertyState,
+    setPropertyState((prev) => ({
+      ...prev,
       [key]: value,
-    });
+    }));
+  };
+  const updateLocalMapState = (location: {
+    longitude: number;
+    latitude: number;
+  }) => {
+    setPropertyState((prev) => ({
+      ...prev,
+      longitude: location.longitude,
+      latitude: location.latitude,
+    }));
   };
 
   return (
@@ -56,6 +70,24 @@ const UpdatePropertyDetail = ({ property }: { property: Property }) => {
         updateLocalState={updateLocalState}
       />
       <ImageSectioon
+        propertyState={propertyState}
+        updateLocalState={updateLocalState}
+      />
+
+      <LocationSection
+        propertyState={propertyState}
+        updateLocalState={updateLocalState}
+        updateLocalMapState={updateLocalMapState}
+      />
+      <CostSection
+        propertyState={propertyState}
+        updateLocalState={updateLocalState}
+      />
+      <EquipmentSection
+        equipments={propertyState.equipments}
+        updateLocalState={updateLocalState}
+      />
+      <ContractDocumentSection
         propertyState={propertyState}
         updateLocalState={updateLocalState}
       />

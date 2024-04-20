@@ -17,20 +17,20 @@ const FileDisplayItem = ({
         <span className="font-medium text-sm">{name}</span>
       </div>
       <div className="flex justify-end gap-2">
-        <div className="primary-background-color p-1 rounded">
+        <div className="primary-font-color p-1 rounded">
           <LuDownload
             strokeWidth="3"
             onClick={() => {
               console.log("handle download");
             }}
-            className="w-4 h-4 text-white cursor-pointer"
+            className="w-4 h-4 cursor-pointer"
           />
         </div>
-        <div className="primary-background-color p-1 rounded ">
+        <div className="primary-font-color p-1 rounded ">
           <LuX
             strokeWidth="3"
             onClick={() => handleFileRemove(fileId)}
-            className="w-4 h-4 text-white cursor-pointer"
+            className="w-4 h-4 cursor-pointer"
           />
         </div>
       </div>

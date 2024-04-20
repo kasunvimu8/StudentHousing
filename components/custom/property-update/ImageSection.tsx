@@ -3,9 +3,8 @@
 import FileDisplayItem from "@/components/shared/FileDisplayItem";
 import FileUploader from "@/components/shared/FileUploader";
 import SectionTitle from "@/components/shared/SectionTitle";
-import { DetailsSectionProps } from "@/types";
+import { PropertySectionProps } from "@/types";
 import React, { useState, useEffect } from "react";
-import { LuDownload, LuImage, LuX } from "react-icons/lu";
 import { v4 as uuidv4 } from "uuid";
 
 interface FileObject {
@@ -13,7 +12,7 @@ interface FileObject {
   name: string;
 }
 
-const ImageSectioon: React.FC<DetailsSectionProps> = ({
+const ImageSectioon: React.FC<PropertySectionProps> = ({
   propertyState,
   updateLocalState,
 }) => {
@@ -23,14 +22,12 @@ const ImageSectioon: React.FC<DetailsSectionProps> = ({
     fetchInitialFiles();
   }, []);
 
-  const handleFileUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-    if (file) {
+  const handleFileUpload = async (newFiles: any) => {
+    const newFile: FileObject = newFiles?.[0];
+    if (newFile) {
       try {
-        const newFile: FileObject = { id: uuidv4(), name: file.name };
-        setFiles([...files, newFile]);
+        const newFileItem = { id: uuidv4(), name: newFile.name };
+        setFiles([...files, newFileItem]);
       } catch (error) {
         console.error("Error uploading file:", error);
       }
@@ -68,13 +65,18 @@ const ImageSectioon: React.FC<DetailsSectionProps> = ({
   return (
     <div className="pt-3">
       <SectionTitle title="Images" />
-      <div className="w-full grid grid-cols-3 gap-2 md:gap-10 py-5">
-        <FileUploader handleFileUpload={handleFileUpload} />
-        <div className="col-span-3 md:col-span-2">
+      <div className="w-full grid grid-cols-2 gap-2 md:gap-8 py-5">
+        <div className="col-span-2 md:col-span-1">
+          <FileUploader
+            handleFileUpload={handleFileUpload}
+            info="Drag & Drop or Select .png or .jpg files"
+          />
+        </div>
+        <div className="col-span-2 md:col-span-1">
           {files?.map((file) => (
             <div
               key={file.id}
-              className="flex items-center mb-2 p-2 section-light-background-color rounded max-w-[600px]"
+              className="flex items-center my-3 p-1 section-light-background-color rounded max-w-[600px]"
             >
               <FileDisplayItem
                 fileId={file?.id}

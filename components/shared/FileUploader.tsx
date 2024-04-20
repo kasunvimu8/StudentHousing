@@ -1,29 +1,37 @@
 "use client";
-
+import { useDropzone } from "react-dropzone";
 import React from "react";
 import { LuUpload } from "react-icons/lu";
-import { Input } from "@/components/ui/input";
 
 const FileUploader = ({
   handleFileUpload,
+  info,
 }: {
-  handleFileUpload: (event: React.ChangeEvent<HTMLInputElement>) => {};
+  handleFileUpload: (event: any) => {};
+  info: string;
 }) => {
+  const maxSize = 5 * 1024 * 1024;
+
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    onDrop: (files) => handleFileUpload(files),
+    accept: {
+      "image/*": [".png", ".jpg"],
+      "application/pdf": [".pdf"],
+    },
+    maxSize: maxSize,
+  });
+
   return (
     <div className="col-span-3 md:col-span-1">
-      <div className="flex items-center justify-center overflow-hidden rounded-lg border-2 border-gray-100 w-[300px]">
-        <div className="flex flex-col items-center py-6">
-          <LuUpload className="w-[35px] h-[35px] text-gray-400" />
-          <div className="w-full h-[40px] flex pl-[55px] mb-5">
-            <Input
-              className="font-medium text-base cursor-pointer mt-5 text-center w-[120px]"
-              type="file"
-              onChange={handleFileUpload}
-              accept="image/*"
-            />
-          </div>
-          <div className="font-medium text-sm p-2 text-center">
-            (Select only png, jpg, jpeg files)
+      <div {...getRootProps({ className: "dropzone" })}>
+        <div className="flex items-center justify-center overflow-hidden rounded-lg border-2 border-gray-100 w-full h-[150px] cursor-pointer section-light-background-color">
+          <div className="flex flex-col items-center py-4 ">
+            <LuUpload className="w-[28px] h-[28px] text-gray-400 text-center" />
+            <input {...getInputProps()} />
+            <div className="font-medium text-sm p-2 text-center">{info}</div>
+            <div className="font-medium text-xs text-center">
+              (A single file should be less than 5 Mb)
+            </div>
           </div>
         </div>
       </div>

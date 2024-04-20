@@ -5,9 +5,13 @@ import { LatLngExpression } from "leaflet";
 import { ReactNode } from "react";
 
 // ------------------ Intefaces ------------------------//
-export interface DetailsSectionProps {
+export interface PropertySectionProps {
   propertyState: Record<string, any>;
   updateLocalState: (key: string, value: any) => void;
+  updateLocalMapState?: (location: {
+    longitude: number;
+    latitude: number;
+  }) => void;
 }
 
 // ------------------------SCHDCN UI Types----------------------------------------

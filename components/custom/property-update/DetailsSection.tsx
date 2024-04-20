@@ -6,7 +6,7 @@ import * as configs from "@/constants";
 import { Input } from "@/components/ui/input";
 import { BaseComponent as Select } from "@/components/ui/dropdown/BaseComponent";
 import { BaseComponent as Calender } from "@/components/ui/calendar/BaseComponent";
-import { DetailsSectionProps } from "@/types";
+import { PropertySectionProps } from "@/types";
 
 const HeaderItemLayout = ({
   children,
@@ -41,17 +41,19 @@ const OtherItemLayout = ({
   return (
     <div className="col-span-6 lg:col-span-3 xl:col-span-2 pt-2">
       <div className="grid grid-cols-4 gap-2">
-        <div className="text-sm font-normal primary-light-font-color col-span-1 flex items-center">
+        <div className="text-sm font-normal primary-light-font-color col-span-1 flex items-center md:col-span-1">
           {title}
           {AdditionalElement}
         </div>
-        <div className="text-sm font-normal col-span-3">{children}</div>
+        <div className="text-sm font-normal col-span-4 md:col-span-3">
+          {children}
+        </div>
       </div>
     </div>
   );
 };
 
-const DetailsSection: React.FC<DetailsSectionProps> = ({
+const DetailsSection: React.FC<PropertySectionProps> = ({
   propertyState,
   updateLocalState,
 }) => {
