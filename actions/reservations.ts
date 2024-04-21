@@ -20,3 +20,17 @@ export async function getReservationExist(_id: string) {
     throw new Error("Failed to fetch all properties.");
   }
 }
+
+export async function getReservationStatus(_id: string) {
+  try {
+    await connectToDatabase();
+
+    const data = await Reservation.find({ property_ref_id: _id });
+    const reservation =
+      data.length > 0 ? JSON.parse(JSON.stringify(data[0])) : {};
+
+    return reservation.status;
+  } catch (error) {
+    throw new Error("Failed to fetch all properties.");
+  }
+}

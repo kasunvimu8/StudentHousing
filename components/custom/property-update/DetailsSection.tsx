@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { BaseComponent as Select } from "@/components/ui/dropdown/BaseComponent";
 import { BaseComponent as Calender } from "@/components/ui/calendar/BaseComponent";
 import { PropertySectionProps } from "@/types";
+import { formatDateToISOStringWithTimeZone } from "@/lib/utils";
 
 const HeaderItemLayout = ({
   children,
@@ -19,7 +20,7 @@ const HeaderItemLayout = ({
     <div className="col-span-6">
       <div className="grid grid-cols-6 gap-2">
         <div className="text-sm font-normal primary-light-font-color col-span-6 md:col-span-1 flex items-center">
-          {title}
+          {title} <span className="hightlight-font-color  pl-1">*</span>
         </div>
         <div className="text-sm font-normal col-span-6 md:col-span-5">
           {children}
@@ -33,10 +34,12 @@ const OtherItemLayout = ({
   children,
   title,
   AdditionalElement,
+  isRequired,
 }: {
   title: string;
   AdditionalElement?: ReactNode;
   children: ReactNode;
+  isRequired?: boolean;
 }) => {
   return (
     <div className="col-span-6 lg:col-span-3 xl:col-span-2 pt-2">
@@ -44,6 +47,7 @@ const OtherItemLayout = ({
         <div className="text-sm font-normal primary-light-font-color col-span-1 flex items-center md:col-span-1">
           {title}
           {AdditionalElement}
+          {isRequired && <span className="hightlight-font-color pl-1">*</span>}
         </div>
         <div className="text-sm font-normal col-span-4 md:col-span-3">
           {children}
@@ -79,7 +83,7 @@ const DetailsSection: React.FC<PropertySectionProps> = ({
             }}
           />
         </HeaderItemLayout>
-        <OtherItemLayout title="Property ID">
+        <OtherItemLayout title="Property ID" isRequired={true}>
           <Input
             value={propertyState.property_id}
             className="bg-white max-w-[250px]"
@@ -88,7 +92,7 @@ const DetailsSection: React.FC<PropertySectionProps> = ({
             }}
           />
         </OtherItemLayout>
-        <OtherItemLayout title="Room ID">
+        <OtherItemLayout title="Room ID" isRequired={true}>
           <Input
             value={propertyState.room_id}
             className="bg-white max-w-[250px]"
@@ -97,16 +101,16 @@ const DetailsSection: React.FC<PropertySectionProps> = ({
             }}
           />
         </OtherItemLayout>
-        <OtherItemLayout title="Furnishing">
+        <OtherItemLayout title="Furnishing" isRequired={true}>
           <Select
             value={propertyState.type}
             options={configs.furnishing}
             optionsLabel="Select Property Types"
             showAllItem={false}
-            handleSelect={(value) => updateLocalState("furnishing", value)}
+            handleSelect={(value) => updateLocalState("type", value)}
           />
         </OtherItemLayout>
-        <OtherItemLayout title="Status">
+        <OtherItemLayout title="Status" isRequired={true}>
           <Select
             value={propertyState.status}
             options={configs.propertyStatuses}
@@ -115,7 +119,7 @@ const DetailsSection: React.FC<PropertySectionProps> = ({
             handleSelect={(value) => updateLocalState("status", value)}
           />
         </OtherItemLayout>
-        <OtherItemLayout title="Property Type">
+        <OtherItemLayout title="Property Type" isRequired={true}>
           <Select
             value={propertyState.property_type}
             options={configs.propertyTypes}
@@ -124,16 +128,21 @@ const DetailsSection: React.FC<PropertySectionProps> = ({
             handleSelect={(value) => updateLocalState("property_type", value)}
           />
         </OtherItemLayout>
-        <OtherItemLayout title="From Date">
+        <OtherItemLayout title="From Date" isRequired={true}>
           <Calender
             date={propertyState.from}
-            handleSelect={(value) => updateLocalState("from", value)}
+            handleSelect={(value) =>
+              updateLocalState(
+                "from",
+                String(formatDateToISOStringWithTimeZone(value))
+              )
+            }
           />
         </OtherItemLayout>
         <OtherItemLayout title="To Date">
           <Calender
             date={propertyState.to}
-            handleSelect={(value) => updateLocalState("to", value)}
+            handleSelect={(value) => String(updateLocalState("to", value))}
           />
         </OtherItemLayout>
         <OtherItemLayout
@@ -143,13 +152,14 @@ const DetailsSection: React.FC<PropertySectionProps> = ({
               (m<sup>2</sup>)
             </span>
           }
+          isRequired={true}
         >
           <Input
             value={propertyState.size}
             type="number"
             className="bg-white max-w-[250px]"
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
-              updateLocalState("size", e.currentTarget.value);
+              updateLocalState("size", parseFloat(e.currentTarget.value));
             }}
           />
         </OtherItemLayout>
@@ -160,7 +170,7 @@ const DetailsSection: React.FC<PropertySectionProps> = ({
             type="number"
             className="bg-white max-w-[250px]"
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
-              updateLocalState("rooms", e.currentTarget.value);
+              updateLocalState("rooms", parseInt(e.currentTarget.value));
             }}
           />
         </OtherItemLayout>

@@ -44,7 +44,7 @@ const LocationSection: React.FC<PropertySectionProps> = ({
         <div className="w-full gap-2 grid grid-cols-2">
           <div className="grid grid-cols-4 gap-2 pt-2 col-span-2 md:col-span-1">
             <div className="text-sm font-normal primary-light-font-color col-span-1 flex items-center md:col-span-1">
-              Longitude
+              Longitude <span className="hightlight-font-color pl-1">*</span>
             </div>
             <div className="text-sm font-normal col-span-4 md:col-span-3">
               <Input
@@ -52,14 +52,14 @@ const LocationSection: React.FC<PropertySectionProps> = ({
                 className="bg-white max-w-[250px]"
                 type="number"
                 onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                  updateLocalState("longitude", e.currentTarget.value);
+                  updateLocalState("longitude", parseFloat(e.currentTarget.value));
                 }}
               />
             </div>
           </div>
           <div className="grid grid-cols-4 gap-2 pt-2 col-span-2 md:col-span-1">
             <div className="text-sm font-normal primary-light-font-color col-span-1 flex items-center md:col-span-1">
-              Latitude
+              Latitude <span className="hightlight-font-color pl-1">*</span>
             </div>
             <div className="text-sm font-normal col-span-4 md:col-span-3">
               <Input
@@ -67,7 +67,7 @@ const LocationSection: React.FC<PropertySectionProps> = ({
                 className="bg-white max-w-[250px]"
                 type="number"
                 onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                  updateLocalState("latitude", e.currentTarget.value);
+                  updateLocalState("latitude", parseFloat(e.currentTarget.value));
                 }}
               />
             </div>

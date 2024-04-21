@@ -56,7 +56,7 @@ const CostSection: React.FC<PropertySectionProps> = ({
             </div>
             <div className="grid grid-cols-2">
               <div className="flex items-center text-sm primary-light-font-color">
-                <span>Warm Rent</span>
+                Warm Rent <span className="hightlight-font-color pl-1">*</span>
               </div>
               <div className="text-sm flex items-center">
                 <span className="self-center">
@@ -65,7 +65,7 @@ const CostSection: React.FC<PropertySectionProps> = ({
                     type="number"
                     className="bg-white max-w-[250px]"
                     onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                      updateLocalState("warm_rent", e.currentTarget.value);
+                      updateLocalState("warm_rent", parseInt(e.currentTarget.value));
                     }}
                   />
                 </span>

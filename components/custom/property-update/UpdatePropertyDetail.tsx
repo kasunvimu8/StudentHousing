@@ -8,6 +8,10 @@ import LocationSection from "./LocationSection";
 import EquipmentSection from "./EquipmentSection";
 import CostSection from "./CostSection";
 import ContractDocumentSection from "./ContractDocumentSection";
+import { Button } from "@/components/ui/button";
+import { ZodError } from "zod";
+import { propertyFormSchema } from "@/lib/validators";
+import { useToast } from "@/components/ui/use-toast";
 
 const initialState: Property = {
   _id: "",
@@ -42,9 +46,18 @@ const initialState: Property = {
   room_id: "",
 };
 
-const UpdatePropertyDetail = ({ property }: { property: Property }) => {
+const UpdatePropertyDetail = ({
+  property,
+  updatePropertyAction,
+}: {
+  property: Property;
+  updatePropertyAction: (
+    property: Property
+  ) => Promise<{ msg: string; type: string }>;
+}) => {
   const defaultState = property ? property : initialState;
   const [propertyState, setPropertyState] = useState(defaultState);
+  const { toast } = useToast();
 
   const updateLocalState = (key: string, value: any) => {
     setPropertyState((prev) => ({
@@ -63,6 +76,33 @@ const UpdatePropertyDetail = ({ property }: { property: Property }) => {
     }));
   };
 
+  const validatePropertyState = () => {
+    try {
+      propertyFormSchema.parse(propertyState);
+      return true;
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return false;
+      }
+      return false;
+    }
+  };
+
+  const updateProperty = async () => {
+    const res: { msg: string; type: string } = await updatePropertyAction(
+      propertyState
+    );
+    if (res) {
+      toast({
+        title: `Property ${propertyState.property_id} : Update ${
+          res.type === "ok" ? "Success" : "Failed"
+        }`,
+        description: res.msg,
+      });
+    }
+  };
+
+  const disabled = !validatePropertyState();
   return (
     <div className="w-full">
       <DetailsSection
@@ -91,6 +131,23 @@ const UpdatePropertyDetail = ({ property }: { property: Property }) => {
         propertyState={propertyState}
         updateLocalState={updateLocalState}
       />
+      <div className="flex justify-end py-1">
+        <Button
+          className="primary-background-color secondary-font-color self-end disabled:bg-white disabled:primary-font-color"
+          onClick={updateProperty}
+          disabled={disabled}
+          size="lg"
+        >
+          Update Property
+        </Button>
+      </div>
+      {disabled && (
+        <div className="flex justify-end">
+          <div className="text-xs primary-light-font-color">
+            * Mandotory inputs cannot be empty
+          </div>
+        </div>
+      )}
     </div>
   );
 };
