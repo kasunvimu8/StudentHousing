@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { useDebouncedCallback } from "use-debounce";
 
 export function InputComponent({ inputKey }: { inputKey: string }) {
   const searchParams = useSearchParams();
@@ -13,7 +12,7 @@ export function InputComponent({ inputKey }: { inputKey: string }) {
   const urlParam = searchParams.get(inputKey)?.toString();
   let value = urlParam ? urlParam : "";
 
-  const updateURL = useDebouncedCallback((term: string) => {
+  const updateURL = (term: string) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
       params.set(inputKey, term);
@@ -23,12 +22,14 @@ export function InputComponent({ inputKey }: { inputKey: string }) {
       value = "";
     }
     replace(`${pathname}?${params.toString()}`);
-  }, 300);
+  };
+
+  console.log(inputKey, value);
 
   return (
     <div className="w-[250px]">
       <Input
-        defaultValue={value}
+        value={value}
         className="bg-white"
         onChange={(e: React.FormEvent<HTMLInputElement>) =>
           updateURL(e.currentTarget.value)
