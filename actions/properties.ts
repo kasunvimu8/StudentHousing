@@ -78,8 +78,8 @@ export async function getProperyCount(
       matchOptions.length > 0 ? { $and: matchOptions } : {}
     );
   } catch (error) {
-    console.log(error);
-    // throw new Error("Failed   to fetch properties count");
+    console.log("Failed to fetch properties count", error);
+    return 0;
   }
 }
 
@@ -122,7 +122,8 @@ export async function getProperties(
     const properties = await Property.aggregate(query);
     return properties;
   } catch (error) {
-    throw new Error("Failed to fetch properties.");
+    console.log("Failed to fetch properties.", error);
+    return [];
   }
 }
 
@@ -150,7 +151,8 @@ export async function getAllAvailableProperties(
       }
     );
   } catch (error) {
-    throw new Error("Failed to fetch all properties.");
+    console.log("Failed to fetch all properties.", error);
+    return [];
   }
 }
 
@@ -163,7 +165,8 @@ export async function getProperty(propertyId: string) {
 
     return property;
   } catch (error) {
-    throw new Error("Failed to fetch all properties.");
+    console.log("Failed to fetch property", error);
+    return undefined;
   }
 }
 
@@ -187,7 +190,11 @@ export async function deleteProperty(_id: string) {
       };
     }
   } catch (error) {
-    throw new Error("Failed to delete a property.");
+    console.log("Failed to delete a property.", error);
+    return {
+      msg: "Internal Server Error. Cannot delete property!",
+      type: "error",
+    };
   }
 }
 
@@ -198,7 +205,7 @@ export async function updateProperty(property: PropertyData) {
     const reservationStatus = await getReservationStatus(property._id);
     if (reservationStatus === "rented") {
       return {
-        msg: "Cannot update property content for a rented property!",
+        msg: "Cannot update property details for a rented property!",
         type: "error",
       };
     } else {
@@ -211,6 +218,10 @@ export async function updateProperty(property: PropertyData) {
       };
     }
   } catch (error) {
-    throw new Error("Failed to update property.");
+    console.log("Failed to update property.", error);
+    return {
+      msg: "Internal Server Error. Cannot update property details property!",
+      type: "error",
+    };
   }
 }

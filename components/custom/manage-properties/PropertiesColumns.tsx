@@ -189,8 +189,8 @@ export const columns: ExtendedColumnDef[] = [
   {
     id: "actions",
     enableHiding: false,
-    cell: ({ row, ...rest }) => {
-      const propertyId = row.getValue("_id");
+    cell: async ({ row, ...rest }) => {
+      const propertyId: string = row.getValue("_id");
       const router = useRouter();
       const columnDef: ExtendedColumnDef = rest?.column?.columnDef;
 
@@ -205,6 +205,14 @@ export const columns: ExtendedColumnDef[] = [
           <DropdownMenuContent align="end" className="bg-white">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() =>
+                router.push(`/property/view/${propertyId}`, { scroll: false })
+              }
+              className="hover:section-light-background-color"
+            >
+              View Property
+            </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() =>
                 router.push(`/property/edit/${propertyId}`, { scroll: false })

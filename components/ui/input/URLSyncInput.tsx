@@ -24,8 +24,6 @@ export function InputComponent({ inputKey }: { inputKey: string }) {
     replace(`${pathname}?${params.toString()}`);
   };
 
-  console.log(inputKey, value);
-
   return (
     <div className="w-[250px]">
       <Input
