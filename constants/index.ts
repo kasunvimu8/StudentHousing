@@ -78,6 +78,8 @@ export const numberOfPropertiesInDataTable = 4;
 
 export const campusLongitude = 48.17222349291457;
 export const campusLatitude = 12.831968304732202;
+export const labLongitude = 48.175576560590315;
+export const labLatitude = 12.838649438427224;
 
 // --------------------- Property configurations -----------------------------------//
 
@@ -362,3 +364,5 @@ export const initialVisibility = {
   updated_at: false,
   updated_by: false,
 };
+
+// ----------------------- Update Property Config ------------------------- //

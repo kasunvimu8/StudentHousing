@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 import { OptionType } from "@/types";
 
-const BaseComponent = ({
+export const BaseComponent = ({
   value,
   options,
   optionsLabel,
@@ -56,5 +56,3 @@ const BaseComponent = ({
     </Select>
   );
 };
-
-export default BaseComponent;

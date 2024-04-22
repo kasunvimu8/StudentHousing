@@ -3,8 +3,12 @@
 import { availableStatus } from "@/constants";
 import { connectToDatabase } from "@/database";
 import Property from "@/database/models/property.model";
-import { FilterParamTypes, SortOption } from "@/types";
-import { getReservationExist } from "./reservations";
+import {
+  FilterParamTypes,
+  SortOption,
+  Property as PropertyData,
+} from "@/types";
+import { getReservationExist, getReservationStatus } from "./reservations";
 import { revalidatePath } from "next/cache";
 
 function getFilterOptions(options: FilterParamTypes) {
@@ -183,6 +187,30 @@ export async function deleteProperty(_id: string) {
       };
     }
   } catch (error) {
-    throw new Error("Failed to fetch all properties.");
+    throw new Error("Failed to delete a property.");
+  }
+}
+
+export async function updateProperty(property: PropertyData) {
+  try {
+    await connectToDatabase();
+
+    const reservationStatus = await getReservationStatus(property._id);
+    if (reservationStatus === "rented") {
+      return {
+        msg: "Cannot update property content for a rented property!",
+        type: "error",
+      };
+    } else {
+      await Property.updateOne({ _id: property._id }, { $set: property });
+      revalidatePath(`/property/edit/${property._id}`);
+
+      return {
+        msg: "Property Updated Successfully !",
+        type: "ok",
+      };
+    }
+  } catch (error) {
+    throw new Error("Failed to update property.");
   }
 }
