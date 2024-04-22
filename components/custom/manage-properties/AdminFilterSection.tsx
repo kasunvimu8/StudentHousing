@@ -10,6 +10,7 @@ import { DropdownComponent } from "../../ui/dropdown/URLSyncDropdown";
 import { DatePickerComponent } from "../../ui/calendar/URLSyncDropdown";
 import PropertyFilterReset from "../../shared/FilterReset";
 import { InputComponent } from "@/components/ui/input/URLSyncInput";
+import URLSyncInputSuspense from "@/components/shared/URLSyncInputSuspense";
 
 const AdminFilterSection = () => {
   return (
@@ -18,65 +19,79 @@ const AdminFilterSection = () => {
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
             <Label>Property Id</Label>
-            <InputComponent inputKey="property_id" />
+            <URLSyncInputSuspense>
+              <InputComponent inputKey="property_id" />
+            </URLSyncInputSuspense>
           </div>
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
             <Label>Room Id</Label>
-            <InputComponent inputKey="room_id" />
+            <URLSyncInputSuspense>
+              <InputComponent inputKey="room_id" />
+            </URLSyncInputSuspense>
           </div>
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
             <Label>Property Type</Label>
-            <DropdownComponent
-              options={propertyTypes}
-              optionsLabel="Select Property Types"
-              showAllItem={true}
-              inputKey="property_type"
-            />
+            <URLSyncInputSuspense>
+              <DropdownComponent
+                options={propertyTypes}
+                optionsLabel="Select Property Types"
+                showAllItem={true}
+                inputKey="property_type"
+              />
+            </URLSyncInputSuspense>
           </div>
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
             <Label>Available From</Label>
             <div className="min-w-[300px]">
-              <DatePickerComponent inputKey={"from"} />
+              <URLSyncInputSuspense>
+                <DatePickerComponent inputKey={"from"} />
+              </URLSyncInputSuspense>
             </div>
           </div>
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
             <Label>Property Status</Label>
-            <DropdownComponent
-              options={propertyStatuses}
-              optionsLabel="Select Property Status"
-              showAllItem={true}
-              inputKey="rooms"
-            />
+            <URLSyncInputSuspense>
+              <DropdownComponent
+                options={propertyStatuses}
+                optionsLabel="Select Property Status"
+                showAllItem={true}
+                inputKey="rooms"
+              />
+            </URLSyncInputSuspense>
           </div>
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
             <Label>Number of Rooms</Label>
-            <DropdownComponent
-              options={numberOfRooms}
-              optionsLabel="Select Number of Rooms"
-              showAllItem={true}
-              inputKey="rooms"
-            />
+            <URLSyncInputSuspense>
+              <DropdownComponent
+                options={numberOfRooms}
+                optionsLabel="Select Number of Rooms"
+                showAllItem={true}
+                inputKey="rooms"
+              />
+            </URLSyncInputSuspense>
           </div>
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
             <Label>Sort By</Label>
-            <DropdownComponent
-              options={adminsortOptions}
-              optionsLabel="Select Sort Option"
-              showAllItem={false}
-              inputKey="sort"
-            />
+            <URLSyncInputSuspense>
+              <DropdownComponent
+                options={adminsortOptions}
+                optionsLabel="Select Sort Option"
+                showAllItem={false}
+                inputKey="sort"
+              />
+            </URLSyncInputSuspense>
           </div>
         </div>
         <div className="col-span-6 md:col-start-5 md:col-end-7 flex justify-end">

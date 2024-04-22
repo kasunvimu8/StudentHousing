@@ -15,47 +15,50 @@ function getFilterOptions(options: FilterParamTypes) {
   let filterCriterions: any = [];
 
   Object.keys(options).forEach((key) => {
-    if (key === "city" && options[key] !== "all") {
-      filterCriterions.push({ city: options[key] });
-    } else if (key === "property_type" && options[key] !== "all") {
-      filterCriterions.push({ property_type: options[key] });
-    } else if (key === "from" && options[key] && options[key] !== "all") {
-      filterCriterions.push({
-        from: {
-          $gte: new Date(options[key]),
-        },
-      });
-    } else if (key === "rooms" && options[key] !== "all") {
-      const value = options?.[key] ? parseFloat(options?.[key]) : 0;
-      filterCriterions.push({ rooms: { $gte: value } });
-    } else if (key === "size") {
-      const values = options?.[key]?.split(",");
-      if (values?.length === 2) {
+    const optionKey = options[key as keyof FilterParamTypes];
+    if (optionKey) {
+      if (key === "city" && optionKey !== "all") {
+        filterCriterions.push({ city: optionKey });
+      } else if (key === "property_type" && optionKey !== "all") {
+        filterCriterions.push({ property_type: optionKey });
+      } else if (key === "from" && optionKey && optionKey !== "all") {
         filterCriterions.push({
-          size: { $gte: parseInt(values[0]), $lte: parseInt(values[1]) },
+          from: {
+            $gte: new Date(optionKey),
+          },
+        });
+      } else if (key === "rooms" && optionKey !== "all") {
+        const value = optionKey ? parseFloat(optionKey) : 0;
+        filterCriterions.push({ rooms: { $gte: value } });
+      } else if (key === "size") {
+        const values = optionKey?.split(",");
+        if (values?.length === 2) {
+          filterCriterions.push({
+            size: { $gte: parseInt(values[0]), $lte: parseInt(values[1]) },
+          });
+        }
+      } else if (key === "rent") {
+        const values = optionKey?.split(",");
+        if (values?.length === 2) {
+          filterCriterions.push({
+            rent: { $gte: parseInt(values[0]), $lte: parseInt(values[1]) },
+          });
+        }
+      } else if (key === "property_id" && optionKey) {
+        filterCriterions.push({
+          property_id: {
+            $regex: optionKey,
+            $options: "i",
+          },
+        });
+      } else if (key === "room_id" && optionKey) {
+        filterCriterions.push({
+          room_id: {
+            $regex: optionKey,
+            $options: "i",
+          },
         });
       }
-    } else if (key === "rent") {
-      const values = options?.[key]?.split(",");
-      if (values?.length === 2) {
-        filterCriterions.push({
-          rent: { $gte: parseInt(values[0]), $lte: parseInt(values[1]) },
-        });
-      }
-    } else if (key === "property_id" && options[key]) {
-      filterCriterions.push({
-        property_id: {
-          $regex: options[key],
-          $options: "i",
-        },
-      });
-    } else if (key === "room_id" && options[key]) {
-      filterCriterions.push({
-        room_id: {
-          $regex: options[key],
-          $options: "i",
-        },
-      });
     }
   });
   return filterCriterions;

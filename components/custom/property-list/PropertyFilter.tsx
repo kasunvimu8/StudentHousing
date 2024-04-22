@@ -9,6 +9,7 @@ import { isCitiesWithinArea, removeSpaceAndCasesensitivity } from "@/lib/utils";
 import { ComboContentType } from "@/types";
 import URLSyncCombo from "../../ui/combo/URLSyncCombo";
 import PropertyFilterReset from "@/components/shared/FilterReset";
+import URLSyncInputSuspense from "@/components/shared/URLSyncInputSuspense";
 
 const PropertyFilter = async () => {
   // get all the cities in Bavaria
@@ -31,43 +32,51 @@ const PropertyFilter = async () => {
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
             <Label>Location</Label>
-            <URLSyncCombo
-              notfoundLabel="No City found."
-              placeholder="Search Cities"
-              options={formattedCity}
-              showAllItem={true}
-              inputKey="city"
-            />
+            <URLSyncInputSuspense>
+              <URLSyncCombo
+                notfoundLabel="No City found."
+                placeholder="Search Cities"
+                options={formattedCity}
+                showAllItem={true}
+                inputKey="city"
+              />
+            </URLSyncInputSuspense>
           </div>
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
             <Label>Property Type</Label>
-            <DropdownComponent
-              options={propertyTypes}
-              optionsLabel="Select Property Types"
-              showAllItem={true}
-              inputKey="property_type"
-            />
+            <URLSyncInputSuspense>
+              <DropdownComponent
+                options={propertyTypes}
+                optionsLabel="Select Property Types"
+                showAllItem={true}
+                inputKey="property_type"
+              />
+            </URLSyncInputSuspense>
           </div>
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
             <Label>Available From</Label>
             <div className="min-w-[300px]">
-              <DatePickerComponent inputKey={"from"} />
+              <URLSyncInputSuspense>
+                <DatePickerComponent inputKey={"from"} />
+              </URLSyncInputSuspense>
             </div>
           </div>
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
             <Label>Number of Rooms</Label>
-            <DropdownComponent
-              options={numberOfRooms}
-              optionsLabel="Select Number of Rooms"
-              showAllItem={true}
-              inputKey="rooms"
-            />
+            <URLSyncInputSuspense>
+              <DropdownComponent
+                options={numberOfRooms}
+                optionsLabel="Select Number of Rooms"
+                showAllItem={true}
+                inputKey="rooms"
+              />
+            </URLSyncInputSuspense>
           </div>
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
@@ -75,36 +84,42 @@ const PropertyFilter = async () => {
             <Label>
               Space (m <sup>2</sup>)
             </Label>
-            <Slider
-              min={0}
-              max={50}
-              minStepsBetweenThumbs={1}
-              step={1}
-              inputKey="size"
-            />
+            <URLSyncInputSuspense>
+              <Slider
+                min={0}
+                max={50}
+                minStepsBetweenThumbs={1}
+                step={1}
+                inputKey="size"
+              />
+            </URLSyncInputSuspense>
           </div>
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1 ">
             <Label>Rent (€)</Label>
-            <Slider
-              min={0}
-              max={1500}
-              minStepsBetweenThumbs={1}
-              step={1}
-              inputKey="rent"
-            />
+            <URLSyncInputSuspense>
+              <Slider
+                min={0}
+                max={1500}
+                minStepsBetweenThumbs={1}
+                step={1}
+                inputKey="rent"
+              />
+            </URLSyncInputSuspense>
           </div>
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
             <Label>Sort By</Label>
-            <DropdownComponent
-              options={sortOptions}
-              optionsLabel="Select Sort Option"
-              showAllItem={false}
-              inputKey="sort"
-            />
+            <URLSyncInputSuspense>
+              <DropdownComponent
+                options={sortOptions}
+                optionsLabel="Select Sort Option"
+                showAllItem={false}
+                inputKey="sort"
+              />
+            </URLSyncInputSuspense>
           </div>
         </div>
         <div className="col-span-6 md:col-start-5 md:col-end-7 flex justify-end">
