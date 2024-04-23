@@ -50,17 +50,7 @@ export const columns: ExtendedColumnDef[] = [
         {row.getValue("property_id")}
       </div>
     ),
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Property ID
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: "Property ID",
     enableHiding: false,
     columnTitle: "Property ID",
   },
@@ -69,17 +59,7 @@ export const columns: ExtendedColumnDef[] = [
     cell: ({ row }) => (
       <div className="text-center font-medium">{row.getValue("room_id")}</div>
     ),
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Room ID
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: "Room ID",
     enableHiding: false,
     columnTitle: "Room ID",
   },
