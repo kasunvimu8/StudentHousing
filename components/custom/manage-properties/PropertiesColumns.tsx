@@ -18,6 +18,7 @@ import { ExtendedColumnDef } from "@/types";
 
 /* Server Action to Delete Property */
 import { deleteProperty } from "@/actions/properties";
+import ConfirmationComponent from "@/components/shared/ConfirmationComponent";
 
 const handlePropertyDelete = async (
   id: string,
@@ -201,18 +202,26 @@ export const columns: ExtendedColumnDef[] = [
             >
               Edit Property
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() =>
+
+            <ConfirmationComponent
+              title="Are you absolutely sure ?"
+              description="This action cannot be undone. This will permanently delete the
+            property and its all data from the system."
+              confirmedCallback={() => {
                 handlePropertyDelete(
                   String(propertyId),
                   row.getValue("property_id"),
                   columnDef?.customData
-                )
-              }
-              className="hover:section-light-background-color"
+                );
+              }}
             >
-              Delete Property
-            </DropdownMenuItem>
+              <div
+                role="menuitem"
+                className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 hover:section-light-background-color"
+              >
+                Delete Property
+              </div>
+            </ConfirmationComponent>
           </DropdownMenuContent>
         </DropdownMenu>
       );

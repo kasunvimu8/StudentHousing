@@ -94,11 +94,11 @@ export const propertyTypes = [
   },
   {
     id: "shared_2_bed",
-    description: "2 Beds Shared Room",
+    description: "1 Bed in a 2 Beds Shared Room",
   },
   {
     id: "shared_3_bed",
-    description: "3 Beds Shared Room",
+    description: "1 Bed in a 3 Beds Shared Room",
   },
 ];
 
@@ -174,11 +174,11 @@ export const propertyDetailConfig = [
     title: "Floor",
     inputType: "string",
   },
-  {
-    id: "beds",
-    title: "Beds",
-    inputType: "number",
-  },
+  // {
+  //   id: "beds",
+  //   title: "Beds",
+  //   inputType: "number",
+  // },
   {
     id: "size",
     title: "Area",

@@ -3,7 +3,7 @@ import { formatDateTime } from "@/lib/utils";
 import { Property } from "@/types";
 import React from "react";
 import {
-  LuBedSingle,
+  LuBuilding,
   LuBoxSelect,
   LuEuro,
   LuSofa,
@@ -23,11 +23,7 @@ const PropertySummary = ({ property }: { property: Property }) => {
       : rentType === "Cold"
       ? property.cold_rent
       : "";
-  const bedsDisplayText = property.beds
-    ? property.beds === 1
-      ? "1 Bed"
-      : `${property.beds} Beds`
-    : "";
+  const floorDisplayText = property.floor ? `${property.floor} Floor` : "";
 
   const propertType = furnishing?.find(
     (item: { id: string; description: string }) => item.id === property?.type
@@ -46,10 +42,10 @@ const PropertySummary = ({ property }: { property: Property }) => {
         </div>
         <div className="grid gap-1">
           <div className="flex items-center justify-self-center primary-light-font-color">
-            <LuBedSingle className="text-xl" />
+            <LuBuilding className="text-xl" />
           </div>
           <div className="flex items-center justify-self-center text-center text-sm lg:text-lg font-semibold primary-font-color">
-            {bedsDisplayText}
+            {floorDisplayText || ""}
           </div>
         </div>
         <div className="grid gap-1">
