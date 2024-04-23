@@ -51,7 +51,17 @@ export const columns: ExtendedColumnDef[] = [
         {row.getValue("property_id")}
       </div>
     ),
-    header: "Property ID",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Property ID
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     enableHiding: false,
     columnTitle: "Property ID",
   },
@@ -60,7 +70,17 @@ export const columns: ExtendedColumnDef[] = [
     cell: ({ row }) => (
       <div className="text-center font-medium">{row.getValue("room_id")}</div>
     ),
-    header: "Room ID",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Room ID
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     enableHiding: false,
     columnTitle: "Room ID",
   },
@@ -170,25 +190,31 @@ export const columns: ExtendedColumnDef[] = [
   {
     id: "actions",
     enableHiding: false,
-    cell: async ({ row, ...rest }) => {
-      const propertyId: string = row.getValue("_id");
+    cell: ({ row, ...rest }) => {
+      const id: string = row.getValue("_id");
+      const propertyId: string = row.getValue("property_id");
       const router = useRouter();
       const columnDef: ExtendedColumnDef = rest?.column?.columnDef;
+      const [open, setOpen] = React.useState(false);
 
       return (
-        <DropdownMenu>
+        <DropdownMenu open={open} onOpenChange={() => setOpen((open) => !open)}>
           <DropdownMenuTrigger asChild className="bg-white">
             <Button variant="ghost" className="h-8 w-8 p-0">
               <span className="sr-only">Open Action Menu</span>
               <DotsHorizontalIcon className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-white">
+          <DropdownMenuContent
+            align="end"
+            className="bg-white"
+            hideWhenDetached={true}
+          >
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() =>
-                router.push(`/property/view/${propertyId}`, { scroll: false })
+                router.push(`/property/view/${id}`, { scroll: false })
               }
               className="hover:section-light-background-color"
             >
@@ -196,7 +222,7 @@ export const columns: ExtendedColumnDef[] = [
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() =>
-                router.push(`/property/edit/${propertyId}`, { scroll: false })
+                router.push(`/property/edit/${id}`, { scroll: false })
               }
               className="hover:section-light-background-color"
             >
@@ -204,12 +230,12 @@ export const columns: ExtendedColumnDef[] = [
             </DropdownMenuItem>
 
             <ConfirmationComponent
-              title="Are you absolutely sure ?"
-              description="This action cannot be undone. This will permanently delete the
-            property and its all data from the system."
+              title={`Delete Property ${propertyId} - Are you absolutely sure ?`}
+              description={`This action cannot be undone. This will permanently delete the property ${propertyId} and its all data from the system.`}
               confirmedCallback={() => {
+                setOpen((open) => !open);
                 handlePropertyDelete(
-                  String(propertyId),
+                  String(id),
                   row.getValue("property_id"),
                   columnDef?.customData
                 );

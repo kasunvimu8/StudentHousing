@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Property } from "@/types";
+import { Property, PropertyDataTableType } from "@/types";
 import DetailsSection from "@/components/custom/property-update/DetailsSection";
 import ImageSectioon from "./ImageSection";
 import LocationSection from "./LocationSection";
@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { ZodError } from "zod";
 import { propertyFormSchema } from "@/lib/validators";
 import { useToast } from "@/components/ui/use-toast";
+import ConfirmationComponent from "@/components/shared/ConfirmationComponent";
 
 const initialState: Property = {
   _id: "",
@@ -89,8 +90,13 @@ const UpdatePropertyDetail = ({
   };
 
   const updateProperty = async () => {
+    const propertyData: Property = {
+      ...propertyState,
+      updated_at: new Date(),
+      updated_by: "admin",
+    };
     const res: { msg: string; type: string } = await updatePropertyAction(
-      propertyState
+      propertyData
     );
     if (res) {
       toast({
@@ -132,14 +138,19 @@ const UpdatePropertyDetail = ({
         updateLocalState={updateLocalState}
       />
       <div className="flex justify-end py-1">
-        <Button
-          className="primary-background-color secondary-font-color self-end disabled:bg-white disabled:primary-font-color"
-          onClick={updateProperty}
-          disabled={disabled}
-          size="lg"
+        <ConfirmationComponent
+          title={`Update Property ${propertyState?.property_id} - Are you absolutely sure ?`}
+          description={`This action cannot be undone. This will permanently update the property ${propertyState?.property_id} in the system`}
+          confirmedCallback={() => updateProperty()}
         >
-          Update Property
-        </Button>
+          <Button
+            className="primary-background-color secondary-font-color self-end disabled:bg-white disabled:primary-font-color"
+            disabled={disabled}
+            size="lg"
+          >
+            Update Property
+          </Button>
+        </ConfirmationComponent>
       </div>
       {disabled && (
         <div className="flex justify-end">
