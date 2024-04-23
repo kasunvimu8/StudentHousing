@@ -3,37 +3,60 @@
 import { availableStatus } from "@/constants";
 import { connectToDatabase } from "@/database";
 import Property from "@/database/models/property.model";
-import { FilterParamTypes, SortOption } from "@/types";
+import {
+  FilterParamTypes,
+  SortOption,
+  Property as PropertyData,
+} from "@/types";
+import { getReservationExist, getReservationStatus } from "./reservations";
+import { revalidatePath } from "next/cache";
 
 function getFilterOptions(options: FilterParamTypes) {
   let filterCriterions: any = [];
 
   Object.keys(options).forEach((key) => {
-    if (key === "city" && options[key] !== "all") {
-      filterCriterions.push({ city: options[key] });
-    } else if (key === "property_type" && options[key] !== "all") {
-      filterCriterions.push({ property_type: options[key] });
-    } else if (key === "from" && options[key] && options[key] !== "all") {
-      filterCriterions.push({
-        from: {
-          $gte: new Date(options[key]),
-        },
-      });
-    } else if (key === "rooms" && options[key] !== "all") {
-      const value = options?.[key] ? parseFloat(options?.[key]) : 0;
-      filterCriterions.push({ rooms: { $gte: value } });
-    } else if (key === "size") {
-      const values = options?.[key]?.split(",");
-      if (values?.length === 2) {
+    const optionKey = options[key as keyof FilterParamTypes];
+    if (optionKey) {
+      if (key === "city" && optionKey !== "all") {
+        filterCriterions.push({ city: optionKey });
+      } else if (key === "property_type" && optionKey !== "all") {
+        filterCriterions.push({ property_type: optionKey });
+      } else if (key === "from" && optionKey && optionKey !== "all") {
         filterCriterions.push({
-          size: { $gte: parseInt(values[0]), $lte: parseInt(values[1]) },
+          from: {
+            $gte: new Date(optionKey),
+          },
         });
-      }
-    } else if (key === "rent") {
-      const values = options?.[key]?.split(",");
-      if (values?.length === 2) {
+      } else if (key === "rooms" && optionKey !== "all") {
+        const value = optionKey ? parseFloat(optionKey) : 0;
+        filterCriterions.push({ rooms: { $gte: value } });
+      } else if (key === "size") {
+        const values = optionKey?.split(",");
+        if (values?.length === 2) {
+          filterCriterions.push({
+            size: { $gte: parseInt(values[0]), $lte: parseInt(values[1]) },
+          });
+        }
+      } else if (key === "rent") {
+        const values = optionKey?.split(",");
+        if (values?.length === 2) {
+          filterCriterions.push({
+            rent: { $gte: parseInt(values[0]), $lte: parseInt(values[1]) },
+          });
+        }
+      } else if (key === "property_id" && optionKey) {
         filterCriterions.push({
-          rent: { $gte: parseInt(values[0]), $lte: parseInt(values[1]) },
+          property_id: {
+            $regex: optionKey,
+            $options: "i",
+          },
+        });
+      } else if (key === "room_id" && optionKey) {
+        filterCriterions.push({
+          room_id: {
+            $regex: optionKey,
+            $options: "i",
+          },
         });
       }
     }
@@ -41,44 +64,46 @@ function getFilterOptions(options: FilterParamTypes) {
   return filterCriterions;
 }
 
-export async function getProperyCount(filterParams: FilterParamTypes) {
+export async function getProperyCount(
+  filterParams: FilterParamTypes,
+  statusType?: string
+) {
   try {
     await connectToDatabase();
-    const statusFilter = { status: availableStatus };
+    const statusFilter =
+      statusType === "available" ? [{ status: availableStatus }] : [];
     const filterOptions: SortOption[] = getFilterOptions(filterParams);
     let matchOptions =
       filterOptions.length > 0
-        ? [statusFilter, ...filterOptions]
-        : [statusFilter];
-    return await Property.countDocuments({ $and: matchOptions });
+        ? [...statusFilter, ...filterOptions]
+        : statusFilter;
+    return await Property.countDocuments(
+      matchOptions.length > 0 ? { $and: matchOptions } : {}
+    );
   } catch (error) {
-    throw new Error("Failed to fetch properties count");
+    console.log("Failed to fetch properties count", error);
+    return 0;
   }
 }
 
 export async function getProperties(
   numberOfDocsInPage: number,
   currentPage: number,
-  sort: string | undefined,
-  filterParams: FilterParamTypes
+  sortOption: SortOption,
+  filterParams: FilterParamTypes,
+  statusType?: string
 ) {
   try {
     await connectToDatabase();
 
-    const sortOption: SortOption =
-      sort === "lowest"
-        ? { rent: 1 }
-        : sort === "highest"
-        ? { rent: -1 }
-        : { created_at: -1 };
     const filterOptions: SortOption[] = getFilterOptions(filterParams);
-    const statusFilter = { status: availableStatus };
+    const statusFilter =
+      statusType === "available" ? [{ status: availableStatus }] : [];
     let matchOptions =
       filterOptions.length > 0
-        ? [statusFilter, ...filterOptions]
-        : [statusFilter];
-
-    const properties = await Property.aggregate([
+        ? [...statusFilter, ...filterOptions]
+        : statusFilter;
+    let query: any = [
       {
         $addFields: {
           rent: {
@@ -87,22 +112,27 @@ export async function getProperties(
         },
       },
       {
-        $match: {
-          $and: matchOptions,
-        },
+        $match: matchOptions.length > 0 ? { $and: matchOptions } : {},
       },
       { $sort: sortOption },
-      { $skip: numberOfDocsInPage * (currentPage - 1) },
-      { $limit: numberOfDocsInPage },
-    ]);
+    ];
 
+    if (numberOfDocsInPage >= 1) {
+      query.push({ $skip: numberOfDocsInPage * (currentPage - 1) });
+      query.push({ $limit: numberOfDocsInPage });
+    }
+
+    const properties = await Property.aggregate(query);
     return properties;
   } catch (error) {
-    throw new Error("Failed to fetch properties.");
+    console.log("Failed to fetch properties.", error);
+    return [];
   }
 }
 
-export async function getAllProperties(filterParams: FilterParamTypes) {
+export async function getAllAvailableProperties(
+  filterParams: FilterParamTypes
+) {
   try {
     await connectToDatabase();
     const statusFilter = { status: availableStatus };
@@ -114,10 +144,18 @@ export async function getAllProperties(filterParams: FilterParamTypes) {
 
     return await Property.find(
       { $and: matchOptions },
-      { _id: 1, longitude: 1, latitude: 1, title: 1, address: 1 }
+      {
+        longitude: 1,
+        latitude: 1,
+        title: 1,
+        address: 1,
+        property_id: 1,
+        _id: 1,
+      }
     );
   } catch (error) {
-    throw new Error("Failed to fetch all properties.");
+    console.log("Failed to fetch all properties.", error);
+    return [];
   }
 }
 
@@ -130,6 +168,63 @@ export async function getProperty(propertyId: string) {
 
     return property;
   } catch (error) {
-    throw new Error("Failed to fetch all properties.");
+    console.log("Failed to fetch property", error);
+    return undefined;
+  }
+}
+
+export async function deleteProperty(_id: string) {
+  try {
+    await connectToDatabase();
+
+    const isReservationExist = await getReservationExist(_id);
+    if (isReservationExist) {
+      return {
+        msg: "Reservaton exists! Please remove the property-related reservation before deleting the property.",
+        type: "error",
+      };
+    } else {
+      await Property.deleteOne({ _id: _id });
+      revalidatePath("/manage-properties");
+
+      return {
+        msg: "Property Deleted Successfully !",
+        type: "ok",
+      };
+    }
+  } catch (error) {
+    console.log("Failed to delete a property.", error);
+    return {
+      msg: "Internal Server Error. Cannot delete property!",
+      type: "error",
+    };
+  }
+}
+
+export async function updateProperty(property: PropertyData) {
+  try {
+    await connectToDatabase();
+
+    const reservationStatus = await getReservationStatus(property._id);
+    if (reservationStatus === "rented") {
+      return {
+        msg: "Cannot update property details for a rented property!",
+        type: "error",
+      };
+    } else {
+      await Property.updateOne({ _id: property._id }, { $set: property });
+      revalidatePath(`/property/edit/${property._id}`);
+
+      return {
+        msg: "Property Updated Successfully !",
+        type: "ok",
+      };
+    }
+  } catch (error) {
+    console.log("Failed to update property.", error);
+    return {
+      msg: "Internal Server Error. Cannot update property details property!",
+      type: "error",
+    };
   }
 }

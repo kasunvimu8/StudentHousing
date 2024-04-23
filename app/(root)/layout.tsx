@@ -1,5 +1,6 @@
 import Footer from "@/components/shared/Footer";
 import Header from "@/components/shared/Header";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function RootLayout({
   children,
@@ -8,7 +9,8 @@ export default function RootLayout({
 }) {
   return (
     <div className="w-full h-full">
-      <div className="w-full p-2 fixed bg-white z-10">
+      {/* Have to increase the Z Index to overcome the Map layer */}
+      <div className="w-full p-2 fixed bg-white topest-overlay">
         <Header />
       </div>
       <div
@@ -16,6 +18,7 @@ export default function RootLayout({
         style={{ minHeight: "calc(100vh - 162px)" }}
       >
         {children}
+        <Toaster />
       </div>
       <Footer />
     </div>

@@ -1,7 +1,18 @@
 // ------------------ Type Definitions ---------------- //
 
+import { ColumnDef } from "@tanstack/react-table";
 import { LatLngExpression } from "leaflet";
 import { ReactNode } from "react";
+
+// ------------------ Intefaces ------------------------//
+export interface PropertySectionProps {
+  propertyState: Record<string, any>;
+  updateLocalState: (key: string, value: any) => void;
+  updateLocalMapState?: (location: {
+    longitude: number;
+    latitude: number;
+  }) => void;
+}
 
 // ------------------------SCHDCN UI Types----------------------------------------
 export type UrlQueryParams = {
@@ -19,28 +30,69 @@ export type RemoveUrlQueryParams = {
 
 export type Property = {
   _id: string;
+  property_id: string;
+  room_id: string;
   title: string;
   address: string;
-  from: Date;
-  to?: Date;
+  from: Date | undefined;
+  status: string;
+  city: string;
+  property_type: string;
   beds: number;
   size: number;
   type: string;
-  cold_rent?: number;
-  incidential_cost: number;
-  one_time_cost: number;
-  warm_rent?: number;
-  deposit: number;
   longitude: number;
   latitude: number;
-  created_at: Date;
-  updated_at: Date;
+  created_at: Date | undefined;
+  updated_at: Date | undefined;
   created_by: string;
   updated_by: string;
-  equipments: [string];
-  documents: [string];
-  images: [string];
+  equipments: string[];
+  documents: string[];
+  images: string[];
+  rooms?: number;
+  floor?: number;
+  to?: Date | undefined;
+  additional_information?: string;
+  cold_rent?: number;
+  incidential_cost?: number;
+  one_time_cost?: number;
+  warm_rent?: number;
+  deposit?: number;
+};
+
+export type PropertyDetailsType = {
+  id: string;
+  title: string;
+  inputType: string;
+  optionId?: string;
+};
+
+export type PropertyEquipmentType = {
+  id: string;
+  title: string;
+  icon: string;
+};
+
+export type PropertyDataTableType = {
+  _id: string;
   property_id: string;
+  room_id: string;
+  property_type: string;
+  status: string;
+  address: string;
+  rent: number;
+  from: string;
+  to: string;
+  created_at: string;
+  created_by: string;
+  updated_at: string;
+  updated_by: string;
+};
+
+export type ExtendedColumnDef = ColumnDef<PropertyDataTableType> & {
+  columnTitle?: string;
+  customData?: any;
 };
 
 // ------------------------ Map Marker Types --------------------------------
@@ -85,6 +137,17 @@ export type FilterParamTypes = {
   size?: string;
   rent?: string;
   sort?: string;
+  property_id?: string;
+  room_id?: string;
 };
 
 export type SortOption = { [key: string]: 1 | -1 };
+
+// -------------------------- Nav Types --------------------------------------
+
+export type NavType = {
+  title: string;
+  href: string;
+  icon: string;
+  id: string;
+};

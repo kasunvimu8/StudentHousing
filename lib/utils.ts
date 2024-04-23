@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
+import * as configs from "@/constants";
 
 import { twMerge } from "tailwind-merge";
 import qs from "query-string";
@@ -9,7 +10,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const formatDateTime = (dateString: Date) => {
+export const formatDateTime = (date: Date | undefined) => {
+  const dateString = date ? date : "";
   const dateTimeOptions: Intl.DateTimeFormatOptions = {
     weekday: "short", // abbreviated weekday name (e.g., 'Mon')
     month: "short", // abbreviated month name (e.g., 'Oct')
@@ -30,6 +32,15 @@ export const formatDateTime = (dateString: Date) => {
     day: "2-digit", // Display day as a two-digit number
     month: "short", // Display month as a short name (e.g., Apr)
     year: "numeric", // Display year as a number
+  };
+
+  const simpleDateTime: Intl.DateTimeFormatOptions = {
+    day: "2-digit", // Display day as a two-digit number
+    month: "short", // Display month as a short name (e.g., Apr)
+    year: "numeric", // Display year as a number
+    hour: "numeric", // numeric hour (e.g., '8')
+    minute: "numeric", // numeric minute (e.g., '30')
+    hour12: true, // use 12-hour clock (true) or 24-hour clock (false)
   };
 
   const timeOptions: Intl.DateTimeFormatOptions = {
@@ -53,6 +64,11 @@ export const formatDateTime = (dateString: Date) => {
     simpleDate
   );
 
+  const formattedSimpleDateTime: string = new Date(dateString).toLocaleString(
+    "en-US",
+    simpleDateTime
+  );
+
   const formattedTime: string = new Date(dateString).toLocaleString(
     "en-US",
     timeOptions
@@ -62,6 +78,7 @@ export const formatDateTime = (dateString: Date) => {
     dateTime: formattedDateTime,
     dateOnly: formattedDate,
     simpleDate: formattedSimpleDate,
+    simpleDateTime: formattedSimpleDateTime,
     timeOnly: formattedTime,
   };
 };
@@ -133,9 +150,7 @@ export const isCitiesWithinArea = (latitude: number, longitude: number) => {
   );
 };
 
-export const formatDateToISOStringWithTimeZone = (
-  date: Date | undefined,
-) => {
+export const formatDateToISOStringWithTimeZone = (date: Date | undefined) => {
   return date
     ?.toLocaleString("en-US", {
       year: "numeric",
@@ -143,4 +158,29 @@ export const formatDateToISOStringWithTimeZone = (
       day: "2-digit",
     })
     ?.replace(/,/g, "");
+};
+
+export const getDropdownDescription = (
+  dataKey: string | undefined,
+  valueKey: string
+) => {
+  const list: any = configs[dataKey as keyof typeof configs];
+  const match = list?.find(
+    (item: { id: string; description: string }) => item.id === valueKey
+  );
+
+  return match?.description;
+};
+
+export const getDocumentName = (document: string) => {
+  const urlParts = document.split("/");
+  const filename = urlParts[urlParts.length - 1];
+
+  return filename;
+};
+
+export const isFunction = (functionToCheck: any) => {
+  return (
+    functionToCheck && {}.toString.call(functionToCheck) === "[object Function]"
+  );
 };

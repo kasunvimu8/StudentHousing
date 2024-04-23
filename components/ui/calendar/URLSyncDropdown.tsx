@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import BaseComponent from "./BaseComponent";
+import { BaseComponent } from "./BaseComponent";
 import { formatDateToISOStringWithTimeZone } from "@/lib/utils";
 
 export function DatePickerComponent({ inputKey }: { inputKey: string }) {

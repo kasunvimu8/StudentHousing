@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, Fragment } from "react";
+import { Fragment } from "react";
 import L from "leaflet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
@@ -24,14 +24,18 @@ const createClusterCustomIcon = function (cluster: CustomCluster) {
 };
 
 const createCustomIcon = function (type: string) {
+  const url =
+    type === "uni"
+      ? "/images/uni.png"
+      : type === "lab"
+      ? "/images/lab.png"
+      : "/images/placeholder.png";
+
   return new L.Icon({
-    iconUrl:
-      type === "placeholder"
-        ? "/images/placeholder.png"
-        : "/images/university.png",
-    iconSize: [28, 30],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
+    iconUrl: url,
+    iconSize: type === "uni" || type === "lab" ? [35, 35] : [30, 32],
+    iconAnchor: [0, 0],
+    popupAnchor: [15, 0],
     tooltipAnchor: [16, -28],
   });
 };
@@ -48,7 +52,7 @@ const getMarkers = (properties: Property[]) => {
           <div
             className={`text-base	font-medium primary-font-color ${GeistSans.className}`}
           >
-            {property.title}
+            {property.title} - {property.property_id}
           </div>
           <div
             className={`text-sm primary-font-color flex justify-center items-center ${GeistSans.className} hidden md:block`}
@@ -87,13 +91,39 @@ const PropertyMap = ({ properties }: { properties: Property[] }) => {
     <div className="leaflet-container">
       <MapContainer
         center={[campusLongitude, campusLatitude]}
-        zoom={13}
+        zoom={14}
         scrollWheelZoom={true}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <Marker
+          position={[48.17237, 12.83196]}
+          icon={createCustomIcon("uni")}
+          zIndexOffset={999}
+        >
+          <Popup>
+            <div
+              className={`text-base	font-medium primary-font-color ${GeistSans.className}`}
+            >
+              Campus Burghausen Main Building
+            </div>
+          </Popup>
+        </Marker>
+        <Marker
+          position={[48.175576560590315, 12.838649438427224]}
+          icon={createCustomIcon("lab")}
+          zIndexOffset={999}
+        >
+          <Popup>
+            <div
+              className={`text-base	font-medium primary-font-color ${GeistSans.className}`}
+            >
+              Campus Burghausen Laboratories
+            </div>
+          </Popup>
+        </Marker>
         <MarkerClusterGroup
           chunkedLoading
           iconCreateFunction={createClusterCustomIcon}
@@ -108,15 +138,6 @@ const PropertyMap = ({ properties }: { properties: Property[] }) => {
             </Marker>
           ))}
         </MarkerClusterGroup>
-        <Marker position={[48.17237, 12.83196]} icon={createCustomIcon("uni")}>
-          <Popup>
-            <div
-              className={`text-base	font-medium primary-font-color ${GeistSans.className}`}
-            >
-              TH Rosenheim, Burghausen
-            </div>
-          </Popup>
-        </Marker>
       </MapContainer>
     </div>
   );
