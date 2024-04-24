@@ -16,6 +16,7 @@ import ConfirmationComponent from "@/components/shared/ConfirmationComponent";
 import { Button } from "@/components/ui/button";
 import { createPropertyAction, getProperty } from "@/actions/properties";
 import { useRouter } from "next/navigation";
+import AdditionalInformation from "../property-update/AdditionalInformation";
 
 const initialState: PropertyDeafultType = {
   title: "",
@@ -169,6 +170,10 @@ const PropertyCreate = ({
         />
         <ContractDocumentSection
           propertyState={propertyState}
+          updateLocalState={updateLocalState}
+        />
+        <AdditionalInformation
+          value={propertyState?.additional_information || ""}
           updateLocalState={updateLocalState}
         />
         <div className="flex justify-end py-1">
