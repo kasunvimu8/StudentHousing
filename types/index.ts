@@ -28,8 +28,7 @@ export type RemoveUrlQueryParams = {
 
 // ------------------------ Property Types ---------------------------------------
 
-export type Property = {
-  _id: string;
+export type PropertyDeafultType = {
   property_id: string;
   room_id: string;
   title: string;
@@ -59,6 +58,10 @@ export type Property = {
   one_time_cost?: number;
   warm_rent?: number;
   deposit?: number;
+};
+
+export type Property = PropertyDeafultType & {
+  _id: string;
 };
 
 export type PropertyDetailsType = {
