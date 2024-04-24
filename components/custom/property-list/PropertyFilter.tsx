@@ -34,7 +34,7 @@ const PropertyFilter = async () => {
             <Label>Location</Label>
             <URLSyncInputSuspense>
               <URLSyncCombo
-                notfoundLabel="No City found."
+                notfoundLabel="No City found"
                 placeholder="Search Cities"
                 options={formattedCity}
                 showAllItem={true}

@@ -5,6 +5,7 @@ import React, { Suspense } from "react";
 import { FilterParamTypes } from "@/types";
 import { Skeleton } from "@/components/ui/Skelton";
 import ManagePropertyTable from "@/components/custom/manage-properties/ManagePropertyTable";
+import Link from "next/link";
 
 const Page = async ({ searchParams }: { searchParams: FilterParamTypes }) => {
   return (
@@ -14,9 +15,14 @@ const Page = async ({ searchParams }: { searchParams: FilterParamTypes }) => {
           <PageTitle title="Manage Properties" />
         </div>
         <div className="col-span-2 md:col-span-1 self-end justify-end flex">
-          <Button className="py-5 px-7 section-highlight-background-color secondary-font-color text-bold">
-            Create Proeprty
-          </Button>
+          <Link
+            href="/property/create"
+            className="primary-font-color p-1 gap-2 rounded-md font-medium text-sm hover:section-light-background-color flex items-center"
+          >
+            <Button className="py-5 px-7 section-highlight-background-color secondary-font-color text-bold">
+              Create Proeprty
+            </Button>
+          </Link>
         </div>
       </div>
       <AdminFilterSection />

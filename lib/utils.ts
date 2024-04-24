@@ -184,3 +184,21 @@ export const isFunction = (functionToCheck: any) => {
     functionToCheck && {}.toString.call(functionToCheck) === "[object Function]"
   );
 };
+
+export const getUniqueArray = (
+  array: any,
+  uniqueKey: string
+) => {
+  let uniqueElements = new Set();
+
+  for (let element of array) {
+    uniqueElements.add(element[uniqueKey]);
+  }
+
+  let uniqueArray = Array.from(uniqueElements);
+  const uniqueData = uniqueArray?.map((uniqueKeyValue) =>
+    array?.find((item: any) => item[uniqueKey] === uniqueKeyValue)
+  );
+
+  return uniqueData || [];
+};
