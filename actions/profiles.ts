@@ -11,7 +11,7 @@ export async function getProfiles() {
 }
 
 export async function getUserType() {
-  await connectToDatabase();
+  // await connectToDatabase();
 
-  return "admin";
+  return "user";
 }
