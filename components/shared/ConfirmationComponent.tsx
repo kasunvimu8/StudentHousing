@@ -16,15 +16,19 @@ const ConfirmationComponent = ({
   title,
   description,
   confirmedCallback,
+  disabled,
 }: {
   children: ReactNode;
   title: string;
   description: string;
   confirmedCallback: () => void;
+  disabled?: boolean;
 }) => {
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+      <AlertDialogTrigger asChild disabled={disabled}>
+        {children}
+      </AlertDialogTrigger>
 
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -37,7 +41,7 @@ const ConfirmationComponent = ({
             className="primary-background-color secondary-font-color"
             onClick={confirmedCallback}
           >
-            Continue
+            Confirm
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -7,6 +7,8 @@ const ProfileSchema = new Schema({
   user_address: { type: String, required: true },
   created_at: { type: Date, required: true },
   updated_at: { type: Date, required: true },
+  totalQuota: { type: Number, required: true },
+  usedQuota: { type: Number, required: true },
 });
 
 const Profile = models?.Profile || model("Profile", ProfileSchema);

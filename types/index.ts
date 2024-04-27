@@ -154,3 +154,32 @@ export type NavType = {
   icon: string;
   id: string;
 };
+
+// -------------------------- My Reservation Types --------------------------------------
+export type reservationPayload = {
+  property_ref_id: string;
+  user_id: string;
+  detail: {
+    property_id: string;
+    address: string;
+    available_date: Date | undefined;
+  };
+};
+
+export type ReservationType = {
+  _id: string;
+  status: string;
+  signed_documents: string[];
+  user_id: string;
+  created_at: string;
+  updated_at: string;
+  created_by: string;
+  updated_by: string;
+  property_ref_id: string;
+  detail: {
+    property_id: string;
+    address: string;
+    available_date: Date | undefined;
+    user_id: string;
+  };
+};

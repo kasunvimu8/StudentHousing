@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { connect } from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -9,21 +9,21 @@ export const connectToDatabase = async () => {
 
   if (!MONGODB_URI) throw new Error("MONGODB_URI is missing");
 
-  cached.promise =
-    cached.promise ||
-    mongoose
-      .connect(MONGODB_URI, {
-        dbName: process.env.DB_NAME,
-        bufferCommands: false,
-      })
-      .then((cn) => {
-        console.log("Connected to MongoDB");
-      })
-      .catch((error) => {
-        console.error("Error connecting to MongoDB:", error);
-      });
+  if (mongoose && mongoose.connect) {
+    cached.promise =
+      cached.promise ||
+      mongoose
+        .connect(MONGODB_URI, {
+          dbName: process.env.DB_NAME,
+          bufferCommands: false,
+        })
+        .then((cn) => {})
+        .catch((error) => {
+          console.error("Error connecting to MongoDB:", error);
+        });
 
-  cached.conn = await cached.promise;
+    cached.conn = await cached.promise;
+  }
 
   return cached.conn;
 };

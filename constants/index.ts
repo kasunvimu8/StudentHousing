@@ -23,7 +23,7 @@ export const headerLinks = [
 export const normalUserNavMenu = [
   {
     title: "My Reservation",
-    href: "/reservations",
+    href: "/my-reservations",
     icon: "LuHome",
     id: "reservations",
   },
@@ -349,7 +349,7 @@ export const availableStatus = "available";
 
 // ----------------------- Data Table Config ------------------------- //
 
-export const initialVisibility = {
+export const managePropertyInitialVisibility = {
   _id: false,
   property_id: true,
   room_id: true,
@@ -363,6 +363,16 @@ export const initialVisibility = {
   created_by: false,
   updated_at: false,
   updated_by: false,
+};
+export const initialVisibilityMyReservations = {
+  _id: false,
+  property_ref_id: false,
+  status: true,
+  property_id: true,
+  created_at: true,
+  updated_at: false,
+  address: true,
+  avaialble_date: true,
 };
 
 // ----------------------- Update Property Config ------------------------- //

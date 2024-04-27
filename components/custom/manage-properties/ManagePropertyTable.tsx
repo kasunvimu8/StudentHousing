@@ -1,6 +1,6 @@
 import { getProperties } from "@/actions/properties";
 import { DataTable } from "@/components/ui/data-table/DataTable";
-import { initialVisibility } from "@/constants";
+import { managePropertyInitialVisibility } from "@/constants";
 import { FilterParamTypes, Property, SortOption } from "@/types";
 import React from "react";
 import { columns } from "./PropertiesColumns";
@@ -31,7 +31,7 @@ const ManagePropertyTable = async ({
     <DataTable
       columns={columns}
       data={properties}
-      initialVisibility={initialVisibility}
+      initialVisibility={managePropertyInitialVisibility}
     />
   );
 };

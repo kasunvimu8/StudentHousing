@@ -1,6 +1,7 @@
 import { Schema, model, models } from "mongoose";
 
 const PropertySchema = new Schema({
+   _id: Schema.Types.ObjectId,
   title: String,
   address: String,
   from: Date,
@@ -32,6 +33,6 @@ const PropertySchema = new Schema({
   room_id: String,
 });
 
-const Property = models.Property || model("Property", PropertySchema);
+const Property = models?.Property || model("Property", PropertySchema);
 
 export default Property;

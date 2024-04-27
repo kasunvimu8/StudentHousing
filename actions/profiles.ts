@@ -1,4 +1,5 @@
 import { connectToDatabase } from "@/database";
+import Profile from "@/database/models/profiles.model";
 import Profiles from "@/database/models/profiles.model";
 
 export async function getProfiles() {
@@ -11,7 +12,25 @@ export async function getProfiles() {
 }
 
 export async function getUserType() {
-  // await connectToDatabase();
+  await connectToDatabase();
 
   return "user";
+}
+
+export async function getUserAvailableQuota(userId: string) {
+  try {
+    await connectToDatabase();
+
+    const data = await Profile.find({ user_id: userId });
+    const profile = data.length > 0 ? JSON.parse(JSON.stringify(data[0])) : {};
+    const availabelQuota: number =
+      profile.totalQuota && profile.usedQuota
+        ? profile.totalQuota - profile.usedQuota
+        : 0;
+
+    return availabelQuota;
+  } catch (error) {
+    console.log("Failed to get user quota details", error);
+    return 0;
+  }
 }

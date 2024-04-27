@@ -230,6 +230,7 @@ export async function updateProperty(property: PropertyData) {
     };
   }
 }
+
 export async function createPropertyAction(property: PropertyDeafultType) {
   try {
     await connectToDatabase();

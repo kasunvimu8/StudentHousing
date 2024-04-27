@@ -1,7 +1,4 @@
-import {
-  NextRequest,
-  NextResponse,
-} from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getUserType } from "@/actions/profiles";
 
 const isAuthenticated = (request: NextRequest) => true;
@@ -12,8 +9,7 @@ async function adminCheckMiddleware(request: NextRequest) {
   const isAdmin = userType === "admin";
   const manageProperty =
     request.nextUrl.pathname.startsWith("/manage-properties");
-  const editProperty =
-    request.nextUrl.pathname.startsWith("/property/edit");
+  const editProperty = request.nextUrl.pathname.startsWith("/property/edit");
   const createProperty =
     request.nextUrl.pathname.startsWith("/property/create");
 
