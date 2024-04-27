@@ -162,7 +162,7 @@ export type reservationPayload = {
   detail: {
     property_id: string;
     address: string;
-    available_date: Date | undefined;
+    from: Date | undefined;
   };
 };
 
@@ -179,7 +179,7 @@ export type ReservationType = {
   detail: {
     property_id: string;
     address: string;
-    available_date: Date | undefined;
+    from: Date | undefined;
     user_id: string;
   };
 };

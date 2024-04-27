@@ -24,7 +24,7 @@ const PropertyReserve = ({ property }: { property: Property }) => {
     detail: {
       property_id: property.property_id,
       address: property.address,
-      available_date: property.from,
+      from: property.from,
     },
   };
   const validatePropertyState = () => {

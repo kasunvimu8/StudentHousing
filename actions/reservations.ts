@@ -68,7 +68,7 @@ export async function getMyReservations(userId: string) {
           updated_at: 1,
           updated_by: 1,
           property_ref_id: 1,
-          available_date: "$property.available_date",
+          from: "$property.from",
           property_id: "$property.property_id",
           address: "$property.address",
         },

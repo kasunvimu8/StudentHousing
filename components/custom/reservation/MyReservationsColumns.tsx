@@ -72,10 +72,10 @@ export const columns: ExtendedColumnDef[] = [
     columnTitle: "Status",
   },
   {
-    accessorKey: "available_date",
+    accessorKey: "from",
     header: "Available From",
     cell: ({ row }) => {
-      const from = row.getValue("available_date");
+      const from = row.getValue("from");
       const date = formatDateTime(new Date(String(from))).simpleDate;
       return <div className="capitalize">{date}</div>;
     },
