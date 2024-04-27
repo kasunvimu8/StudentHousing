@@ -12,15 +12,10 @@ export const connectToDatabase = async () => {
   if (mongoose && mongoose.connect) {
     cached.promise =
       cached.promise ||
-      mongoose
-        .connect(MONGODB_URI, {
-          dbName: process.env.DB_NAME,
-          bufferCommands: false,
-        })
-        .then((cn) => {})
-        .catch((error) => {
-          console.error("Error connecting to MongoDB:", error);
-        });
+      mongoose.connect(MONGODB_URI, {
+        dbName: process.env.DB_NAME,
+        bufferCommands: false,
+      });
 
     cached.conn = await cached.promise;
   }

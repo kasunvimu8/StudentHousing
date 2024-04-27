@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { propertyTypes } from "@/constants";
+import { propertyTypes, reservationStatuses } from "@/constants";
 import { formatDateTime } from "@/lib/utils";
 import { ExtendedColumnDef } from "@/types";
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
@@ -25,7 +25,9 @@ export const columns: ExtendedColumnDef[] = [
   },
   {
     accessorKey: "property_ref_id",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("property_ref_id")}</div>,
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("property_ref_id")}</div>
+    ),
     header: "Property Reference Id",
     columnTitle: "Property Reference Id",
     enableHiding: false,
@@ -62,9 +64,11 @@ export const columns: ExtendedColumnDef[] = [
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
-    ),
+    cell: ({ row }) => {
+      const status = row.getValue("status");
+      const statusData = reservationStatuses.find((item) => item.id === status);
+      return <div className="capitalize">{statusData?.description || ""}</div>;
+    },
     columnTitle: "Status",
   },
   {

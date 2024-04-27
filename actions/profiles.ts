@@ -1,3 +1,5 @@
+"use server";
+
 import { connectToDatabase } from "@/database";
 import Profile from "@/database/models/profiles.model";
 import Profiles from "@/database/models/profiles.model";

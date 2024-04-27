@@ -343,6 +343,21 @@ export const adminsortOptions = [
   },
 ];
 
+export const reservationStatuses = [
+  {
+    id: "document_submission",
+    description: "Document Submission",
+  },
+  {
+    id: "document_review",
+    description: "Document Review",
+  },
+  {
+    id: "rented",
+    description: "Rented",
+  },
+];
+
 // ----------------------- Filter Constants ----------------------- //
 
 export const availableStatus = "available";
@@ -375,4 +390,5 @@ export const initialVisibilityMyReservations = {
   avaialble_date: true,
 };
 
-// ----------------------- Update Property Config ------------------------- //
+// ----------------------- Toaster Config ------------------------- //
+export const duration = 10000

@@ -1,7 +1,6 @@
 import { Schema, model, models } from "mongoose";
 
 const PropertySchema = new Schema({
-   _id: Schema.Types.ObjectId,
   title: String,
   address: String,
   from: Date,

@@ -53,6 +53,8 @@ const PropertyReserve = ({ property }: { property: Property }) => {
 
       if (res.type === "ok") {
         router.push("/my-reservations");
+      } else {
+        router.push("/properties");
       }
     }
   };
