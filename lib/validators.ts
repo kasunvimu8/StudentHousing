@@ -54,22 +54,5 @@ export const reservationPayloadSchema = z.object({
     .string({
       required_error: "user_id is required",
     })
-    .min(1),
-  detail: z.object({
-    property_id: z
-      .string({
-        required_error: "property_id is required",
-      })
-      .min(1),
-    address: z
-      .string({
-        required_error: "address is required",
-      })
-      .min(1),
-      from: z
-      .string({
-        required_error: "from is required",
-      })
-      .min(1),
-  }),
+    .min(1)
 });

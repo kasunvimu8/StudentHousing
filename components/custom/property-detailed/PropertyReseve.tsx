@@ -21,11 +21,6 @@ const PropertyReserve = ({ property }: { property: Property }) => {
   const reservationPayload = {
     property_ref_id: property._id,
     user_id: user_id,
-    detail: {
-      property_id: property.property_id,
-      address: property.address,
-      from: property.from,
-    },
   };
   const validatePropertyState = () => {
     try {

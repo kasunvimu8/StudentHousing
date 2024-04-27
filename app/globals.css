@@ -121,7 +121,14 @@ body {
   input[type="file"] {
     color: rgb(var(--section-light-background-color));
     background-color: rgb(var(--section-light-background-color));
-    ;
+  }
+
+  .workflow-number {
+    @apply block w-10 h-10 rounded-full text-center leading-10 font-bold;
+  }
+  
+  .workflow-connector {
+    @apply absolute top-1/2 left-10 w-full h-0.5 primary-background-color;
   }
 
 }

@@ -345,16 +345,47 @@ export const adminsortOptions = [
 
 export const reservationStatuses = [
   {
+    id: "available",
+    description: "Available",
+    workflowNumber: 1,
+    workflowDispaly: true,
+    actionDescription: "",
+    showInDropdown: false,
+  },
+  {
     id: "document_submission",
     description: "Document Submission",
+    workflowNumber: 2,
+    workflowDispaly: true,
+    showInDropdown: true,
+    actionDescription:
+      "Action Required!. Please Submit the Signed Contract Documents ",
   },
   {
     id: "document_review",
     description: "Document Review",
+    workflowNumber: 3,
+    workflowDispaly: true,
+    showInDropdown: true,
+    actionDescription:
+      "No Action Required. Wait for the Contract Document approval",
   },
   {
     id: "rented",
     description: "Rented",
+    workflowNumber: 4,
+    workflowDispaly: true,
+    showInDropdown: true,
+    actionDescription: "Congratulations! The Living place is now yours",
+  },
+  {
+    id: "reservation_canceled",
+    description: "Reservation Cancelled",
+    workflowNumber: 4,
+    workflowDispaly: false,
+    showInDropdown: true,
+    actionDescription:
+      "Unfortunately your reservation has been cancelled by the administation",
   },
 ];
 
@@ -391,4 +422,4 @@ export const initialVisibilityMyReservations = {
 };
 
 // ----------------------- Toaster Config ------------------------- //
-export const duration = 10000
+export const duration = 10000;

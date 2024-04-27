@@ -26,7 +26,7 @@ export async function getUserAvailableQuota(userId: string) {
     const data = await Profile.find({ user_id: userId });
     const profile = data.length > 0 ? JSON.parse(JSON.stringify(data[0])) : {};
     const availabelQuota: number =
-      profile.totalQuota && profile.usedQuota
+      (!(isNaN(profile.totalQuota) || isNaN(profile.usedQuota)))
         ? profile.totalQuota - profile.usedQuota
         : 0;
 

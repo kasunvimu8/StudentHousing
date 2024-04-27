@@ -159,27 +159,16 @@ export type NavType = {
 export type reservationPayload = {
   property_ref_id: string;
   user_id: string;
-  detail: {
-    property_id: string;
-    address: string;
-    from: Date | undefined;
-  };
 };
 
 export type ReservationType = {
   _id: string;
   status: string;
-  signed_documents: string[];
   user_id: string;
   created_at: string;
-  updated_at: string;
-  created_by: string;
-  updated_by: string;
   property_ref_id: string;
-  detail: {
-    property_id: string;
-    address: string;
-    from: Date | undefined;
-    user_id: string;
-  };
+  updated_at?: string;
+  updated_by?: string;
+  signed_documents?: string[];
+  property_id?: string[];
 };

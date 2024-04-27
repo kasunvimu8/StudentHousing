@@ -108,6 +108,7 @@ export const columns: ExtendedColumnDef[] = [
     enableHiding: false,
     cell: ({ row, ...rest }) => {
       const id: string = row.getValue("property_ref_id");
+      const refId: string = row.getValue("_id");
       const router = useRouter();
       const [open, setOpen] = React.useState(false);
 
@@ -128,19 +129,19 @@ export const columns: ExtendedColumnDef[] = [
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() =>
+                router.push(`/reservation/view/${refId}`, { scroll: false })
+              }
+              className="hover:section-light-background-color"
+            >
+              Reservation
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
                 router.push(`/property/view/${id}`, { scroll: false })
               }
               className="hover:section-light-background-color"
             >
               View Property
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() =>
-                router.push(`/property/edit/${id}`, { scroll: false })
-              }
-              className="hover:section-light-background-color"
-            >
-              View Reservation
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

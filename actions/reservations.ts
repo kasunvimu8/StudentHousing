@@ -2,17 +2,14 @@
 
 import { connectToDatabase } from "@/database";
 import Reservation from "@/database/models/reservation.model";
-import {
-  Property as PropertyType,
-  reservationPayload,
-  ReservationType,
-} from "@/types";
+import { Property as PropertyType, reservationPayload } from "@/types";
 import { getProperty, updateProperty } from "./properties";
 import { getUserAvailableQuota } from "./profiles";
 import Property from "@/database/models/property.model";
 import { revalidatePath } from "next/cache";
 import Profile from "@/database/models/profiles.model";
 import mongoose from "mongoose";
+import { ObjectId } from "mongodb";
 
 export async function getReservationExist(_id: string) {
   try {
@@ -45,7 +42,6 @@ export async function getMyReservations(userId: string) {
   try {
     await connectToDatabase();
 
-    let reservationData: ReservationType[] = [];
     const data = await Reservation.aggregate([
       {
         $lookup: {
@@ -80,14 +76,7 @@ export async function getMyReservations(userId: string) {
     const reservations =
       data.length > 0 ? JSON.parse(JSON.stringify(data)) : [];
 
-    if (data.length > 0) {
-      reservationData = reservations.map((reservation: ReservationType) => {
-        const { detail, ...rest } = reservation;
-        return { ...detail, ...rest };
-      });
-    }
-
-    return reservationData;
+    return reservations;
   } catch (error) {
     console.log(`Failed to fetch reservations for user id ${userId}`, error);
     return undefined;
@@ -104,25 +93,32 @@ async function performReservation(
   let type = "";
 
   try {
+    const opts = { session };
     // reserve the property
     await Property.updateOne(
       { _id: propertyData._id },
-      { $set: { ...propertyData, status: "reserved" } }
+      { $set: { ...propertyData, status: "reserved" } },
+      opts
     );
 
     // add reservation entry
-    await Reservation.create({
-      status: "document_submission",
-      user_id: reservationPayload.user_id,
-      created_at: new Date(),
-      property_ref_id: reservationPayload.property_ref_id,
-      detail: reservationPayload.detail,
-    });
+    await Reservation.create(
+      [
+        {
+          status: "document_submission",
+          user_id: reservationPayload.user_id,
+          created_at: new Date(),
+          property_ref_id: reservationPayload.property_ref_id,
+        },
+      ],
+      opts
+    );
 
     // reduce the quota of the user
     await Profile.updateOne(
       { user_id: reservationPayload.user_id },
-      { $inc: { usedQuota: 1 } }
+      { $inc: { usedQuota: 1 } },
+      opts
     );
 
     // commit the transaction
@@ -188,5 +184,49 @@ export async function makeReservation(reservationPayload: reservationPayload) {
       msg: "Internal Server Error. Failed to make the reservation !",
       type: "error",
     };
+  }
+}
+
+export async function getReservation(reservationId: string) {
+  try {
+    await connectToDatabase();
+    const resId = new ObjectId(reservationId);
+    const data = await Reservation.aggregate([
+      {
+        $lookup: {
+          from: "properties",
+          localField: "property_ref_id",
+          foreignField: "_id",
+          as: "property",
+        },
+      },
+      {
+        $unwind: "$property",
+      },
+      {
+        $project: {
+          _id: 1,
+          status: 1,
+          user_id: 1,
+          signed_documents: 1,
+          created_at: 1,
+          updated_at: 1,
+          updated_by: 1,
+          property_ref_id: 1,
+          property_id: "$property.property_id",
+        },
+      },
+      {
+        $match: { _id: resId },
+      },
+    ]);
+
+    const reservation =
+      data.length > 0 ? JSON.parse(JSON.stringify(data[0])) : {};
+
+    return reservation;
+  } catch (error) {
+    console.log(`Failed to get reservation ${reservationId}`, error);
+    return false;
   }
 }
