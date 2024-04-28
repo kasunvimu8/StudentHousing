@@ -1,9 +1,15 @@
+import { getUserType } from "@/actions/profiles";
 import { getReservation } from "@/actions/reservations";
 import ContractDocument from "@/components/custom/reservation/ContractDocument";
+import ReservationInformation from "@/components/custom/reservation/ReservationInformation";
 import PageTitle from "@/components/shared/PageTitle";
-import { reservationStatuses } from "@/constants";
+import {
+  documentSubmission,
+  reservationCancelled,
+  reservationCompleted,
+  reservationStatuses,
+} from "@/constants";
 import { ReservationType } from "@/types";
-import Link from "next/link";
 import React from "react";
 
 const page = async ({ params }: { params: { reservationId: string } }) => {
@@ -13,7 +19,18 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
   const statusData = reservationStatuses.find(
     (item) => item.id === reservation?.status
   );
+
+  /**
+   * editable : enable for normal users when reservation is in document submission state
+   * for admins it enables allways execpt for the cancelled and rented reservations
+   */
   let passedStatus = true;
+  let isDocumentSubmission = reservation?.status === documentSubmission;
+  let isCancelled = reservation?.status === reservationCancelled;
+  let isRented = reservation?.status === reservationCompleted;
+  const userType = await getUserType();
+  const isAdmin = userType === "admin";
+  let editable = isDocumentSubmission || (isAdmin && !isCancelled && !isRented);
 
   return (
     <div className="h-full w-full">
@@ -64,35 +81,33 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
           </div>
         </div>
       </div>
-
-      <div className="mx-auto py-5">
-        <ul className="list-disc p-2">
-          <li className="p-1 font-normal text-sm">
-            {`For more details about the property (including the contract
-            documents), please click `}
-            <Link
-              href={`/property/view/${reservation.property_ref_id}`}
-              className="font-bold"
-            >
-              here
-            </Link>
-          </li>
-          <li className="p-1 font-normal text-sm">
-            {` For more details about the reservation process, please click `}
-            <Link href="/information" className="font-bold">
-              here
-            </Link>
-          </li>
-          <li className="p-1 font-normal text-sm">
-            Please ensure that all documents are submitted before April 30,
-            2024. Failure to do so will result in automatic cancellation of the
-            reservation.
-          </li>
-        </ul>
-      </div>
-      <div className="mx-auto py-5">
-        <ContractDocument reservation={reservation} />
-      </div>
+      {isDocumentSubmission && (
+        <div className="mx-auto py-5">
+          <ReservationInformation reservation={reservation} />
+        </div>
+      )}
+      {isCancelled ? (
+        <div className="mx-auto py-5">
+          <div className="font-normal text-sm">
+            Your reservation has been cancelled by the administration due to
+            below reason. Please contact if you have a problem related to this
+            cancellation.
+          </div>
+          <div className="pt-4 font-normal text-sm">Reason :</div>
+          <div className="pt-2 font-normal text-sm">
+            The property has been withdrawn from the listing.
+          </div>
+        </div>
+      ) : (
+        <div className="mx-auto py-5">
+          <ContractDocument
+            reservation={reservation}
+            editable={editable}
+            isDocumentSubmission={isDocumentSubmission}
+            isAdmin={isAdmin}
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -381,7 +381,7 @@ export const reservationStatuses = [
   {
     id: "reservation_canceled",
     description: "Reservation Cancelled",
-    workflowNumber: 4,
+    workflowNumber: -1,
     workflowDispaly: false,
     showInDropdown: true,
     actionDescription:
@@ -423,3 +423,9 @@ export const initialVisibilityMyReservations = {
 
 // ----------------------- Toaster Config ------------------------- //
 export const duration = 10000;
+
+// ----------------------- Reservation Specific Config ------------------------- //
+export const expirationDuration = 7;
+export const documentSubmission = "document_submission";
+export const reservationCancelled = "reservation_canceled";
+export const reservationCompleted = "rented";

@@ -97,7 +97,7 @@ async function performReservation(
     // reserve the property
     await Property.updateOne(
       { _id: propertyData._id },
-      { $set: { ...propertyData, status: "reserved" } },
+      { $set: { status: "reserved" } },
       opts
     );
 
@@ -228,5 +228,38 @@ export async function getReservation(reservationId: string) {
   } catch (error) {
     console.log(`Failed to get reservation ${reservationId}`, error);
     return false;
+  }
+}
+
+export async function submitDocuments(
+  documents: any,
+  reservationId: string,
+  nextStatus: string
+) {
+  // handle document submission here
+  // handle reservation status change here
+  await connectToDatabase();
+
+  let msg = "";
+  let type = "";
+
+  try {
+    await Reservation.updateOne(
+      { _id: reservationId },
+      { $set: { status: nextStatus } }
+    );
+
+    msg = "Documents uploaded successfully";
+    type = "ok";
+    revalidatePath("/my-reservations");
+  } catch (error) {
+    console.log("Exception in reservation transaction ", error);
+    msg = "Internal Server Error. Failed to create reservation entries !";
+    type = "error";
+  } finally {
+    return {
+      msg: msg,
+      type: type,
+    };
   }
 }

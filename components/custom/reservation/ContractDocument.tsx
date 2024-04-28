@@ -6,6 +6,7 @@ import SectionTitle from "@/components/shared/SectionTitle";
 import { ReservationType } from "@/types";
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+import SubmitDocumentsButton from "@/components/custom/reservation/SubmitDocumentsButton";
 
 interface FileObject {
   id: string;
@@ -14,8 +15,14 @@ interface FileObject {
 
 const ContractDocument = ({
   reservation,
+  editable,
+  isDocumentSubmission,
+  isAdmin,
 }: {
   reservation: ReservationType;
+  isDocumentSubmission: boolean;
+  editable: boolean;
+  isAdmin: boolean;
 }) => {
   const [files, setFiles] = useState<FileObject[]>([]);
 
@@ -65,14 +72,22 @@ const ContractDocument = ({
 
   return (
     <div className="p-5 border-2 border-gray-200 border-dashed rounded">
-      <SectionTitle title="Upload Documents" />
-      <div className="w-full grid grid-cols-2 gap-2 md:gap-8 py-5">
-        <div className="col-span-2 md:col-span-1">
-          <FileUploader
-            handleFileUpload={handleFileUpload}
-            info="Drag & Drop or Select .pdf files"
-          />
-        </div>
+      <SectionTitle
+        title={isDocumentSubmission ? "Upload Documents" : "Signed Documents"}
+      />
+      <div
+        className={`w-full grid gap-2 md:gap-8 py-5 ${
+          editable ? "grid-cols-2" : "grid-cols-1"
+        }`}
+      >
+        {editable && (
+          <div className="col-span-2 md:col-span-1">
+            <FileUploader
+              handleFileUpload={handleFileUpload}
+              info="Drag & Drop or Select .pdf files"
+            />
+          </div>
+        )}
         <div className="col-span-2 md:col-span-1">
           {files?.map((file) => (
             <div
@@ -83,13 +98,20 @@ const ContractDocument = ({
                 fileId={file?.id}
                 name={file?.name}
                 handleFileRemove={handleFileRemove}
+                editable={editable}
               />
             </div>
           ))}
         </div>
-        <>
-        </>
+        <></>
       </div>
+      {editable && (
+        <SubmitDocumentsButton
+          reservation={reservation}
+          files={files}
+          isAdmin={isAdmin}
+        />
+      )}
     </div>
   );
 };
