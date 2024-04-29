@@ -234,19 +234,38 @@ export async function getReservation(reservationId: string) {
 export async function submitDocuments(
   documents: any,
   reservationId: string,
-  nextStatus: string
+  nextStatus: string,
+  user_id: string
 ) {
-  // handle document submission here
-  // handle reservation status change here
+  // TODO handle document submission here
   await connectToDatabase();
 
   let msg = "";
   let type = "";
 
+  // checking whehter document naming convention is okay
+  let isDocumentsOkay = true;
+  documents.forEach((document: { id: string; name: string }) => {
+    const userId = document?.name?.split("-")?.[0];
+    if (userId !== user_id) {
+      isDocumentsOkay = false;
+    }
+  });
+
+  if (!isDocumentsOkay)
+    return {
+      msg: "One or more documents have been incorrectly named. Kindly adhere to the document naming guidelines.",
+      type: "error",
+    };
+
   try {
+    const documentUrls = documents.map(
+      (doc: { id: string; name: string }) =>
+        `${process.env.STORAGE_SERVICE_URL}${doc.name}`
+    );
     await Reservation.updateOne(
       { _id: reservationId },
-      { $set: { status: nextStatus } }
+      { $set: { status: nextStatus, signed_documents: documentUrls } }
     );
 
     msg = "Documents uploaded successfully";

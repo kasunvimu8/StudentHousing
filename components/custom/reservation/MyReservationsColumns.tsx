@@ -133,7 +133,7 @@ export const columns: ExtendedColumnDef[] = [
               }
               className="hover:section-light-background-color"
             >
-              Reservation
+              Reservation Details
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() =>

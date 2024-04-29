@@ -73,7 +73,7 @@ const ContractDocument = ({
   return (
     <div className="p-5 border-2 border-gray-200 border-dashed rounded">
       <SectionTitle
-        title={isDocumentSubmission ? "Upload Documents" : "Signed Documents"}
+        title={isDocumentSubmission ? "Upload Documents" : "Uploaded Documents"}
       />
       <div
         className={`w-full grid gap-2 md:gap-8 py-5 ${

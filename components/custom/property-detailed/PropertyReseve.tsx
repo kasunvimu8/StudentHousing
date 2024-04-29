@@ -56,18 +56,20 @@ const PropertyReserve = ({ property }: { property: Property }) => {
 
   return (
     <div className="flex justify-end py-6">
-      <ConfirmationComponent
-        title={`Reserve Property ${property.property_id} - Are you absolutely sure ?`}
-        description="Once confirmed, your reservation quota will decrease by one. This temporarily reserves the property for you until you submit signed contracts promptly. Failure to do so will cancel the temporary reservation, making it available to other tenants. Visit Information page for more details"
-        confirmedCallback={() => {
-          handleReservation();
-        }}
-        disabled={!isPropertyAvailable || !validatePropertyState()}
-      >
-        <Button className="py-5 px-10 primary-background-color secondary-font-color self-end">
-          Reserve
-        </Button>
-      </ConfirmationComponent>
+      {isPropertyAvailable && (
+        <ConfirmationComponent
+          title={`Reserve Property ${property.property_id} - Are you absolutely sure ?`}
+          description="Once confirmed, your reservation quota will decrease by one. This temporarily reserves the property for you until you submit signed contracts promptly. Failure to do so will cancel the temporary reservation, making it available to other tenants. Visit Information page for more details"
+          confirmedCallback={() => {
+            handleReservation();
+          }}
+          disabled={!validatePropertyState()}
+        >
+          <Button className="py-5 px-10 primary-background-color secondary-font-color self-end">
+            Reserve
+          </Button>
+        </ConfirmationComponent>
+      )}
     </div>
   );
 };

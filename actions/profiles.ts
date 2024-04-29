@@ -16,7 +16,7 @@ export async function getProfiles() {
 export async function getUserType() {
   await connectToDatabase();
 
-  return "user";
+  return "admin";
 }
 
 export async function getUserAvailableQuota(userId: string) {

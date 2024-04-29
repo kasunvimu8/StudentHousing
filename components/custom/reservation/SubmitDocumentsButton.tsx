@@ -8,11 +8,12 @@ import { useToast } from "@/components/ui/use-toast";
 import { ReservationType } from "@/types";
 import { submitDocuments } from "@/actions/reservations";
 import { getNextStatus } from "@/lib/utils";
+import { getUserId } from "@/lib/user";
 
 const SubmitDocumentsButton = ({
   reservation,
   files,
-  isAdmin
+  isAdmin,
 }: {
   files: any;
   reservation: ReservationType;
@@ -20,13 +21,17 @@ const SubmitDocumentsButton = ({
 }) => {
   const { toast } = useToast();
   const router = useRouter();
-  const nextStatus: string = isAdmin ? reservation.status : getNextStatus(reservation.status);
+  const user_id = getUserId();
+  const nextStatus: string = isAdmin
+    ? reservation.status
+    : getNextStatus(reservation.status);
 
   const submitDocumentsHandle = async () => {
     const res: { msg: string; type: string } = await submitDocuments(
       files,
       reservation._id,
-      nextStatus
+      nextStatus,
+      user_id
     );
     if (res) {
       toast({
@@ -36,8 +41,6 @@ const SubmitDocumentsButton = ({
 
       if (res.type === "ok") {
         router.push("/my-reservations");
-      } else {
-        router.push(`/reservations/view/${reservation._id}`);
       }
     }
   };
@@ -45,7 +48,7 @@ const SubmitDocumentsButton = ({
   return (
     <div className="flex justify-end pt-6">
       <ConfirmationComponent
-        title="Upload Signed Documents - Confirmation"
+        title="Upload Documents - Confirmation"
         description="Once you confirm, your contract documents will be uploaded to the administration for review. No alterations can be made to any document thereafter."
         confirmedCallback={submitDocumentsHandle}
         disabled={files.length === 0}
