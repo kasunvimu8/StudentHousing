@@ -22,6 +22,9 @@ const SubmitDocumentsButton = ({
   const { toast } = useToast();
   const router = useRouter();
   const user_id = getUserId();
+
+  // admin document uploaded wont change the workflow of the reservation process. It just edit the the content
+  // only the user can forward the reservation process to 'document review'workflow from 'document submission'
   const nextStatus: string = isAdmin
     ? reservation.status
     : getNextStatus(reservation.status);
@@ -31,7 +34,8 @@ const SubmitDocumentsButton = ({
       files,
       reservation._id,
       nextStatus,
-      user_id
+      user_id,
+      isAdmin
     );
     if (res) {
       toast({
@@ -40,7 +44,11 @@ const SubmitDocumentsButton = ({
       });
 
       if (res.type === "ok") {
-        router.push("/my-reservations");
+        if(isAdmin) {
+          router.push("/manage-reservations");
+        } else {
+          router.push("/my-reservations");
+        }
       }
     }
   };

@@ -90,7 +90,7 @@ export const columns: ExtendedColumnDef[] = [
     cell: ({ row }) => {
       const typeId = row.getValue("property_type");
       const propertyTypeDesc = propertyTypes.find((type) => type.id === typeId);
-      return <div className="capitalize">{propertyTypeDesc?.description}</div>;
+      return <div>{propertyTypeDesc?.description}</div>;
     },
     enableHiding: false,
     columnTitle: "Property Type",

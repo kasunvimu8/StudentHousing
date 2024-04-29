@@ -131,6 +131,10 @@ body {
     @apply absolute top-1/2 left-10 w-full h-0.5 primary-light-background-color;
   }
 
+  .primarybg {
+    background-color: rgb(var(--primary-font-color));
+  }
+
 }
 
 @layer utilities {

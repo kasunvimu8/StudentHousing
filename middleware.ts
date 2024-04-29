@@ -9,11 +9,17 @@ async function adminCheckMiddleware(request: NextRequest) {
   const isAdmin = userType === "admin";
   const manageProperty =
     request.nextUrl.pathname.startsWith("/manage-properties");
+  const manageReservations = request.nextUrl.pathname.startsWith(
+    "/manage-reservations"
+  );
   const editProperty = request.nextUrl.pathname.startsWith("/property/edit");
   const createProperty =
     request.nextUrl.pathname.startsWith("/property/create");
 
-  if ((manageProperty || editProperty || createProperty) && !isAdmin) {
+  if (
+    (manageProperty || editProperty || createProperty || manageReservations) &&
+    !isAdmin
+  ) {
     return NextResponse.redirect(new URL("/not-found", request.url));
   }
   return NextResponse.next();

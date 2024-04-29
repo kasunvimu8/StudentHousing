@@ -5,6 +5,7 @@ import {
   numberOfRooms,
   propertyStatuses,
   propertyTypes,
+  reservationStatuses,
 } from "@/constants";
 import { DropdownComponent } from "../../ui/dropdown/URLSyncDropdown";
 import { DatePickerComponent } from "../../ui/calendar/URLSyncDropdown";
@@ -18,6 +19,14 @@ const AdminFilterSection = () => {
       <div className="grid grid-cols-6 gap-4 p-5">
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
+            <Label>Reservation Id</Label>
+            <URLSyncInputSuspense>
+              <InputComponent inputKey="id" />
+            </URLSyncInputSuspense>
+          </div>
+        </div>
+        <div className="col-span-6 md:col-span-3 lg:col-span-2">
+          <div className="flex flex-col gap-2 p-1">
             <Label>Property Id</Label>
             <URLSyncInputSuspense>
               <InputComponent inputKey="property_id" />
@@ -29,6 +38,14 @@ const AdminFilterSection = () => {
             <Label>Room Id</Label>
             <URLSyncInputSuspense>
               <InputComponent inputKey="room_id" />
+            </URLSyncInputSuspense>
+          </div>
+        </div>
+        <div className="col-span-6 md:col-span-3 lg:col-span-2">
+          <div className="flex flex-col gap-2 p-1">
+            <Label>User Id</Label>
+            <URLSyncInputSuspense>
+              <InputComponent inputKey="user_id" />
             </URLSyncInputSuspense>
           </div>
         </div>
@@ -57,26 +74,13 @@ const AdminFilterSection = () => {
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
-            <Label>Property Status</Label>
+            <Label>Reservation Status</Label>
             <URLSyncInputSuspense>
               <DropdownComponent
-                options={propertyStatuses}
-                optionsLabel="Select Property Status"
+                options={reservationStatuses}
+                optionsLabel="Select Reservation Status"
                 showAllItem={true}
                 inputKey="status"
-              />
-            </URLSyncInputSuspense>
-          </div>
-        </div>
-        <div className="col-span-6 md:col-span-3 lg:col-span-2">
-          <div className="flex flex-col gap-2 p-1">
-            <Label>Number of Rooms</Label>
-            <URLSyncInputSuspense>
-              <DropdownComponent
-                options={numberOfRooms}
-                optionsLabel="Select Number of Rooms"
-                showAllItem={true}
-                inputKey="rooms"
               />
             </URLSyncInputSuspense>
           </div>
@@ -95,7 +99,7 @@ const AdminFilterSection = () => {
           </div>
         </div>
         <div className="col-span-6 md:col-start-5 md:col-end-7 flex justify-end">
-          <PropertyFilterReset newPath="/manage-properties" />
+          <PropertyFilterReset newPath="/manage-reservations" />
         </div>
       </div>
     </div>

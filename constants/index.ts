@@ -421,6 +421,18 @@ export const initialVisibilityMyReservations = {
   avaialble_date: true,
 };
 
+export const initialVisibilityManageReservations = {
+  _id: false,
+  property_ref_id: false,
+  status: true,
+  property_id: true,
+  room_id: false,
+  created_at: true,
+  updated_at: false,
+  address: true,
+  from: false,
+};
+
 // ----------------------- Toaster Config ------------------------- //
 export const duration = 10000;
 
@@ -429,3 +441,14 @@ export const expirationDuration = 7;
 export const documentSubmission = "document_submission";
 export const reservationCancelled = "reservation_canceled";
 export const reservationCompleted = "rented";
+
+export const cancelledRequestedEntities = [
+  {
+    id: "user",
+    description: "User (Student)",
+  },
+  {
+    id: "admin",
+    description: "Admin",
+  },
+];

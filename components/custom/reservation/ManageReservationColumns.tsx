@@ -19,9 +19,8 @@ export const columns: ExtendedColumnDef[] = [
   {
     accessorKey: "_id",
     cell: ({ row }) => <div className="capitalize">{row.getValue("_id")}</div>,
-    header: "Reference Id",
-    columnTitle: "Reference Id",
-    enableHiding: false,
+    header: "Reservation Id",
+    columnTitle: "Reservation Id",
   },
   {
     accessorKey: "property_ref_id",
@@ -54,6 +53,43 @@ export const columns: ExtendedColumnDef[] = [
     columnTitle: "Property ID",
   },
   {
+    accessorKey: "room_id",
+    cell: ({ row }) => (
+      <div className="text-center font-medium">{row.getValue("room_id")}</div>
+    ),
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Room ID
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    columnTitle: "Room ID",
+  },
+  {
+    accessorKey: "user_id",
+    cell: ({ row }) => (
+      <div className="text-center font-medium">{row.getValue("user_id")}</div>
+    ),
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          User ID
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    enableHiding: false,
+    columnTitle: "Room ID",
+  },
+  {
     accessorKey: "address",
     header: "Address",
     cell: ({ row }) => (
@@ -70,6 +106,7 @@ export const columns: ExtendedColumnDef[] = [
       return <div className="capitalize">{statusData?.description || ""}</div>;
     },
     columnTitle: "Status",
+    enableHiding: false,
   },
   {
     accessorKey: "from",

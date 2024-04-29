@@ -1,5 +1,6 @@
 import { getUserType } from "@/actions/profiles";
 import { getReservation } from "@/actions/reservations";
+import { AdminActionReservationCancel } from "@/components/custom/reservation/AdminAction";
 import ContractDocument from "@/components/custom/reservation/ContractDocument";
 import ReservationInformation from "@/components/custom/reservation/ReservationInformation";
 import PageTitle from "@/components/shared/PageTitle";
@@ -90,12 +91,12 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
         <div className="mx-auto py-5">
           <div className="font-normal text-sm">
             Your reservation has been cancelled by the administration due to
-            below reason. Please contact if you have a problem related to this
-            cancellation.
+            below reason. If you have a problem related to this
+            cancellation, Please contact the administrator.
           </div>
           <div className="pt-4 font-normal text-sm">Reason :</div>
           <div className="pt-2 font-normal text-sm">
-            The property has been withdrawn from the listing.
+            {reservation.admin_comment}
           </div>
         </div>
       ) : (
@@ -107,6 +108,22 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
             isAdmin={isAdmin}
           />
         </div>
+      )}
+
+      {isAdmin && (
+        <>
+          {isDocumentSubmission && (
+            <>
+              <div className="flex justify-end pt-6">
+                <AdminActionReservationCancel
+                  reservationId={reservation._id}
+                  propertyId={reservation.property_ref_id}
+                  userId={reservation.user_id}
+                />
+              </div>
+            </>
+          )}
+        </>
       )}
     </div>
   );

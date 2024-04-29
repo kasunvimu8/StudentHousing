@@ -93,14 +93,13 @@ export async function getProperties(
   currentPage: number,
   sortOption: SortOption,
   filterParams: FilterParamTypes,
-  statusType?: string
+  statusType: string
 ) {
   try {
     await connectToDatabase();
 
     const filterOptions: SortOption[] = getFilterOptions(filterParams);
-    const statusFilter =
-      statusType === "available" ? [{ status: availableStatus }] : [];
+    const statusFilter = statusType === "all" ? [] : [{ status: statusType }];
     let matchOptions =
       filterOptions.length > 0
         ? [...statusFilter, ...filterOptions]

@@ -132,16 +132,21 @@ export type ComboContentType = {
 };
 
 export type FilterParamTypes = {
+  id?: string;
   page?: string;
   city?: string;
   property_type?: string;
   from?: string;
+  to?: string;
   rooms?: string;
   size?: string;
   rent?: string;
   sort?: string;
   property_id?: string;
   room_id?: string;
+  reservation_id?: string;
+  user_id?: string;
+  status?: string;
 };
 
 export type SortOption = { [key: string]: 1 | -1 };
@@ -167,8 +172,11 @@ export type ReservationType = {
   user_id: string;
   created_at: string;
   property_ref_id: string;
+  property_id: string;
+  room_id: string;
   updated_at?: string;
   updated_by?: string;
   signed_documents?: string[];
-  property_id?: string[];
+  admin_comment?: string;
+  user_comment?: string;
 };
