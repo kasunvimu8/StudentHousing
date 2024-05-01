@@ -102,11 +102,14 @@ async function performReservation(
   try {
     const opts = { session };
     // reserve the property
-    await Property.updateOne(
+    const res1 = await Property.updateOne(
       { _id: propertyData._id },
       { $set: { status: "reserved" } },
       opts
     );
+    if (res1.modifiedCount === 0) {
+      throw new Error("Property Cannot be modified or not found");
+    }
 
     // add reservation entry
     await Reservation.create(
@@ -122,11 +125,17 @@ async function performReservation(
     );
 
     // reduce the quota of the user
-    await Profile.updateOne(
+    const res2 = await Profile.updateOne(
       { user_id: reservationPayload.user_id },
       { $inc: { usedQuota: 1 } },
       opts
     );
+
+    if (res2.modifiedCount === 0) {
+      throw new Error(
+        "Profile quota Cannot be modified or not found of the user"
+      );
+    }
 
     // commit the transaction
     await session.commitTransaction();
@@ -417,33 +426,51 @@ export async function cancelReservation(
     const conn = await connectToDatabase();
     const session = await mongoose.startSession();
     session.startTransaction();
+
     try {
-      const opts = { session };
+      const opts = { session, new: true };
 
       // update reservation status
       // save comment/reason for the cancellation
-      await Reservation.updateOne(
+      const res1 = await Reservation.updateOne(
         { _id: reservationId },
         { $set: { status: "reservation_canceled", admin_comment: comment } },
         opts
       );
 
+      if (res1.modifiedCount === 0) {
+        throw new Error(
+          "Reservation data cannot be modified or reservation not found"
+        );
+      }
+
       // if it is cancelled due to issue from admin side, decrement users used quota by one
       if (user === "admin") {
-        await Profile.updateOne(
+        const res2 = await Profile.updateOne(
           { user_id: user_id },
           { $inc: { usedQuota: -1 } },
           opts
         );
+
+        if (res2.modifiedCount === 0) {
+          throw new Error(
+            "Reservation user quota cannot be modified or user not found"
+          );
+        }
       }
 
       // if the listing enabled, then update the state of the property to available
       if (listingEnable) {
-        await Property.updateOne(
+        const res3 = await Property.updateOne(
           { _id: propertyId },
           { $set: { status: "available" } },
           opts
         );
+        if (res3.modifiedCount === 0) {
+          throw new Error(
+            "Reservation property cannot be modified or property not found"
+          );
+        }
       }
 
       // commit the transaction
