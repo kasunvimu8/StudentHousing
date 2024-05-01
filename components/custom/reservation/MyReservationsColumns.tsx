@@ -97,7 +97,7 @@ export const columns: ExtendedColumnDef[] = [
     header: "Updated At",
     cell: ({ row }) => {
       const updated_at = row.getValue("updated_at");
-      const date = formatDateTime(new Date(String(updated_at))).simpleDateTime;
+      const date = updated_at ? formatDateTime(new Date(String(updated_at))).simpleDateTime : "-";
 
       return <div className="capitalize">{date}</div>;
     },

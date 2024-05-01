@@ -1,17 +1,24 @@
 import { getUserType } from "@/actions/profiles";
 import { getReservation } from "@/actions/reservations";
-import { AdminActionReservationCancel } from "@/components/custom/reservation/AdminAction";
+import {
+  AdminActionDocumentReview,
+  AdminActionReservationCancel,
+} from "@/components/custom/reservation/AdminAction";
 import ContractDocument from "@/components/custom/reservation/ContractDocument";
 import ReservationInformation from "@/components/custom/reservation/ReservationInformation";
 import PageTitle from "@/components/shared/PageTitle";
 import {
+  documentReview,
   documentSubmission,
   reservationCancelled,
   reservationCompleted,
   reservationStatuses,
 } from "@/constants";
 import { ReservationType } from "@/types";
+import Link from "next/link";
 import React from "react";
+import { LuInfo } from "react-icons/lu";
+import { PiWarningCircleLight } from "react-icons/pi";
 
 const page = async ({ params }: { params: { reservationId: string } }) => {
   const reservation: ReservationType = await getReservation(
@@ -27,6 +34,7 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
    */
   let passedStatus = true;
   let isDocumentSubmission = reservation?.status === documentSubmission;
+  let isDocumentReview = reservation?.status === documentReview;
   let isCancelled = reservation?.status === reservationCancelled;
   let isRented = reservation?.status === reservationCompleted;
   const userType = await getUserType();
@@ -48,7 +56,7 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
           <div className="font-normal text-sm text-center pb-1">
             {statusData?.actionDescription || ""}
           </div>
-          <div className="text-sm primary-light-font-color">{`Reference Id : ${reservation._id}`}</div>
+          <div className="text-sm primary-light-font-color">{`Reservation Id : ${reservation._id}`}</div>
 
           <div className="max-w-350 mx-auto flex items-center justify-between gap-10 pt-4">
             {reservationStatuses.map((reservationStatus) => {
@@ -87,41 +95,87 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
           <ReservationInformation reservation={reservation} />
         </div>
       )}
+
       {isCancelled ? (
         <div className="mx-auto py-5">
           <div className="font-normal text-sm">
             Your reservation has been cancelled by the administration due to
-            below reason. If you have a problem related to this
-            cancellation, Please contact the administrator.
+            below reason. If you have a problem related to this cancellation,
+            Please contact the administrator.
           </div>
-          <div className="pt-4 font-normal text-sm">Reason :</div>
-          <div className="pt-2 font-normal text-sm">
-            {reservation.admin_comment}
+          <div className="font-normal text-sm alert-background mt-5 p-4 rounded">
+            <div className="font-normal text-sm">Reason :</div>
+            <div className="pt-2 font-normal text-sm">
+              {reservation.admin_comment}
+            </div>
           </div>
         </div>
       ) : (
-        <div className="mx-auto py-5">
-          <ContractDocument
-            reservation={reservation}
-            editable={editable}
-            isDocumentSubmission={isDocumentSubmission}
-            isAdmin={isAdmin}
-          />
-        </div>
+        <>
+          {isAdmin && reservation.user_comment && (
+            <div className="font-normal text-sm alert-background p-4 rounded flex items-center">
+              <LuInfo className="ml-2 text-lg" />
+              <span className="ml-2">
+                Tanent Comment - {reservation.user_comment}
+              </span>
+            </div>
+          )}
+          {!isAdmin && reservation.admin_comment && (
+            <div className="font-normal text-sm alert-background p-4 rounded flex items-center">
+              <PiWarningCircleLight className="ml-2 text-lg" />
+              <span className="ml-2">
+                Admin Comment - {reservation.admin_comment}
+              </span>
+            </div>
+          )}
+
+          {isRented ? (
+            <div className="p-1 font-normal text-sm">
+              <div className="pt-2 font-normal text-sm">
+                To get more details about the process after sucessfull
+                reservation, please click
+                <Link
+                  href="/information?section=after-rented"
+                  className="font-bold"
+                >
+                  {" "}
+                  here.
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <div className="mx-auto py-5">
+              <ContractDocument
+                reservation={reservation}
+                editable={editable}
+                isDocumentSubmission={isDocumentSubmission}
+                isAdmin={isAdmin}
+              />
+            </div>
+          )}
+        </>
       )}
 
       {isAdmin && (
         <>
           {isDocumentSubmission && (
-            <>
-              <div className="flex justify-end pt-6">
-                <AdminActionReservationCancel
-                  reservationId={reservation._id}
-                  propertyId={reservation.property_ref_id}
-                  userId={reservation.user_id}
-                />
-              </div>
-            </>
+            <div className="flex justify-end pt-6">
+              <AdminActionReservationCancel
+                reservationId={reservation._id}
+                propertyId={reservation.property_ref_id}
+                userId={reservation.user_id}
+                cls="primary-background-color secondary-font-color"
+              />
+            </div>
+          )}
+          {isDocumentReview && (
+            <div className="flex justify-end pt-6">
+              <AdminActionDocumentReview
+                reservationId={reservation._id}
+                propertyId={reservation.property_ref_id}
+                userId={reservation.user_id}
+              />
+            </div>
           )}
         </>
       )}

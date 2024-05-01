@@ -1,7 +1,13 @@
 "use client";
 
-import { cancelReservation } from "@/actions/reservations";
+import {
+  approveDocument,
+  cancelReservation,
+  rejectReservationDocument,
+} from "@/actions/reservations";
+import ConfirmationComponent from "@/components/shared/ConfirmationComponent";
 import DialogComponent from "@/components/shared/DialogComponent";
+import { Button } from "@/components/ui/button";
 import { BaseComponent } from "@/components/ui/dropdown/BaseComponent";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -15,11 +21,13 @@ import React, { useState } from "react";
 export const AdminActionReservationCancel = ({
   reservationId,
   propertyId,
-  userId
+  userId,
+  cls,
 }: {
   propertyId: string;
   reservationId: string;
   userId: string;
+  cls?: string;
 }) => {
   const router = useRouter();
   const { toast } = useToast();
@@ -59,7 +67,7 @@ export const AdminActionReservationCancel = ({
       dialogDescription=""
       submitTitleMain="Cancel Reservation"
       submitMainButtonDisable={comment === "" || !user}
-      cls="py-5 px-7 primary-background-color secondary-font-color text-bold"
+      cls={`py-5 px-7 text-bold ${cls}`}
       clickSubmit={() => {
         cancelReservationHandle(comment, user, listingEnable);
       }}
@@ -104,5 +112,123 @@ export const AdminActionReservationCancel = ({
         />
       </div>
     </DialogComponent>
+  );
+};
+
+export const AdminActionReject = ({
+  reservationId,
+  cls,
+}: {
+  propertyId: string;
+  reservationId: string;
+  userId: string;
+  cls?: string;
+}) => {
+  const router = useRouter();
+  const { toast } = useToast();
+  const [comment, setComment] = useState("");
+
+  const rejectDocuments = async (comment: string) => {
+    const res: { msg: string; type: string } = await rejectReservationDocument(
+      reservationId,
+      comment
+    );
+    if (res) {
+      toast({
+        title: `Reject Documents : ${res.type === "ok" ? "Success" : "Failed"}`,
+        description: res.msg,
+      });
+      if (res.type === "ok") {
+        router.push("/manage-reservations");
+      }
+    }
+  };
+  return (
+    <DialogComponent
+      buttonTitle="Reject and Resubmission"
+      dialogTitle="Reject and Resubmission"
+      dialogDescription="This will result in the rejection of the submitted documents and prompt the tenant to resubmit them."
+      submitTitleMain="Reject and Ask for Resubmission"
+      submitMainButtonDisable={comment === ""}
+      cls={`py-5 px-7 text-bold ${cls}`}
+      clickSubmit={() => {
+        rejectDocuments(comment);
+      }}
+    >
+      <div className="flex flex-col justify-start gap-2">
+        <Label htmlFor="propertyId" className="text-left pt-2">
+          Reason
+        </Label>
+        <Textarea
+          placeholder="Type reason for the rejection here."
+          value={comment}
+          rows={4}
+          onChange={(e) => {
+            setComment(e.currentTarget.value);
+          }}
+        />
+      </div>
+    </DialogComponent>
+  );
+};
+
+export const AdminActionDocumentReview = ({
+  reservationId,
+  propertyId,
+  userId,
+}: {
+  propertyId: string;
+  reservationId: string;
+  userId: string;
+}) => {
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const approve = async () => {
+    const res: { msg: string; type: string } = await approveDocument(
+      reservationId
+    );
+    if (res) {
+      toast({
+        title: `Reservation Approval : ${
+          res.type === "ok" ? "Success" : "Failed"
+        }`,
+        description: res.msg,
+      });
+      if (res.type === "ok") {
+        router.push("/manage-reservations");
+      }
+    }
+  };
+
+  return (
+    <div className="flex justify-end gap-4">
+      <AdminActionReject
+        reservationId={reservationId}
+        propertyId={propertyId}
+        userId={userId}
+        cls="primary-font-color bg-white"
+      />
+      <AdminActionReservationCancel
+        reservationId={reservationId}
+        propertyId={propertyId}
+        userId={userId}
+        cls="primary-font-color bg-white"
+      />
+      <ConfirmationComponent
+        title={`Approve Documents - Are you absolutely sure ?`}
+        description={
+          "Once approved, the property will be allocated to the user permanently and will visible to them."
+        }
+        confirmedCallback={() => approve()}
+      >
+        <Button
+          className="primary-background-color secondary-font-color self-end disabled:bg-white disabled:primary-font-color"
+          size="lg"
+        >
+          Approve
+        </Button>
+      </ConfirmationComponent>
+    </div>
   );
 };

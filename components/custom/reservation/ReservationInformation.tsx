@@ -19,17 +19,29 @@ const ReservationInformation = ({
         {`Please upload the files listed below. Ensure that each document is named
         according to your ID used during account creation (e.g., Passport ID or
         NIC). Adhering to the file `}
-        <span className="font-bold">naming conventions is mandatory.</span>
+        <span className="font-bold">
+          naming conventions is mandatory.
+          {`(<passport_id>-<reservation_id>-<file_name>.pdf)`}
+        </span>
         <ul className="list-decimal p-3">
-          <li className="p-1 font-normal text-sm">
-            Signed Contract Document (e.g : N123456-contract.pdf)
+          <li className="p-1 font-normal text-sm ">
+            Signed Contract Document{" "}
+            <span className="primary-light-font-color">
+              (e.g : N123456-652e606b021a28adfd286910-contract.pdf)
+            </span>
           </li>
           <li className="p-1 font-normal text-sm">
-            Scanned Passport first page (e.g : N123456-passport.pdf or
-            N123456-nic.pdf)
+            Scanned Passport first page{" "}
+            <span className="primary-light-font-color">
+              (e.g : N123456-652e606b021a28adfd286910-id.pdf)
+            </span>
           </li>
           <li className="p-1 font-normal text-sm">
-            Enrollment Certificate (e.g : N123456-enrollment-certificate.pdf)
+            Enrollment Certificate{" "}
+            <span className="primary-light-font-color">
+              (e.g :
+              N123456-652e606b021a28adfd286910-enrollment-certificate.pdf)
+            </span>
           </li>
         </ul>
       </li>
@@ -60,6 +72,10 @@ const ReservationInformation = ({
         <Link href="/information" className="font-bold">
           here.
         </Link>
+      </li>
+      <li className="p-1 font-normal text-sm">
+        If you have directed here with admin comment, it means your previous
+        documents were rejected and you're being requested to resubmit them.
       </li>
     </ul>
   );

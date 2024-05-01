@@ -126,13 +126,17 @@ body {
   .workflow-number {
     @apply block w-10 h-10 rounded-full text-center leading-10 font-bold;
   }
-  
+
   .workflow-connector {
     @apply absolute top-1/2 left-10 w-full h-0.5 primary-light-background-color;
   }
 
   .primarybg {
     background-color: rgb(var(--primary-font-color));
+  }
+
+  .alert-background {
+    background: #fff0da;
   }
 
 }

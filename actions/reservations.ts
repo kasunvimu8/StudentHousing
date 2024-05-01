@@ -251,7 +251,8 @@ export async function submitDocuments(
   reservationId: string,
   nextStatus: string,
   user_id: string,
-  is_admin: boolean
+  is_admin: boolean,
+  comment: string
 ) {
   // TODO handle document submission here
   await connectToDatabase();
@@ -262,8 +263,13 @@ export async function submitDocuments(
   // checking whehter document naming convention is okay
   let isDocumentsOkay = true;
   documents.forEach((document: { id: string; name: string }) => {
-    const userId = document?.name?.split("-")?.[0];
+    const str = document?.name?.split("-");
+    const userId = str?.[0];
+    const RefId = str?.[1];
     if (userId !== user_id) {
+      isDocumentsOkay = false;
+    }
+    if (RefId !== reservationId) {
       isDocumentsOkay = false;
     }
   });
@@ -282,11 +288,18 @@ export async function submitDocuments(
   try {
     const documentUrls = documents.map(
       (doc: { id: string; name: string }) =>
-        `${process.env.STORAGE_SERVICE_URL}${reservationId}-${doc.name}`
+        `${process.env.STORAGE_SERVICE_URL}${doc.name}`
     );
     await Reservation.updateOne(
       { _id: reservationId },
-      { $set: { status: nextStatus, signed_documents: documentUrls } }
+      {
+        $set: {
+          status: nextStatus,
+          signed_documents: documentUrls,
+          user_comment: comment,
+          admin_comment: "",
+        },
+      }
     );
 
     msg = "Documents uploaded successfully";
@@ -434,7 +447,13 @@ export async function cancelReservation(
       // save comment/reason for the cancellation
       const res1 = await Reservation.updateOne(
         { _id: reservationId },
-        { $set: { status: "reservation_canceled", admin_comment: comment } },
+        {
+          $set: {
+            status: "reservation_canceled",
+            admin_comment: comment,
+            user_comment: "",
+          },
+        },
         opts
       );
 
@@ -492,6 +511,67 @@ export async function cancelReservation(
   } catch (error) {
     console.log("Failed to cancel the reservation.", error);
     msg = "Internal Server Error. Failed to cancel the reservation !";
+    type = "error";
+  }
+
+  return {
+    msg,
+    type,
+  };
+}
+
+export async function rejectReservationDocument(
+  reservationId: string,
+  comment: string
+) {
+  let msg = "";
+  let type = "";
+  try {
+    await connectToDatabase();
+
+    await Reservation.updateOne(
+      { _id: reservationId },
+      {
+        $set: {
+          status: "document_submission",
+          admin_comment: comment,
+          user_comment: "",
+        },
+      }
+    );
+
+    revalidatePath(`/reservation/${reservationId}`);
+    msg = "Reservation documents rejected successfully";
+    type = "ok";
+  } catch (error) {
+    console.log("Failed to reject the documents.", error);
+    msg = "Internal Server Error. Failed to reject the documents !";
+    type = "error";
+  }
+
+  return {
+    msg,
+    type,
+  };
+}
+
+export async function approveDocument(reservationId: string) {
+  let msg = "";
+  let type = "";
+  try {
+    await connectToDatabase();
+
+    await Reservation.updateOne(
+      { _id: reservationId },
+      { $set: { status: "rented", user_comment: "" } }
+    );
+
+    revalidatePath(`/reservation/${reservationId}`);
+    msg = "Reservation documents rejected successfully";
+    type = "ok";
+  } catch (error) {
+    console.log("Failed to reject the documents.", error);
+    msg = "Internal Server Error. Failed to reject the documents !";
     type = "error";
   }
 

@@ -439,13 +439,14 @@ export const duration = 10000;
 // ----------------------- Reservation Specific Config ------------------------- //
 export const expirationDuration = 7;
 export const documentSubmission = "document_submission";
+export const documentReview = "document_review";
 export const reservationCancelled = "reservation_canceled";
 export const reservationCompleted = "rented";
 
 export const cancelledRequestedEntities = [
   {
     id: "user",
-    description: "User (Student)",
+    description: "Tanent",
   },
   {
     id: "admin",
