@@ -11,7 +11,6 @@ import {
 } from "@/types";
 import { getReservationExist, getReservationStatus } from "./reservations";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 function getFilterOptions(options: FilterParamTypes) {
   let filterCriterions: any = [];
@@ -187,7 +186,7 @@ export async function deleteProperty(_id: string) {
       };
     } else {
       await Property.deleteOne({ _id: _id });
-      revalidatePath("/manage-properties");
+      revalidatePath("/", "layout");
 
       return {
         msg: "Property Deleted Successfully !",
@@ -215,7 +214,7 @@ export async function updateProperty(property: PropertyData) {
       };
     } else {
       await Property.updateOne({ _id: property._id }, { $set: property });
-      revalidatePath(`/property/edit/${property._id}`);
+      revalidatePath("/", "layout");
 
       return {
         msg: "Property Updated Successfully !",
@@ -235,7 +234,7 @@ export async function createPropertyAction(property: PropertyDeafultType) {
     await connectToDatabase();
 
     await Property.create({ ...property });
-    revalidatePath("/manage-properties");
+    revalidatePath("/", "layout");
     return {
       msg: "Property Created Successfully !",
       type: "ok",
