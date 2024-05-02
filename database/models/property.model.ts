@@ -32,6 +32,6 @@ const PropertySchema = new Schema({
   room_id: String,
 });
 
-const Property = models.Property || model("Property", PropertySchema);
+const Property = models?.Property || model("Property", PropertySchema);
 
 export default Property;

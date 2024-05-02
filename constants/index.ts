@@ -23,7 +23,7 @@ export const headerLinks = [
 export const normalUserNavMenu = [
   {
     title: "My Reservation",
-    href: "/reservations",
+    href: "/my-reservations",
     icon: "LuHome",
     id: "reservations",
   },
@@ -343,13 +343,59 @@ export const adminsortOptions = [
   },
 ];
 
+export const reservationStatuses = [
+  {
+    id: "available",
+    description: "Available",
+    workflowNumber: 1,
+    workflowDispaly: true,
+    actionDescription: "",
+    showInDropdown: false,
+  },
+  {
+    id: "document_submission",
+    description: "Document Submission",
+    workflowNumber: 2,
+    workflowDispaly: true,
+    showInDropdown: true,
+    actionDescription:
+      "Action Required!. Please Submit the Signed Contract Documents ",
+  },
+  {
+    id: "document_review",
+    description: "Document Review",
+    workflowNumber: 3,
+    workflowDispaly: true,
+    showInDropdown: true,
+    actionDescription:
+      "No Action Required. Wait for the Contract Document approval",
+  },
+  {
+    id: "rented",
+    description: "Rented",
+    workflowNumber: 4,
+    workflowDispaly: true,
+    showInDropdown: true,
+    actionDescription: "Congratulations! The Living place is now yours",
+  },
+  {
+    id: "reservation_canceled",
+    description: "Reservation Cancelled",
+    workflowNumber: -1,
+    workflowDispaly: false,
+    showInDropdown: true,
+    actionDescription:
+      "Unfortunately your reservation has been cancelled by the administation",
+  },
+];
+
 // ----------------------- Filter Constants ----------------------- //
 
 export const availableStatus = "available";
 
 // ----------------------- Data Table Config ------------------------- //
 
-export const initialVisibility = {
+export const managePropertyInitialVisibility = {
   _id: false,
   property_id: true,
   room_id: true,
@@ -364,5 +410,46 @@ export const initialVisibility = {
   updated_at: false,
   updated_by: false,
 };
+export const initialVisibilityMyReservations = {
+  _id: false,
+  property_ref_id: false,
+  status: true,
+  property_id: true,
+  created_at: true,
+  updated_at: false,
+  address: true,
+  avaialble_date: true,
+};
 
-// ----------------------- Update Property Config ------------------------- //
+export const initialVisibilityManageReservations = {
+  _id: false,
+  property_ref_id: false,
+  status: true,
+  property_id: true,
+  room_id: false,
+  created_at: true,
+  updated_at: false,
+  address: true,
+  from: false,
+};
+
+// ----------------------- Toaster Config ------------------------- //
+export const duration = 10000;
+
+// ----------------------- Reservation Specific Config ------------------------- //
+export const expirationDuration = 7;
+export const documentSubmission = "document_submission";
+export const documentReview = "document_review";
+export const reservationCancelled = "reservation_canceled";
+export const reservationCompleted = "rented";
+
+export const cancelledRequestedEntities = [
+  {
+    id: "user",
+    description: "Tanent",
+  },
+  {
+    id: "admin",
+    description: "Admin",
+  },
+];

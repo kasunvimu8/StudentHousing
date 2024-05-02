@@ -55,7 +55,7 @@ const PropertyDeatailPage = async ({
           <PropertyAdditionalInformation
             additional_information={property.additional_information}
           />
-          <PropertyReserve />
+          <PropertyReserve property={property} />
         </div>
       ) : (
         <NoDataNotFoundPage />

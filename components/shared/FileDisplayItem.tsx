@@ -5,10 +5,12 @@ const FileDisplayItem = ({
   fileId,
   name,
   handleFileRemove,
+  editable,
 }: {
   name: string;
   fileId: string;
   handleFileRemove: (fileId: string) => void;
+  editable: boolean;
 }) => {
   return (
     <div className="flex items-center justify-between w-full">
@@ -26,13 +28,15 @@ const FileDisplayItem = ({
             className="w-4 h-4 cursor-pointer"
           />
         </div>
-        <div className="primary-font-color p-1 rounded ">
-          <LuX
-            strokeWidth="3"
-            onClick={() => handleFileRemove(fileId)}
-            className="w-4 h-4 cursor-pointer"
-          />
-        </div>
+        {editable && (
+          <div className="primary-font-color p-1 rounded ">
+            <LuX
+              strokeWidth="3"
+              onClick={() => handleFileRemove(fileId)}
+              className="w-4 h-4 cursor-pointer"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

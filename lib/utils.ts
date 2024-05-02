@@ -185,10 +185,7 @@ export const isFunction = (functionToCheck: any) => {
   );
 };
 
-export const getUniqueArray = (
-  array: any,
-  uniqueKey: string
-) => {
+export const getUniqueArray = (array: any, uniqueKey: string) => {
   let uniqueElements = new Set();
 
   for (let element of array) {
@@ -201,4 +198,25 @@ export const getUniqueArray = (
   );
 
   return uniqueData || [];
+};
+
+export const calculateFutureDate = (startDate: Date, numberOfDays: number) => {
+  const futureDate = new Date(startDate);
+  futureDate.setDate(startDate.getDate() + numberOfDays);
+  return futureDate;
+};
+
+export const getNextStatus = (status: string) => {
+  let next = "";
+  const statusData = configs.reservationStatuses.find(
+    (item) => item.id === status
+  );
+  if (statusData) {
+    const nextStatusData = configs.reservationStatuses.find(
+      (item) => item.workflowNumber === statusData.workflowNumber + 1
+    );
+    next = nextStatusData?.id || "";
+  }
+
+  return next;
 };

@@ -1,6 +1,6 @@
 import { getProperties } from "@/actions/properties";
 import { DataTable } from "@/components/ui/data-table/DataTable";
-import { initialVisibility } from "@/constants";
+import { availableStatus, managePropertyInitialVisibility } from "@/constants";
 import { FilterParamTypes, Property, SortOption } from "@/types";
 import React from "react";
 import { columns } from "./PropertiesColumns";
@@ -23,15 +23,16 @@ const ManagePropertyTable = async ({
       : sort === "room-decs"
       ? { property_id: -1 }
       : { created_at: -1 };
+  const status = searchParams.status || "all";
 
-  const data = await getProperties(-1, page, sortOption, searchParams, "all");
+  const data = await getProperties(-1, page, sortOption, searchParams, status);
   properties = JSON.parse(JSON.stringify(data));
 
   return (
     <DataTable
       columns={columns}
       data={properties}
-      initialVisibility={initialVisibility}
+      initialVisibility={managePropertyInitialVisibility}
     />
   );
 };

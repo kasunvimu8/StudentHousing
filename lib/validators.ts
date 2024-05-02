@@ -43,3 +43,16 @@ export const propertyFormSchema = z.object({
   size: z.number(),
   from: z.string(),
 });
+
+export const reservationPayloadSchema = z.object({
+  property_ref_id: z
+    .string({
+      required_error: "property_ref_id is required",
+    })
+    .min(1),
+  user_id: z
+    .string({
+      required_error: "user_id is required",
+    })
+    .min(1)
+});
