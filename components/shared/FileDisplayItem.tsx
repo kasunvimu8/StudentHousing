@@ -10,7 +10,7 @@ const FileDisplayItem = ({
   name: string;
   fileId: string;
   handleFileRemove: (fileId: string) => void;
-  editable: boolean;
+  editable?: boolean;
 }) => {
   return (
     <div className="flex items-center justify-between w-full">

@@ -2,12 +2,11 @@
 
 import { connectToDatabase } from "@/database";
 import Profile from "@/database/models/profiles.model";
-import Profiles from "@/database/models/profiles.model";
 
 export async function getProfiles() {
   await connectToDatabase();
 
-  const user = await Profiles.find({});
+  const user = await Profile.find({});
   console.log(JSON.parse(JSON.stringify(user)));
 
   return "ss";
