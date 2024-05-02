@@ -7,6 +7,7 @@ import {
   FilterParamTypes,
   SortOption,
   Property as PropertyData,
+  PropertyDeafultType,
 } from "@/types";
 import { getReservationExist, getReservationStatus } from "./reservations";
 import { revalidatePath } from "next/cache";
@@ -185,7 +186,7 @@ export async function deleteProperty(_id: string) {
       };
     } else {
       await Property.deleteOne({ _id: _id });
-      revalidatePath("/manage-properties");
+      revalidatePath("/", "layout");
 
       return {
         msg: "Property Deleted Successfully !",
@@ -213,7 +214,7 @@ export async function updateProperty(property: PropertyData) {
       };
     } else {
       await Property.updateOne({ _id: property._id }, { $set: property });
-      revalidatePath(`/property/edit/${property._id}`);
+      revalidatePath("/", "layout");
 
       return {
         msg: "Property Updated Successfully !",
@@ -226,5 +227,52 @@ export async function updateProperty(property: PropertyData) {
       msg: "Internal Server Error. Cannot update property details property!",
       type: "error",
     };
+  }
+}
+export async function createPropertyAction(property: PropertyDeafultType) {
+  try {
+    await connectToDatabase();
+
+    await Property.create({ ...property });
+    revalidatePath("/", "layout");
+    return {
+      msg: "Property Created Successfully !",
+      type: "ok",
+    };
+  } catch (error) {
+    console.log("Failed to create property.", error);
+    return {
+      msg: "Internal Server Error. Cannot create property!",
+      type: "error",
+    };
+  }
+}
+
+export async function getUniquesPropertyIds() {
+  try {
+    await connectToDatabase();
+
+    return await Property.aggregate([
+      {
+        $group: {
+          _id: "$property_id",
+          doc: { $first: "$$ROOT" },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: "$doc",
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          property_id: 1,
+        },
+      },
+    ]);
+  } catch (error) {
+    console.log("Failed to fetch all properties.", error);
+    return [];
   }
 }

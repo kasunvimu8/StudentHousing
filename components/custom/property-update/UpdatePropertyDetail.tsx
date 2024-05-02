@@ -13,6 +13,7 @@ import { ZodError } from "zod";
 import { propertyFormSchema } from "@/lib/validators";
 import { useToast } from "@/components/ui/use-toast";
 import ConfirmationComponent from "@/components/shared/ConfirmationComponent";
+import AdditionalInformation from "./AdditionalInformation";
 
 const initialState: Property = {
   _id: "",
@@ -135,6 +136,10 @@ const UpdatePropertyDetail = ({
       />
       <ContractDocumentSection
         propertyState={propertyState}
+        updateLocalState={updateLocalState}
+      />
+      <AdditionalInformation
+        value={propertyState?.additional_information || ""}
         updateLocalState={updateLocalState}
       />
       <div className="flex justify-end py-1">
