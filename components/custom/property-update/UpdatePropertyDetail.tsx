@@ -40,6 +40,7 @@ const initialState: Property = {
   images: [],
   status: "",
   city: "",
+  notice_period: 3,
   rooms: undefined,
   property_type: "",
   floor: undefined,

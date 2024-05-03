@@ -199,6 +199,11 @@ export const propertyDetailConfig = [
     title: "Room Number",
     inputType: "string",
   },
+  {
+    id: "notice_period",
+    title: "Notice Period (Months)",
+    inputType: "number",
+  },
 ];
 
 export const propertyToolTips = {

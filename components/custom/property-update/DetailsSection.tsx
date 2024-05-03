@@ -183,6 +183,16 @@ const DetailsSection: React.FC<PropertySectionProps> = ({
             }}
           />
         </OtherItemLayout>
+        <OtherItemLayout title="Notice Period (Months)">
+          <Input
+            value={propertyState.notice_period}
+            type="number"
+            className="bg-white max-w-[250px]"
+            onChange={(e: React.FormEvent<HTMLInputElement>) => {
+              updateLocalState("notice_period", parseInt(e.currentTarget.value));
+            }}
+          />
+        </OtherItemLayout>
       </div>
     </div>
   );

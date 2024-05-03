@@ -58,6 +58,7 @@ export type PropertyDeafultType = {
   one_time_cost?: number;
   warm_rent?: number;
   deposit?: number;
+  notice_period?: number;
 };
 
 export type Property = PropertyDeafultType & {

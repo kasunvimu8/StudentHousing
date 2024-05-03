@@ -42,6 +42,7 @@ const initialState: PropertyDeafultType = {
   images: [],
   status: "available",
   city: "",
+  notice_period: 3,
   rooms: 1,
   property_type: "",
   floor: 1,
