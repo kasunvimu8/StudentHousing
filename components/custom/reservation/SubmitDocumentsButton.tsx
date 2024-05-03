@@ -12,6 +12,7 @@ import { getUserId } from "@/lib/user";
 import DialogComponent from "@/components/shared/DialogComponent";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const SubmitDocumentsButton = ({
   reservation,
@@ -26,6 +27,7 @@ const SubmitDocumentsButton = ({
   const router = useRouter();
   const user_id = getUserId();
   const [comment, setComment] = useState("");
+  const [check, setCheck] = useState(false);
 
   // admin document uploaded wont change the workflow of the reservation process. It just edit the the content
   // only the user can forward the reservation process to 'document review'workflow from 'document submission'
@@ -69,6 +71,8 @@ const SubmitDocumentsButton = ({
         clickSubmit={() => {
           submitDocumentsHandle(comment);
         }}
+        displayButtonDisable={files.length === 0}
+        submitMainButtonDisable={!check}
       >
         <div className="flex flex-col justify-start gap-2">
           <Label htmlFor="propertyId" className="text-left pt-2">
@@ -82,6 +86,19 @@ const SubmitDocumentsButton = ({
               setComment(e.currentTarget.value);
             }}
           />
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="terms"
+              checked={check}
+              onCheckedChange={() => setCheck((check) => !check)}
+            />
+            <label
+              htmlFor="terms"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              I consent to upload accurate and truthful documents
+            </label>
+          </div>
         </div>
       </DialogComponent>
     </div>

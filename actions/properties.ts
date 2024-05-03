@@ -205,21 +205,13 @@ export async function updateProperty(property: PropertyData) {
   try {
     await connectToDatabase();
 
-    const reservationStatus = await getReservationStatus(property._id);
-    if (reservationStatus === "rented") {
-      return {
-        msg: "Cannot update property details for a rented property!",
-        type: "error",
-      };
-    } else {
-      await Property.updateOne({ _id: property._id }, { $set: property });
-      revalidatePath("/", "layout");
+    await Property.updateOne({ _id: property._id }, { $set: property });
+    revalidatePath("/", "layout");
 
-      return {
-        msg: "Property Updated Successfully !",
-        type: "ok",
-      };
-    }
+    return {
+      msg: "Property Updated Successfully !",
+      type: "ok",
+    };
   } catch (error) {
     console.log("Failed to update property.", error);
     return {
