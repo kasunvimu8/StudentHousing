@@ -5,6 +5,7 @@ import {
   AdminActionReservationCancel,
 } from "@/components/custom/reservation/AdminAction";
 import ContractDocument from "@/components/custom/reservation/ContractDocument";
+import ContractPeriod from "@/components/custom/reservation/ContractPeriod";
 import ReservationInformation from "@/components/custom/reservation/ReservationInformation";
 import PageTitle from "@/components/shared/PageTitle";
 import {
@@ -15,7 +16,6 @@ import {
   reservationStatuses,
 } from "@/constants";
 import { ReservationType } from "@/types";
-import Link from "next/link";
 import React from "react";
 import { LuInfo } from "react-icons/lu";
 import { PiWarningCircleLight } from "react-icons/pi";
@@ -88,6 +88,14 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
               );
             })}
           </div>
+          {isRented && (
+            <ContractPeriod
+              reservationId={reservation._id}
+              isAdmin={isAdmin}
+              from={reservation.from}
+              to={reservation.to}
+            />
+          )}
         </div>
       </div>
       {isDocumentSubmission && (
@@ -130,19 +138,7 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
           )}
 
           {isRented ? (
-            <div className="p-1 font-normal text-sm">
-              <div className="pt-2 font-normal text-sm">
-                To get more details about the process after sucessfull
-                reservation, please click
-                <Link
-                  href="/information?section=after-rented"
-                  className="font-bold"
-                >
-                  {" "}
-                  here.
-                </Link>
-              </div>
-            </div>
+            <></>
           ) : (
             <div className="mx-auto py-5">
               <ContractDocument
@@ -174,6 +170,8 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
                 reservationId={reservation._id}
                 propertyId={reservation.property_ref_id}
                 userId={reservation.user_id}
+                from={reservation.from}
+                to={reservation.to}
               />
             </div>
           )}

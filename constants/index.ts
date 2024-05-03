@@ -423,7 +423,8 @@ export const initialVisibilityMyReservations = {
   created_at: true,
   updated_at: false,
   address: true,
-  avaialble_date: true,
+  from: true,
+  to: false,
 };
 
 export const initialVisibilityManageReservations = {
@@ -436,6 +437,7 @@ export const initialVisibilityManageReservations = {
   updated_at: false,
   address: true,
   from: false,
+  to: false,
 };
 
 // ----------------------- Toaster Config ------------------------- //

@@ -76,10 +76,22 @@ export const columns: ExtendedColumnDef[] = [
     header: "Available From",
     cell: ({ row }) => {
       const from = row.getValue("from");
-      const date = formatDateTime(new Date(String(from))).simpleDate;
+      const date = from
+        ? formatDateTime(new Date(String(from))).simpleDate
+        : "-";
       return <div className="capitalize">{date}</div>;
     },
     columnTitle: "Available From",
+  },
+  {
+    accessorKey: "to",
+    header: "Available To",
+    cell: ({ row }) => {
+      const to = row.getValue("to");
+      const date = to ? formatDateTime(new Date(String(to))).simpleDate : "-";
+      return <div className="capitalize">{date}</div>;
+    },
+    columnTitle: "Available To",
   },
   {
     accessorKey: "created_at",
@@ -97,7 +109,9 @@ export const columns: ExtendedColumnDef[] = [
     header: "Updated At",
     cell: ({ row }) => {
       const updated_at = row.getValue("updated_at");
-      const date = updated_at ? formatDateTime(new Date(String(updated_at))).simpleDateTime : "-";
+      const date = updated_at
+        ? formatDateTime(new Date(String(updated_at))).simpleDateTime
+        : "-";
 
       return <div className="capitalize">{date}</div>;
     },

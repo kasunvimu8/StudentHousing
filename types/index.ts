@@ -181,4 +181,6 @@ export type ReservationType = {
   signed_documents?: string[];
   admin_comment?: string;
   user_comment?: string;
+  from: string;
+  to?: string;
 };

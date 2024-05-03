@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button } from "../../ui/button";
-import ConfirmationComponent from "@/components/shared/ConfirmationComponent";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { ReservationType } from "@/types";
@@ -86,19 +84,21 @@ const SubmitDocumentsButton = ({
               setComment(e.currentTarget.value);
             }}
           />
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="terms"
-              checked={check}
-              onCheckedChange={() => setCheck((check) => !check)}
-            />
-            <label
-              htmlFor="terms"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              I consent to upload accurate and truthful documents
-            </label>
-          </div>
+          {!isAdmin && (
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="terms"
+                checked={check}
+                onCheckedChange={() => setCheck((check) => !check)}
+              />
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                I consent to upload accurate and truthful documents
+              </label>
+            </div>
+          )}
         </div>
       </DialogComponent>
     </div>

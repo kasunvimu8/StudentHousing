@@ -14,6 +14,8 @@ const ReservationSchema = new Schema({
   signed_documents: [String],
   user_comment: String,
   admin_comment: String,
+  from: Date,
+  to: Date,
 });
 
 const Reservation =

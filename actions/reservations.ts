@@ -71,7 +71,8 @@ export async function getMyReservations(userId: string) {
           property_ref_id: 1,
           admin_comment: 1,
           user_comment: 1,
-          from: "$property.from",
+          from: 1,
+          to: 1,
           property_id: "$property.property_id",
           address: "$property.address",
         },
@@ -119,6 +120,8 @@ async function performReservation(
           user_id: reservationPayload.user_id,
           created_at: new Date(),
           property_ref_id: reservationPayload.property_ref_id,
+          from: propertyData.from,
+          to: propertyData.to,
         },
       ],
       opts
@@ -144,7 +147,7 @@ async function performReservation(
     revalidatePath("/my-profile");
 
     msg =
-      "Property reserved successfully for a temporary period. Please visit my reservation page to upload signed contracts promptly";
+      "Property reserved successfully for a temporary period. Please visit my reservation page to upload documents to complete the process";
     type = "ok";
   } catch (error) {
     // abort the transaction
@@ -228,6 +231,8 @@ export async function getReservation(reservationId: string) {
           property_ref_id: 1,
           admin_comment: 1,
           user_comment: 1,
+          from: 1,
+          to: 1,
           property_id: "$property.property_id",
         },
       },
@@ -404,7 +409,8 @@ export async function getAllReservations(
           property_ref_id: 1,
           admin_comment: 1,
           user_comment: 1,
-          from: "$property.from",
+          from: 1,
+          to: 1,
           property_id: "$property.property_id",
           address: "$property.address",
           room_id: "$property.room_id",
@@ -555,7 +561,11 @@ export async function rejectReservationDocument(
   };
 }
 
-export async function approveDocument(reservationId: string) {
+export async function approveDocument(
+  reservationId: string,
+  fromDate: string,
+  toDate: string
+) {
   let msg = "";
   let type = "";
   try {
@@ -563,7 +573,14 @@ export async function approveDocument(reservationId: string) {
 
     await Reservation.updateOne(
       { _id: reservationId },
-      { $set: { status: "rented", user_comment: "" } }
+      {
+        $set: {
+          status: "rented",
+          user_comment: "",
+          from: fromDate,
+          to: toDate,
+        },
+      }
     );
 
     revalidatePath(`/reservation/${reservationId}`);
@@ -572,6 +589,41 @@ export async function approveDocument(reservationId: string) {
   } catch (error) {
     console.log("Failed to reject the documents.", error);
     msg = "Internal Server Error. Failed to reject the documents !";
+    type = "error";
+  }
+
+  return {
+    msg,
+    type,
+  };
+}
+
+export async function updateRentalPeriod(
+  reservationId: string,
+  fromDate: string,
+  toDate: string
+) {
+  let msg = "";
+  let type = "";
+  try {
+    await connectToDatabase();
+
+    await Reservation.updateOne(
+      { _id: reservationId },
+      {
+        $set: {
+          from: fromDate,
+          to: toDate,
+        },
+      }
+    );
+
+    revalidatePath(`/reservation/${reservationId}`);
+    msg = "Rental period updated successfully";
+    type = "ok";
+  } catch (error) {
+    console.log("Failed to update rental period.", error);
+    msg = "Internal Server Error. Failed to update rental period !";
     type = "error";
   }
 

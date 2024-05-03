@@ -5,18 +5,17 @@ import {
   cancelReservation,
   rejectReservationDocument,
 } from "@/actions/reservations";
-import ConfirmationComponent from "@/components/shared/ConfirmationComponent";
 import DialogComponent from "@/components/shared/DialogComponent";
-import { Button } from "@/components/ui/button";
 import { BaseComponent } from "@/components/ui/dropdown/BaseComponent";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { cancelledRequestedEntities } from "@/constants";
-import { getUserId } from "@/lib/user";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { BaseComponent as Calender } from "@/components/ui/calendar/BaseComponent";
+import { formatDateToISOStringWithTimeZone } from "@/lib/utils";
 
 export const AdminActionReservationCancel = ({
   reservationId,
@@ -33,7 +32,7 @@ export const AdminActionReservationCancel = ({
   const { toast } = useToast();
   const [user, setUser] = useState(cancelledRequestedEntities[0]?.id || "");
   const [comment, setComment] = useState("");
-  const [listingEnable, setListingEnable] = useState(false);
+  const [listingEnable, setListingEnable] = useState(true);
 
   const cancelReservationHandle = async (
     comment: string,
@@ -172,21 +171,25 @@ export const AdminActionReject = ({
   );
 };
 
-export const AdminActionDocumentReview = ({
+export const ApproveReservation = ({
   reservationId,
-  propertyId,
-  userId,
+  from,
+  to,
 }: {
-  propertyId: string;
   reservationId: string;
-  userId: string;
+  from: string | undefined;
+  to: string | undefined;
 }) => {
   const router = useRouter();
+  const [fromDate, setfromDate] = useState(from ? from : "");
+  const [toDate, setToDate] = useState(to ? to : "");
   const { toast } = useToast();
 
   const approve = async () => {
     const res: { msg: string; type: string } = await approveDocument(
-      reservationId
+      reservationId,
+      fromDate,
+      toDate
     );
     if (res) {
       toast({
@@ -202,6 +205,66 @@ export const AdminActionDocumentReview = ({
   };
 
   return (
+    <DialogComponent
+      buttonTitle="Approve Documents"
+      dialogTitle="Approve Documents"
+      dialogDescription="Once approved, the property will be allocated to the user permanently."
+      submitTitleMain="Confirm"
+      submitMainButtonDisable={
+        !(fromDate && fromDate !== "" && toDate && toDate !== "")
+      }
+      cls="py-5 px-7 text-bold primary-background-color secondary-font-color"
+      clickSubmit={() => {
+        approve();
+      }}
+    >
+      <div className="flex flex-col justify-start gap-2">
+        <Label htmlFor="propertyId" className="text-left p-2 gap-1">
+          Please update the exact rental period.
+        </Label>
+        <div className="grid grid-cols-3 gap-2">
+          <div className="text-sm font-normal primary-light-font-color flex items-center">
+            Rented From
+          </div>
+          <div className="text-sm font-normal col-span-2">
+            <Calender
+              date={fromDate === "" ? undefined : new Date(fromDate)}
+              handleSelect={(value) =>
+                setfromDate(String(formatDateToISOStringWithTimeZone(value)))
+              }
+            />
+          </div>
+          <div className="text-sm font-normal primary-light-font-color flex items-center">
+            Rented To
+          </div>
+          <div className="text-sm font-normal col-span-2">
+            <Calender
+              date={toDate === "" ? undefined : new Date(toDate)}
+              handleSelect={(value) =>
+                setToDate(String(formatDateToISOStringWithTimeZone(value)))
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </DialogComponent>
+  );
+};
+
+export const AdminActionDocumentReview = ({
+  reservationId,
+  propertyId,
+  userId,
+  from,
+  to,
+}: {
+  propertyId: string;
+  reservationId: string;
+  userId: string;
+  from: string;
+  to?: string;
+}) => {
+  return (
     <div className="flex justify-end gap-4">
       <AdminActionReject
         reservationId={reservationId}
@@ -215,20 +278,7 @@ export const AdminActionDocumentReview = ({
         userId={userId}
         cls="primary-font-color bg-white"
       />
-      <ConfirmationComponent
-        title={`Approve Documents - Are you absolutely sure ?`}
-        description={
-          "Once approved, the property will be allocated to the user permanently and will visible to them."
-        }
-        confirmedCallback={() => approve()}
-      >
-        <Button
-          className="primary-background-color secondary-font-color self-end disabled:bg-white disabled:primary-font-color"
-          size="lg"
-        >
-          Approve
-        </Button>
-      </ConfirmationComponent>
+      <ApproveReservation reservationId={reservationId} from={from} to={to} />
     </div>
   );
 };

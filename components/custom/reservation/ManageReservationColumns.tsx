@@ -112,11 +112,23 @@ export const columns: ExtendedColumnDef[] = [
     accessorKey: "from",
     header: "Available From",
     cell: ({ row }) => {
-      const from = row.getValue("from");
-      const date = formatDateTime(new Date(String(from))).simpleDate;
+      const from = row.getValue("from") || "-";
+      const date = from
+        ? formatDateTime(new Date(String(from))).simpleDate
+        : "-";
       return <div className="capitalize">{date}</div>;
     },
     columnTitle: "Available From",
+  },
+  {
+    accessorKey: "to",
+    header: "Available To",
+    cell: ({ row }) => {
+      const to = row.getValue("to") || "-";
+      const date = to ? formatDateTime(new Date(String(to))).simpleDate : "-";
+      return <div className="capitalize">{date}</div>;
+    },
+    columnTitle: "Available To",
   },
   {
     accessorKey: "created_at",

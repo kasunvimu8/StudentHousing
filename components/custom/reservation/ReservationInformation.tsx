@@ -31,7 +31,7 @@ const ReservationInformation = ({
             </span>
           </li>
           <li className="p-1 font-normal text-sm">
-            Scanned Passport first page{" "}
+            Scanned Passport or NIC {" "}
             <span className="primary-light-font-color">
               (e.g : N123456-652e606b021a28adfd286910-id.pdf)
             </span>

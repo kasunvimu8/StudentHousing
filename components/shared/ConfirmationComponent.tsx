@@ -35,7 +35,7 @@ const ConfirmationComponent = ({
           <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription> {description}</AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
+        <AlertDialogFooter className="pt-3">
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             className="primary-background-color secondary-font-color"
