@@ -60,6 +60,7 @@ const OtherItemLayout = ({
 const DetailsSection: React.FC<PropertySectionProps> = ({
   propertyState,
   updateLocalState,
+  isCreate
 }) => {
   return (
     <div className="pt-3">
@@ -90,6 +91,7 @@ const DetailsSection: React.FC<PropertySectionProps> = ({
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
               updateLocalState("property_id", e.currentTarget.value);
             }}
+            disabled={!isCreate}
           />
         </OtherItemLayout>
         <OtherItemLayout title="Room ID" isRequired={true}>
@@ -99,6 +101,7 @@ const DetailsSection: React.FC<PropertySectionProps> = ({
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
               updateLocalState("room_id", e.currentTarget.value);
             }}
+            disabled={!isCreate}
           />
         </OtherItemLayout>
         <OtherItemLayout title="Furnishing" isRequired={true}>

@@ -150,6 +150,7 @@ const PropertyCreate = ({
         <DetailsSection
           propertyState={propertyState}
           updateLocalState={updateLocalState}
+          isCreate={true}
         />
         <ImageSectioon
           propertyState={propertyState}

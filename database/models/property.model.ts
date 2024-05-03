@@ -29,7 +29,7 @@ const PropertySchema = new Schema({
   floor: String,
   additional_information: String,
   notice_period: Number,
-  property_id: String,
+  property_id: { required: true, unique: true, type: String },
   room_id: String,
 });
 

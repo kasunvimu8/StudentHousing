@@ -12,6 +12,7 @@ export interface PropertySectionProps {
     longitude: number;
     latitude: number;
   }) => void;
+  isCreate?: boolean;
 }
 
 // ------------------------SCHDCN UI Types----------------------------------------

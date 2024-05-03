@@ -239,10 +239,13 @@ export async function createPropertyAction(property: PropertyDeafultType) {
       msg: "Property Created Successfully !",
       type: "ok",
     };
-  } catch (error) {
+  } catch (error: any) {
+    const errCode = error?.code === 11000;
     console.log("Failed to create property.", error);
     return {
-      msg: "Internal Server Error. Cannot create property!",
+      msg: errCode
+        ? "Property already exists in the system."
+        : "Internal Server Error. Cannot create property!",
       type: "error",
     };
   }

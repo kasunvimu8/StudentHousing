@@ -27,7 +27,7 @@ const Header = async () => {
           <nav className="flex md:hidden items-center justify-start w-25">
             <MobileNavItems />
           </nav>
-          <Link href="/" className="w-30 ml-2">
+          <Link href="/" className="w-30 ml-2 mt-1">
             <Image
               src="/images/logo.svg"
               width={102}
