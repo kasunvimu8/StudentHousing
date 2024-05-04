@@ -1,38 +1,19 @@
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-// import { getUserType } from "@/actions/profiles";
+import { decrypt } from "./lib/session";
 
-const isAuthenticated = (request: NextRequest) => true;
-
-async function adminCheckMiddleware(request: NextRequest) {
-  // do the admin check
-  const userType = "admin";
-  const isAdmin = userType === "admin";
-  const manageProperty =
-    request.nextUrl.pathname.startsWith("/manage-properties");
-  const manageReservations = request.nextUrl.pathname.startsWith(
-    "/manage-reservations"
-  );
-  const editProperty = request.nextUrl.pathname.startsWith("/property/edit");
-  const createProperty =
-    request.nextUrl.pathname.startsWith("/property/create");
-
-  if (
-    (manageProperty || editProperty || createProperty || manageReservations) &&
-    !isAdmin
-  ) {
-    return NextResponse.redirect(new URL("/not-found", request.url));
-  }
-  return NextResponse.next();
-}
+const publicRoutes = ["/login", "/register", "/"];
 
 export default async function middleWare(request: NextRequest) {
-  if (!isAuthenticated(request)) {
-    // Redirect to the login
-    return Response.json(
-      { success: false, message: "Will redirect to the login page" },
-      { status: 401 }
-    );
+  const path = request.nextUrl.pathname;
+  const isPublicRoute = publicRoutes.includes(path);
+
+  const cookie = cookies().get("session")?.value;
+  const session = cookie ? await decrypt(cookie) : undefined;
+
+  if (!isPublicRoute && !session?.userId) {
+    // return NextResponse.redirect(new URL("/login", request.nextUrl));
   }
 
-  return await adminCheckMiddleware(request);
+  return NextResponse.next();
 }

@@ -460,3 +460,8 @@ export const cancelledRequestedEntities = [
     description: "Admin",
   },
 ];
+
+export const defaultUserReservationQuota = 2;
+
+// ----------------------- Authentication Specific Config ------------------------- //
+export const sessionPeriodMinutes = 60;
