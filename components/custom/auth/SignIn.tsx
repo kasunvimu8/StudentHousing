@@ -2,16 +2,41 @@
 
 import { signIn } from "@/actions/authentications";
 import Link from "next/link";
-import { useFormState, useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { ImSpinner8 } from "react-icons/im";
 import Image from "next/image";
+import { useState } from "react";
+import { SigninFormSchema } from "@/lib/validators";
+import { z } from "zod";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 export function SignInForm() {
-  const [state, action] = useFormState(signIn, undefined);
-  const { pending } = useFormStatus();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [pending, setPending] = useState(false);
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const handleSubmit = async () => {
+    setPending(true);
+    const res = await signIn({ email, password });
+    if (res) {
+      toast({
+        title: `User Registration : ${
+          res.type === "ok" ? "Success" : "Failed"
+        }`,
+        description: res.msg,
+      });
+
+      if (res.type === "ok") {
+        router.push("/");
+      }
+    }
+    setPending(false);
+  };
 
   return (
     <div className="relative h-screen flex flex-col md:grid md:grid-cols-2">
@@ -24,7 +49,7 @@ export function SignInForm() {
 
       <div className="hidden md:flex text-white flex-col justify-center p-10 primary-background-color border-t-8 border-b-8 border-[white]">
         <h2 className="text-4xl font-bold mb-2">Welcome Back!</h2>
-        <p className="text-lg">Please sign in to continue.</p>
+        <p className="text-lg">Please log in to continue.</p>
       </div>
 
       <div className="flex flex-col items-center justify-center flex-grow p-4 md:p-8 relative">
@@ -42,46 +67,46 @@ export function SignInForm() {
             <p className="text-sm">Enter your credentials below to log in</p>
           </div>
 
-          <form action={action} autoComplete="off">
-            <div className="grid gap-2 p-2">
-              <div className="grid gap-2 pb-2">
-                <Label className="p-1" htmlFor="email">
-                  Email
-                </Label>
-                <Input
-                  id="email"
-                  placeholder="name@example.com"
-                  type="email"
-                  autoCapitalize="none"
-                  autoComplete="new-email"
-                  autoCorrect="off"
-                  disabled={pending}
-                />
-                <Label className="p-1" htmlFor="password">
-                  Password
-                </Label>
-                <Input
-                  id="password"
-                  placeholder=""
-                  type="password"
-                  autoCapitalize="none"
-                  autoComplete="new-password"
-                  autoCorrect="off"
-                  disabled={pending}
-                />
-              </div>
-              <Button
+          <div className="grid gap-2 p-2">
+            <div className="grid gap-2 pb-2">
+              <Label className="p-1" htmlFor="email">
+                Email
+              </Label>
+              <Input
+                id="email"
+                placeholder="name@example.com"
+                type="email"
+                autoComplete="new-email"
+                value={email}
+                onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                  setEmail(e.currentTarget.value);
+                }}
                 disabled={pending}
-                type="submit"
-                className="primary-background-color text-white"
-              >
-                {pending && (
-                  <ImSpinner8 className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                Log In
-              </Button>
+              />
+              <Label className="p-1" htmlFor="password">
+                Password
+              </Label>
+              <Input
+                id="password"
+                placeholder=""
+                type="password"
+                autoComplete="new-password"
+                value={password}
+                onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                  setPassword(e.currentTarget.value);
+                }}
+                disabled={pending}
+              />
             </div>
-          </form>
+            <Button
+              disabled={pending}
+              onClick={() => handleSubmit()}
+              className="primary-background-color text-white"
+            >
+              {pending && <ImSpinner8 className="mr-2 h-4 w-4 animate-spin" />}
+              Log In
+            </Button>
+          </div>
         </div>
       </div>
     </div>

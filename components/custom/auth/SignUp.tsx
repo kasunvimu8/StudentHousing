@@ -2,29 +2,73 @@
 
 import { signUp } from "@/actions/authentications";
 import Link from "next/link";
-import { useFormState, useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { ImSpinner8 } from "react-icons/im";
 import Image from "next/image";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
-
-export function SignUpButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <button aria-disabled={pending} type="submit">
-      {pending ? "Submitting..." : "Sign up"}
-    </button>
-  );
-}
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { SignupFormSchema } from "@/lib/validators";
+import { z } from "zod";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 export function SignUpForm() {
-  const [state, action] = useFormState(signUp, undefined);
-  const { pending } = useFormStatus();
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    user_id: "",
+    enrollment_id: "",
+    name: "",
+  });
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [id, setId] = useState("");
+  const [enrollmentId, setEnrollmentId] = useState("");
+  const [password, setPassword] = useState("");
+  const [pending, setPending] = useState(false);
   const [check, setCheck] = useState(false);
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const handleSubmit = async () => {
+    try {
+      setPending(true);
+      const credentials = SignupFormSchema.parse({
+        email,
+        password,
+        user_id: id,
+        enrollment_id: enrollmentId,
+        name,
+      });
+      const res = await signUp(credentials);
+      if (res) {
+        toast({
+          title: `User Registration : ${
+            res.type === "ok" ? "Success" : "Failed"
+          }`,
+          description: res.msg,
+        });
+        if (res.type === "ok") {
+          router.push("/login");
+        }
+      }
+    } catch (e) {
+      if (e instanceof z.ZodError) {
+        const newErrors = e.flatten().fieldErrors;
+        setErrors({
+          email: newErrors.email?.[0] || "",
+          password: newErrors.password?.[0] || "",
+          user_id: newErrors.user_id?.[0] || "",
+          enrollment_id: newErrors.enrollment_id?.[0] || "",
+          name: newErrors.name?.[0] || "",
+        });
+      }
+    } finally {
+      setPending(false);
+    }
+  };
 
   return (
     <div className="relative h-screen flex flex-col md:grid md:grid-cols-2">
@@ -59,133 +103,135 @@ export function SignUpForm() {
             </p>
           </div>
 
-          <form action={action} autoComplete="off">
-            <div className="grid gap-2 p-2">
-              <div className="grid gap-1 pb-2">
-                <Label className="p-1" htmlFor="name">
-                  Name
-                </Label>
-                <Input
-                  id="name"
-                  placeholder="Name"
-                  type="text"
-                  autoCapitalize="none"
-                  autoComplete="new-name"
-                  autoCorrect="off"
-                  disabled={pending}
-                />
-                <Label className="p-1" htmlFor="user_id">
-                  NIC or Passport
-                </Label>
-                <Input
-                  id="user_id"
-                  placeholder="1234567"
-                  type="text"
-                  autoCapitalize="none"
-                  autoComplete="new-id"
-                  autoCorrect="off"
-                  disabled={pending}
-                />
+          <div className="grid gap-2 p-2">
+            <div className="grid gap-1 pb-2">
+              <Label className="p-1" htmlFor="name">
+                Name
+              </Label>
+              <Input
+                id="name"
+                placeholder="Name"
+                type="text"
+                autoComplete="new-name"
+                value={name}
+                onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                  setErrors((erros) => ({ ...erros, name: "" }));
+                  setName(e.currentTarget.value);
+                }}
+                disabled={pending}
+              />
+              {errors.name && (
+                <p className="hightlight-font-color text-xs">{errors.name}</p>
+              )}
 
-                <Label className="p-1" htmlFor="enrollment_id">
-                  Enrollment Number
-                </Label>
-                <Input
-                  id="enrollment_id"
-                  placeholder="1234567"
-                  type="text"
-                  autoCapitalize="none"
-                  autoComplete="new-enrollement-id"
-                  autoCorrect="off"
-                  disabled={pending}
+              <Label className="p-1" htmlFor="user_id">
+                NIC or Passport
+              </Label>
+              <Input
+                id="id"
+                placeholder="1234567"
+                type="text"
+                autoComplete="new-id"
+                value={id}
+                onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                  setErrors((erros) => ({ ...erros, user_id: "" }));
+                  setId(e.currentTarget.value);
+                }}
+                disabled={pending}
+              />
+              {errors.user_id && (
+                <p className="hightlight-font-color text-xs">
+                  {errors.user_id}
+                </p>
+              )}
+
+              <Label className="p-1" htmlFor="enrollment_id">
+                Enrollment Number
+              </Label>
+              <Input
+                id="enrollment_id"
+                placeholder="1234567"
+                type="text"
+                autoComplete="new-enrollement-id"
+                value={enrollmentId}
+                onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                  setErrors((erros) => ({ ...erros, enrollment_id: "" }));
+                  setEnrollmentId(e.currentTarget.value);
+                }}
+                disabled={pending}
+              />
+              {errors.enrollment_id && (
+                <p className="hightlight-font-color text-xs">
+                  {errors.enrollment_id}
+                </p>
+              )}
+
+              <Label className="p-1" htmlFor="email">
+                Email
+              </Label>
+              <Input
+                id="email"
+                placeholder="name@example.com"
+                type="email"
+                autoComplete="new-email"
+                value={email}
+                onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                  setErrors((erros) => ({ ...erros, email: "" }));
+                  setEmail(e.currentTarget.value);
+                }}
+                disabled={pending}
+              />
+              {errors.email && (
+                <p className="hightlight-font-color text-xs">{errors.email}</p>
+              )}
+
+              <Label className="p-1" htmlFor="password">
+                Password
+              </Label>
+              <Input
+                id="password"
+                placeholder=""
+                type="password"
+                autoComplete="new-password"
+                value={password}
+                onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                  setErrors((erros) => ({ ...erros, password: "" }));
+                  setPassword(e.currentTarget.value);
+                }}
+                disabled={pending}
+              />
+              {errors.password && (
+                <p className="hightlight-font-color text-xs">
+                  {errors.password}
+                </p>
+              )}
+
+              <div className="flex items-center pt-4">
+                <Checkbox
+                  id="terms"
+                  checked={check}
+                  onCheckedChange={() => setCheck((check) => !check)}
                 />
-                <Label className="p-1" htmlFor="email">
-                  Email
-                </Label>
-                <Input
-                  id="email"
-                  placeholder="name@example.com"
-                  type="email"
-                  autoCapitalize="none"
-                  autoComplete="new-email"
-                  autoCorrect="off"
-                  disabled={pending}
-                />
-                <Label className="p-1" htmlFor="password">
-                  Password
-                </Label>
-                <Input
-                  id="password"
-                  placeholder=""
-                  type="password"
-                  autoCapitalize="none"
-                  autoComplete="new-password"
-                  autoCorrect="off"
-                  disabled={pending}
-                />
-                <div className="flex items-center pt-4">
-                  <Checkbox
-                    id="terms"
-                    checked={check}
-                    onCheckedChange={() => setCheck((check) => !check)}
-                  />
-                  <label
-                    htmlFor="terms"
-                    className="text-sm font-medium leading-none ml-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    I confirm that the information provided is accurate
-                  </label>
-                </div>
+                <label
+                  htmlFor="terms"
+                  className="text-sm font-medium leading-none ml-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  I confirm that the information provided is accurate
+                </label>
               </div>
-              <Button
-                disabled={pending || !check}
-                type="submit"
-                className="primary-background-color text-white"
-              >
-                {pending && (
-                  <ImSpinner8 className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                Create Account
-              </Button>
             </div>
-          </form>
+            <Button
+              disabled={pending || !check}
+              onClick={() => handleSubmit()}
+              type="submit"
+              className="primary-background-color text-white disabled:opacity-30"
+            >
+              {pending && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
+              Create Account
+            </Button>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-
-// <form action={action}>
-//   <div>
-//     <label htmlFor="name">Name</label>
-//     <input id="name" name="name" placeholder="Name" />
-//   </div>
-//   {state?.errors?.name && <p>{state.errors.name}</p>}
-//   <div>
-//     <label htmlFor="name">NIC/Passport</label>ike
-//     <input id="id" name="id" placeholder="NIC/Passport" />
-//   </div>
-//   {state?.errors?.user_id && <p>{state.errors.user_id}</p>}
-
-//   <div>
-//     <label htmlFor="email">Email</label>
-//     <input id="email" name="email" placeholder="Email" />
-//   </div>
-//   {state?.errors?.email && <p>{state.errors.email}</p>}
-
-//   <div>
-//     <label htmlFor="password">Password</label>
-//     <input id="password" name="password" type="password" />
-//   </div>
-//   {state?.errors?.password && (
-//     <div>
-//       <p>Password must:</p>
-//       <ul>
-//         {state.errors.password.map((error) => (
-//           <li key={error}>- {error}</li>
-//         ))}
-//       </ul>
-//     </div>
-//   )}
-//   <SignUpButton />
-// </form>

@@ -4,7 +4,7 @@ import { sessionPeriodMinutes } from "@/constants";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
-const secretKey = process.env.SESSION_SECRET;
+const secretKey = "PmauWg4SAlDJ2mS+HpIqgkqv/fHc4m1VIOWuvkflqII=";
 const key = new TextEncoder().encode(secretKey);
 
 export async function encrypt(payload: any) {
@@ -16,11 +16,15 @@ export async function encrypt(payload: any) {
 }
 
 export async function decrypt(token: string | undefined = "") {
-  const { payload } = await jwtVerify(token, key, {
-    algorithms: ["HS256"],
-  });
+  try {
+    const { payload } = await jwtVerify(token, key, {
+      algorithms: ["HS256"],
+    });
 
-  return payload;
+    return payload;
+  } catch (err) {
+    return null;
+  }
 }
 
 export async function createSession(

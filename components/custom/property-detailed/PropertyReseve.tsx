@@ -59,7 +59,7 @@ const PropertyReserve = ({ property }: { property: Property }) => {
       {isPropertyAvailable && (
         <ConfirmationComponent
           title={`Reserve Property ${property.property_id} - Are you absolutely sure ?`}
-          description="Once confirmed, your reservation quota will decrease by one. This temporarily reserves the property for you until you submit signed contracts promptly. Failure to do so will cancel the temporary reservation, making it available to other tenants. Visit Information page for more details"
+          description="Upon confirmation, the property will be temporarily reserved for you. Please submit the signed contracts promptly to secure your reservation. Failure to do so will result in cancellation of the reservation and the property will become available to other tenants. You may only make one reservation at a time. If you wish to proceed, please click Confirm"
           confirmedCallback={() => {
             handleReservation();
           }}
