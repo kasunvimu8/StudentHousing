@@ -9,7 +9,7 @@ import {
   SortOption,
 } from "@/types";
 import { getProperty } from "./properties";
-import { getUserAvailableQuota } from "./profiles";
+import { getUserAvailableQuota, getUserId } from "./profiles";
 import Property from "@/database/models/property.model";
 import { revalidatePath } from "next/cache";
 import Profile from "@/database/models/profiles.model";
@@ -166,19 +166,25 @@ async function performReservation(
   }
 }
 
-export async function makeReservation(reservationPayload: reservationPayload) {
+export async function makeReservation(reservationPayload: {
+  property_ref_id: string;
+}) {
   try {
+    const userId = await getUserId();
+    const quota: number = await getUserAvailableQuota(userId);
+
     const conn = await connectToDatabase();
-    const quota: number = await getUserAvailableQuota(
-      reservationPayload.user_id
-    );
+
     if (quota > 0) {
       // proceed reservation
       const propertyData = await getProperty(
         reservationPayload.property_ref_id
       );
       if (propertyData && propertyData.status === "available") {
-        return await performReservation(reservationPayload, propertyData);
+        return await performReservation(
+          { ...reservationPayload, user_id: userId },
+          propertyData
+        );
       } else {
         console.log(
           "Property is not available, when user made the reservation"
@@ -256,10 +262,10 @@ export async function submitDocuments(
   documents: any,
   reservationId: string,
   nextStatus: string,
-  user_id: string,
   is_admin: boolean,
   comment: string
 ) {
+  const user_id = await getUserId();
   // TODO handle document submission here
   await connectToDatabase();
 

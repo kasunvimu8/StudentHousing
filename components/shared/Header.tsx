@@ -3,26 +3,11 @@ import Link from "next/link";
 import React from "react";
 import NavItems from "@/components/shared/NavItems";
 import MobileNavItems from "@/components/shared/MobileNavItems";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
-import MenuItem from "./MenuItem";
-import { adminType, adminUsernavigation, normalUserNavMenu } from "@/constants";
-import { getProfiles, getUserType } from "@/actions/profiles";
-import Logout from "../custom/auth/Logout";
+import { UserNav } from "@/components/shared/UserNavigation";
 
 // ----- Header Component - Shared in all components except login, register & logout pages ----------//
 
 const Header = async () => {
-  const userType = await getUserType();
-  const userData = await getProfiles();
-  const navOptions =
-    userType === adminType ? adminUsernavigation : normalUserNavMenu;
-
   return (
     <header className="w-full p-4">
       <div className="flex items-center justify-between">
@@ -43,23 +28,7 @@ const Header = async () => {
           <NavItems />
         </nav>
         <div className="flex items-center gap-2 pr-8 md:pr-10">
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="font-medium text-sm">
-                  {userData?.user_name}
-                </NavigationMenuTrigger>
-                <NavigationMenuContent className="bg-white">
-                  <ul className="grid w-[200px] gap-3 p-2">
-                    {navOptions?.map((menu) => (
-                      <MenuItem menu={menu} key={menu.id} />
-                    ))}
-                    <Logout />
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+          <UserNav />
         </div>
       </div>
     </header>

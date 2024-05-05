@@ -452,5 +452,5 @@ export const cancelledRequestedEntities = [
 export const defaultUserReservationQuota = 2;
 
 // ----------------------- Authentication Specific Config ------------------------- //
-export const sessionPeriodMinutes = 60;
+export const sessionPeriodMinutes = 30;
 export const adminType = "admin";

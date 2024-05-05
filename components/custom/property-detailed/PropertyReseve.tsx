@@ -4,7 +4,6 @@ import React from "react";
 import { Button } from "../../ui/button";
 import { makeReservation } from "@/actions/reservations";
 import { Property } from "@/types";
-import { getUserId } from "@/lib/user";
 import ConfirmationComponent from "@/components/shared/ConfirmationComponent";
 import { useRouter } from "next/navigation";
 import { reservationPayloadSchema } from "@/lib/validators";
@@ -14,14 +13,10 @@ import { useToast } from "@/components/ui/use-toast";
 
 const PropertyReserve = ({ property }: { property: Property }) => {
   const router = useRouter();
-  const user_id = getUserId();
   const { toast } = useToast();
 
   const isPropertyAvailable = property.status === availableStatus;
-  const reservationPayload = {
-    property_ref_id: property._id,
-    user_id: user_id,
-  };
+  const reservationPayload = { property_ref_id: property._id };
   const validatePropertyState = () => {
     try {
       reservationPayloadSchema.parse(reservationPayload);

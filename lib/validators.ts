@@ -50,11 +50,6 @@ export const reservationPayloadSchema = z.object({
       required_error: "property_ref_id is required",
     })
     .min(1),
-  user_id: z
-    .string({
-      required_error: "user_id is required",
-    })
-    .min(1),
 });
 
 export const SignupFormSchema = z.object({

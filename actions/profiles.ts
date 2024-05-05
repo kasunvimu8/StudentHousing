@@ -31,6 +31,13 @@ export async function getUserType() {
   return payload?.user?.role || "user";
 }
 
+export async function getUserId() {
+  const session = cookies().get("session")?.value;
+  const payload: any = await decrypt(session);
+
+  return payload?.user?.user_id;
+}
+
 export async function getUserAvailableQuota(userId: string) {
   try {
     await connectToDatabase();

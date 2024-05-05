@@ -6,7 +6,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { ReservationType } from "@/types";
 import { submitDocuments } from "@/actions/reservations";
 import { getNextStatus } from "@/lib/utils";
-import { getUserId } from "@/lib/user";
 import DialogComponent from "@/components/shared/DialogComponent";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,7 +22,6 @@ const SubmitDocumentsButton = ({
 }) => {
   const { toast } = useToast();
   const router = useRouter();
-  const user_id = getUserId();
   const [comment, setComment] = useState("");
   const [check, setCheck] = useState(false);
 
@@ -38,7 +36,6 @@ const SubmitDocumentsButton = ({
       files,
       reservation._id,
       nextStatus,
-      user_id,
       isAdmin,
       comment
     );
