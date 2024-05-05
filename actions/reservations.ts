@@ -15,6 +15,7 @@ import { revalidatePath } from "next/cache";
 import Profile from "@/database/models/profiles.model";
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
+import { adminType } from "@/constants";
 
 export async function getReservationExist(_id: string) {
   try {
@@ -470,7 +471,7 @@ export async function cancelReservation(
       }
 
       // if it is cancelled due to issue from admin side, decrement users used quota by one
-      if (user === "admin") {
+      if (user === adminType) {
         const res2 = await Profile.updateOne(
           { user_id: user_id },
           { $inc: { usedQuota: -1 } },

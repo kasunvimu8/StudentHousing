@@ -92,13 +92,8 @@ const UpdatePropertyDetail = ({
   };
 
   const updateProperty = async () => {
-    const propertyData: Property = {
-      ...propertyState,
-      updated_at: new Date(),
-      updated_by: "admin",
-    };
     const res: { msg: string; type: string } = await updatePropertyAction(
-      propertyData
+      propertyState
     );
     if (res) {
       toast({

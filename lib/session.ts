@@ -33,7 +33,7 @@ export async function createSession(
   user_id: string
 ) {
   // crete session
-  const user = { email: email, role: role, user_id: user_id };
+  const user = { role: role, user_id: user_id };
   const expires = new Date(Date.now() + sessionPeriodMinutes * 60 * 1000);
 
   const session = await encrypt({ user, expires });

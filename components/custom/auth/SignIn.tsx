@@ -8,8 +8,6 @@ import { Input } from "@/components/ui/input";
 import { ImSpinner8 } from "react-icons/im";
 import Image from "next/image";
 import { useState } from "react";
-import { SigninFormSchema } from "@/lib/validators";
-import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 
@@ -25,7 +23,7 @@ export function SignInForm() {
     const res = await signIn({ email, password });
     if (res) {
       toast({
-        title: `User Registration : ${
+        title: `Login : ${
           res.type === "ok" ? "Success" : "Failed"
         }`,
         description: res.msg,

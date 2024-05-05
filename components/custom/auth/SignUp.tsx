@@ -106,11 +106,11 @@ export function SignUpForm() {
           <div className="grid gap-2 p-2">
             <div className="grid gap-1 pb-2">
               <Label className="p-1" htmlFor="name">
-                Name
+                Name (Fistname and LastName)
               </Label>
               <Input
                 id="name"
-                placeholder="Name"
+                placeholder="Elena Petrova"
                 type="text"
                 autoComplete="new-name"
                 value={name}
@@ -190,7 +190,7 @@ export function SignUpForm() {
               </Label>
               <Input
                 id="password"
-                placeholder=""
+                placeholder="P@ssw0rd123!"
                 type="password"
                 autoComplete="new-password"
                 value={password}

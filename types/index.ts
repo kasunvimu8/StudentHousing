@@ -184,3 +184,16 @@ export type ReservationType = {
   from: string;
   to?: string;
 };
+
+// ----------------------------- User Profile -----------------------------
+
+export type userProfileType = {
+  user_email: string;
+  user_id: string;
+  user_name: string;
+  enrollment_id: string;
+  created_at: string;
+  updated_at?: string;
+  totalQuota?: number;
+  usedQuota?: number;
+};

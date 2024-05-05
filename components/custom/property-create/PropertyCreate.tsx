@@ -92,13 +92,8 @@ const PropertyCreate = ({
   };
 
   const createProperty = async () => {
-    const propertyData: PropertyDeafultType = {
-      ...propertyState,
-      created_at: new Date(),
-      created_by: "admin",
-    };
     const res: { msg: string; type: string } = await createPropertyAction(
-      propertyData
+      propertyState
     );
     if (res) {
       toast({

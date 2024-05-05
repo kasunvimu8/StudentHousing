@@ -33,12 +33,6 @@ export const normalUserNavMenu = [
     icon: "LuUser2",
     id: "profile",
   },
-  {
-    title: "Logout",
-    href: "/logout",
-    icon: "LuLogOut",
-    id: "logout",
-  },
 ];
 
 export const adminUsernavigation = [
@@ -59,12 +53,6 @@ export const adminUsernavigation = [
     href: "/manage-users",
     icon: "LuUserCog2",
     id: "manageUsers",
-  },
-  {
-    title: "Logout",
-    href: "/logout",
-    icon: "LuLogOut",
-    id: "logout",
   },
 ];
 
@@ -465,3 +453,4 @@ export const defaultUserReservationQuota = 2;
 
 // ----------------------- Authentication Specific Config ------------------------- //
 export const sessionPeriodMinutes = 60;
+export const adminType = "admin";

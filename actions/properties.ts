@@ -1,6 +1,6 @@
 "use server";
 
-import { availableStatus } from "@/constants";
+import { adminType, availableStatus } from "@/constants";
 import { connectToDatabase } from "@/database";
 import Property from "@/database/models/property.model";
 import {
@@ -9,8 +9,9 @@ import {
   Property as PropertyData,
   PropertyDeafultType,
 } from "@/types";
-import { getReservationExist, getReservationStatus } from "./reservations";
+import { getReservationExist } from "./reservations";
 import { revalidatePath } from "next/cache";
+import { getProfiles } from "./profiles";
 
 function getFilterOptions(options: FilterParamTypes) {
   let filterCriterions: any = [];
@@ -205,7 +206,18 @@ export async function updateProperty(property: PropertyData) {
   try {
     await connectToDatabase();
 
-    await Property.updateOne({ _id: property._id }, { $set: property });
+    const userData = await getProfiles();
+    await Property.updateOne(
+      { _id: property._id },
+      {
+        $set: {
+          ...property,
+          created_at: new Date(),
+          created_by: userData ? userData?.user_name : adminType,
+        },
+      }
+    );
+
     revalidatePath("/", "layout");
 
     return {
@@ -225,7 +237,13 @@ export async function createPropertyAction(property: PropertyDeafultType) {
   try {
     await connectToDatabase();
 
-    await Property.create({ ...property });
+    const userData = await getProfiles();
+    await Property.create({
+      ...property,
+      created_at: new Date(),
+      created_by: userData ? userData?.user_name : adminType,
+    });
+
     revalidatePath("/", "layout");
     return {
       msg: "Property Created Successfully !",
