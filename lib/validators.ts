@@ -89,3 +89,34 @@ export const SigninFormSchema = z.object({
     })
     .trim(),
 });
+
+export const emailSchema = z
+  .string()
+  .email({ message: "Please enter a valid email" })
+  .trim();
+
+export const PasswordResetSchema = z
+  .object({
+    confirmPassword: z
+      .string()
+      .min(8, { message: "Be at least 8 characters long" })
+      .regex(/[a-zA-Z]/, { message: "Contain at least one letter" })
+      .regex(/[0-9]/, { message: "Contain at least one number" })
+      .regex(/[^a-zA-Z0-9]/, {
+        message: "Contain at least one special character",
+      })
+      .trim(),
+    password: z
+      .string()
+      .min(8, { message: "Be at least 8 characters long" })
+      .regex(/[a-zA-Z]/, { message: "Contain at least one letter" })
+      .regex(/[0-9]/, { message: "Contain at least one number" })
+      .regex(/[^a-zA-Z0-9]/, {
+        message: "Contain at least one special character",
+      })
+      .trim(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords must match",
+    path: ["confirmPassword"],
+  });

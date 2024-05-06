@@ -37,6 +37,10 @@ export function SignInForm() {
     setPending(false);
   };
 
+  const forgetPassword = () => {
+    router.push("/forget-password");
+  };
+
   return (
     <div className="relative h-screen flex flex-col md:grid md:grid-cols-2">
       <Link
@@ -111,6 +115,14 @@ export function SignInForm() {
                     />
                   )}
                 </div>
+              </div>
+              <div className="flex font-normal text-xs justify-end pb-2">
+                <button
+                  onClick={() => forgetPassword()}
+                  className="cursor-pointer"
+                >
+                  Forget Password ?
+                </button>
               </div>
             </div>
             <Button

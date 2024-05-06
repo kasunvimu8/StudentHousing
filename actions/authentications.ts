@@ -4,6 +4,7 @@ import { defaultUserReservationQuota } from "@/constants";
 import { connectToDatabase } from "@/database";
 import Authentication from "@/database/models/authentications.model";
 import Profile from "@/database/models/profiles.model";
+import { sendEmail } from "@/lib/email";
 import { createSession, deleteSession } from "@/lib/session";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
@@ -122,4 +123,26 @@ export async function signOut() {
   deleteSession();
 
   redirect("/login");
+}
+
+export async function forgetPasswordEmailSent(email: string) {
+  console.log(email);
+  try {
+    await connectToDatabase();
+    const user = await Authentication.findOne({ user_email: email });
+
+    if (user && user.user_email) {
+      // handle sending email
+      await sendEmail();
+    } else {
+      console.log("No account found for entered email", email);
+    }
+  } catch (error) {
+    console.log("Failed to get user profile data", error);
+  }
+
+  return {
+    msg: "Password reset link sent to your email address. Please check your emails to continue",
+    type: "ok",
+  };
 }
