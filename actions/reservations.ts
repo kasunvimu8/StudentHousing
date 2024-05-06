@@ -362,6 +362,7 @@ export async function submitDocuments(
 
 function getFilterOptions(options: FilterParamTypes) {
   let filterCriterions: any = [];
+  const now = new Date();
 
   Object.keys(options).forEach((key) => {
     const optionKey = options[key as keyof FilterParamTypes];
@@ -404,10 +405,13 @@ function getFilterOptions(options: FilterParamTypes) {
             $gte: new Date(optionKey),
           },
         });
+      } else if (key === "active") {
+        filterCriterions.push({
+          $or: [{ to: null }, { to: { $gt: now } }],
+        });
       }
     }
   });
-
   return filterCriterions;
 }
 

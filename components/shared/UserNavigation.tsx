@@ -23,9 +23,14 @@ export async function UserNav() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-10 w-10 rounded-full section-light-background-color">
+        <Button
+          variant="ghost"
+          className="relative h-10 w-10 rounded-full section-light-background-color"
+        >
           <Avatar className="h-10 w-10">
-            <AvatarFallback className="font-bold uppercase" >{userData?.user_name?.substring(0, 2) || 'NN'}</AvatarFallback>
+            <AvatarFallback className="font-bold uppercase">
+              {userData?.user_name?.substring(0, 2) || "NN"}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -48,7 +53,10 @@ export async function UserNav() {
         <DropdownMenuGroup>
           <ul className="grid gap-1">
             {navOptions?.map((menu) => (
-              <DropdownMenuItem className="hover:section-light-background-color rounded">
+              <DropdownMenuItem
+                className="hover:section-light-background-color rounded"
+                key={menu.id}
+              >
                 <MenuItem menu={menu} key={menu.id} />
               </DropdownMenuItem>
             ))}

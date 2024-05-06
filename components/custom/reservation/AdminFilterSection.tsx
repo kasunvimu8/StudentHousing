@@ -2,8 +2,6 @@ import React from "react";
 import { Label } from "../../ui/label";
 import {
   adminsortOptions,
-  numberOfRooms,
-  propertyStatuses,
   propertyTypes,
   reservationStatuses,
 } from "@/constants";
@@ -12,6 +10,7 @@ import { DatePickerComponent } from "../../ui/calendar/URLSyncDropdown";
 import PropertyFilterReset from "../../shared/FilterReset";
 import { InputComponent } from "@/components/ui/input/URLSyncInput";
 import URLSyncInputSuspense from "@/components/shared/URLSyncInputSuspense";
+import { CheckboxComponent } from "@/components/ui/check/URLSyncCheckbox";
 
 const AdminFilterSection = () => {
   return (
@@ -96,6 +95,16 @@ const AdminFilterSection = () => {
                 inputKey="sort"
               />
             </URLSyncInputSuspense>
+          </div>
+        </div>
+        <div className="col-span-6 md:col-span-3 lg:col-span-2 content-center">
+          <div className="flex flex-col gap-2 p-1">
+            <div className="flex items-center space-x-2 text-center align-middle">
+              <URLSyncInputSuspense>
+                <CheckboxComponent inputKey="active" />
+              </URLSyncInputSuspense>
+              <Label>Active Reservations</Label>
+            </div>
           </div>
         </div>
         <div className="col-span-6 md:col-start-5 md:col-end-7 flex justify-end">

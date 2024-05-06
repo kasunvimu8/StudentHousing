@@ -90,9 +90,10 @@ const SubmitDocumentsButton = ({
               />
               <label
                 htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="text-sm pt-1 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                I consent to upload accurate and truthful documents
+                I hereby affirm my commitment to uploading documents that are
+                accurate and honest.
               </label>
             </div>
           )}

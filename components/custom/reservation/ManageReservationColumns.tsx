@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { propertyTypes, reservationStatuses } from "@/constants";
+import { propertyTypes, reservationCancelled, reservationStatuses } from "@/constants";
 import { formatDateTime } from "@/lib/utils";
 import { ExtendedColumnDef } from "@/types";
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
@@ -122,13 +122,17 @@ export const columns: ExtendedColumnDef[] = [
   },
   {
     accessorKey: "to",
-    header: "Available To",
+    header: "To",
     cell: ({ row }) => {
       const to = row.getValue("to") || "-";
+      const status = row.getValue("status");
       const date = to ? formatDateTime(new Date(String(to))).simpleDate : "-";
-      return <div className="capitalize">{date}</div>;
+      const statusData = reservationStatuses.find((item) => item.id === status);
+
+      const removeEndDate = statusData?.id === reservationCancelled;
+      return <div className="capitalize">{removeEndDate ? '-' : date}</div>;
     },
-    columnTitle: "Available To",
+    columnTitle: "To",
   },
   {
     accessorKey: "created_at",
