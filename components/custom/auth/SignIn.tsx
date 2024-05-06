@@ -10,11 +10,14 @@ import Image from "next/image";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { PiEyeBold, PiEyeSlashBold } from "react-icons/pi";
 
 export function SignInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [pending, setPending] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const { toast } = useToast();
   const router = useRouter();
 
@@ -23,9 +26,7 @@ export function SignInForm() {
     const res = await signIn({ email, password });
     if (res) {
       toast({
-        title: `Login : ${
-          res.type === "ok" ? "Success" : "Failed"
-        }`,
+        title: `Login : ${res.type === "ok" ? "Success" : "Failed"}`,
         description: res.msg,
       });
 
@@ -84,17 +85,33 @@ export function SignInForm() {
               <Label className="p-1" htmlFor="password">
                 Password
               </Label>
-              <Input
-                id="password"
-                placeholder=""
-                type="password"
-                autoComplete="new-password"
-                value={password}
-                onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                  setPassword(e.currentTarget.value);
-                }}
-                disabled={pending}
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  placeholder=""
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  value={password}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                    setPassword(e.currentTarget.value);
+                  }}
+                  disabled={pending}
+                  className="pr-10"
+                />
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                  {showPassword ? (
+                    <PiEyeSlashBold
+                      onClick={() => setShowPassword(false)}
+                      className="cursor-pointer"
+                    />
+                  ) : (
+                    <PiEyeBold
+                      onClick={() => setShowPassword(true)}
+                      className="cursor-pointer"
+                    />
+                  )}
+                </div>
+              </div>
             </div>
             <Button
               disabled={pending}

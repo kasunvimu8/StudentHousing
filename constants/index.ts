@@ -426,10 +426,11 @@ export const initialVisibilityManageReservations = {
   address: true,
   from: false,
   to: false,
+  document_submission_deadline: false,
 };
 
 // ----------------------- Toaster Config ------------------------- //
-export const duration = 10000;
+export const duration = 7000;
 
 // ----------------------- Reservation Specific Config ------------------------- //
 export const expirationDuration = 7;

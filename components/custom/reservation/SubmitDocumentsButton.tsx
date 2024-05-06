@@ -92,8 +92,7 @@ const SubmitDocumentsButton = ({
                 htmlFor="terms"
                 className="text-sm pt-1 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                I hereby affirm my commitment to uploading documents that are
-                accurate and honest.
+                I hereby confirm that the documents are accurate and complete.
               </label>
             </div>
           )}

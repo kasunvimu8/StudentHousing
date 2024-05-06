@@ -9,10 +9,7 @@ const ReservationInformation = ({
 }: {
   reservation: ReservationType;
 }) => {
-  const expiredDate = calculateFutureDate(
-    new Date(reservation.created_at),
-    expirationDuration
-  );
+  console.log(reservation);
   return (
     <ul className="list-disc p-2">
       <li className="p-1 font-normal text-sm">
@@ -31,7 +28,7 @@ const ReservationInformation = ({
             </span>
           </li>
           <li className="p-1 font-normal text-sm">
-            Scanned Passport or NIC {" "}
+            Scanned Passport or NIC{" "}
             <span className="primary-light-font-color">
               (e.g : N123456-652e606b021a28adfd286910-id.pdf)
             </span>
@@ -48,9 +45,11 @@ const ReservationInformation = ({
       <li className="p-1 font-normal text-sm">
         {`Please ensure that all documents are submitted `}
         <span className="font-bold">
-          before {formatDateTime(expiredDate).simpleDate}
+          before{" "}
+          {formatDateTime(new Date(reservation?.document_submission_deadline))
+            ?.simpleDate || ""}
         </span>
-        . Failure to do so will result in automatic cancellation of the
+        . Failure to do so will result in cancellation of the
         reservation.
       </li>
       <li className="p-1 font-normal text-sm">

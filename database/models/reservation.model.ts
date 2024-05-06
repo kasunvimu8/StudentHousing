@@ -11,6 +11,7 @@ const ReservationSchema = new Schema({
   },
   updated_by: { type: String },
   updated_at: { type: Date },
+  document_submission_deadline: { type: Date },
   signed_documents: [String],
   user_comment: String,
   admin_comment: String,

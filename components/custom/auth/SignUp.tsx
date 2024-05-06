@@ -13,6 +13,7 @@ import { SignupFormSchema } from "@/lib/validators";
 import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { PiEyeBold, PiEyeSlashBold } from "react-icons/pi";
 
 export function SignUpForm() {
   const [errors, setErrors] = useState({
@@ -29,6 +30,7 @@ export function SignUpForm() {
   const [password, setPassword] = useState("");
   const [pending, setPending] = useState(false);
   const [check, setCheck] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
@@ -188,18 +190,33 @@ export function SignUpForm() {
               <Label className="p-1" htmlFor="password">
                 Password
               </Label>
-              <Input
-                id="password"
-                placeholder="P@ssw0rd123!"
-                type="password"
-                autoComplete="new-password"
-                value={password}
-                onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                  setErrors((erros) => ({ ...erros, password: "" }));
-                  setPassword(e.currentTarget.value);
-                }}
-                disabled={pending}
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  placeholder=""
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  value={password}
+                  onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                    setPassword(e.currentTarget.value);
+                  }}
+                  disabled={pending}
+                  className="pr-10"
+                />
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                  {showPassword ? (
+                    <PiEyeSlashBold
+                      onClick={() => setShowPassword(false)}
+                      className="cursor-pointer"
+                    />
+                  ) : (
+                    <PiEyeBold
+                      onClick={() => setShowPassword(true)}
+                      className="cursor-pointer"
+                    />
+                  )}
+                </div>
+              </div>
               {errors.password && (
                 <p className="hightlight-font-color text-xs">
                   {errors.password}

@@ -146,6 +146,17 @@ export const columns: ExtendedColumnDef[] = [
     columnTitle: "Reserved At",
   },
   {
+    accessorKey: "document_submission_deadline",
+    header: "Doc. Submission Deadline",
+    cell: ({ row }) => {
+      const document_submission_deadline = row.getValue("document_submission_deadline");
+      const date = formatDateTime(new Date(String(document_submission_deadline))).simpleDateTime;
+
+      return <div className="capitalize">{date}</div>;
+    },
+    columnTitle: "Doc. Submission Deadline",
+  },
+  {
     accessorKey: "updated_at",
     header: "Updated At",
     cell: ({ row }) => {

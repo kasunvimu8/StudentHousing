@@ -16,7 +16,8 @@ import { revalidatePath } from "next/cache";
 import Profile from "@/database/models/profiles.model";
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
-import { adminType } from "@/constants";
+import { adminType, expirationDuration } from "@/constants";
+import { calculateFutureDate } from "@/lib/utils";
 
 export async function getReservationExist(_id: string) {
   try {
@@ -73,6 +74,7 @@ export async function getMyReservations(userId: string) {
           property_ref_id: 1,
           admin_comment: 1,
           user_comment: 1,
+          document_submission_deadline: 1,
           from: 1,
           to: 1,
           property_id: "$property.property_id",
@@ -102,6 +104,8 @@ async function performReservation(
   let msg = "";
   let type = "";
 
+  const expiredDate = calculateFutureDate(new Date(), expirationDuration);
+
   try {
     const opts = { session };
     // reserve the property
@@ -124,6 +128,7 @@ async function performReservation(
           property_ref_id: reservationPayload.property_ref_id,
           from: propertyData.from,
           to: propertyData.to,
+          document_submission_deadline: expiredDate,
         },
       ],
       opts
@@ -262,6 +267,7 @@ export async function getReservation(reservationId: string) {
           updated_at: 1,
           updated_by: 1,
           property_ref_id: 1,
+          document_submission_deadline: 1,
           admin_comment: 1,
           user_comment: 1,
           from: 1,
@@ -409,6 +415,17 @@ function getFilterOptions(options: FilterParamTypes) {
         filterCriterions.push({
           $or: [{ to: null }, { to: { $gt: now } }],
         });
+      } else if (key === "expire") {
+        filterCriterions.push({
+          $and: [
+            {
+              document_submission_deadline: {
+                $lt: now,
+              },
+            },
+            { status: "document_submission" },
+          ],
+        });
       }
     }
   });
@@ -446,6 +463,7 @@ export async function getAllReservations(
           property_ref_id: 1,
           admin_comment: 1,
           user_comment: 1,
+          document_submission_deadline: 1,
           from: 1,
           to: 1,
           property_id: "$property.property_id",
@@ -571,6 +589,7 @@ export async function rejectReservationDocument(
 ) {
   let msg = "";
   let type = "";
+  const expiredDate = calculateFutureDate(new Date(), expirationDuration);
   try {
     await connectToDatabase();
 
@@ -581,6 +600,7 @@ export async function rejectReservationDocument(
           status: "document_submission",
           admin_comment: comment,
           user_comment: "",
+          document_submission_deadline: expiredDate,
         },
       }
     );
