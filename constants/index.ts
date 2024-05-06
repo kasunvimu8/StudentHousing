@@ -22,16 +22,16 @@ export const headerLinks = [
 
 export const normalUserNavMenu = [
   {
-    title: "My Reservation",
+    title: "My Reservations",
     href: "/my-reservations",
     icon: "LuHome",
-    id: "reservations",
+    id: "my-reservations",
   },
   {
     title: "My Profile",
     href: "/profile",
     icon: "LuUser2",
-    id: "profile",
+    id: "my-profile",
   },
 ];
 
@@ -40,19 +40,19 @@ export const adminUsernavigation = [
     title: "Manage Properties",
     href: "/manage-properties",
     icon: "BsHouseGear",
-    id: "manageProperties",
+    id: "manage-properties",
   },
   {
     title: "Manage Reservations",
     href: "/manage-reservations",
     icon: "TbHomeShield",
-    id: "manageReservations",
+    id: "manage-reservations",
   },
   {
     title: "Manage Users",
     href: "/manage-users",
     icon: "LuUserCog2",
-    id: "manageUsers",
+    id: "manage-users",
   },
 ];
 

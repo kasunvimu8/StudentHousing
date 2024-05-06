@@ -6,6 +6,7 @@ import {
   FilterParamTypes,
   Property as PropertyType,
   reservationPayload,
+  ReservationType,
   SortOption,
 } from "@/types";
 import { getProperty } from "./properties";
@@ -166,33 +167,58 @@ async function performReservation(
   }
 }
 
+function checkCurrentReservationStatus(reservations: ReservationType[]) {
+  const now = new Date();
+
+  for (const reservation of reservations) {
+    const endDate = reservation.to ? new Date(reservation.to) : null;
+
+    // Check if end date is in the future or not available
+    if (!endDate || endDate > now) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export async function makeReservation(reservationPayload: {
   property_ref_id: string;
 }) {
   try {
     const userId = await getUserId();
     const quota: number = await getUserAvailableQuota(userId);
+    const currentReservations = await getMyReservations(userId);
+    const currentlyReservationExists =
+      checkCurrentReservationStatus(currentReservations);
 
     const conn = await connectToDatabase();
 
     if (quota > 0) {
-      // proceed reservation
-      const propertyData = await getProperty(
-        reservationPayload.property_ref_id
-      );
-      if (propertyData && propertyData.status === "available") {
-        return await performReservation(
-          { ...reservationPayload, user_id: userId },
-          propertyData
-        );
-      } else {
-        console.log(
-          "Property is not available, when user made the reservation"
-        );
+      if (currentlyReservationExists) {
         return {
-          msg: "The property you are attempting to reserve isn't currently available. Please try again later.",
+          msg: "You currently have an active reservation. Please note that only one reservation can be held at a time",
           type: "error",
         };
+      } else {
+        // proceed reservation
+        const propertyData = await getProperty(
+          reservationPayload.property_ref_id
+        );
+        if (propertyData && propertyData.status === "available") {
+          return await performReservation(
+            { ...reservationPayload, user_id: userId },
+            propertyData
+          );
+        } else {
+          console.log(
+            "Property is not available, when user made the reservation"
+          );
+          return {
+            msg: "The property you are attempting to reserve isn't currently available. Please try again later.",
+            type: "error",
+          };
+        }
       }
     } else {
       return {
@@ -458,6 +484,7 @@ export async function cancelReservation(
 
       // update reservation status
       // save comment/reason for the cancellation
+      // update to date to close the reservation
       const res1 = await Reservation.updateOne(
         { _id: reservationId },
         {
@@ -465,6 +492,7 @@ export async function cancelReservation(
             status: "reservation_canceled",
             admin_comment: comment,
             user_comment: "",
+            to: new Date(),
           },
         },
         opts
