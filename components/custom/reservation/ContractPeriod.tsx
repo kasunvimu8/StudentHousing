@@ -55,7 +55,9 @@ const ContractPeriod = ({
             />
           </div>
         ) : (
-          <div className="text-sm font-normal text-center self-center">{formatDateTime(new Date(String(fromDate))).simpleDate}</div>
+          <div className="text-sm font-normal text-center self-center">
+            {formatDateTime(new Date(String(fromDate))).simpleDate}
+          </div>
         )}
       </div>
 
@@ -73,28 +75,32 @@ const ContractPeriod = ({
             />
           </div>
         ) : (
-          <div className="text-sm font-normal text-center self-center">{formatDateTime(new Date(String(toDate))).simpleDate}</div>
+          <div className="text-sm font-normal text-center self-center">
+            {formatDateTime(new Date(String(toDate))).simpleDate}
+          </div>
         )}
       </div>
 
-      <div className="col-span-2 pt-4">
-        <ConfirmationComponent
-          title={`Update Rental Period - Are you absolutely sure ?`}
-          description={
-            "This will update the start and end dates of the rental period"
-          }
-          confirmedCallback={() => udpdateRentalPeriod()}
-        >
-          <div className="flex justify-end">
-            <Button
-              className="primary-background-color secondary-font-color self-end disabled:bg-white disabled:primary-font-color"
-              size="lg"
-            >
-              Update Rental Period
-            </Button>
-          </div>
-        </ConfirmationComponent>
-      </div>
+      {isAdmin && (
+        <div className="col-span-2 pt-4">
+          <ConfirmationComponent
+            title={`Update Rental Period - Are you absolutely sure ?`}
+            description={
+              "This will update the start and end dates of the rental period"
+            }
+            confirmedCallback={() => udpdateRentalPeriod()}
+          >
+            <div className="flex justify-center">
+              <Button
+                className="primary-background-color secondary-font-color self-end disabled:bg-white disabled:primary-font-color"
+                size="lg"
+              >
+                Update Rental Period
+              </Button>
+            </div>
+          </ConfirmationComponent>
+        </div>
+      )}
     </div>
   );
 };
