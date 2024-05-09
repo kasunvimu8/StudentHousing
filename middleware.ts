@@ -3,17 +3,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { decrypt } from "./lib/session";
 import { adminType } from "./constants";
 
-const publicRoutes = ["/login", "/register", "/forget-password", "/reset-password"];
+const publicRoutes = ["/login", "/register", "/forget-password"];
 const adminRouts = [
   "/manage-properties",
   "/property/edit",
   "/property/create",
   "/manage-reservations",
 ];
+const passwordReset = "/reset-password";
 
 export default async function middleWare(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const isPublicRoute = publicRoutes.includes(path);
+  const isPasswordReset = request.nextUrl.pathname.startsWith(passwordReset);
 
   const cookie = cookies().get("session")?.value;
   const session: any = cookie ? await decrypt(cookie) : undefined;
@@ -28,7 +30,7 @@ export default async function middleWare(request: NextRequest) {
     return NextResponse.redirect(new URL("/not-found", request.nextUrl));
   }
 
-  if (!isPublicRoute && !session?.user) {
+  if (!isPublicRoute && !isPasswordReset && !session?.user) {
     return NextResponse.redirect(new URL("/login", request.nextUrl));
   }
 

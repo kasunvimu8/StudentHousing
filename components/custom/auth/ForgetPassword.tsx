@@ -27,8 +27,9 @@ export default function ForgetPasswordForm() {
       const res = await forgetPasswordEmailSent(emailData);
       if (res) {
         toast({
-          title: `Email Sent : ${res.type === "ok" ? "Success" : "Failed"}`,
+          title: `Forget passsword email sent : ${res.type === "ok" ? "Success" : "Failed"}`,
           description: res.msg,
+          variant: res.type === "ok" ? "ok" : "error"
         });
         if (res.type === "ok") {
           setIsSent(true);
@@ -103,22 +104,27 @@ export default function ForgetPasswordForm() {
                 <p className="hightlight-font-color text-xs p-1">{error}</p>
               )}
               {isSent && (
-                <p className="text-xs hightlight-font-color p-1">
+                <p className="text-xs hightlight-font-color p-1 pt-2">
                   A password recovery link has been sent to your email if there
                   is an account associated with the address you provided. Please
                   check your email to continue.
                 </p>
               )}
             </div>
-            <Button
-              disabled={pending}
-              onClick={() => handleSubmit()}
-              type="submit"
-              className="primary-background-color text-white disabled:opacity-30"
-            >
-              {pending && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
-              Get Password Rest Link
-            </Button>
+
+            {!isSent && (
+              <Button
+                disabled={pending}
+                onClick={() => handleSubmit()}
+                type="submit"
+                className="primary-background-color text-white disabled:opacity-30"
+              >
+                {pending && (
+                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                Get Password Rest Link
+              </Button>
+            )}
           </div>
         </div>
       </div>

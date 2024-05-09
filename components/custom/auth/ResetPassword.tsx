@@ -11,9 +11,19 @@ import { useToast } from "@/components/ui/use-toast";
 import { PasswordResetSchema } from "@/lib/validators";
 import { z } from "zod";
 import { PiEyeBold, PiEyeSlashBold } from "react-icons/pi";
+import { resetPassword } from "@/actions/authentications";
+import { useRouter } from "next/navigation";
 
-export default function ResetPasswordForm() {
+export default function ResetPasswordForm({
+  token,
+  user_id,
+}: {
+  token: string;
+  user_id: string;
+}) {
   const { toast } = useToast();
+  const router = useRouter();
+
   const [pending, setPending] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -33,16 +43,17 @@ export default function ResetPasswordForm() {
         password,
         confirmPassword,
       });
-      // const res = await resetPassword(emailData);
-      // if (res) {
-      //   toast({
-      //     title: `Email Sent : ${res.type === "ok" ? "Success" : "Failed"}`,
-      //     description: res.msg,
-      //   });
-      //   if (res.type === "ok") {
-      //     setIsSent(true);
-      //   }
-      // }
+      const res= await resetPassword({ token, user_id, ...emailData });
+      if (res) {
+        toast({
+          title: `Password Update : ${res.type === "ok" ? "Success" : "Failed"}`,
+          description: res.msg,
+          variant: res.type === "ok" ? "ok" : "error"
+        });
+        if (res.type === "ok") {
+          router.push("/login");
+        }
+      }
     } catch (e) {
       if (e instanceof z.ZodError) {
         const newErrors = e.flatten().fieldErrors;
@@ -67,7 +78,9 @@ export default function ResetPasswordForm() {
 
       <div className="hidden md:flex text-white flex-col justify-center p-10 primary-background-color border-t-8 border-b-8 border-[white]">
         <h2 className="text-4xl font-bold mb-2">Reset Your Password</h2>
-        <p className="text-lg">Recover your account by resetting your password.</p>
+        <p className="text-lg">
+          Recover your account by resetting your password.
+        </p>
       </div>
 
       <div className="flex flex-col items-center justify-center flex-grow p-4 md:p-8 relative">
@@ -132,9 +145,9 @@ export default function ResetPasswordForm() {
                 <Input
                   id="confirmPassword"
                   placeholder=""
-                  type={showPassword ? "text" : "password"}
+                  type={showConfirmPassword ? "text" : "password"}
                   autoComplete="new-confirm-password"
-                  value={password}
+                  value={confirmPassword}
                   onChange={(e: React.FormEvent<HTMLInputElement>) => {
                     setConfirmPassword(e.currentTarget.value);
                   }}

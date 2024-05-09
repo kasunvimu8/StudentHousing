@@ -1,32 +1,62 @@
 import sgMail from "@sendgrid/mail";
 
 if (!process.env.SENDGRID_API_KEY)
-  throw new Error("SENDGRID_API_KEY not found in environment");
-if (!process.env.SENDGRID_TEMPLATE_KEY)
-  throw new Error("SENDGRID_API_KEY not found in environment");
+  throw new Error("SENDGRID_API_KEY is not found in environment");
+
+if (!process.env.SENDGRID_FROM_EMAIL)
+  throw new Error("SENDGRID_FROM_EMAIL is not found in environment");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-export async function sendEmail() {
+async function sendEmail(data: {
+  to: string;
+  templateId: string | undefined;
+  title: string;
+  userName: string;
+  actionLink: string;
+  body: string;
+}) {
   const msg: any = {
-    to: "kasunchamara@eng.pdn.ac.lk",
-    from: "kasunvimu8@gmail.com",
-    subject: "Reset Password",
-    templateId: process.env.SENDGRID_TEMPLATE_KEY,
+    to: data.to,
+    from: process.env.SENDGRID_FROM_EMAIL,
+    templateId: data.templateId,
+    subject: data.title,
     dynamicTemplateData: {
-      title: "Reset Password",
-      name: "Kasun Kanaththage",
-      actionLink: "https://www.th-rosenheim.de/en/",
-      body: "Please reset your password by clicking on the link below. If you did not request a password reset, please ignore this email or contact support if you have any concerns",
+      title: data.title,
+      name: data.userName,
+      actionLink: data.actionLink,
+      body: data.body,
     },
   };
   try {
     await sgMail.send(msg);
-    console.log("Email sent successfully");
+    return {
+      type: "ok",
+      msg: "Email sent successfully",
+    };
   } catch (error: any) {
     console.error("Failed to send email:", error.message);
     if (error.response) {
       console.error("Error response body:", error.response.body);
     }
+    return {
+      type: "error",
+      msg: "Error occurred during email sending",
+    };
   }
+}
+
+export async function sendPasswordResetEmail(data: {
+  to: string;
+  userName: string;
+  actionLink: string;
+}) {
+  return await sendEmail({
+    to: data.to,
+    templateId: process.env.SENDGRID_TEMPLATE_KEY,
+    title: "Reset Your Password",
+    userName: data.userName,
+    actionLink: data.actionLink,
+    body: "Please reset your password by clicking on the link below. If you did not request a password reset, please ignore this email or contact support if you have any concerns",
+  });
 }

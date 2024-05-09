@@ -142,7 +142,17 @@ body {
   .alert-background {
     background: #fff0da;
   }
+  .error-toast {
+    @apply text-white;
+    background-color : #f39100;
+    border-color: #f39100
 
+  }
+  .sucess-toast {
+    @apply text-white;
+    background-color : #16a34a;
+    border-color: #16a34a;
+  }
 }
 
 @layer utilities {

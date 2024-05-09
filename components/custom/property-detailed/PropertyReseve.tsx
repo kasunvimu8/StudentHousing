@@ -42,6 +42,7 @@ const PropertyReserve = ({ property }: { property: Property }) => {
           res.type === "ok" ? "Success" : "Failed"
         }`,
         description: res.msg,
+        variant: res.type === "ok" ? "ok" : "error"
       });
 
       if (res.type === "ok") {
