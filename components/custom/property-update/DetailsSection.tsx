@@ -60,6 +60,7 @@ const OtherItemLayout = ({
 const DetailsSection: React.FC<PropertySectionProps> = ({
   propertyState,
   updateLocalState,
+  isCreate
 }) => {
   return (
     <div className="pt-3">
@@ -90,6 +91,7 @@ const DetailsSection: React.FC<PropertySectionProps> = ({
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
               updateLocalState("property_id", e.currentTarget.value);
             }}
+            disabled={!isCreate}
           />
         </OtherItemLayout>
         <OtherItemLayout title="Room ID" isRequired={true}>
@@ -99,6 +101,7 @@ const DetailsSection: React.FC<PropertySectionProps> = ({
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
               updateLocalState("room_id", e.currentTarget.value);
             }}
+            disabled={!isCreate}
           />
         </OtherItemLayout>
         <OtherItemLayout title="Furnishing" isRequired={true}>
@@ -180,6 +183,16 @@ const DetailsSection: React.FC<PropertySectionProps> = ({
             className="bg-white max-w-[250px]"
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
               updateLocalState("floor", e.currentTarget.value);
+            }}
+          />
+        </OtherItemLayout>
+        <OtherItemLayout title="Notice Period (Months)">
+          <Input
+            value={propertyState.notice_period}
+            type="number"
+            className="bg-white max-w-[250px]"
+            onChange={(e: React.FormEvent<HTMLInputElement>) => {
+              updateLocalState("notice_period", parseInt(e.currentTarget.value));
             }}
           />
         </OtherItemLayout>

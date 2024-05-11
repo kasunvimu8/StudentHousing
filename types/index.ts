@@ -12,6 +12,7 @@ export interface PropertySectionProps {
     longitude: number;
     latitude: number;
   }) => void;
+  isCreate?: boolean;
 }
 
 // ------------------------SCHDCN UI Types----------------------------------------
@@ -58,6 +59,7 @@ export type PropertyDeafultType = {
   one_time_cost?: number;
   warm_rent?: number;
   deposit?: number;
+  notice_period?: number;
 };
 
 export type Property = PropertyDeafultType & {
@@ -132,16 +134,22 @@ export type ComboContentType = {
 };
 
 export type FilterParamTypes = {
+  id?: string;
   page?: string;
   city?: string;
   property_type?: string;
   from?: string;
+  to?: string;
   rooms?: string;
   size?: string;
   rent?: string;
   sort?: string;
   property_id?: string;
   room_id?: string;
+  reservation_id?: string;
+  user_id?: string;
+  status?: string;
+  document_submission_deadline?:string;
 };
 
 export type SortOption = { [key: string]: 1 | -1 };
@@ -153,4 +161,41 @@ export type NavType = {
   href: string;
   icon: string;
   id: string;
+};
+
+// -------------------------- My Reservation Types --------------------------------------
+export type reservationPayload = {
+  property_ref_id: string;
+  user_id: string;
+};
+
+export type ReservationType = {
+  _id: string;
+  status: string;
+  user_id: string;
+  created_at: string;
+  property_ref_id: string;
+  property_id: string;
+  room_id: string;
+  updated_at?: string;
+  updated_by?: string;
+  signed_documents?: string[];
+  admin_comment?: string;
+  user_comment?: string;
+  document_submission_deadline: string;
+  from: string;
+  to?: string;
+};
+
+// ----------------------------- User Profile -----------------------------
+
+export type userProfileType = {
+  user_email: string;
+  user_id: string;
+  user_name: string;
+  enrollment_id: string;
+  created_at: string;
+  updated_at?: string;
+  totalQuota?: number;
+  usedQuota?: number;
 };

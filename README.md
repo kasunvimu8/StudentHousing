@@ -61,7 +61,7 @@ git clone git@github.com:kasunvimu8/student-housing.git
 ```
 ### 3.Set up the Environment Configuration
 
-Make sure that that you created a .env file with the necessary keys similar to the .env_example
+Make sure that that you created a .env.local file with the necessary keys similar to the .env_example
 
 ### 3. Run the server
 
@@ -69,6 +69,16 @@ First, run the development server:
 
    ```bash
    npm run dev
+   ```
+Create production build:
+
+   ```bash
+   npm run build
+   ```
+run production server:
+
+   ```bash
+   npm start
    ```
 
 ## 📝 Design & Guidelines

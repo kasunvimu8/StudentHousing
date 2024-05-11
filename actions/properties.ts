@@ -1,6 +1,6 @@
 "use server";
 
-import { availableStatus } from "@/constants";
+import { adminType, availableStatus } from "@/constants";
 import { connectToDatabase } from "@/database";
 import Property from "@/database/models/property.model";
 import {
@@ -9,8 +9,9 @@ import {
   Property as PropertyData,
   PropertyDeafultType,
 } from "@/types";
-import { getReservationExist, getReservationStatus } from "./reservations";
+import { getReservationExist } from "./reservations";
 import { revalidatePath } from "next/cache";
+import { getProfiles } from "./profiles";
 
 function getFilterOptions(options: FilterParamTypes) {
   let filterCriterions: any = [];
@@ -92,14 +93,13 @@ export async function getProperties(
   currentPage: number,
   sortOption: SortOption,
   filterParams: FilterParamTypes,
-  statusType?: string
+  statusType: string
 ) {
   try {
     await connectToDatabase();
 
     const filterOptions: SortOption[] = getFilterOptions(filterParams);
-    const statusFilter =
-      statusType === "available" ? [{ status: availableStatus }] : [];
+    const statusFilter = statusType === "all" ? [] : [{ status: statusType }];
     let matchOptions =
       filterOptions.length > 0
         ? [...statusFilter, ...filterOptions]
@@ -206,21 +206,24 @@ export async function updateProperty(property: PropertyData) {
   try {
     await connectToDatabase();
 
-    const reservationStatus = await getReservationStatus(property._id);
-    if (reservationStatus === "rented") {
-      return {
-        msg: "Cannot update property details for a rented property!",
-        type: "error",
-      };
-    } else {
-      await Property.updateOne({ _id: property._id }, { $set: property });
-      revalidatePath("/", "layout");
+    const userData = await getProfiles();
+    await Property.updateOne(
+      { _id: property._id },
+      {
+        $set: {
+          ...property,
+          created_at: new Date(),
+          created_by: userData ? userData?.user_name : adminType,
+        },
+      }
+    );
 
-      return {
-        msg: "Property Updated Successfully !",
-        type: "ok",
-      };
-    }
+    revalidatePath("/", "layout");
+
+    return {
+      msg: "Property Updated Successfully !",
+      type: "ok",
+    };
   } catch (error) {
     console.log("Failed to update property.", error);
     return {
@@ -229,20 +232,30 @@ export async function updateProperty(property: PropertyData) {
     };
   }
 }
+
 export async function createPropertyAction(property: PropertyDeafultType) {
   try {
     await connectToDatabase();
 
-    await Property.create({ ...property });
+    const userData = await getProfiles();
+    await Property.create({
+      ...property,
+      created_at: new Date(),
+      created_by: userData ? userData?.user_name : adminType,
+    });
+
     revalidatePath("/", "layout");
     return {
       msg: "Property Created Successfully !",
       type: "ok",
     };
-  } catch (error) {
+  } catch (error: any) {
+    const errCode = error?.code === 11000;
     console.log("Failed to create property.", error);
     return {
-      msg: "Internal Server Error. Cannot create property!",
+      msg: errCode
+        ? "Property already exists in the system."
+        : "Internal Server Error. Cannot create property!",
       type: "error",
     };
   }

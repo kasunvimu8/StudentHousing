@@ -63,7 +63,7 @@ const AdminFilterSection = () => {
                 options={propertyStatuses}
                 optionsLabel="Select Property Status"
                 showAllItem={true}
-                inputKey="rooms"
+                inputKey="status"
               />
             </URLSyncInputSuspense>
           </div>

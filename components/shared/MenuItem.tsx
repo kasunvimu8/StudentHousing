@@ -11,9 +11,9 @@ const MenuItem = ({ menu }: { menu: NavType }) => {
   return (
     <Link
       href={menu.href}
-      className="primary-font-color p-1 gap-2 rounded-md font-medium text-sm hover:section-light-background-color flex items-center"
+      className="gap-2 flex items-center"
     >
-      <Icon className="icon w-5 h-5" />
+      <Icon className="icon w-4 h-4" />
       {menu.title}
     </Link>
   );

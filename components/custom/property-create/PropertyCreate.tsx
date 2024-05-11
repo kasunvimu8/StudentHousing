@@ -42,6 +42,7 @@ const initialState: PropertyDeafultType = {
   images: [],
   status: "available",
   city: "",
+  notice_period: 3,
   rooms: 1,
   property_type: "",
   floor: 1,
@@ -91,13 +92,8 @@ const PropertyCreate = ({
   };
 
   const createProperty = async () => {
-    const propertyData: PropertyDeafultType = {
-      ...propertyState,
-      created_at: new Date(),
-      created_by: "admin",
-    };
     const res: { msg: string; type: string } = await createPropertyAction(
-      propertyData
+      propertyState
     );
     if (res) {
       toast({
@@ -105,6 +101,7 @@ const PropertyCreate = ({
           res.type === "ok" ? "Success" : "Failed"
         }`,
         description: res.msg,
+        variant: res.type === "ok" ? "ok" : "error"
       });
 
       if (res.type === "ok") {
@@ -149,6 +146,7 @@ const PropertyCreate = ({
         <DetailsSection
           propertyState={propertyState}
           updateLocalState={updateLocalState}
+          isCreate={true}
         />
         <ImageSectioon
           propertyState={propertyState}

@@ -23,6 +23,7 @@ const DialogComponent = ({
   submitMainButtonDisable,
   submitTitleSecondary,
   clickSubmit,
+  displayButtonDisable = false,
 }: {
   children: ReactNode;
   buttonTitle: string;
@@ -33,12 +34,17 @@ const DialogComponent = ({
   submitMainButtonDisable?: boolean;
   submitTitleSecondary?: string;
   clickSubmit: () => void;
+  displayButtonDisable?: boolean;
 }) => {
   return (
     <div>
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="outline" className={cls}>
+          <Button
+            variant="outline"
+            className={cls}
+            disabled={displayButtonDisable}
+          >
             {buttonTitle}
           </Button>
         </DialogTrigger>

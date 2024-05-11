@@ -28,10 +28,11 @@ const PropertySchema = new Schema({
   property_type: String,
   floor: String,
   additional_information: String,
-  property_id: String,
+  notice_period: Number,
+  property_id: { required: true, unique: true, type: String },
   room_id: String,
 });
 
-const Property = models.Property || model("Property", PropertySchema);
+const Property = models?.Property || model("Property", PropertySchema);
 
 export default Property;

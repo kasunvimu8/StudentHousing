@@ -1,5 +1,5 @@
 import React from "react";
-import { numberOfPropertiesInPage } from "@/constants";
+import { availableStatus, numberOfPropertiesInPage } from "@/constants";
 import PropertyItem from "./PropertyItem";
 import { FilterParamTypes, Property, SortOption } from "@/types";
 import { getProperties, getProperyCount } from "@/actions/properties";
@@ -28,9 +28,9 @@ const PropertyList = async ({
     page,
     sortOption,
     searchParams,
-    "available"
+    availableStatus
   );
-  const count = getProperyCount(searchParams, "available");
+  const count = getProperyCount(searchParams, availableStatus);
   const [total, propertiesData] = await Promise.all([count, data]);
 
   properties = JSON.parse(JSON.stringify(propertiesData));
