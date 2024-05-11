@@ -86,7 +86,7 @@ export function DataTable({
               Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-white">
+          <DropdownMenuContent align="end" className="bg-white"  hideWhenDetached={true}>
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())

@@ -22,22 +22,16 @@ export const headerLinks = [
 
 export const normalUserNavMenu = [
   {
-    title: "My Reservation",
+    title: "My Reservations",
     href: "/my-reservations",
     icon: "LuHome",
-    id: "reservations",
+    id: "my-reservations",
   },
   {
     title: "My Profile",
     href: "/profile",
     icon: "LuUser2",
-    id: "profile",
-  },
-  {
-    title: "Logout",
-    href: "/logout",
-    icon: "LuLogOut",
-    id: "logout",
+    id: "my-profile",
   },
 ];
 
@@ -46,25 +40,19 @@ export const adminUsernavigation = [
     title: "Manage Properties",
     href: "/manage-properties",
     icon: "BsHouseGear",
-    id: "manageProperties",
+    id: "manage-properties",
   },
   {
     title: "Manage Reservations",
     href: "/manage-reservations",
     icon: "TbHomeShield",
-    id: "manageReservations",
+    id: "manage-reservations",
   },
   {
     title: "Manage Users",
     href: "/manage-users",
     icon: "LuUserCog2",
-    id: "manageUsers",
-  },
-  {
-    title: "Logout",
-    href: "/logout",
-    icon: "LuLogOut",
-    id: "logout",
+    id: "manage-users",
   },
 ];
 
@@ -438,10 +426,11 @@ export const initialVisibilityManageReservations = {
   address: true,
   from: false,
   to: false,
+  document_submission_deadline: false,
 };
 
 // ----------------------- Toaster Config ------------------------- //
-export const duration = 10000;
+export const duration = 7000;
 
 // ----------------------- Reservation Specific Config ------------------------- //
 export const expirationDuration = 7;
@@ -460,3 +449,10 @@ export const cancelledRequestedEntities = [
     description: "Admin",
   },
 ];
+
+export const defaultUserReservationQuota = 2;
+
+// ----------------------- Authentication Specific Config ------------------------- //
+export const sessionPeriodMinutes = 30;
+export const resetLinkValidation = 30;
+export const adminType = "admin";

@@ -6,7 +6,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { ReservationType } from "@/types";
 import { submitDocuments } from "@/actions/reservations";
 import { getNextStatus } from "@/lib/utils";
-import { getUserId } from "@/lib/user";
 import DialogComponent from "@/components/shared/DialogComponent";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,7 +22,6 @@ const SubmitDocumentsButton = ({
 }) => {
   const { toast } = useToast();
   const router = useRouter();
-  const user_id = getUserId();
   const [comment, setComment] = useState("");
   const [check, setCheck] = useState(false);
 
@@ -38,7 +36,6 @@ const SubmitDocumentsButton = ({
       files,
       reservation._id,
       nextStatus,
-      user_id,
       isAdmin,
       comment
     );
@@ -46,6 +43,7 @@ const SubmitDocumentsButton = ({
       toast({
         title: `Upload Documents : ${res.type === "ok" ? "Success" : "Failed"}`,
         description: res.msg,
+        variant: res.type === "ok" ? "ok" : "error"
       });
 
       if (res.type === "ok") {
@@ -93,9 +91,9 @@ const SubmitDocumentsButton = ({
               />
               <label
                 htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="text-sm pt-1 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                I consent to upload accurate and truthful documents
+                I hereby confirm that the documents are accurate and complete.
               </label>
             </div>
           )}

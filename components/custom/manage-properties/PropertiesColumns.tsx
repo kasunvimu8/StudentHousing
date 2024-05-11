@@ -34,6 +34,7 @@ const handlePropertyDelete = async (
         res.type === "ok" ? "Success" : "Failed"
       }`,
       description: res.msg,
+      variant: res.type === "ok" ? "ok" : "error"
     });
   }
 };

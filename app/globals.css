@@ -118,6 +118,10 @@ body {
     z-index: 1003 !important
   }
 
+  .profile-user-overlay {
+    z-index: 1003 !important
+  }
+
   input[type="file"] {
     color: rgb(var(--section-light-background-color));
     background-color: rgb(var(--section-light-background-color));
@@ -138,7 +142,17 @@ body {
   .alert-background {
     background: #fff0da;
   }
+  .error-toast {
+    @apply text-white;
+    background-color : #f39100;
+    border-color: #f39100
 
+  }
+  .sucess-toast {
+    @apply text-white;
+    background-color : #16a34a;
+    border-color: #16a34a;
+  }
 }
 
 @layer utilities {

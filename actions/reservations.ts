@@ -6,15 +6,18 @@ import {
   FilterParamTypes,
   Property as PropertyType,
   reservationPayload,
+  ReservationType,
   SortOption,
 } from "@/types";
 import { getProperty } from "./properties";
-import { getUserAvailableQuota } from "./profiles";
+import { getUserAvailableQuota, getUserId } from "./profiles";
 import Property from "@/database/models/property.model";
 import { revalidatePath } from "next/cache";
 import Profile from "@/database/models/profiles.model";
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
+import { adminType, expirationDuration } from "@/constants";
+import { calculateFutureDate } from "@/lib/utils";
 
 export async function getReservationExist(_id: string) {
   try {
@@ -71,6 +74,7 @@ export async function getMyReservations(userId: string) {
           property_ref_id: 1,
           admin_comment: 1,
           user_comment: 1,
+          document_submission_deadline: 1,
           from: 1,
           to: 1,
           property_id: "$property.property_id",
@@ -100,6 +104,8 @@ async function performReservation(
   let msg = "";
   let type = "";
 
+  const expiredDate = calculateFutureDate(new Date(), expirationDuration);
+
   try {
     const opts = { session };
     // reserve the property
@@ -122,6 +128,7 @@ async function performReservation(
           property_ref_id: reservationPayload.property_ref_id,
           from: propertyData.from,
           to: propertyData.to,
+          document_submission_deadline: expiredDate,
         },
       ],
       opts
@@ -165,27 +172,58 @@ async function performReservation(
   }
 }
 
-export async function makeReservation(reservationPayload: reservationPayload) {
+function checkCurrentReservationStatus(reservations: ReservationType[]) {
+  const now = new Date();
+
+  for (const reservation of reservations) {
+    const endDate = reservation.to ? new Date(reservation.to) : null;
+
+    // Check if end date is in the future or not available
+    if (!endDate || endDate > now) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+export async function makeReservation(reservationPayload: {
+  property_ref_id: string;
+}) {
   try {
+    const userId = await getUserId();
+    const quota: number = await getUserAvailableQuota(userId);
+    const currentReservations = await getMyReservations(userId);
+    const currentlyReservationExists =
+      checkCurrentReservationStatus(currentReservations);
+
     const conn = await connectToDatabase();
-    const quota: number = await getUserAvailableQuota(
-      reservationPayload.user_id
-    );
+
     if (quota > 0) {
-      // proceed reservation
-      const propertyData = await getProperty(
-        reservationPayload.property_ref_id
-      );
-      if (propertyData && propertyData.status === "available") {
-        return await performReservation(reservationPayload, propertyData);
-      } else {
-        console.log(
-          "Property is not available, when user made the reservation"
-        );
+      if (currentlyReservationExists) {
         return {
-          msg: "The property you are attempting to reserve isn't currently available. Please try again later.",
+          msg: "You currently have an active reservation. Please note that only one reservation can be held at a time",
           type: "error",
         };
+      } else {
+        // proceed reservation
+        const propertyData = await getProperty(
+          reservationPayload.property_ref_id
+        );
+        if (propertyData && propertyData.status === "available") {
+          return await performReservation(
+            { ...reservationPayload, user_id: userId },
+            propertyData
+          );
+        } else {
+          console.log(
+            "Property is not available, when user made the reservation"
+          );
+          return {
+            msg: "The property you are attempting to reserve isn't currently available. Please try again later.",
+            type: "error",
+          };
+        }
       }
     } else {
       return {
@@ -229,6 +267,7 @@ export async function getReservation(reservationId: string) {
           updated_at: 1,
           updated_by: 1,
           property_ref_id: 1,
+          document_submission_deadline: 1,
           admin_comment: 1,
           user_comment: 1,
           from: 1,
@@ -255,10 +294,10 @@ export async function submitDocuments(
   documents: any,
   reservationId: string,
   nextStatus: string,
-  user_id: string,
   is_admin: boolean,
   comment: string
 ) {
+  const user_id = await getUserId();
   // TODO handle document submission here
   await connectToDatabase();
 
@@ -329,6 +368,7 @@ export async function submitDocuments(
 
 function getFilterOptions(options: FilterParamTypes) {
   let filterCriterions: any = [];
+  const now = new Date();
 
   Object.keys(options).forEach((key) => {
     const optionKey = options[key as keyof FilterParamTypes];
@@ -371,10 +411,24 @@ function getFilterOptions(options: FilterParamTypes) {
             $gte: new Date(optionKey),
           },
         });
+      } else if (key === "active") {
+        filterCriterions.push({
+          $or: [{ to: null }, { to: { $gt: now } }],
+        });
+      } else if (key === "expire") {
+        filterCriterions.push({
+          $and: [
+            {
+              document_submission_deadline: {
+                $lt: now,
+              },
+            },
+            { status: "document_submission" },
+          ],
+        });
       }
     }
   });
-
   return filterCriterions;
 }
 
@@ -409,6 +463,7 @@ export async function getAllReservations(
           property_ref_id: 1,
           admin_comment: 1,
           user_comment: 1,
+          document_submission_deadline: 1,
           from: 1,
           to: 1,
           property_id: "$property.property_id",
@@ -451,6 +506,7 @@ export async function cancelReservation(
 
       // update reservation status
       // save comment/reason for the cancellation
+      // update to date to close the reservation
       const res1 = await Reservation.updateOne(
         { _id: reservationId },
         {
@@ -458,6 +514,7 @@ export async function cancelReservation(
             status: "reservation_canceled",
             admin_comment: comment,
             user_comment: "",
+            to: new Date(),
           },
         },
         opts
@@ -470,7 +527,7 @@ export async function cancelReservation(
       }
 
       // if it is cancelled due to issue from admin side, decrement users used quota by one
-      if (user === "admin") {
+      if (user === adminType) {
         const res2 = await Profile.updateOne(
           { user_id: user_id },
           { $inc: { usedQuota: -1 } },
@@ -532,6 +589,7 @@ export async function rejectReservationDocument(
 ) {
   let msg = "";
   let type = "";
+  const expiredDate = calculateFutureDate(new Date(), expirationDuration);
   try {
     await connectToDatabase();
 
@@ -542,6 +600,7 @@ export async function rejectReservationDocument(
           status: "document_submission",
           admin_comment: comment,
           user_comment: "",
+          document_submission_deadline: expiredDate,
         },
       }
     );

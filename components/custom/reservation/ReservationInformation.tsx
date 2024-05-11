@@ -1,18 +1,18 @@
-import { expirationDuration } from "@/constants";
-import { calculateFutureDate, formatDateTime } from "@/lib/utils";
+import { getUserId } from "@/actions/profiles";
+import { formatDateTime } from "@/lib/utils";
 import { ReservationType } from "@/types";
 import Link from "next/link";
 import React from "react";
 
-const ReservationInformation = ({
+const ReservationInformation = async ({
   reservation,
 }: {
   reservation: ReservationType;
 }) => {
-  const expiredDate = calculateFutureDate(
-    new Date(reservation.created_at),
-    expirationDuration
-  );
+  const userId = await getUserId();
+  const ref = reservation._id;
+  const convention = `${userId}-${ref}`;
+
   return (
     <ul className="list-disc p-2">
       <li className="p-1 font-normal text-sm">
@@ -27,20 +27,19 @@ const ReservationInformation = ({
           <li className="p-1 font-normal text-sm ">
             Signed Contract Document{" "}
             <span className="primary-light-font-color">
-              (e.g : N123456-652e606b021a28adfd286910-contract.pdf)
+              (e.g : {convention}-contract.pdf)
             </span>
           </li>
           <li className="p-1 font-normal text-sm">
-            Scanned Passport or NIC {" "}
+            Scanned Passport or NIC{" "}
             <span className="primary-light-font-color">
-              (e.g : N123456-652e606b021a28adfd286910-id.pdf)
+              (e.g : {convention}-id.pdf)
             </span>
           </li>
           <li className="p-1 font-normal text-sm">
             Enrollment Certificate{" "}
             <span className="primary-light-font-color">
-              (e.g :
-              N123456-652e606b021a28adfd286910-enrollment-certificate.pdf)
+              (e.g :{convention}-enrollment-certificate.pdf)
             </span>
           </li>
         </ul>
@@ -48,10 +47,11 @@ const ReservationInformation = ({
       <li className="p-1 font-normal text-sm">
         {`Please ensure that all documents are submitted `}
         <span className="font-bold">
-          before {formatDateTime(expiredDate).simpleDate}
+          before{" "}
+          {formatDateTime(new Date(reservation?.document_submission_deadline))
+            ?.simpleDate || ""}
         </span>
-        . Failure to do so will result in automatic cancellation of the
-        reservation.
+        . Failure to do so will result in cancellation of the reservation.
       </li>
       <li className="p-1 font-normal text-sm">
         Please ensure that all required documents are fully completed before

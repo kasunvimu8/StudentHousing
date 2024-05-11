@@ -53,6 +53,7 @@ export const AdminActionReservationCancel = ({
           res.type === "ok" ? "Success" : "Failed"
         }`,
         description: res.msg,
+        variant: res.type === "ok" ? "ok" : "error"
       });
       if (res.type === "ok") {
         router.push("/manage-reservations");
@@ -136,6 +137,7 @@ export const AdminActionReject = ({
       toast({
         title: `Reject Documents : ${res.type === "ok" ? "Success" : "Failed"}`,
         description: res.msg,
+        variant: res.type === "ok" ? "ok" : "error"
       });
       if (res.type === "ok") {
         router.push("/manage-reservations");
@@ -197,6 +199,7 @@ export const ApproveReservation = ({
           res.type === "ok" ? "Success" : "Failed"
         }`,
         description: res.msg,
+        variant: res.type === "ok" ? "ok" : "error"
       });
       if (res.type === "ok") {
         router.push("/manage-reservations");

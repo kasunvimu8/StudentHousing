@@ -149,6 +149,7 @@ export type FilterParamTypes = {
   reservation_id?: string;
   user_id?: string;
   status?: string;
+  document_submission_deadline?:string;
 };
 
 export type SortOption = { [key: string]: 1 | -1 };
@@ -181,6 +182,20 @@ export type ReservationType = {
   signed_documents?: string[];
   admin_comment?: string;
   user_comment?: string;
+  document_submission_deadline: string;
   from: string;
   to?: string;
+};
+
+// ----------------------------- User Profile -----------------------------
+
+export type userProfileType = {
+  user_email: string;
+  user_id: string;
+  user_name: string;
+  enrollment_id: string;
+  created_at: string;
+  updated_at?: string;
+  totalQuota?: number;
+  usedQuota?: number;
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { propertyTypes, reservationStatuses } from "@/constants";
+import { propertyTypes, reservationCancelled, reservationStatuses } from "@/constants";
 import { formatDateTime } from "@/lib/utils";
 import { ExtendedColumnDef } from "@/types";
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
@@ -122,13 +122,17 @@ export const columns: ExtendedColumnDef[] = [
   },
   {
     accessorKey: "to",
-    header: "Available To",
+    header: "To",
     cell: ({ row }) => {
       const to = row.getValue("to") || "-";
+      const status = row.getValue("status");
       const date = to ? formatDateTime(new Date(String(to))).simpleDate : "-";
-      return <div className="capitalize">{date}</div>;
+      const statusData = reservationStatuses.find((item) => item.id === status);
+
+      const removeEndDate = statusData?.id === reservationCancelled;
+      return <div className="capitalize">{removeEndDate ? '-' : date}</div>;
     },
-    columnTitle: "Available To",
+    columnTitle: "To",
   },
   {
     accessorKey: "created_at",
@@ -140,6 +144,17 @@ export const columns: ExtendedColumnDef[] = [
       return <div className="capitalize">{date}</div>;
     },
     columnTitle: "Reserved At",
+  },
+  {
+    accessorKey: "document_submission_deadline",
+    header: "Doc. Submission Deadline",
+    cell: ({ row }) => {
+      const document_submission_deadline = row.getValue("document_submission_deadline");
+      const date = formatDateTime(new Date(String(document_submission_deadline))).simpleDateTime;
+
+      return <div className="capitalize">{date}</div>;
+    },
+    columnTitle: "Doc. Submission Deadline",
   },
   {
     accessorKey: "updated_at",

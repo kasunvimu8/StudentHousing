@@ -9,6 +9,7 @@ import ContractPeriod from "@/components/custom/reservation/ContractPeriod";
 import ReservationInformation from "@/components/custom/reservation/ReservationInformation";
 import PageTitle from "@/components/shared/PageTitle";
 import {
+  adminType,
   documentReview,
   documentSubmission,
   reservationCancelled,
@@ -38,7 +39,7 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
   let isCancelled = reservation?.status === reservationCancelled;
   let isRented = reservation?.status === reservationCompleted;
   const userType = await getUserType();
-  const isAdmin = userType === "admin";
+  const isAdmin = userType === adminType;
   let editable = isDocumentSubmission || (isAdmin && !isCancelled && !isRented);
 
   return (

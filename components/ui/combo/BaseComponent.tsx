@@ -52,7 +52,12 @@ export function ComboboxComponent({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[250px] p-0 bg-white">
-        <Command className="">
+        <Command
+          filter={(value, search) => {
+            if (value.includes(search)) return 1;
+            return 0;
+          }}
+        >
           <CommandInput placeholder={placeholder} className="h-9" />
           <CommandEmpty>{notfoundLabel}</CommandEmpty>
           <CommandGroup>
