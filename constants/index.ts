@@ -29,7 +29,7 @@ export const normalUserNavMenu = [
   },
   {
     title: "My Profile",
-    href: "/profile",
+    href: "/my-profile",
     icon: "LuUser2",
     id: "my-profile",
   },
@@ -336,6 +336,17 @@ export const adminsortOptions = [
   },
 ];
 
+export const adminUserSortOptions = [
+  {
+    id: "newest",
+    description: "Newly Joined",
+  },
+  {
+    id: "recent-update",
+    description: "Most Recent Update",
+  }
+];
+
 export const reservationStatuses = [
   {
     id: "available",
@@ -429,6 +440,17 @@ export const initialVisibilityManageReservations = {
   document_submission_deadline: false,
 };
 
+export const initialVisibilityManageUsers = {
+  _id: false,
+  user_name: true,
+  user_email: true,
+  user_id: true,
+  role: true,
+  enrollment_id: true,
+  created_at: false,
+  updated_at: false,
+};
+
 // ----------------------- Toaster Config ------------------------- //
 export const duration = 7000;
 
@@ -439,7 +461,7 @@ export const documentReview = "document_review";
 export const reservationCancelled = "reservation_canceled";
 export const reservationCompleted = "rented";
 
-export const cancelledRequestedEntities = [
+export const userRoles = [
   {
     id: "user",
     description: "Tanent",

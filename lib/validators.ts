@@ -120,3 +120,11 @@ export const PasswordResetSchema = z
     message: "Passwords must match",
     path: ["confirmPassword"],
   });
+
+export const nameSchema = z.object({
+  user_name: z
+    .string({
+      required_error: "Address is required",
+    })
+    .min(1),
+});

@@ -11,12 +11,12 @@ import { Button } from "../ui/button";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import Logout from "../custom/auth/Logout";
 import MenuItem from "./MenuItem";
-import { getProfiles, getUserType } from "@/actions/profiles";
+import { getProfile, getUserType } from "@/actions/profiles";
 import { adminType, adminUsernavigation, normalUserNavMenu } from "@/constants";
 
 export async function UserNav() {
   const userType = await getUserType();
-  const userData = await getProfiles();
+  const userData = await getProfile();
   const navOptions =
     userType === adminType ? adminUsernavigation : normalUserNavMenu;
 

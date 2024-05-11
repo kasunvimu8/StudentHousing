@@ -7,8 +7,13 @@ const ProfileSchema = new Schema({
   enrollment_id: { type: String, required: true },
   created_at: { type: Date, required: true },
   updated_at: { type: Date },
-  totalQuota: { type: Number },
-  usedQuota: { type: Number },
+  total_quota: { type: Number },
+  used_quota: { type: Number },
+});
+
+ProfileSchema.pre("updateOne", function (next) {
+  this.set({ updated_at: new Date() });
+  next();
 });
 
 const Profile = models?.Profile || model("Profile", ProfileSchema);
