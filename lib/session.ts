@@ -1,10 +1,10 @@
 import "server-only";
 
-import { resetLinkValidation, sessionPeriodMinutes } from "@/constants";
+import { sessionPeriodMinutes } from "@/constants";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
-const secretKey = "PmauWg4SAlDJ2mS+HpIqgkqv/fHc4m1VIOWuvkflqII=";
+const secretKey = process.env.AUTH_SECRET
 const key = new TextEncoder().encode(secretKey);
 
 export async function encrypt(payload: any) {
