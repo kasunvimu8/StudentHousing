@@ -9,6 +9,7 @@ const adminRouts = [
   "/property/edit",
   "/property/create",
   "/manage-reservations",
+  "/manage-user",
 ];
 const passwordReset = "/reset-password";
 

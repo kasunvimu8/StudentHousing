@@ -33,6 +33,11 @@ const PropertySchema = new Schema({
   room_id: String,
 });
 
+PropertySchema.pre("updateOne", function (next) {
+  this.set({ updated_at: new Date() });
+  next();
+});
+
 const Property = models?.Property || model("Property", PropertySchema);
 
 export default Property;

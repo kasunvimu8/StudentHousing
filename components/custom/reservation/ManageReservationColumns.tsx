@@ -112,7 +112,7 @@ export const columns: ExtendedColumnDef[] = [
     accessorKey: "from",
     header: "Available From",
     cell: ({ row }) => {
-      const from = row.getValue("from") || "-";
+      const from = row.getValue("from");
       const date = from
         ? formatDateTime(new Date(String(from))).simpleDate
         : "-";
@@ -124,7 +124,7 @@ export const columns: ExtendedColumnDef[] = [
     accessorKey: "to",
     header: "To",
     cell: ({ row }) => {
-      const to = row.getValue("to") || "-";
+      const to = row.getValue("to");
       const status = row.getValue("status");
       const date = to ? formatDateTime(new Date(String(to))).simpleDate : "-";
       const statusData = reservationStatuses.find((item) => item.id === status);

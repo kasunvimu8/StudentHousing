@@ -1,13 +1,14 @@
-import { getUserType, getProfile } from "@/actions/profiles";
+import { getUserType, getUserProfile } from "@/actions/profiles";
 import UpdatePropertyDetail from "@/components/custom/user/UserProfileUpdate";
 import PageTitle from "@/components/shared/PageTitle";
 import { adminType } from "@/constants";
 import React from "react";
 
-export default async function Page() {
+export default async function Page({ params }: { params: { userId: string } }) {
   const userType = await getUserType();
-  const userData =  await getProfile();
+  const userData = await getUserProfile(params.userId);
   const isAdmin = userType === adminType;
+
   return (
     <div className="h-full w-full">
       <div className="grid grid-cols-2 gap-4">
@@ -16,10 +17,7 @@ export default async function Page() {
         </div>
       </div>
       <div className="mx-auto py-5">
-        <UpdatePropertyDetail
-          userData={userData}
-          isAdmin={isAdmin}
-        />
+        <UpdatePropertyDetail userData={userData} isAdmin={isAdmin} />
       </div>
     </div>
   );

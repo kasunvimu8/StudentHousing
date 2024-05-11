@@ -38,8 +38,8 @@ export async function signUp(data: any) {
             user_name: name,
             enrollment_id: enrollment_id,
             created_at: new Date(),
-            totalQuota: defaultUserReservationQuota,
-            usedQuota: 0,
+            total_quota: defaultUserReservationQuota,
+            used_quota: 0,
           },
         ],
         opts

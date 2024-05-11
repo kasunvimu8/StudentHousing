@@ -19,6 +19,11 @@ const ReservationSchema = new Schema({
   to: Date,
 });
 
+ReservationSchema.pre("updateOne", function (next) {
+  this.set({ updated_at: new Date() });
+  next();
+});
+
 const Reservation =
   models?.Reservation || model("Reservation", ReservationSchema);
 

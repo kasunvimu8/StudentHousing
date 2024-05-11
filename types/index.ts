@@ -196,6 +196,12 @@ export type userProfileType = {
   enrollment_id: string;
   created_at: string;
   updated_at?: string;
-  totalQuota?: number;
-  usedQuota?: number;
+  total_quota?: number;
+  used_quota?: number;
+};
+
+export type userDetailsCompProps = {
+  userState: userProfileType,
+  updateLocalState: (key: string, value: any) => void
+  isAdmin?: boolean;
 };
