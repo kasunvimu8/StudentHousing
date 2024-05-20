@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { cancelledRequestedEntities } from "@/constants";
+import { userRoles } from "@/constants";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { BaseComponent as Calender } from "@/components/ui/calendar/BaseComponent";
@@ -30,7 +30,7 @@ export const AdminActionReservationCancel = ({
 }) => {
   const router = useRouter();
   const { toast } = useToast();
-  const [user, setUser] = useState(cancelledRequestedEntities[0]?.id || "");
+  const [user, setUser] = useState(userRoles[0]?.id || "");
   const [comment, setComment] = useState("");
   const [listingEnable, setListingEnable] = useState(true);
 
@@ -78,11 +78,11 @@ export const AdminActionReservationCancel = ({
         </Label>
         <BaseComponent
           value={user}
-          options={cancelledRequestedEntities}
+          options={userRoles}
           optionsLabel={"Select a Item"}
           showAllItem={false}
           handleSelect={(selectItem: string) => {
-            const propertyItem = cancelledRequestedEntities.find(
+            const propertyItem = userRoles.find(
               (option) => option.id === selectItem
             );
             if (propertyItem?.id) {
