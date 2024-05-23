@@ -4,7 +4,7 @@ import { defaultUserReservationQuota, resetLinkValidation } from "@/constants";
 import { connectToDatabase } from "@/database";
 import Authentication from "@/database/models/authentications.model";
 import Profile from "@/database/models/profiles.model";
-import { sendPasswordResetEmail } from "@/lib/email";
+import { sendPasswordResetEmail, sendVerifyEmail } from "@/lib/email";
 import { createSession, deleteSession } from "@/lib/session";
 import getToken from "@/lib/token";
 import bcrypt from "bcrypt";
@@ -54,13 +54,23 @@ export async function signUp(data: any) {
             password: hashedPassword,
             created_at: new Date(),
             role: "user",
+            verified: false,
           },
         ],
         opts
       );
+
       msg =
-        "Your data has been sucecesfully regsistered. Please login with your email and password to continue";
+        "Your data has been sucecesfully regsistered. Please check your email to verify the account";
       type = "ok";
+      const token = await getToken();
+      const resetLink = `${process.env.BASE_URL}/verify-email/${user_id}/${token}`;
+
+      const res = await sendVerifyEmail({
+        to: email,
+        userName: name,
+        actionLink: resetLink,
+      });
 
       // commit the transaction
       await session.commitTransaction();
@@ -97,6 +107,13 @@ export async function signIn(data: { email: string; password: string }) {
     await connectToDatabase();
     const user = await Authentication.findOne({ user_email: email });
     const userData = JSON.parse(JSON.stringify(user));
+
+    if (userData && !userData.verified) {
+      return {
+        msg: "Login Failed. Your email address is not verified yet",
+        type: "error",
+      };
+    }
 
     if (userData && (await bcrypt.compare(password, userData.password))) {
       await createSession(email, userData.role, userData.user_id);
@@ -191,25 +208,49 @@ export async function forgetPasswordEmailSent(email: string) {
   };
 }
 
-export async function veriftToken(token: string, user_id: string) {
+export async function veriftConfirmEmail(token: string, user_id: string) {
   try {
     await connectToDatabase();
     const record = await Authentication.findOne({
       user_id: user_id,
     });
-    if (
-      !record ||
-      !record.reset_password_token ||
-      record.reset_password_token.token !== token ||
-      record.reset_password_token.expires < new Date() ||
-      record.reset_password_token.used
-    ) {
-      return undefined;
+    if (!record) {
+      return {
+        msg: "Error occured while processing email confirmation. Please try again later.",
+        type: "Email verification failed",
+      };
     } else {
-      return record;
+      if (record.verified) {
+        return {
+          msg: "Email already verified",
+          type: "ok",
+        };
+      } else {
+        const res = await Authentication.updateOne(
+          { user_id: user_id },
+          {
+            $set: {
+              verified: true,
+            },
+          }
+        );
+        console.log(res);
+
+        return {
+          msg: "Email verification successfull. Please login with your credentials.",
+          type: "ok",
+        };
+      }
     }
   } catch (error) {
-    console.log(`Failed verifying the token - ${token}`, error);
+    console.log(
+      `Failed verifying the email token - ${user_id} - ${token}`,
+      error
+    );
+    return {
+      msg: "Error occured while processing email confirmation. Please try again later.",
+      type: "error",
+    };
   }
 }
 
@@ -259,5 +300,27 @@ export async function resetPassword(data: {
       msg,
       type,
     };
+  }
+}
+
+export async function veriftToken(token: string, user_id: string) {
+  try {
+    await connectToDatabase();
+    const record = await Authentication.findOne({
+      user_id: user_id,
+    });
+    if (
+      !record ||
+      !record.reset_password_token ||
+      record.reset_password_token.token !== token ||
+      record.reset_password_token.expires < new Date() ||
+      record.reset_password_token.used
+    ) {
+      return undefined;
+    } else {
+      return record;
+    }
+  } catch (error) {
+    console.log(`Failed verifying the token - ${token}`, error);
   }
 }
