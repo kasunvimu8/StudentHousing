@@ -344,7 +344,7 @@ export const adminUserSortOptions = [
   {
     id: "recent-update",
     description: "Most Recent Update",
-  }
+  },
 ];
 
 export const reservationStatuses = [
@@ -354,6 +354,7 @@ export const reservationStatuses = [
     workflowNumber: 1,
     workflowDispaly: true,
     actionDescription: "",
+    adminActionDescription: "",
     showInDropdown: false,
   },
   {
@@ -363,7 +364,9 @@ export const reservationStatuses = [
     workflowDispaly: true,
     showInDropdown: true,
     actionDescription:
-      "Action Required!. Please Submit the Signed Contract Documents ",
+      "Action Required!. Please submit the signed contract documents ",
+    adminActionDescription:
+      "No Action Required. Please wait until tenant submit the documents",
   },
   {
     id: "document_review",
@@ -372,7 +375,9 @@ export const reservationStatuses = [
     workflowDispaly: true,
     showInDropdown: true,
     actionDescription:
-      "No Action Required. Wait for the Contract Document approval",
+      "No Action Required. Wait for the contract document approval",
+    adminActionDescription:
+      "Action Required!. Please check the submitted documents and approve, reject, or cancel the reservation.",
   },
   {
     id: "rented",
@@ -380,7 +385,8 @@ export const reservationStatuses = [
     workflowNumber: 4,
     workflowDispaly: true,
     showInDropdown: true,
-    actionDescription: "Congratulations! The Living place is now yours",
+    actionDescription: "Congratulations! The living place is now yours",
+    adminActionDescription: "The Reservation has completed succesfully",
   },
   {
     id: "reservation_canceled",
@@ -390,6 +396,7 @@ export const reservationStatuses = [
     showInDropdown: true,
     actionDescription:
       "Unfortunately your reservation has been cancelled by the administation",
+    adminActionDescription: "The Reservation has been cancelled",
   },
 ];
 
@@ -455,7 +462,7 @@ export const initialVisibilityManageUsers = {
 export const duration = 7000;
 
 // ----------------------- Reservation Specific Config ------------------------- //
-export const expirationDuration = 7;
+export const expirationDuration = 5;
 export const documentSubmission = "document_submission";
 export const documentReview = "document_review";
 export const reservationCancelled = "reservation_canceled";
@@ -464,7 +471,7 @@ export const reservationCompleted = "rented";
 export const userRoles = [
   {
     id: "user",
-    description: "Tanent",
+    description: "Tenant",
   },
   {
     id: "admin",
@@ -475,6 +482,6 @@ export const userRoles = [
 export const defaultUserReservationQuota = 2;
 
 // ----------------------- Authentication Specific Config ------------------------- //
-export const sessionPeriodMinutes = 30;
+export const sessionPeriodMinutes = 60;
 export const resetLinkValidation = 30;
 export const adminType = "admin";

@@ -4,6 +4,7 @@ import {
   AdminActionDocumentReview,
   AdminActionReservationCancel,
 } from "@/components/custom/reservation/AdminAction";
+import AdminReservationInformation from "@/components/custom/reservation/AdminReservationInformation";
 import ContractDocument from "@/components/custom/reservation/ContractDocument";
 import ContractPeriod from "@/components/custom/reservation/ContractPeriod";
 import ReservationInformation from "@/components/custom/reservation/ReservationInformation";
@@ -55,7 +56,9 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
             {statusData?.description || ""}
           </div>
           <div className="font-normal text-sm text-center pb-1">
-            {statusData?.actionDescription || ""}
+            {isAdmin
+              ? statusData?.adminActionDescription
+              : statusData?.actionDescription}
           </div>
           <div className="text-sm primary-light-font-color">{`Reservation Id : ${reservation._id}`}</div>
 
@@ -101,7 +104,11 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
       </div>
       {isDocumentSubmission && (
         <div className="mx-auto py-5">
-          <ReservationInformation reservation={reservation} />
+          {isAdmin ? (
+            <AdminReservationInformation reservation={reservation} />
+          ) : (
+            <ReservationInformation reservation={reservation} />
+          )}
         </div>
       )}
 
@@ -125,7 +132,7 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
             <div className="font-normal text-sm alert-background p-4 rounded flex items-center">
               <LuInfo className="ml-2 text-lg" />
               <span className="ml-2">
-                Tanent Comment - {reservation.user_comment}
+                Tenant Comment - {reservation.user_comment}
               </span>
             </div>
           )}

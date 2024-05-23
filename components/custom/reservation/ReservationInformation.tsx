@@ -3,6 +3,8 @@ import { formatDateTime } from "@/lib/utils";
 import { ReservationType } from "@/types";
 import Link from "next/link";
 import React from "react";
+import { LuCopy } from "react-icons/lu";
+import DocumentsList from "./DocumentsList";
 
 const ReservationInformation = async ({
   reservation,
@@ -23,26 +25,7 @@ const ReservationInformation = async ({
           naming conventions is mandatory.
           {`(<passport_id>-<reservation_id>-<file_name>.pdf)`}
         </span>
-        <ul className="list-decimal p-3">
-          <li className="p-1 font-normal text-sm ">
-            Signed Contract Document{" "}
-            <span className="primary-light-font-color">
-              (e.g : {convention}-contract.pdf)
-            </span>
-          </li>
-          <li className="p-1 font-normal text-sm">
-            Scanned Passport or NIC{" "}
-            <span className="primary-light-font-color">
-              (e.g : {convention}-id.pdf)
-            </span>
-          </li>
-          <li className="p-1 font-normal text-sm">
-            Enrollment Certificate{" "}
-            <span className="primary-light-font-color">
-              (e.g :{convention}-enrollment-certificate.pdf)
-            </span>
-          </li>
-        </ul>
+        <DocumentsList convention={convention} />
       </li>
       <li className="p-1 font-normal text-sm">
         {`Please ensure that all documents are submitted `}
