@@ -112,6 +112,7 @@ export const columns: ExtendedColumnDef[] = [
 
   {
     id: "actions",
+    header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
       const router = useRouter();

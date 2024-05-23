@@ -18,6 +18,7 @@ import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
 import { adminType, expirationDuration } from "@/constants";
 import { calculateFutureDate } from "@/lib/utils";
+import { Certificate } from "crypto";
 
 export async function getReservationExist(_id: string) {
   try {
@@ -306,17 +307,42 @@ export async function submitDocuments(
 
   // checking whehter document naming convention is okay
   let isDocumentsOkay = true;
+
+  if (documents.length !== 3) {
+    isDocumentsOkay = false;
+  }
+
+  let fileNames = {
+    "contract.pdf": false,
+    "id.pdf": false,
+    "enrollment_certificate.pdf": false,
+  };
   documents.forEach((document: { id: string; name: string }) => {
     const str = document?.name?.split("-");
     const userId = str?.[0];
     const RefId = str?.[1];
+    const docName = str?.[2];
+
     if (userId !== user_id) {
       isDocumentsOkay = false;
     }
     if (RefId !== reservationId) {
       isDocumentsOkay = false;
     }
+    if (docName) {
+      fileNames[docName as keyof typeof fileNames] = true;
+    }
   });
+
+  if (
+    !(
+      fileNames["contract.pdf"] &&
+      fileNames["id.pdf"] &&
+      fileNames["enrollment_certificate.pdf"]
+    )
+  ) {
+    isDocumentsOkay = false;
+  }
 
   // allowing admins to submit documents on behalf of a user
   if (is_admin) {

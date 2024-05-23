@@ -386,7 +386,7 @@ export const reservationStatuses = [
     workflowDispaly: true,
     showInDropdown: true,
     actionDescription: "Congratulations! The living place is now yours",
-    adminActionDescription: "The Reservation has completed succesfully",
+    adminActionDescription: "The Reservation has been completed succesfully",
   },
   {
     id: "reservation_canceled",

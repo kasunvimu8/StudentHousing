@@ -7,7 +7,7 @@ import { toast } from "sonner";
 const DocumentsList = ({ convention }: { convention: string }) => {
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    toast(`${text} has been copied`);
+    toast(`File Name copied to clipboard ->  ${text}`);
   };
 
   return (
@@ -40,13 +40,13 @@ const DocumentsList = ({ convention }: { convention: string }) => {
         <span>
           Enrollment Certificate{" "}
           <span className="primary-light-font-color">
-            (e.g: {convention}-enrollment-certificate.pdf)
+            (e.g: {convention}-enrollment_certificate.pdf)
           </span>
         </span>
         <LuCopy
           className="cursor-pointer"
           onClick={() =>
-            copyToClipboard(`${convention}-enrollment-certificate`)
+            copyToClipboard(`${convention}-enrollment_certificate`)
           }
         />
       </li>

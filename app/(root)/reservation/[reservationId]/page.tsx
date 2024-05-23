@@ -145,7 +145,7 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
             </div>
           )}
 
-          {isRented ? (
+          {isRented || (isAdmin && isDocumentSubmission) ? (
             <></>
           ) : (
             <div className="mx-auto py-5">
