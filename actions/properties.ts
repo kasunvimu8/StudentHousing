@@ -11,7 +11,7 @@ import {
 } from "@/types";
 import { getReservationExist } from "./reservations";
 import { revalidatePath } from "next/cache";
-import { getProfiles } from "./profiles";
+import { getProfile } from "./profiles";
 
 function getFilterOptions(options: FilterParamTypes) {
   let filterCriterions: any = [];
@@ -206,7 +206,7 @@ export async function updateProperty(property: PropertyData) {
   try {
     await connectToDatabase();
 
-    const userData = await getProfiles();
+    const userData = await getProfile();
     await Property.updateOne(
       { _id: property._id },
       {
@@ -237,7 +237,7 @@ export async function createPropertyAction(property: PropertyDeafultType) {
   try {
     await connectToDatabase();
 
-    const userData = await getProfiles();
+    const userData = await getProfile();
     await Property.create({
       ...property,
       created_at: new Date(),

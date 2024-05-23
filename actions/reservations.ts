@@ -137,7 +137,7 @@ async function performReservation(
     // reduce the quota of the user
     const res2 = await Profile.updateOne(
       { user_id: reservationPayload.user_id },
-      { $inc: { usedQuota: 1 } },
+      { $inc: { used_quota: 1 } },
       opts
     );
 
@@ -530,7 +530,7 @@ export async function cancelReservation(
       if (user === adminType) {
         const res2 = await Profile.updateOne(
           { user_id: user_id },
-          { $inc: { usedQuota: -1 } },
+          { $inc: { used_quota: -1 } },
           opts
         );
 

@@ -9,13 +9,16 @@ const adminRouts = [
   "/property/edit",
   "/property/create",
   "/manage-reservations",
+  "/manage-user",
 ];
 const passwordReset = "/reset-password";
+const confirmEmail = "/verify-email";
 
 export default async function middleWare(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const isPublicRoute = publicRoutes.includes(path);
   const isPasswordReset = request.nextUrl.pathname.startsWith(passwordReset);
+  const isConfirmEmail = request.nextUrl.pathname.startsWith(confirmEmail);
 
   const cookie = cookies().get("session")?.value;
   const session: any = cookie ? await decrypt(cookie) : undefined;
@@ -30,7 +33,7 @@ export default async function middleWare(request: NextRequest) {
     return NextResponse.redirect(new URL("/not-found", request.nextUrl));
   }
 
-  if (!isPublicRoute && !isPasswordReset && !session?.user) {
+  if (!isPublicRoute && !isPasswordReset && !isConfirmEmail && !session?.user) {
     return NextResponse.redirect(new URL("/login", request.nextUrl));
   }
 

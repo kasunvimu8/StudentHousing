@@ -53,10 +53,25 @@ export async function sendPasswordResetEmail(data: {
 }) {
   return await sendEmail({
     to: data.to,
-    templateId: process.env.SENDGRID_TEMPLATE_KEY,
+    templateId: process.env.SENDGRID_TEMPLATE_KEY_FORGET_PW,
     title: "Reset Your Password",
     userName: data.userName,
     actionLink: data.actionLink,
     body: "Please reset your password by clicking on the link below. If you did not request a password reset, please ignore this email or contact support if you have any concerns",
+  });
+}
+
+export async function sendVerifyEmail(data: {
+  to: string;
+  userName: string;
+  actionLink: string;
+}) {
+  return await sendEmail({
+    to: data.to,
+    templateId: process.env.SENDGRID_TEMPLATE_KEY_VERIFY_EMAIL,
+    title: "Confirm Your Email",
+    userName: data.userName,
+    actionLink: data.actionLink,
+    body: "Please confirm your email by clicking on the link below. If you did not create an account, please ignore this email or contact support if you have any concerns",
   });
 }

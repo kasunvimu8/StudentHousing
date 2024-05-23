@@ -27,7 +27,7 @@ export default function ForgetPasswordForm() {
       const res = await forgetPasswordEmailSent(emailData);
       if (res) {
         toast({
-          title: `Forget passsword email sent : ${res.type === "ok" ? "Success" : "Failed"}`,
+          title: `Forget passsword Email Sent : ${res.type === "ok" ? "Success" : "Failed"}`,
           description: res.msg,
           variant: res.type === "ok" ? "ok" : "error"
         });
