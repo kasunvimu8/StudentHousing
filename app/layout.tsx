@@ -3,6 +3,8 @@ import "./globals.css";
 import { GeistSans } from "geist/font/sans";
 import { Toaster } from "@/components/ui/toaster";
 import * as Sonner from "@/components/ui/sonner";
+import { SpeedInsights } from '@vercel/speed-insights/next';
+
 export const metadata: Metadata = {
   title: "Student Housing",
   description: "Student Housing Web Application",
@@ -22,6 +24,7 @@ export default function RootLayout({
         {children}
         <Toaster />
         <Sonner.Toaster />
+        <SpeedInsights />
       </body>
     </html>
   );
