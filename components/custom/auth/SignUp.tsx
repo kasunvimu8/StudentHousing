@@ -109,7 +109,7 @@ export function SignUpForm() {
           <div className="grid gap-2 p-2">
             <div className="grid gap-1 pb-2">
               <Label className="p-1" htmlFor="name">
-                Name (Fistname and LastName)
+                Name (First name and Last name)
               </Label>
               <Input
                 id="name"

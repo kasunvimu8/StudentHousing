@@ -14,7 +14,7 @@ const Page = () => {
               <ol className="list-decimal pl-4 space-y-2 pt-2">
                 <li className="font-normal text-sm">Visit the registration page and fill in your personal details.</li>
                 <li className="font-normal text-sm">Verify your email address by clicking on the link sent to your inbox.</li>
-                <li className="font-normal text-sm">Log in to access your new user dashboard.</li>
+                <li className="font-normal text-sm">Login to access your new user dashboard.</li>
                 <li className="font-normal text-sm">Set up your profile by adding a profile picture and personal preferences.</li>
               </ol>
             </li>
