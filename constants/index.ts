@@ -483,5 +483,5 @@ export const defaultUserReservationQuota = 2;
 
 // ----------------------- Authentication Specific Config ------------------------- //
 export const sessionPeriodMinutes = 60;
-export const resetLinkValidation = 30;
+export const resetLinkValidation = 60;
 export const adminType = "admin";
