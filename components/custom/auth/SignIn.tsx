@@ -11,6 +11,8 @@ import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { PiEyeBold, PiEyeSlashBold } from "react-icons/pi";
+import { getUserType } from "@/actions/profiles";
+import { adminType } from "@/constants";
 
 export function SignInForm() {
   const [email, setEmail] = useState("");
@@ -24,15 +26,22 @@ export function SignInForm() {
   const handleSubmit = async () => {
     setPending(true);
     const res = await signIn({ email, password });
+    const userType = await getUserType();
+    const isAdmin = userType === adminType;
+
     if (res) {
+      if (res.type === "ok") {
+        if (isAdmin) {
+          router.push("/dashboard");
+        } else {
+          router.push("/");
+        }
+      }
+
       toast({
         title: `Login : ${res.type === "ok" ? "Success" : "Failed"}`,
         description: res.msg,
       });
-
-      if (res.type === "ok") {
-        router.push("/");
-      }
     }
     setPending(false);
   };

@@ -2,10 +2,11 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Image from "next/image";
 import NavItems from "./NavItems";
 import { LuAlignLeft } from "react-icons/lu";
+import { NavLinkData } from "@/types";
 
 // ---------------- Mobile Memu Component ---------------------//
 
-const MobileNav = () => {
+const MobileNav = ({ links }: { links: NavLinkData[] }) => {
   return (
     <nav className="md:hidden">
       <Sheet>
@@ -16,8 +17,14 @@ const MobileNav = () => {
           side="left"
           className="flex flex-col gap-6 bg-white md:hidden topest-overlay"
         >
-          <Image src="/images/logo.svg" alt="logo" width={102} height={52} className="mt-1"/>
-          <NavItems />
+          <Image
+            src="/images/logo.svg"
+            alt="logo"
+            width={102}
+            height={52}
+            className="mt-1"
+          />
+          <NavItems links={links} />
         </SheetContent>
       </Sheet>
     </nav>

@@ -18,7 +18,6 @@ import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
 import { adminType, expirationDuration } from "@/constants";
 import { calculateFutureDate } from "@/lib/utils";
-import { Certificate } from "crypto";
 
 export async function getReservationExist(_id: string) {
   try {
