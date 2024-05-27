@@ -7,11 +7,11 @@ import Link from "next/link";
 const AdminPropertySummary = ({
   totalProperties,
   availableProperties,
-  rentedProperties,
+  reservedProperties,
 }: {
   totalProperties: number;
   availableProperties: number;
-  rentedProperties: number;
+  reservedProperties: number;
 }) => {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -29,9 +29,7 @@ const AdminPropertySummary = ({
       <Link href="/manage-properties?status=reserved">
         <Card className="section-background-color">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Reserved
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Available</CardTitle>
             <TbHomeCheck />
           </CardHeader>
           <CardContent>
@@ -42,13 +40,11 @@ const AdminPropertySummary = ({
       <Link href="/manage-properties?status=available">
         <Card className="section-background-color">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Available
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Reserved</CardTitle>
             <TbHomePlus />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{rentedProperties}</div>
+            <div className="text-2xl font-bold">{reservedProperties}</div>
           </CardContent>
         </Card>
       </Link>

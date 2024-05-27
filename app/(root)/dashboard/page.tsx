@@ -1,5 +1,4 @@
 import { getSummaryData } from "@/actions/dashboard";
-import { getUserType } from "@/actions/profiles";
 import AdminPropertySummary from "@/components/custom/Summary/AdminPropertySummary";
 import AdminReservationSummary from "@/components/custom/Summary/AdminReservationSummary";
 import AdminUserSummary from "@/components/custom/Summary/AdminUserSummary";
@@ -10,9 +9,9 @@ export default async function Page() {
   const {
     totalProperties,
     availableProperties,
-    rentedProperties,
+    reservedProperties,
     totalReservations,
-    activeReservation,
+    rentedReservation,
     cancelled,
     deadlineMissed,
     approvalWaiting,
@@ -30,7 +29,7 @@ export default async function Page() {
         <AdminPropertySummary
           totalProperties={totalProperties}
           availableProperties={availableProperties}
-          rentedProperties={rentedProperties}
+          reservedProperties={reservedProperties}
         />
       </div>
       <div className="grid grid-cols-2 gap-4 pt-2">
@@ -41,7 +40,7 @@ export default async function Page() {
       <div className="mx-auto py-5">
         <AdminReservationSummary
           totalReservations={totalReservations}
-          activeReservation={activeReservation}
+          rentedReservation={rentedReservation}
           cancelled={cancelled}
           deadlineMissed={deadlineMissed}
           approvalWaiting={approvalWaiting}

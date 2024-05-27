@@ -11,14 +11,14 @@ import Link from "next/link";
 
 const AdminReservationSummary = ({
   totalReservations,
-  activeReservation,
+  rentedReservation,
   cancelled,
   deadlineMissed,
   approvalWaiting,
   documentSubmission,
 }: {
   totalReservations: number;
-  activeReservation: number;
+  rentedReservation: number;
   cancelled: number;
   deadlineMissed: number;
   approvalWaiting: number;
@@ -44,7 +44,7 @@ const AdminReservationSummary = ({
             <MdDone />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{activeReservation}</div>
+            <div className="text-2xl font-bold">{rentedReservation}</div>
           </CardContent>
         </Card>
       </Link>
@@ -75,7 +75,7 @@ const AdminReservationSummary = ({
       <Link href="/manage-reservations?status=document_review">
         <Card
           className={`${
-            deadlineMissed > 0
+            approvalWaiting > 0
               ? "section-highlight-background-color secondary-font-color"
               : "section-background-color"
           }`}
