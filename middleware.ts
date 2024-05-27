@@ -10,6 +10,7 @@ const adminRouts = [
   "/property/create",
   "/manage-reservations",
   "/manage-user",
+  "/dashboard",
 ];
 const passwordReset = "/reset-password";
 const confirmEmail = "/verify-email";

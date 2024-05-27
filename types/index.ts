@@ -163,6 +163,13 @@ export type NavType = {
   id: string;
 };
 
+export type NavLinkData = {
+  label: string;
+  route: string;
+  id: string;
+  isAdminRoute: boolean;
+};
+
 // -------------------------- My Reservation Types --------------------------------------
 export type reservationPayload = {
   property_ref_id: string;
