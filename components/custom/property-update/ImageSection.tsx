@@ -27,7 +27,12 @@ const ImageSectioon: React.FC<PropertySectionProps> = ({
     if (newFile) {
       try {
         const newFileItem = { id: uuidv4(), name: newFile.name };
-        setFiles([...files, newFileItem]);
+        const newFiles = [...files, newFileItem];
+        setFiles(newFiles);
+        updateLocalState(
+          "images",
+          newFiles.map((file) => file.name)
+        );
       } catch (error) {
         console.error("Error uploading file:", error);
       }
@@ -46,7 +51,6 @@ const ImageSectioon: React.FC<PropertySectionProps> = ({
           name: file.split("/").pop() || "",
         })
       );
-
       setFiles(mappedFiles);
     } catch (error) {
       console.error("Error fetching files:", error);
@@ -56,7 +60,11 @@ const ImageSectioon: React.FC<PropertySectionProps> = ({
   const handleFileRemove = async (fileId: string) => {
     try {
       const updatedFiles = files.filter((file) => file.id !== fileId);
-      setFiles(updatedFiles); // Update state after removing file
+      setFiles(updatedFiles);
+      updateLocalState(
+        "images",
+        updatedFiles.map((file) => file.name)
+      );
     } catch (error) {
       console.error("Error removing file:", error);
     }

@@ -12,11 +12,13 @@ import Image from "next/image";
 import { LuLoader2 } from "react-icons/lu";
 
 const PropertyImage = ({ images }: { images: string[] }) => {
+  // TODO: Change here after the storage service is available
   const getImages = (images: string[]) => {
     return images.map((file: string, index: number) => {
+      const fileName = file.split("/").pop();
       return {
-        src: `/images/${file}`,
-        alt: `${file}-${index}`,
+        src: `/images/sample/${fileName}`,
+        alt: `${fileName}-${index}`,
         id: `${index}`,
       };
     });
@@ -31,8 +33,8 @@ const PropertyImage = ({ images }: { images: string[] }) => {
             id: "image_bed_not_found",
           },
         ];
-  const [loaded, setLoaded] = useState(false);
 
+  const [loaded, setLoaded] = useState(false);
   return (
     <div className="py-1 w-full">
       <Carousel>

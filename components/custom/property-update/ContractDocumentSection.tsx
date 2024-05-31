@@ -27,7 +27,12 @@ const ContractDocumentSection: React.FC<PropertySectionProps> = ({
     if (newFile) {
       try {
         const newFileItem = { id: uuidv4(), name: newFile.name };
-        setFiles([...files, newFileItem]);
+        const newFiles = [...files, newFileItem];
+        setFiles(newFiles);
+        updateLocalState(
+          "documents",
+          newFiles.map((file) => file.name)
+        );
       } catch (error) {
         console.error("Error uploading file:", error);
       }
@@ -55,6 +60,10 @@ const ContractDocumentSection: React.FC<PropertySectionProps> = ({
     try {
       const updatedFiles = files.filter((file) => file.id !== fileId);
       setFiles(updatedFiles);
+      updateLocalState(
+        "documents",
+        updatedFiles.map((file) => file.name)
+      );
     } catch (error) {
       console.error("Error removing file:", error);
     }
