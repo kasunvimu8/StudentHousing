@@ -627,18 +627,18 @@ export const reservationInfromation = [
       You should be correct the issues with the document and submit the documents again with in the deadline. If you need more clarifiction, you may contact the admin.`,
   },
   {
-    id: "review ",
+    id: "review",
     question: `What does the status "Document Review" mean? Do I need to do anything?`,
     answer: `No, you do not need to do anything. "Document Review" means the stage where admins check your submitted documents.`,
   },
   {
-    id: "cancelled ",
+    id: "cancelled",
     question: `What does the status "Cancelled" means?`,
     answer: `Your reservation has been cancelled by the administators due to the mentioned reason. You may contact the administrators for more
     detailed information if neccessary`,
   },
   {
-    id: "rented ",
+    id: "rented",
     question: `What does the status "Rented" mean?`,
     answer: `The property is permenently allocated for you for the mentioned duration.`,
   },

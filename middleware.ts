@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { decrypt } from "./lib/session";
 import { adminType } from "./constants";
 
-const publicRoutes = ["/login", "/register", "/forget-password"];
+const publicRoutes = ["/login", "/register", "/forget-password", "/info"];
 const adminRouts = [
   "/manage-properties",
   "/property/edit",

@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { PiEyeBold, PiEyeSlashBold } from "react-icons/pi";
 import { getUserType } from "@/actions/profiles";
 import { adminType } from "@/constants";
+import { FaArrowRight } from "react-icons/fa";
 
 export function SignInForm() {
   const [email, setEmail] = useState("");
@@ -62,6 +63,12 @@ export function SignInForm() {
       <div className="hidden md:flex text-white flex-col justify-center p-10 primary-background-color border-t-8 border-b-8 border-[white]">
         <h2 className="text-4xl font-bold mb-2">Welcome Back!</h2>
         <p className="text-lg">Please login to continue.</p>
+        <Link href="/info">
+          <div className="flex items-center cursor-pointer pt-1">
+            <p className="text-lg mr-2">For more information </p>
+            <FaArrowRight />
+          </div>
+        </Link>
       </div>
 
       <div className="flex flex-col items-center justify-center flex-grow p-4 md:p-8 relative">

@@ -12,7 +12,7 @@ import {
   reservationInfromation,
 } from "@/constants";
 
-const Page = () => {
+const InfoPage = () => {
   return (
     <div className="h-full w-full">
       <div className="grid grid-cols-2 gap-4">
@@ -21,63 +21,53 @@ const Page = () => {
         </div>
         <div className="col-span-2">
           <ul className="list-disc pl-5 space-y-4">
-            <li className="text-lg font-medium py-2">
+            <li className="text-lg font-medium py-2" key="account">
               Account
-              <ol className="pl-4 space-y-2 pt-2">
-                <li className="font-normal text-sm">
-                  {accountInfromation.map((account) => {
-                    return (
-                      <Accordion type="single" collapsible id={account.id}>
-                        <AccordionItem value="item-1">
-                          <AccordionTrigger className="text-left">
-                            {account.question}
-                          </AccordionTrigger>
-                          <AccordionContent>{account.answer}</AccordionContent>
-                        </AccordionItem>
-                      </Accordion>
-                    );
-                  })}
-                </li>
-              </ol>
+              {accountInfromation.map((account) => {
+                return (
+                  <Accordion type="single" collapsible key={account.id}>
+                    <AccordionItem value="item-1">
+                      <AccordionTrigger className="text-left">
+                        {account.question}
+                      </AccordionTrigger>
+                      <AccordionContent>{account.answer}</AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                );
+              })}
             </li>
-            <li className="text-lg font-medium py-2">
+            <li className="text-lg font-medium py-2" key="property">
               Property
-              <ol className="list-decimal pl-4 space-y-2 pt-2">
-                {propertiesInfromation.map((property) => {
-                  return (
-                    <Accordion type="single" collapsible id={property.id}>
-                      <AccordionItem value="item-1">
-                        <AccordionTrigger className="text-left">
-                          {property.question}
-                        </AccordionTrigger>
-                        <AccordionContent>{property.answer}</AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                  );
-                })}
-              </ol>
+              {propertiesInfromation.map((property) => {
+                return (
+                  <Accordion type="single" collapsible key={property.id}>
+                    <AccordionItem value="item-1">
+                      <AccordionTrigger className="text-left">
+                        {property.question}
+                      </AccordionTrigger>
+                      <AccordionContent>{property.answer}</AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                );
+              })}
             </li>
-            <li className="text-lg font-medium py-2">
+            <li className="text-lg font-medium py-2" key="reservation">
               Reservation
-              <ol className="list-decimal pl-4 space-y-2 pt-2">
-                {reservationInfromation.map((res) => {
-                  return (
-                    <Accordion type="single" collapsible id={res.id}>
-                      <AccordionItem value="item-1">
-                        <AccordionTrigger className="text-left">
-                          {res.question}
-                        </AccordionTrigger>
-                        <AccordionContent>{res.answer}</AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                  );
-                })}
-              </ol>
+              {reservationInfromation.map((res) => {
+                return (
+                  <Accordion type="single" collapsible key={res.id}>
+                    <AccordionItem value="item-1">
+                      <AccordionTrigger className="text-left">
+                        {res.question}
+                      </AccordionTrigger>
+                      <AccordionContent>{res.answer}</AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                );
+              })}
             </li>
-            <li className="text-lg font-medium py-2">
+            <li className="text-lg font-medium py-2" key="after">
               After Rented
-              <ol className="list-decimal pl-4 space-y-2 pt-2">
-              </ol>
             </li>
           </ul>
         </div>
@@ -87,4 +77,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default InfoPage;
