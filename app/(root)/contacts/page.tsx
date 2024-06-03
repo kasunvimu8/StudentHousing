@@ -13,7 +13,10 @@ const Page = () => {
       </div>
       <div className="mx-auto py-5">
         <div className="font-normal text-sm py-2">
-          Have questions ? We would love to hear from you.
+          Please visit the information page to quickly find the information you need. 
+        </div>
+        <div className="font-normal text-sm py-2">
+          Still have questions ? We would love to hear from you.
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-5">
           <div className="section-light-background-color p-4 rounded-xl">

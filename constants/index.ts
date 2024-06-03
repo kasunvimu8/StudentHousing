@@ -5,25 +5,25 @@ export const headerLinks = [
     label: "Dashboard",
     route: "/dashboard",
     id: "dashboard",
-    isAdminRoute : true,
+    isAdminRoute: true,
   },
   {
     label: "Properties",
     route: "/properties",
     id: "properties",
-    isAdminRoute : false,
+    isAdminRoute: false,
   },
   {
     label: "Contacts",
     route: "/contacts",
     id: "contacts",
-    isAdminRoute : false,
+    isAdminRoute: false,
   },
   {
     label: "Information",
     route: "/information",
     id: "information",
-    isAdminRoute : false,
+    isAdminRoute: false,
   },
 ];
 
@@ -494,3 +494,152 @@ export const defaultUserReservationQuota = 2;
 export const sessionPeriodMinutes = 60;
 export const resetLinkValidation = 60;
 export const adminType = "admin";
+
+// ----------------------- Information Configuration -------------------- //
+
+export const accountInfromation = [
+  {
+    id: "create-account",
+    question: "How do I create an account on the student housing platform ?",
+    answer: `To create an account, click on the "Register" button on the login page or directly visit the registration page.
+      Fill in your personal details such as first name, last name, NIC, enrollment number, email, and password.
+      Then confirm that the information provided is accurate and click on "Create Account." You will receive a confirmation email with a link to activate your account.
+      After clicking on it, your account will be activated, and you can log in with the credentials provided.`,
+  },
+  {
+    id: "forget-password",
+    question: "What should I do if I forget my password?",
+    answer: `If you forget your password, click on the "Forgot Password" link on the login page. Enter your registered email address, and you will receive a email with a link to reset your password.
+      You should reset your password within 1 hour, as the link will expire after that.`,
+  },
+  {
+    id: "update-details",
+    question: "Can I update my account details after registration?",
+    answer: `Except for email, enrollment ID, and passport ID (or NIC), you can update other details at any time by visiting "My Profile page".`,
+  },
+  {
+    id: "account-exists",
+    question: `Why I get alert saying "Acount already exists for your credentials" ?`,
+    answer: `If you attempt to create an account using an existing email, enrollment ID, or passport ID (or NIC), you will receive an error.
+      You should not attempt to create a second account.`,
+  },
+];
+
+export const propertiesInfromation = [
+  {
+    id: "property-serach",
+    question: "How can I search for properties on the platform ?",
+    answer: `You can search for properties by entering keywords related to location, property type, price, date or space in the filter section in the property listing page.`,
+  },
+  {
+    id: "detailed-properties",
+    question: "How can find more information about listed property?",
+    answer: `You can click on the arrow displays on a listed property item and it will redirected you to porperty detailed page for more information.`,
+  },
+  {
+    id: "notice-period",
+    question: "What is the notice period means ?",
+    answer: `The notice period is the time frame required to inform administration of your intention to end an agreement, typically stipulated in a contract.`,
+  },
+  {
+    id: "warm-rent",
+    question: "What is the warm rent means ?",
+    answer: `Properties can have cold rent, incidental costs, and/or warm rent. Warm rent is the final monthly rent you have to pay to your landlord.`,
+  },
+  {
+    id: "onetime-deposit",
+    question: "What is the One Time Cost and Deposit means ?",
+    answer: `One-time costs may include expenses such as furniture purchases, etc. The security deposit, paid by the tenant to the landlord at the start of the tenancy,
+      serves to safeguard the landlord against any damages resulting from the tenant’s occupancy. If no values are provided in the respective sections,
+      means you do not have to pay a deposit or any one-time costs. `,
+  },
+  {
+    id: "reserved-property",
+    question: "How can get the property details of a reserved property ?",
+    answer: `You can visit the "My Reservations" page to find your reservation. Click on the three dots under the Actions column, where you will find
+    a link to the property page.`,
+  }
+];
+
+export const reservationInfromation = [
+  {
+    id: "how-to-reserve",
+    question: "How do I make a reservation for a property ?",
+    answer: `Once you find a property you like, click on the "Reserve" button on the property listing page. Then confirm that you understand details related to
+    the reservation and then again click "Reserve".`,
+  },
+  {
+    id: "quota",
+    question: `What is reservation quota ?`,
+    answer: `By default, you will only have two opportunities to make a reservation using our system. You can check your used quota by visiting the "My Profile" page. `,
+  },
+  {
+    id: "multiple-reservations",
+    question: `I cannot make reservation.  I received an alert saying "You currently have an active reservation. Please note that only one reservation can be held at a time"?`,
+    answer: `You can only make one reservation at a time. If you have an active reservation, you will not be able to make a second reservation.`,
+  },
+  {
+    id: "quota-limit",
+    question: `I cannot make reservation.  I received an alert saying "your reservation quota limit. No further reservations can be made"?`,
+    answer: `By detault you will only have 2 chances to make reservation using our system. You can find used quota by visiting "My Profile" page `,
+  },
+  {
+    id: "rename",
+    question: `I cannot make reservation. I am getting an alert saying "One or more documents have been incorrectly named. Kindly adhere to the document naming guidelines"`,
+    answer: `You need to double-check the uploaded file names to ensure they adhere to the guidelines. You can copy the file names directly from the page.`,
+  },
+  {
+    id: "reservation-success",
+    question: "What should I do after a successfull reservation ?",
+    answer: `After your temporary reservation, you need to submit the signed contract document, enrollment ID, and passport ID (or NIC) to permanently
+     allocate the property under your name for the specified period. You will have 5 days from the reservation date to submit these documents.
+     Failure to do so will result in the cancellation of the reservation and a decrement in your quota..`,
+  },
+  {
+    id: "where-to-upload-doc",
+    question: "How can I upload my documents  ?",
+    answer: `You can visit the "My Reservations" page to find your reservation. Click on the three dots under the Actions column, where you will find
+      a link to the reservation details page. On this page, you will find all the information regarding document submission.`,
+  },
+  {
+    id: "reserve-for-other",
+    question:
+      "Can my colleague and I both reserve a shared room together with single reservation ?",
+    answer: `No. You and your colleague must both book the property using your own accounts to secure the shared room. This is the only way to ensure the
+      shared room with your colleague. Additionally, you can add a comment when you reserve the property indicating that you want to make the reservation 
+      together with your colleague.`,
+  },
+  {
+    id: "additional-comment",
+    question: "What should I type in the additional comment ?",
+    answer: `You can leave this input blank by default. However, if you want to send additional information to the administration regarding your reservation,
+      you can add it here.`,
+  },
+  {
+    id: "update-documents",
+    question: "Can I change the documents after I submit them  ?",
+    answer: `No. you can not change the documents after the submission`,
+  },
+  {
+    id: "resubmit-comment",
+    question: `I submitted the documents earlier. However, the reservation details page is still showing the "Document Submission" status. Why is that ?`,
+    answer: `Because your previous document submission was rejected by the admin. You should be able to see the reason along with the admin's comments.
+      You should be correct the issues with the document and submit the documents again with in the deadline. If you need more clarifiction, you may contact the admin.`,
+  },
+  {
+    id: "review ",
+    question: `What does the status "Document Review" mean? Do I need to do anything?`,
+    answer: `No, you do not need to do anything. "Document Review" means the stage where admins check your submitted documents.`,
+  },
+  {
+    id: "cancelled ",
+    question: `What does the status "Cancelled" means?`,
+    answer: `Your reservation has been cancelled by the administators due to the mentioned reason. You may contact the administrators for more
+    detailed information if neccessary`,
+  },
+  {
+    id: "rented ",
+    question: `What does the status "Rented" mean?`,
+    answer: `The property is permenently allocated for you for the mentioned duration.`,
+  },
+];
