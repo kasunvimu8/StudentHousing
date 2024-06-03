@@ -59,7 +59,7 @@ const PropertyReserve = ({ property }: { property: Property }) => {
         <DialogComponent
           buttonTitle="Reserve"
           dialogTitle={`Reserve Property ${property.property_id} - Are you absolutely sure ?`}
-          dialogDescription="Upon confirmation, the property will be temporarily reserved for you. Please submit the contracts promptly to secure your reservation in my reservation page. Failure to do so will result in cancellation of the reservation and adverse effects on your next reservations. You may only make one reservation at a time. Please visit information page for more details."
+          dialogDescription="Upon confirmation, the property will be temporarily reserved for you. Please submit the contracts promptly to secure your reservation in my reservation page. Failure to do so will result in cancellation of the reservation and adverse effects on your next reservations. Please visit information page for more details."
           submitTitleMain="Reserve"
           submitMainButtonDisable={!check}
           cls="py-5 px-7 text-bold primary-background-color secondary-font-color"
