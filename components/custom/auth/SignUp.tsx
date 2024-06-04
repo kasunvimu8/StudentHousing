@@ -135,7 +135,7 @@ export function SignUpForm() {
               )}
 
               <Label className="p-1" htmlFor="user_id">
-                NIC or Passport
+                User Id (Enrollment Number)
               </Label>
               <Input
                 id="id"

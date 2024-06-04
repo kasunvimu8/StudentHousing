@@ -502,7 +502,7 @@ export const accountInfromation = [
     id: "create-account",
     question: "How do I create an account on the student housing platform ?",
     answer: `To create an account, click on the "Register" button on the login page or directly visit the registration page.
-      Fill in your personal details such as first name, last name, NIC, enrollment number, email, and password.
+      Fill in your personal details such as first name & last name, user id (enrollment number), email, and password.
       Then confirm that the information provided is accurate and click on "Create Account." You will receive a confirmation email with a link to activate your account.
       After clicking on it, your account will be activated, and you can log in with the credentials provided.`,
   },
@@ -515,12 +515,12 @@ export const accountInfromation = [
   {
     id: "update-details",
     question: "Can I update my account details after registration?",
-    answer: `Except for email, enrollment ID, and passport ID (or NIC), you can update other details at any time by visiting "My Profile page".`,
+    answer: `Except for email and enrollment ID you can update other details at any time by visiting "My Profile page".`,
   },
   {
     id: "account-exists",
     question: `Why I get alert saying "Acount already exists for your credentials" ?`,
-    answer: `If you attempt to create an account using an existing email, enrollment ID, or passport ID (or NIC), you will receive an error.
+    answer: `If you attempt to create an account using an existing email or enrollment ID, you will receive an error.
       You should not attempt to create a second account.`,
   },
 ];
@@ -558,7 +558,7 @@ export const propertiesInfromation = [
     question: "How can get the property details of a reserved property ?",
     answer: `You can visit the "My Reservations" page to find your reservation. Click on the three dots under the Actions column, where you will find
     a link to the property page.`,
-  }
+  },
 ];
 
 export const reservationInfromation = [

@@ -42,7 +42,7 @@ const DetailsSection: React.FC<userDetailsCompProps> = ({
             disabled
           />
         </HeaderItemLayout>
-        <HeaderItemLayout title="NIC/Passport">
+        <HeaderItemLayout title="Enrollment Number">
           <Input
             value={userState.user_id}
             className="bg-white"

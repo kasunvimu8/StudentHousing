@@ -56,13 +56,13 @@ export const columns: ExtendedColumnDef[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          NIC/Passport
+          Enrollment Number
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     enableHiding: false,
-    columnTitle: "NIC/Passport",
+    columnTitle: "Enrollment Number",
   },
   // {
   //   accessorKey: "enrollment_id",
