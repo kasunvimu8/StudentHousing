@@ -171,6 +171,7 @@ export const columns: ExtendedColumnDef[] = [
   },
   {
     id: "actions",
+    header: "Actions",
     enableHiding: false,
     cell: ({ row, ...rest }) => {
       const id: string = row.getValue("property_ref_id");

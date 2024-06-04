@@ -1,18 +1,17 @@
 "use client";
 
-import { headerLinks } from "@/constants";
+import { NavLinkData } from "@/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
 // ---------------- Main Menu Component in the Header ---------------------//
 
-const NavItems = () => {
+const NavItems = ({ links }: { links: NavLinkData[] }) => {
   const pathname = usePathname();
-
   return (
     <ul className="md:flex-between flex w-full flex-col items-start gap-6 md:flex-row">
-      {headerLinks.map((link) => {
+      {links.map((link: NavLinkData) => {
         const isActive = pathname === link.route;
 
         return (

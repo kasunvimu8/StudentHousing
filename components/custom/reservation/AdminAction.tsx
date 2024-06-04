@@ -147,7 +147,7 @@ export const AdminActionReject = ({
   return (
     <DialogComponent
       buttonTitle="Reject and Resubmission"
-      dialogTitle="Reject and Resubmission"
+      dialogTitle="Reject and Ask for Resubmission"
       dialogDescription="This will result in the rejection of the submitted documents and prompt the tenant to resubmit them."
       submitTitleMain="Reject and Ask for Resubmission"
       submitMainButtonDisable={comment === ""}

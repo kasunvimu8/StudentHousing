@@ -43,7 +43,7 @@ const SubmitDocumentsButton = ({
       toast({
         title: `Upload Documents : ${res.type === "ok" ? "Success" : "Failed"}`,
         description: res.msg,
-        variant: res.type === "ok" ? "ok" : "error"
+        variant: res.type === "ok" ? "ok" : "error",
       });
 
       if (res.type === "ok") {
@@ -67,7 +67,7 @@ const SubmitDocumentsButton = ({
         clickSubmit={() => {
           submitDocumentsHandle(comment);
         }}
-        displayButtonDisable={files.length === 0}
+        displayButtonDisable={files.length !== 3}
         submitMainButtonDisable={!check}
       >
         <div className="flex flex-col justify-start gap-2">

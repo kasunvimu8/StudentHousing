@@ -1,7 +1,11 @@
 import PropertyFilter from "@/components/custom/property-list/PropertyFilter";
-import {MapLoading, PropertiesLoading} from "@/components/custom/property-list/PropertyItemLoading";
+import {
+  MapLoading,
+  PropertiesLoading,
+} from "@/components/custom/property-list/PropertyItemLoading";
 import PropertyList from "@/components/custom/property-list/PropertyList";
 import PropertyMapParent from "@/components/custom/property-list/PropertyMapParent";
+import Hero from "@/components/shared/Hero";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FilterParamTypes } from "@/types";
 import { Suspense } from "react";
@@ -14,6 +18,7 @@ export default async function Home({
 }) {
   return (
     <div className="w-full h-full">
+      <Hero />
       <PropertyFilter />
       <div className="mb-5">
         <Tabs defaultValue="list" className="w-full mb-5">
@@ -31,18 +36,14 @@ export default async function Home({
 
           {/* property list */}
           <TabsContent value="list" className="h-full w-full">
-            <Suspense
-              fallback={<PropertiesLoading/>}
-            >
+            <Suspense fallback={<PropertiesLoading />}>
               <PropertyList searchParams={searchParams} />
             </Suspense>
           </TabsContent>
 
           {/* property map */}
           <TabsContent value="map" className="h-full w-full">
-            <Suspense
-              fallback={<MapLoading />}
-            >
+            <Suspense fallback={<MapLoading />}>
               <PropertyMapParent searchParams={searchParams} />
             </Suspense>
           </TabsContent>

@@ -14,6 +14,7 @@ import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { PiEyeBold, PiEyeSlashBold } from "react-icons/pi";
+import { FaArrowRight } from "react-icons/fa";
 
 export function SignUpForm() {
   const [errors, setErrors] = useState({
@@ -51,7 +52,7 @@ export function SignUpForm() {
             res.type === "ok" ? "Success" : "Failed"
           }`,
           description: res.msg,
-          variant: res.type === "ok" ? "ok" : "error"
+          variant: res.type === "ok" ? "ok" : "error",
         });
         if (res.type === "ok") {
           router.push("/login");
@@ -87,6 +88,12 @@ export function SignUpForm() {
         <p className="text-lg">
           Create your profile and explore affordable housing options.
         </p>
+        <Link href="/info">
+          <div className="flex items-center cursor-pointer pt-1">
+            <p className="text-lg mr-2">For more information </p>
+            <FaArrowRight />
+          </div>
+        </Link>
       </div>
 
       <div className="flex flex-col items-center justify-center flex-grow p-4 md:p-8 relative">
@@ -109,7 +116,7 @@ export function SignUpForm() {
           <div className="grid gap-2 p-2">
             <div className="grid gap-1 pb-2">
               <Label className="p-1" htmlFor="name">
-                Name (Fistname and LastName)
+                Name (First name and Last name)
               </Label>
               <Input
                 id="name"

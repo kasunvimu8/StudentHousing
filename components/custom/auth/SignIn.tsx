@@ -11,6 +11,9 @@ import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { PiEyeBold, PiEyeSlashBold } from "react-icons/pi";
+import { getUserType } from "@/actions/profiles";
+import { adminType } from "@/constants";
+import { FaArrowRight } from "react-icons/fa";
 
 export function SignInForm() {
   const [email, setEmail] = useState("");
@@ -24,15 +27,22 @@ export function SignInForm() {
   const handleSubmit = async () => {
     setPending(true);
     const res = await signIn({ email, password });
+    const userType = await getUserType();
+    const isAdmin = userType === adminType;
+
     if (res) {
+      if (res.type === "ok") {
+        if (isAdmin) {
+          router.push("/dashboard");
+        } else {
+          router.push("/");
+        }
+      }
+
       toast({
         title: `Login : ${res.type === "ok" ? "Success" : "Failed"}`,
         description: res.msg,
       });
-
-      if (res.type === "ok") {
-        router.push("/");
-      }
     }
     setPending(false);
   };
@@ -52,7 +62,13 @@ export function SignInForm() {
 
       <div className="hidden md:flex text-white flex-col justify-center p-10 primary-background-color border-t-8 border-b-8 border-[white]">
         <h2 className="text-4xl font-bold mb-2">Welcome Back!</h2>
-        <p className="text-lg">Please log in to continue.</p>
+        <p className="text-lg">Please login to continue.</p>
+        <Link href="/info">
+          <div className="flex items-center cursor-pointer pt-1">
+            <p className="text-lg mr-2">For more information </p>
+            <FaArrowRight />
+          </div>
+        </Link>
       </div>
 
       <div className="flex flex-col items-center justify-center flex-grow p-4 md:p-8 relative">
@@ -66,8 +82,8 @@ export function SignInForm() {
 
         <div className="w-full max-w-md space-y-6">
           <div className="text-center space-y-2 pt-16">
-            <h1 className="text-2xl font-semibold tracking-tight">Log In</h1>
-            <p className="text-sm">Enter your credentials below to log in</p>
+            <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
+            <p className="text-sm">Enter your credentials below to login</p>
           </div>
 
           <div className="grid gap-2 p-2">
@@ -131,7 +147,7 @@ export function SignInForm() {
               className="primary-background-color text-white"
             >
               {pending && <ImSpinner8 className="mr-2 h-4 w-4 animate-spin" />}
-              Log In
+              Login
             </Button>
           </div>
         </div>

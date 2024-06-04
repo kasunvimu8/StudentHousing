@@ -69,9 +69,9 @@ export async function sendVerifyEmail(data: {
   return await sendEmail({
     to: data.to,
     templateId: process.env.SENDGRID_TEMPLATE_KEY_VERIFY_EMAIL,
-    title: "Confirm Your Email",
+    title: "Verify Your Email",
     userName: data.userName,
     actionLink: data.actionLink,
-    body: "Please confirm your email by clicking on the link below. If you did not create an account, please ignore this email or contact support if you have any concerns",
+    body: "Please verify your email by clicking on the link below. If you did not create an account, please ignore this email.",
   });
 }

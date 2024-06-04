@@ -304,19 +304,44 @@ export async function submitDocuments(
   let msg = "";
   let type = "";
 
-  // checking whehter document naming convention is okay
+  // checking whether document naming convention is okay
   let isDocumentsOkay = true;
+
+  if (documents.length !== 3) {
+    isDocumentsOkay = false;
+  }
+
+  let fileNames = {
+    "contract.pdf": false,
+    "id.pdf": false,
+    "enrollment_certificate.pdf": false,
+  };
   documents.forEach((document: { id: string; name: string }) => {
     const str = document?.name?.split("-");
     const userId = str?.[0];
     const RefId = str?.[1];
+    const docName = str?.[2];
+
     if (userId !== user_id) {
       isDocumentsOkay = false;
     }
     if (RefId !== reservationId) {
       isDocumentsOkay = false;
     }
+    if (docName) {
+      fileNames[docName as keyof typeof fileNames] = true;
+    }
   });
+
+  if (
+    !(
+      fileNames["contract.pdf"] &&
+      fileNames["id.pdf"] &&
+      fileNames["enrollment_certificate.pdf"]
+    )
+  ) {
+    isDocumentsOkay = false;
+  }
 
   // allowing admins to submit documents on behalf of a user
   if (is_admin) {
@@ -332,7 +357,7 @@ export async function submitDocuments(
   try {
     const documentUrls = documents.map(
       (doc: { id: string; name: string }) =>
-        `${process.env.STORAGE_SERVICE_URL}${doc.name}`
+        `${process.env.RESERVATION_BUCKET_URL}/${reservationId}/${doc.name}`
     );
     await Reservation.updateOne(
       { _id: reservationId },

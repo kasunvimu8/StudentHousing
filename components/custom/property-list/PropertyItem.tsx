@@ -35,19 +35,12 @@ const PropertyItem = ({ property }: { property: Property }) => {
       ? "1 Bed"
       : `${property.beds} Beds`
     : "";
-  const getImages = (images: string[]) => {
-    return images.map((file: string, index: number) => {
-      return {
-        src: `/images/${file}`,
-        alt: `${file}-${index}`,
-        id: `${index}`,
-      };
-    });
-  };
-  const src =
-    property?.images?.length > 0
-      ? `/images/${property?.images[0]}`
-      : "/images/sample_bed_not_found.png";
+
+  // TODO: Change here after the storage service is available
+  const fileName = property?.images[0]?.split("/")?.pop();
+  const src = fileName
+    ? `/images/sample/${fileName}`
+    : "/images/sample_bed_not_found.png";
 
   return (
     <div className="flex">
