@@ -462,7 +462,7 @@ export const initialVisibilityManageUsers = {
   user_email: true,
   user_id: true,
   role: true,
-  enrollment_id: true,
+  // enrollment_id: true,
   created_at: false,
   updated_at: false,
 };

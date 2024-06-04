@@ -64,27 +64,27 @@ export const columns: ExtendedColumnDef[] = [
     enableHiding: false,
     columnTitle: "NIC/Passport",
   },
-  {
-    accessorKey: "enrollment_id",
-    cell: ({ row }) => (
-      <div className="text-center font-medium">
-        {row.getValue("enrollment_id")}
-      </div>
-    ),
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Enrollment ID
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    enableHiding: false,
-    columnTitle: "Enrollment ID",
-  },
+  // {
+  //   accessorKey: "enrollment_id",
+  //   cell: ({ row }) => (
+  //     <div className="text-center font-medium">
+  //       {row.getValue("enrollment_id")}
+  //     </div>
+  //   ),
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         Enrollment ID
+  //         <CaretSortIcon className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     );
+  //   },
+  //   enableHiding: false,
+  //   columnTitle: "Enrollment ID",
+  // },
   {
     accessorKey: "created_at",
     header: "Created At",

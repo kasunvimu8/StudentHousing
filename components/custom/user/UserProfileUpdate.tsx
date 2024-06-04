@@ -14,7 +14,7 @@ const initialState: userProfileType = {
   user_email: "",
   user_id: "",
   user_name: "",
-  enrollment_id: "",
+  // enrollment_id: "",
   created_at: "",
   total_quota: 0,
   used_quota: 0,

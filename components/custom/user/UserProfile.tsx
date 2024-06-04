@@ -49,13 +49,13 @@ const DetailsSection: React.FC<userDetailsCompProps> = ({
             disabled
           />
         </HeaderItemLayout>
-        <HeaderItemLayout title="Enrollment ID">
+        {/* <HeaderItemLayout title="Enrollment ID">
           <Input
             value={userState.enrollment_id}
             className="bg-white"
             disabled
           />
-        </HeaderItemLayout>
+        </HeaderItemLayout> */}
         <HeaderItemLayout title="Name">
           <Input
             value={userState.user_name}

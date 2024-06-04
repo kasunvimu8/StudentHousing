@@ -140,12 +140,12 @@ function getFilterOptions(options: FilterParamTypes) {
           },
         });
       } else if (key === "enrollment_id" && optionKey !== "all") {
-        filterCriterions.push({
-          enrollment_id: {
-            $regex: optionKey,
-            $options: "i",
-          },
-        });
+        // filterCriterions.push({
+        //   enrollment_id: {
+        //     $regex: optionKey,
+        //     $options: "i",
+        //   },
+        // });
       } else if (key === "role" && optionKey !== "all") {
         filterCriterions.push({
           role: optionKey
@@ -181,7 +181,7 @@ export async function getAllProfiles(
           user_email: 1,
           user_id: 1,
           user_name: 1,
-          enrollment_id: 1,
+          // enrollment_id: 1,
           created_at: 1,
           updated_at: 1,
           total_quota : 1,
