@@ -31,6 +31,7 @@ export async function getSummaryData() {
       {},
       {
         status: 1,
+        document_submission_deadline: 1,
       }
     );
     const users = Profile.countDocuments();
@@ -39,7 +40,7 @@ export async function getSummaryData() {
       reservation,
       users,
     ]);
-
+    const now = new Date();
     data = {
       totalProperties: propertiesData.length || 0,
       availableProperties:
@@ -50,20 +51,27 @@ export async function getSummaryData() {
           ?.length || 0,
       totalReservations: reservationData.length || 0,
       rentedReservation:
-        reservationData?.filter((property) => property.status === "rented")
-          ?.length || 0,
+        reservationData?.filter(
+          (reservation) => reservation.status === "rented"
+        )?.length || 0,
       cancelled:
         reservationData?.filter(
-          (property) => property.status === "reservation_canceled"
+          (reservation) => reservation.status === "reservation_canceled"
         )?.length || 0,
-      deadlineMissed: 0,
+      deadlineMissed:
+        reservationData?.filter(
+          (reservation) =>
+            reservation.document_submission_deadline < now &&
+            reservation.status === "document_submission"
+        )?.length || 0,
       approvalWaiting:
         reservationData?.filter(
-          (property) => property.status === "document_review"
+          (reservation) =>
+            reservation.status === "document_review"
         )?.length || 0,
       documentSubmission:
         reservationData?.filter(
-          (property) => property.status === "document_submission"
+          (reservation) => reservation.status === "document_submission"
         )?.length || 0,
       users: usersData,
     };
