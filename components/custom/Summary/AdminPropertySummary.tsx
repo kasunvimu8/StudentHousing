@@ -26,7 +26,7 @@ const AdminPropertySummary = ({
           </CardContent>
         </Card>
       </Link>
-      <Link href="/manage-properties?status=reserved">
+      <Link href="/manage-properties?status=available">
         <Card className="section-background-color">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Available</CardTitle>
@@ -37,7 +37,7 @@ const AdminPropertySummary = ({
           </CardContent>
         </Card>
       </Link>
-      <Link href="/manage-properties?status=available">
+      <Link href="/manage-properties?status=reserved">
         <Card className="section-background-color">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Reserved</CardTitle>
