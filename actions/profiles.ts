@@ -81,15 +81,21 @@ export async function updateUserAction(userState: userProfileType) {
     const userType = await getUserType();
     const isAdmin = userType === adminType;
 
+    const commonData = {
+      user_name: userState.user_name,
+      address: userState.address,
+      country: userState.country,
+      nationalId: userState.nationalId,
+      mobile: userState.mobile,
+      gender: userState.gender,
+    };
     const newData = isAdmin
       ? {
-          user_name: userState.user_name,
+          ...commonData,
           total_quota: userState.total_quota,
           used_quota: userState.used_quota,
         }
-      : {
-          user_name: userState.user_name,
-        };
+      : commonData;
 
     const result = await Profile.updateOne(
       { user_id: userState.user_id },
@@ -148,7 +154,7 @@ function getFilterOptions(options: FilterParamTypes) {
         // });
       } else if (key === "role" && optionKey !== "all") {
         filterCriterions.push({
-          role: optionKey
+          role: optionKey,
         });
       }
     }
@@ -184,15 +190,15 @@ export async function getAllProfiles(
           // enrollment_id: 1,
           created_at: 1,
           updated_at: 1,
-          total_quota : 1,
-          used_quota : 1,
+          total_quota: 1,
+          used_quota: 1,
           role: "$authentication.role",
         },
       },
       {
         $match: matchOptions.length > 0 ? { $and: matchOptions } : {},
       },
-      { $sort: sortOption }
+      { $sort: sortOption },
     ]);
 
     const profile = data.length > 0 ? JSON.parse(JSON.stringify(data)) : [];

@@ -149,7 +149,7 @@ export type FilterParamTypes = {
   reservation_id?: string;
   user_id?: string;
   status?: string;
-  document_submission_deadline?:string;
+  document_submission_deadline?: string;
 };
 
 export type SortOption = { [key: string]: 1 | -1 };
@@ -205,10 +205,15 @@ export type userProfileType = {
   updated_at?: string;
   total_quota?: number;
   used_quota?: number;
+  address?: string;
+  country?: string;
+  nationalId?: string;
+  mobile?: string;
+  gender?: string;
 };
 
 export type userDetailsCompProps = {
-  userState: userProfileType,
-  updateLocalState: (key: string, value: any) => void
+  userState: userProfileType;
+  updateLocalState: (key: string, value: any) => void;
   isAdmin?: boolean;
 };

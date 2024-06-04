@@ -9,6 +9,11 @@ const ProfileSchema = new Schema({
   updated_at: { type: Date },
   total_quota: { type: Number },
   used_quota: { type: Number },
+  address: { type: String },
+  country: { type: String },
+  nationalId: { type: String },
+  mobile: { type: String },
+  gender: { type: String },
 });
 
 ProfileSchema.pre("updateOne", function (next) {

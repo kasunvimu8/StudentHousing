@@ -409,6 +409,21 @@ export const reservationStatuses = [
   },
 ];
 
+export const genders = [
+  {
+    id: "male",
+    description: "Male",
+  },
+  {
+    id: "female",
+    description: "Female",
+  },
+  {
+    id: "diverse",
+    description: "Diverse",
+  }
+];
+
 // ----------------------- Filter Constants ----------------------- //
 
 export const availableStatus = "available";
@@ -504,7 +519,7 @@ export const accountInfromation = [
     answer: `To create an account, click on the "Register" button on the login page or directly visit the registration page.
       Fill in your personal details such as first name & last name, user id (enrollment number), email, and password.
       Then confirm that the information provided is accurate and click on "Create Account." You will receive a confirmation email with a link to activate your account.
-      After clicking on it, your account will be activated, and you can log in with the credentials provided.`,
+      After clicking on it, your account will be activated, and you can log in with the credentials provided. Please fill your rest of the profile information by visiting the my profile page.`,
   },
   {
     id: "forget-password",
