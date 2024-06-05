@@ -4,6 +4,7 @@ const ReservationSchema = new Schema({
   user_id: { type: String, required: true },
   status: { type: String, required: true },
   created_at: { type: Date, required: true },
+  desired_semesters_stay : { type: String, required: true },
   property_ref_id: {
     type: Schema.Types.ObjectId,
     ref: "Property",
