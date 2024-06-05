@@ -62,10 +62,10 @@ export const SignupFormSchema = z.object({
     .string()
     .min(5, { message: "ID must be at least 5 characters long" })
     .trim(),
-  enrollment_id: z
-    .string()
-    .min(5, { message: "ID must be at least 5 characters long" })
-    .trim(),
+  // enrollment_id: z
+  //   .string()
+  //   .min(5, { message: "ID must be at least 5 characters long" })
+  //   .trim(),
   password: z
     .string()
     .min(8, { message: "Be at least 8 characters long" })

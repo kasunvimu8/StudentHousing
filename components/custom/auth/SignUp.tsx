@@ -21,7 +21,7 @@ export function SignUpForm() {
     email: "",
     password: "",
     user_id: "",
-    enrollment_id: "",
+    // enrollment_id: "",
     name: "",
   });
   const [email, setEmail] = useState("");
@@ -42,7 +42,7 @@ export function SignUpForm() {
         email,
         password,
         user_id: id,
-        enrollment_id: enrollmentId,
+        // enrollment_id: enrollmentId,
         name,
       });
       const res = await signUp(credentials);
@@ -65,7 +65,7 @@ export function SignUpForm() {
           email: newErrors.email?.[0] || "",
           password: newErrors.password?.[0] || "",
           user_id: newErrors.user_id?.[0] || "",
-          enrollment_id: newErrors.enrollment_id?.[0] || "",
+          // enrollment_id: newErrors.enrollment_id?.[0] || "",
           name: newErrors.name?.[0] || "",
         });
       }
@@ -135,7 +135,7 @@ export function SignUpForm() {
               )}
 
               <Label className="p-1" htmlFor="user_id">
-                NIC or Passport
+                User Id (Enrollment Number)
               </Label>
               <Input
                 id="id"
@@ -155,7 +155,7 @@ export function SignUpForm() {
                 </p>
               )}
 
-              <Label className="p-1" htmlFor="enrollment_id">
+              {/* <Label className="p-1" htmlFor="enrollment_id">
                 Enrollment Number
               </Label>
               <Input
@@ -174,7 +174,7 @@ export function SignUpForm() {
                 <p className="hightlight-font-color text-xs">
                   {errors.enrollment_id}
                 </p>
-              )}
+              )} */}
 
               <Label className="p-1" htmlFor="email">
                 Email
