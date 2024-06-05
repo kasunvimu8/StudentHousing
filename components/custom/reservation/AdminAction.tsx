@@ -15,7 +15,10 @@ import { userRoles } from "@/constants";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { BaseComponent as Calender } from "@/components/ui/calendar/BaseComponent";
-import { formatDateToISOStringWithTimeZone } from "@/lib/utils";
+import {
+  calculateEndDate,
+  formatDateToISOStringWithTimeZone,
+} from "@/lib/utils";
 
 export const AdminActionReservationCancel = ({
   reservationId,
@@ -53,7 +56,7 @@ export const AdminActionReservationCancel = ({
           res.type === "ok" ? "Success" : "Failed"
         }`,
         description: res.msg,
-        variant: res.type === "ok" ? "ok" : "error"
+        variant: res.type === "ok" ? "ok" : "error",
       });
       if (res.type === "ok") {
         router.push("/manage-reservations");
@@ -137,7 +140,7 @@ export const AdminActionReject = ({
       toast({
         title: `Reject Documents : ${res.type === "ok" ? "Success" : "Failed"}`,
         description: res.msg,
-        variant: res.type === "ok" ? "ok" : "error"
+        variant: res.type === "ok" ? "ok" : "error",
       });
       if (res.type === "ok") {
         router.push("/manage-reservations");
@@ -175,18 +178,21 @@ export const AdminActionReject = ({
 
 export const ApproveReservation = ({
   reservationId,
+  desired_semesters_stay,
   from,
   to,
 }: {
   reservationId: string;
+  desired_semesters_stay: string;
   from: string | undefined;
   to: string | undefined;
 }) => {
   const router = useRouter();
   const [fromDate, setfromDate] = useState(from ? from : "");
-  const [toDate, setToDate] = useState(to ? to : "");
+  const [toDate, setToDate] = useState(
+    to ? to : from ? calculateEndDate(from, desired_semesters_stay) : ""
+  );
   const { toast } = useToast();
-
   const approve = async () => {
     const res: { msg: string; type: string } = await approveDocument(
       reservationId,
@@ -199,7 +205,7 @@ export const ApproveReservation = ({
           res.type === "ok" ? "Success" : "Failed"
         }`,
         description: res.msg,
-        variant: res.type === "ok" ? "ok" : "error"
+        variant: res.type === "ok" ? "ok" : "error",
       });
       if (res.type === "ok") {
         router.push("/manage-reservations");
@@ -222,8 +228,17 @@ export const ApproveReservation = ({
       }}
     >
       <div className="flex flex-col justify-start gap-2">
+        <div className="grid grid-cols-3 gap-2">
+          <div className="text-sm font-normal primary-light-font-color flex items-center col-span-2 pb-1">
+            Tenant desired duration of stay
+          </div>
+          <div className="text-sm font-normal">
+            {desired_semesters_stay} Semesters
+          </div>
+        </div>
         <Label htmlFor="propertyId" className="text-left p-2 gap-1">
-          Please update the exact rental period.
+          End date of the rental is display according to the tenant's desired
+          semters stays. Please update the exact rental period if needed.
         </Label>
         <div className="grid grid-cols-3 gap-2">
           <div className="text-sm font-normal primary-light-font-color flex items-center">
@@ -256,12 +271,14 @@ export const ApproveReservation = ({
 
 export const AdminActionDocumentReview = ({
   reservationId,
+  desired_semesters_stay,
   propertyId,
   userId,
   from,
   to,
 }: {
   propertyId: string;
+  desired_semesters_stay: string;
   reservationId: string;
   userId: string;
   from: string;
@@ -281,7 +298,12 @@ export const AdminActionDocumentReview = ({
         userId={userId}
         cls="primary-font-color bg-white"
       />
-      <ApproveReservation reservationId={reservationId} from={from} to={to} />
+      <ApproveReservation
+        reservationId={reservationId}
+        from={from}
+        to={to}
+        desired_semesters_stay={desired_semesters_stay}
+      />
     </div>
   );
 };

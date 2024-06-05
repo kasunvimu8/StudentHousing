@@ -174,6 +174,7 @@ export type NavLinkData = {
 export type reservationPayload = {
   property_ref_id: string;
   user_id: string;
+  desired_semesters_stay: string;
 };
 
 export type ReservationType = {
@@ -192,6 +193,7 @@ export type ReservationType = {
   document_submission_deadline: string;
   from: string;
   to?: string;
+  desired_semesters_stay: string;
 };
 
 // ----------------------------- User Profile -----------------------------

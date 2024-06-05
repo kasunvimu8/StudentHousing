@@ -421,7 +421,7 @@ export const genders = [
   {
     id: "diverse",
     description: "Diverse",
-  }
+  },
 ];
 
 // ----------------------- Filter Constants ----------------------- //
@@ -469,6 +469,7 @@ export const initialVisibilityManageReservations = {
   from: false,
   to: false,
   document_submission_deadline: false,
+  desired_semesters_stay: false,
 };
 
 export const initialVisibilityManageUsers = {
@@ -500,6 +501,25 @@ export const userRoles = [
   {
     id: "admin",
     description: "Admin",
+  },
+];
+
+export const reservationPeriods = [
+  {
+    id: "1",
+    description: "One semester",
+  },
+  {
+    id: "2",
+    description: "Two semesters",
+  },
+  {
+    id: "3",
+    description: "Three semesters",
+  },
+  {
+    id: "4",
+    description: "Four semesters",
   },
 ];
 

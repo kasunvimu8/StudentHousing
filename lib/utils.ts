@@ -220,3 +220,22 @@ export const getNextStatus = (status: string) => {
 
   return next;
 };
+
+export function calculateEndDate(
+  from: string,
+  desired_semesters_stay: string
+): string {
+  const factor = parseInt(desired_semesters_stay);
+  if (isNaN(factor)) {
+    return "Invalid input number";
+  }
+  
+  const monthsToAdd = factor * 6;
+  const date = new Date(from);
+  if (isNaN(date.getTime())) {
+    return "Invalid date format";
+  }
+  date.setMonth(date.getMonth() + monthsToAdd);
+  
+  return date.toISOString()?.split("T")[0];
+}

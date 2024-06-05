@@ -176,6 +176,7 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
             <div className="flex justify-end pt-6">
               <AdminActionDocumentReview
                 reservationId={reservation._id}
+                desired_semesters_stay={reservation.desired_semesters_stay}
                 propertyId={reservation.property_ref_id}
                 userId={reservation.user_id}
                 from={reservation.from}

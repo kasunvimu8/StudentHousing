@@ -129,6 +129,7 @@ async function performReservation(
           from: propertyData.from,
           to: propertyData.to,
           document_submission_deadline: expiredDate,
+          desired_semesters_stay: reservationPayload.desired_semesters_stay,
         },
       ],
       opts
@@ -189,6 +190,7 @@ function checkCurrentReservationStatus(reservations: ReservationType[]) {
 
 export async function makeReservation(reservationPayload: {
   property_ref_id: string;
+  desired_semesters_stay: string;
 }) {
   try {
     const userId = await getUserId();
@@ -212,7 +214,11 @@ export async function makeReservation(reservationPayload: {
         );
         if (propertyData && propertyData.status === "available") {
           return await performReservation(
-            { ...reservationPayload, user_id: userId },
+            {
+              ...reservationPayload,
+              user_id: userId,
+              desired_semesters_stay: reservationPayload.desired_semesters_stay,
+            },
             propertyData
           );
         } else {
@@ -272,6 +278,7 @@ export async function getReservation(reservationId: string) {
           user_comment: 1,
           from: 1,
           to: 1,
+          desired_semesters_stay: 1,
           property_id: "$property.property_id",
         },
       },
@@ -489,6 +496,7 @@ export async function getAllReservations(
           admin_comment: 1,
           user_comment: 1,
           document_submission_deadline: 1,
+          desired_semesters_stay: 1,
           from: 1,
           to: 1,
           property_id: "$property.property_id",
