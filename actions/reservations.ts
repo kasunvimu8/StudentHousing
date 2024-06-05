@@ -75,6 +75,7 @@ export async function getMyReservations(userId: string) {
           admin_comment: 1,
           user_comment: 1,
           document_submission_deadline: 1,
+          desired_semesters_stay: 1,
           from: 1,
           to: 1,
           property_id: "$property.property_id",

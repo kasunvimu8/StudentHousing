@@ -450,11 +450,12 @@ export const initialVisibilityMyReservations = {
   property_ref_id: false,
   status: true,
   property_id: true,
-  created_at: true,
+  created_at: false,
   updated_at: false,
   address: true,
   from: true,
   to: false,
+  desired_semesters_stay: true,
 };
 
 export const initialVisibilityManageReservations = {
