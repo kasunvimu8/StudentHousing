@@ -1,25 +1,22 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  defaultNoticePeriod,
-  propertyTypes,
-  reservationCancelled,
-  reservationStatuses,
-} from "@/constants";
+import { defaultNoticePeriod } from "@/constants";
 import { formatDateTime } from "@/lib/utils";
 import { ExtendedColumnDef } from "@/types";
-import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { useRouter } from "next/navigation";
+import { CaretSortIcon } from "@radix-ui/react-icons";
 import React from "react";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { RentalDialog } from "@/components/custom/rental/RentalDialog";
+import { MdOpenInNew } from "react-icons/md";
 export const columns: ExtendedColumnDef[] = [
   {
     accessorKey: "_id",
@@ -138,12 +135,10 @@ export const columns: ExtendedColumnDef[] = [
     header: "Last Email Date",
     cell: ({ row }) => {
       const date = row.getValue("rental_end_last_email_sent_date");
-      const formattedDate = date ? formatDateTime(new Date(String(date))).simpleDate : "-";
-      return (
-        <div className="capitalize">
-          {formattedDate}
-        </div>
-      );
+      const formattedDate = date
+        ? formatDateTime(new Date(String(date))).simpleDate
+        : "-";
+      return <div className="capitalize">{formattedDate}</div>;
     },
     columnTitle: "Last Email Date",
     enableHiding: true,
@@ -153,9 +148,7 @@ export const columns: ExtendedColumnDef[] = [
     header: "Days to End",
     cell: ({ row }) => {
       return (
-        <div className="capitalize">
-          {row.getValue("days_to_end_rental")}
-        </div>
+        <div className="capitalize">{row.getValue("days_to_end_rental")}</div>
       );
     },
     columnTitle: "Last Email Date",
@@ -167,7 +160,9 @@ export const columns: ExtendedColumnDef[] = [
     cell: ({ row }) => {
       return (
         <div className="capitalize">
-          {row.getValue("rental_end_tenant_confirmation_status") ? "Confirmed" : "Not confirmed"}
+          {row.getValue("rental_end_tenant_confirmation_status")
+            ? "Confirmed"
+            : "Not confirmed"}
         </div>
       );
     },
@@ -207,42 +202,28 @@ export const columns: ExtendedColumnDef[] = [
     cell: ({ row, ...rest }) => {
       const id: string = row.getValue("property_ref_id");
       const refId: string = row.getValue("_id");
-      const router = useRouter();
-      const [open, setOpen] = React.useState(false);
-
       return (
-        <DropdownMenu open={open} onOpenChange={() => setOpen((open) => !open)}>
-          <DropdownMenuTrigger asChild className="bg-white">
+        <Dialog>
+          <DialogTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open Action Menu</span>
-              <DotsHorizontalIcon className="h-4 w-4" />
+              <MdOpenInNew className="w-5 h-5 transform -rotate-90" />
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="end"
-            className="bg-white"
-            hideWhenDetached={true}
-          >
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() =>
-                router.push(`/reservation/${refId}`, { scroll: false })
-              }
-              className="hover:section-light-background-color"
-            >
-              Reservation Details
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() =>
-                router.push(`/property/view/${id}`, { scroll: false })
-              }
-              className="hover:section-light-background-color"
-            >
-              View Property
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px] md:max-w-[700px] lg:max-w-[900px]">
+            <DialogHeader>
+              <DialogTitle>
+                Handle Moving Out - Reservation Id <span className="font-xs primary-light-font-color">({refId})</span>
+              </DialogTitle>
+              <DialogDescription>
+                You can inform and get confirmation from tenant's move-out date
+                by emailing them about the lease termination and, once
+                confirmed, relist the property.
+              </DialogDescription>
+            </DialogHeader>
+            <RentalDialog />
+            <DialogFooter></DialogFooter>
+          </DialogContent>
+        </Dialog>
       );
     },
   },

@@ -3,7 +3,7 @@ import { getAllRentals } from "@/actions/reservations";
 import { DataTable } from "@/components/ui/data-table/DataTable";
 import { FilterParamTypes, SortOption } from "@/types";
 import { initialVisibilityManageRentals } from "@/constants";
-import { columns } from "@/components/custom/rental/ManageReservationColumns";
+import { columns } from "@/components/custom/rental/ManageRentalColumns";
 
 const ManageRentalTable = async ({
   searchParams,
