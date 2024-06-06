@@ -229,13 +229,35 @@ export function calculateEndDate(
   if (isNaN(factor)) {
     return "Invalid input number";
   }
-  
+
   const monthsToAdd = factor * 6;
   const date = new Date(from);
   if (isNaN(date.getTime())) {
     return "Invalid date format";
   }
   date.setMonth(date.getMonth() + monthsToAdd);
-  
+
   return date.toISOString()?.split("T")[0];
+}
+
+export function isWithinNextMonths(
+  providedDate: string | undefined,
+  months: number
+): boolean {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (! providedDate) {
+    throw new Error("Invalid to date");
+  }
+
+  const endDate = new Date(providedDate);
+
+  if (isNaN(endDate.getTime())) {
+    throw new Error("Invalid date format");
+  }
+
+  const dayDifference =
+    (endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
+  return dayDifference >= 0 && dayDifference <= 30 * months;
 }

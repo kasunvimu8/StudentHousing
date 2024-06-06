@@ -12,7 +12,7 @@ import {
 import { CgSmartHomeWashMachine } from "react-icons/cg";
 import { GiHomeGarage } from "react-icons/gi";
 import { RiHomeSmileLine } from "react-icons/ri";
-import { BsHouseGear } from "react-icons/bs";
+import { BsHouseDown, BsHouseGear } from "react-icons/bs";
 import {
   MdOutlineSmokingRooms,
   MdMiscellaneousServices,
@@ -58,6 +58,7 @@ export const equipmentIcons = {
   LuLogOut: LuLogOut,
   LuUser2: LuUser2,
   LuUserCog2: LuUserCog2,
+  BsHouseDown: BsHouseDown 
 };
 
 export const getIconFromKey = (id: string): IconType => {

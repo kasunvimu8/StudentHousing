@@ -16,8 +16,12 @@ import { revalidatePath } from "next/cache";
 import Profile from "@/database/models/profiles.model";
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
-import { adminType, expirationDuration } from "@/constants";
-import { calculateFutureDate } from "@/lib/utils";
+import {
+  adminType,
+  defaultNoticePeriod,
+  expirationDuration,
+} from "@/constants";
+import { calculateFutureDate, isWithinNextMonths } from "@/lib/utils";
 
 export async function getReservationExist(_id: string) {
   try {
@@ -131,6 +135,13 @@ async function performReservation(
           to: propertyData.to,
           document_submission_deadline: expiredDate,
           desired_semesters_stay: reservationPayload.desired_semesters_stay,
+          notice_period: propertyData.notice_period,
+          rental_end: {
+            email_sent_count: 0,
+            last_email_sent_date: null,
+            tenant_confirmation_status: false,
+            property_dispatch: false,
+          },
         },
       ],
       opts
@@ -724,4 +735,114 @@ export async function updateRentalPeriod(
     msg,
     type,
   };
+}
+
+export async function getAllRentals(
+  sortOption: SortOption,
+  filterParams: FilterParamTypes
+) {
+  try {
+    await connectToDatabase();
+
+    let matchOptions: any = [];
+    Object.keys(filterParams).forEach((key) => {
+      const optionKey = filterParams[key as keyof FilterParamTypes];
+      if (optionKey) {
+        if (key === "id" && optionKey !== "all") {
+          matchOptions.push({
+            _id: {
+              $regex: optionKey,
+              $options: "i",
+            },
+          });
+        } else if (key === "property-id" && optionKey !== "all") {
+          matchOptions.push({
+            property_id: {
+              $regex: optionKey,
+              $options: "i",
+            },
+          });
+        } else if (key === "user-id" && optionKey !== "all") {
+          matchOptions.push({
+            user_id: {
+              $regex: optionKey,
+              $options: "i",
+            },
+          });
+        } else if (key === "confirm") {
+          matchOptions.push({
+            rental_end_tenant_confirmation_status: optionKey === "true",
+          });
+        } else if (key === "dispatch") {
+          matchOptions.push({
+            rental_end_property_dispatch: optionKey === "true",
+          });
+        }
+      }
+    });
+    matchOptions.push({ status: "rented" });
+
+    const data = await Reservation.aggregate([
+      {
+        $lookup: {
+          from: "properties",
+          localField: "property_ref_id",
+          foreignField: "_id",
+          as: "property",
+        },
+      },
+      {
+        $unwind: "$property",
+      },
+      {
+        $project: {
+          _id: 1,
+          user_id: 1,
+          updated_at: 1,
+          property_ref_id: 1,
+          from: 1,
+          status: 1,
+          to: 1,
+          notice_period: 1,
+          rental_end_email_sent_count: "$rental_end.email_sent_count",
+          rental_end_last_email_sent_date: "$rental_end.last_email_sent_date",
+          rental_end_tenant_confirmation_status:
+            "$rental_end.tenant_confirmation_status",
+          rental_end_property_dispatch: "$rental_end.property_dispatch",
+          property_id: "$property.property_id",
+          address: "$property.address",
+          room_id: "$property.room_id",
+          days_to_end_rental: {
+            $dateDiff: {
+              startDate: "$$NOW",
+              endDate: "$to",
+              unit: "day",
+            },
+          },
+        },
+      },
+      {
+        $match: matchOptions.length > 0 ? { $and: matchOptions } : {},
+      },
+      { $sort: sortOption },
+    ]);
+    const reservations =
+      data.length > 0 ? JSON.parse(JSON.stringify(data)) : [];
+
+    const filteredReservations = filterParams.hasOwnProperty("rental-end")
+      ? reservations?.filter(
+          (reservation: ReservationType) =>
+            reservation.status === "rented" &&
+            isWithinNextMonths(
+              reservation.to,
+              reservation.notice_period || defaultNoticePeriod
+            )
+        )
+      : reservations;
+
+    return filteredReservations;
+  } catch (error) {
+    console.log("Failed to fetch all rentals ", error);
+    return undefined;
+  }
 }

@@ -58,6 +58,12 @@ export const adminUsernavigation = [
     id: "manage-reservations",
   },
   {
+    title: "Manage Rentals",
+    href: "/manage-rentals",
+    icon: "BsHouseDown",
+    id: "manage-rentals",
+  },
+  {
     title: "Manage Users",
     href: "/manage-users",
     icon: "LuUserCog2",
@@ -373,7 +379,7 @@ export const reservationStatuses = [
     workflowDispaly: true,
     showInDropdown: true,
     actionDescription:
-      "Action Required!. Please submit the signed contract documents ",
+      "Action Required!. Please submit the required documents ",
     adminActionDescription:
       "No Action Required. Please wait until tenant submit the documents",
   },
@@ -473,6 +479,23 @@ export const initialVisibilityManageReservations = {
   desired_semesters_stay: false,
 };
 
+export const initialVisibilityManageRentals = {
+  _id: false,
+  property_ref_id: false,
+  property_id: true,
+  user_id: true,
+  address: false,
+  from: false,
+  to: true,
+  notice_period: true,
+  days_to_end_rental : true,
+  rental_end_email_sent_count: true,
+  rental_end_last_email_sent_date: true,
+  rental_end_tenant_confirmation_status: true,
+  rental_end_property_dispatch: true,
+  updated_at: false,
+};
+
 export const initialVisibilityManageUsers = {
   _id: false,
   user_name: true,
@@ -525,6 +548,7 @@ export const reservationPeriods = [
 ];
 
 export const defaultUserReservationQuota = 2;
+export const defaultNoticePeriod = 3;
 
 // ----------------------- Authentication Specific Config ------------------------- //
 export const sessionPeriodMinutes = 60;

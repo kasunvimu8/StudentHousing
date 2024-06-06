@@ -194,6 +194,18 @@ export type ReservationType = {
   from: string;
   to?: string;
   desired_semesters_stay: string;
+  notice_period: number;
+  days_to_end_rental: number;
+  rental_end: {
+    email_sent_count: number;
+    last_email_sent_date: string;
+    tenant_confirmation_status: boolean;
+    property_dispatch: boolean;
+  };
+  rental_end_email_sent_count: number;
+  rental_end_last_email_sent_date: string;
+  rental_end_tenant_confirmation_status: boolean;
+  rental_end_property_dispatch: boolean;
 };
 
 // ----------------------------- User Profile -----------------------------
