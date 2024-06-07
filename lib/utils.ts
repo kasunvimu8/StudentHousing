@@ -247,7 +247,7 @@ export function isWithinNextMonths(
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  if (! providedDate) {
+  if (!providedDate) {
     throw new Error("Invalid to date");
   }
 
@@ -260,4 +260,12 @@ export function isWithinNextMonths(
   const dayDifference =
     (endDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
   return dayDifference >= 0 && dayDifference <= 30 * months;
+}
+
+export function getRelsitingDate(dateString: string): string {
+  const date = new Date(dateString);
+  date.setDate(date.getDate() + 1);
+  const newDateString = date.toISOString().split("T")[0];
+
+  return newDateString;
 }

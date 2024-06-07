@@ -5,7 +5,7 @@ import { defaultNoticePeriod } from "@/constants";
 import { formatDateTime } from "@/lib/utils";
 import { ExtendedColumnDef } from "@/types";
 import { CaretSortIcon } from "@radix-ui/react-icons";
-import React from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { RentalDialog } from "@/components/custom/rental/RentalDialog";
 import { MdOpenInNew } from "react-icons/md";
+import { useToast } from "@/components/ui/use-toast";
 export const columns: ExtendedColumnDef[] = [
   {
     accessorKey: "_id",
@@ -95,14 +96,14 @@ export const columns: ExtendedColumnDef[] = [
   },
   {
     accessorKey: "to",
-    header: "To",
+    header: "End Date",
     cell: ({ row }) => {
       const to = row.getValue("to");
       const date = to ? formatDateTime(new Date(String(to))).simpleDate : "-";
 
       return <div className="capitalize">{date}</div>;
     },
-    columnTitle: "To",
+    columnTitle: "End Date",
   },
   {
     accessorKey: "notice_period",
@@ -200,10 +201,41 @@ export const columns: ExtendedColumnDef[] = [
     header: "Actions",
     enableHiding: false,
     cell: ({ row, ...rest }) => {
-      const id: string = row.getValue("property_ref_id");
+      const [open, setOpen] = useState(false);
+      const { toast } = useToast();
+
       const refId: string = row.getValue("_id");
+      const data = {
+        reservation_id: refId,
+        property_id: String(row.getValue("property_ref_id")),
+        rental_end_property_dispatch: Boolean(
+          row.getValue("rental_end_property_dispatch")
+        ),
+        rental_end_tenant_confirmation_status: Boolean(
+          row.getValue("rental_end_tenant_confirmation_status")
+        ),
+        days_to_end_rental: Number(row.getValue("days_to_end_rental")),
+        rental_end_last_email_sent_date: String(
+          row.getValue("rental_end_last_email_sent_date")
+        ),
+        rental_end_email_sent_count: Number(
+          row.getValue("rental_end_email_sent_count")
+        ),
+        to: String(row.getValue("to")),
+      };
+
+      const actionOutputHandle = (title: string, type: string, msg: string) => {
+        toast({
+          title: `${title} : ${type === "ok" ? "Success" : "Failed"}`,
+          description: msg,
+          variant: type === "ok" ? "ok" : "error",
+        });
+
+        setOpen(false);
+      };
+
       return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
               <MdOpenInNew className="w-5 h-5 transform -rotate-90" />
@@ -212,15 +244,18 @@ export const columns: ExtendedColumnDef[] = [
           <DialogContent className="sm:max-w-[425px] md:max-w-[700px] lg:max-w-[900px]">
             <DialogHeader>
               <DialogTitle>
-                Handle Moving Out - Reservation Id <span className="font-xs primary-light-font-color">({refId})</span>
+                Moving Out Handle - Reservation Id
+                <span className="font-xs primary-light-font-color">
+                  ({refId})
+                </span>
               </DialogTitle>
               <DialogDescription>
                 You can inform and get confirmation from tenant's move-out date
-                by emailing them about the lease termination and, once
-                confirmed, relist the property.
+                by emailing them about the termination notice with a
+                confirmation form and, once confirmed, relist the property.
               </DialogDescription>
             </DialogHeader>
-            <RentalDialog />
+            <RentalDialog data={data} actionOutputHandle={actionOutputHandle} />
             <DialogFooter></DialogFooter>
           </DialogContent>
         </Dialog>
