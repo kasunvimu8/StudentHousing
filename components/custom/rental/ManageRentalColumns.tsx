@@ -172,7 +172,7 @@ export const columns: ExtendedColumnDef[] = [
   },
   {
     accessorKey: "rental_end_property_dispatch",
-    header: "Property Dispatch Status",
+    header: "Property Relisted Status",
     cell: ({ row }) => {
       return (
         <div className="capitalize">
@@ -180,7 +180,7 @@ export const columns: ExtendedColumnDef[] = [
         </div>
       );
     },
-    columnTitle: "Property Dispatch Status",
+    columnTitle: "Property Relisted Status",
     enableHiding: true,
   },
   {
@@ -244,7 +244,7 @@ export const columns: ExtendedColumnDef[] = [
           <DialogContent className="sm:max-w-[425px] md:max-w-[700px] lg:max-w-[900px]">
             <DialogHeader>
               <DialogTitle>
-                Moving Out Handle - Reservation Id
+                {`Moving Out Handle - Reservation Id `}
                 <span className="font-xs primary-light-font-color">
                   ({refId})
                 </span>

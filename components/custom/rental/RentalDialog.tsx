@@ -72,7 +72,7 @@ export function RentalDialog({
       <div className="grid grid-cols-2 md:grid-cols-4 items-center gap-4">
         <div className="col-span-1">
           <div className="space-y-1">
-            <h4 className="text-sm font-medium leading-none">
+            <h4 className="text-sm font-medium leading-none primary-light-font-color">
               Num. of Emails Sent
             </h4>
             <p className="text-sm text-muted-foreground">
@@ -82,7 +82,7 @@ export function RentalDialog({
         </div>
         <div className="col-span-1">
           <div className="space-y-1">
-            <h4 className="text-sm font-medium leading-none">
+            <h4 className="text-sm font-medium leading-none primary-light-font-color ">
               Last Email Date
             </h4>
             <p className="text-sm text-muted-foreground">{emailSentDate}</p>
@@ -90,7 +90,9 @@ export function RentalDialog({
         </div>
         <div className="col-span-1">
           <div className="space-y-1">
-            <h4 className="text-sm font-medium leading-none">Days to End</h4>
+            <h4 className="text-sm font-medium leading-none primary-light-font-color">
+              Days to End
+            </h4>
             <p className="text-sm text-muted-foreground">
               {data.days_to_end_rental}
             </p>
@@ -98,7 +100,7 @@ export function RentalDialog({
         </div>
         <div className="col-span-1">
           <div className="space-y-1">
-            <h4 className="text-sm font-medium leading-none">
+            <h4 className="text-sm font-medium leading-none primary-light-font-color">
               Tenant Confirmation
             </h4>
             <p className="text-sm text-muted-foreground">
@@ -110,74 +112,80 @@ export function RentalDialog({
         </div>
       </div>
       <div className="flex justify-end gap-2 pt-6">
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button
-              variant="outline"
-              className="py-5 px-7 text-bold primary-background-color secondary-font-color gap-2"
-            >
-              Relist the Property
-              <LuListStart className="w-5 h-5" />
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>
-                Property Relist : Are you absolutely sure ?
-              </DialogTitle>
-              {data.rental_end_tenant_confirmation_status ? (
-                <DialogDescription className="pt-4 flex items-center gap-2 success-color">
-                  <MdOutlineDone className="w-5 h-5" />
-                  The tenant has confirmed the moving out.
-                </DialogDescription>
-              ) : (
-                <DialogDescription className="pt-4 flex items-center gap-2 hightlight-font-color">
-                  <PiWarningCircleLight className="w-5 h-5" />
-                  The tenant has not yet confirmed about moving out.
-                  <p className="text-sm text-muted-foreground">
-                    Once click Relist, the property will be made avaialble for
-                    the other tenants to reserver. If the current tenant is not
-                    confirmed yet regarding moving out, it is highly recommended
-                    to wait until the confirmation to avoid future conflicts
-                  </p>
-                </DialogDescription>
+        {!data.rental_end_property_dispatch && (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                variant="outline"
+                className="py-5 px-7 text-bold primary-background-color secondary-font-color gap-2"
+              >
+                Relist the Property
+                <LuListStart className="w-5 h-5" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>
+                  Property Relist : Are you absolutely sure ?
+                </DialogTitle>
+                {data.rental_end_tenant_confirmation_status ? (
+                  <DialogDescription className="pt-4 flex items-center gap-2 success-color">
+                    <MdOutlineDone className="w-5 h-5" />
+                    The tenant has confirmed the moving out.
+                  </DialogDescription>
+                ) : (
+                  <DialogDescription className="pt-4 flex items-center gap-2 hightlight-font-color">
+                    <PiWarningCircleLight className="w-5 h-5" />
+                    The tenant has not yet confirmed about moving out.
+                  </DialogDescription>
+                )}
+              </DialogHeader>
+
+              {!data.rental_end_tenant_confirmation_status && (
+                <p className="text-sm text-muted-foreground">
+                  Once click Relist, the property will be made avaialble for the
+                  other tenants to reserver. If the current tenant is not
+                  confirmed yet regarding moving out, it is highly recommended
+                  to wait until the confirmation to avoid future conflicts
+                </p>
               )}
-            </DialogHeader>
-            <div className="grid grid-cols-3 gap-2">
-              <div className="text-sm font-normal primary-light-font-color flex items-center">
-                Rented From
+
+              <div className="grid grid-cols-3 gap-2">
+                <div className="text-sm font-normal primary-light-font-color flex items-center">
+                  Rented From
+                </div>
+                <div className="text-sm font-normal col-span-2">
+                  <Calender
+                    date={new Date(relistingDate)}
+                    handleSelect={(value) =>
+                      setRelistingDate(
+                        String(formatDateToISOStringWithTimeZone(value))
+                      )
+                    }
+                  />
+                </div>
               </div>
-              <div className="text-sm font-normal col-span-2">
-                <Calender
-                  date={new Date(relistingDate)}
-                  handleSelect={(value) =>
-                    setRelistingDate(
-                      String(formatDateToISOStringWithTimeZone(value))
-                    )
-                  }
-                />
-              </div>
-            </div>
-            <DialogFooter className="pt-5">
-              <DialogClose asChild>
-                <Button
-                  type="submit"
-                  className="primary-background-color secondary-font-color gap-2"
-                  disabled={false}
-                  onClick={() => {
-                    handleRelisting(
-                      relistingDate,
-                      data.reservation_id,
-                      data.property_id
-                    );
-                  }}
-                >
-                  Relist <LuListPlus className="w-5 h-5" />
-                </Button>
-              </DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+              <DialogFooter className="pt-5">
+                <DialogClose asChild>
+                  <Button
+                    type="submit"
+                    className="primary-background-color secondary-font-color gap-2"
+                    disabled={false}
+                    onClick={() => {
+                      handleRelisting(
+                        relistingDate,
+                        data.reservation_id,
+                        data.property_id
+                      );
+                    }}
+                  >
+                    Relist <LuListPlus className="w-5 h-5" />
+                  </Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        )}
 
         {!data.rental_end_tenant_confirmation_status && (
           <Dialog>
