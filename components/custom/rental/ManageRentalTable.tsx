@@ -1,9 +1,9 @@
 import React from "react";
-import { getAllRentals } from "@/actions/reservations";
 import { DataTable } from "@/components/ui/data-table/DataTable";
 import { FilterParamTypes, SortOption } from "@/types";
 import { initialVisibilityManageRentals } from "@/constants";
 import { columns } from "@/components/custom/rental/ManageRentalColumns";
+import { getAllRentals } from "@/actions/rentals";
 
 const ManageRentalTable = async ({
   searchParams,

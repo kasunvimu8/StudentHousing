@@ -20,7 +20,7 @@ import { PiWarningCircleLight } from "react-icons/pi";
 import { MdOutlineDone } from "react-icons/md";
 import { useState } from "react";
 import { BaseComponent as Calender } from "@/components/ui/calendar/BaseComponent";
-import { handleRelistingProperty } from "@/actions/rentals";
+import { handleRelistingProperty, sendRentalEndConfirmationEmail } from "@/actions/rentals";
 
 export function RentalDialog({
   data,
@@ -42,7 +42,7 @@ export function RentalDialog({
 
   const emailSentDate =
     data.rental_end_last_email_sent_date &&
-    data.rental_end_last_email_sent_date !== "null"
+    data.rental_end_last_email_sent_date !== "undefined"
       ? formatDateTime(new Date(data.rental_end_last_email_sent_date))
           .simpleDateTime
       : "-";
@@ -51,13 +51,17 @@ export function RentalDialog({
   const emailSentText =
     data.rental_end_email_sent_count > 0 ? "Resend Email" : "Send Email";
 
-  const handleEmailSent = () => {};
+  const handleEmailSent = async (reservation_id: string) => {
+    const res = await sendRentalEndConfirmationEmail(reservation_id);
+
+    actionOutputHandle("Email Send", res.type, res.msg);
+  };
+
   const handleRelisting = async (
     date: string,
     reservation_id: string,
     property_id: string
   ) => {
-    console.log(new Date(date));
     const res = await handleRelistingProperty(
       date,
       reservation_id,
@@ -219,7 +223,7 @@ export function RentalDialog({
                     className="primary-background-color secondary-font-color gap-2"
                     disabled={false}
                     onClick={() => {
-                      handleEmailSent();
+                      handleEmailSent(data.reservation_id);
                     }}
                   >
                     Send <LuSend />

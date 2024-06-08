@@ -75,3 +75,19 @@ export async function sendVerifyEmail(data: {
     body: "Please verify your email by clicking on the link below. If you did not create an account, please ignore this email.",
   });
 }
+
+export async function sendRentalEndEmail(data: {
+  to: string;
+  userName: string;
+  actionLink: string;
+  body : string;
+}) {
+  return await sendEmail({
+    to: data.to,
+    templateId: process.env.SENDGRID_TEMPLATE_KEY_MOVING_OUT_EMAIL,
+    title: "Confirm Your Moving Out Date",
+    userName: data.userName,
+    actionLink: data.actionLink,
+    body: data.body
+  });
+}

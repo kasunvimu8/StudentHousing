@@ -223,7 +223,7 @@ export async function veriftConfirmEmail(token: string, user_id: string) {
     if (!record) {
       return {
         msg: "Error occured while processing email confirmation. Please try again later.",
-        type: "Email verification failed",
+        type: "error",
       };
     } else {
       if (record.verified) {
@@ -240,8 +240,6 @@ export async function veriftConfirmEmail(token: string, user_id: string) {
             },
           }
         );
-        console.log(res);
-
         return {
           msg: "Email verification successfull. Please login with your credentials.",
           type: "ok",

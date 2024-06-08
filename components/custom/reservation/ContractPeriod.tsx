@@ -6,7 +6,7 @@ import { BaseComponent as Calender } from "@/components/ui/calendar/BaseComponen
 import ConfirmationComponent from "@/components/shared/ConfirmationComponent";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { updateRentalPeriod } from "@/actions/reservations";
+import { updateRentalPeriod } from "@/actions/rentals";
 
 const ContractPeriod = ({
   reservationId,

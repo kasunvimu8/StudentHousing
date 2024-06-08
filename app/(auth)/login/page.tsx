@@ -1,10 +1,12 @@
-import { SignInForm } from '@/components/custom/auth/SignIn'
-import React from 'react'
+import { SignInForm } from "@/components/custom/auth/SignIn";
+import React, { Suspense } from "react";
 
 const page = () => {
   return (
-    <SignInForm />
-  )
-}
+    <Suspense>
+      <SignInForm />
+    </Suspense>
+  );
+};
 
-export default page
+export default page;
