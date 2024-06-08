@@ -84,7 +84,7 @@ export const columns: ExtendedColumnDef[] = [
   },
   {
     accessorKey: "from",
-    header: "Available From",
+    header: "Rented From",
     cell: ({ row }) => {
       const from = row.getValue("from");
       const date = from
@@ -92,7 +92,7 @@ export const columns: ExtendedColumnDef[] = [
         : "-";
       return <div className="capitalize">{date}</div>;
     },
-    columnTitle: "Available From",
+    columnTitle: "Rented From",
   },
   {
     accessorKey: "to",
