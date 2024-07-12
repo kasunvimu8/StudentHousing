@@ -58,6 +58,12 @@ export const adminUsernavigation = [
     id: "manage-reservations",
   },
   {
+    title: "Manage Rentals",
+    href: "/manage-rentals",
+    icon: "BsHouseDown",
+    id: "manage-rentals",
+  },
+  {
     title: "Manage Users",
     href: "/manage-users",
     icon: "LuUserCog2",
@@ -373,7 +379,7 @@ export const reservationStatuses = [
     workflowDispaly: true,
     showInDropdown: true,
     actionDescription:
-      "Action Required!. Please submit the signed contract documents ",
+      "Action Required!. Please submit the required documents ",
     adminActionDescription:
       "No Action Required. Please wait until tenant submit the documents",
   },
@@ -409,6 +415,21 @@ export const reservationStatuses = [
   },
 ];
 
+export const genders = [
+  {
+    id: "male",
+    description: "Male",
+  },
+  {
+    id: "female",
+    description: "Female",
+  },
+  {
+    id: "diverse",
+    description: "Diverse",
+  },
+];
+
 // ----------------------- Filter Constants ----------------------- //
 
 export const availableStatus = "available";
@@ -435,11 +456,12 @@ export const initialVisibilityMyReservations = {
   property_ref_id: false,
   status: true,
   property_id: true,
-  created_at: true,
+  created_at: false,
   updated_at: false,
   address: true,
   from: true,
   to: false,
+  desired_semesters_stay: true,
 };
 
 export const initialVisibilityManageReservations = {
@@ -454,6 +476,24 @@ export const initialVisibilityManageReservations = {
   from: false,
   to: false,
   document_submission_deadline: false,
+  desired_semesters_stay: false,
+};
+
+export const initialVisibilityManageRentals = {
+  _id: false,
+  property_ref_id: false,
+  property_id: true,
+  user_id: true,
+  address: false,
+  from: false,
+  to: true,
+  notice_period: true,
+  days_to_end_rental : true,
+  rental_end_email_sent_count: true,
+  rental_end_last_email_sent_date: true,
+  rental_end_tenant_confirmation_status: true,
+  rental_end_property_dispatch: true,
+  updated_at: false,
 };
 
 export const initialVisibilityManageUsers = {
@@ -462,7 +502,7 @@ export const initialVisibilityManageUsers = {
   user_email: true,
   user_id: true,
   role: true,
-  enrollment_id: true,
+  // enrollment_id: true,
   created_at: false,
   updated_at: false,
 };
@@ -488,7 +528,27 @@ export const userRoles = [
   },
 ];
 
+export const reservationPeriods = [
+  {
+    id: "1",
+    description: "One semester",
+  },
+  {
+    id: "2",
+    description: "Two semesters",
+  },
+  {
+    id: "3",
+    description: "Three semesters",
+  },
+  {
+    id: "4",
+    description: "Four semesters",
+  },
+];
+
 export const defaultUserReservationQuota = 2;
+export const defaultNoticePeriod = 3;
 
 // ----------------------- Authentication Specific Config ------------------------- //
 export const sessionPeriodMinutes = 60;
@@ -502,9 +562,9 @@ export const accountInfromation = [
     id: "create-account",
     question: "How do I create an account on the student housing platform ?",
     answer: `To create an account, click on the "Register" button on the login page or directly visit the registration page.
-      Fill in your personal details such as first name, last name, NIC, enrollment number, email, and password.
+      Fill in your personal details such as first name & last name, user id (enrollment number), email, and password.
       Then confirm that the information provided is accurate and click on "Create Account." You will receive a confirmation email with a link to activate your account.
-      After clicking on it, your account will be activated, and you can log in with the credentials provided.`,
+      After clicking on it, your account will be activated, and you can log in with the credentials provided. Please fill your rest of the profile information by visiting the my profile page.`,
   },
   {
     id: "forget-password",
@@ -515,12 +575,12 @@ export const accountInfromation = [
   {
     id: "update-details",
     question: "Can I update my account details after registration?",
-    answer: `Except for email, enrollment ID, and passport ID (or NIC), you can update other details at any time by visiting "My Profile page".`,
+    answer: `Except for email and enrollment ID you can update other details at any time by visiting "My Profile page".`,
   },
   {
     id: "account-exists",
     question: `Why I get alert saying "Acount already exists for your credentials" ?`,
-    answer: `If you attempt to create an account using an existing email, enrollment ID, or passport ID (or NIC), you will receive an error.
+    answer: `If you attempt to create an account using an existing email or enrollment ID, you will receive an error.
       You should not attempt to create a second account.`,
   },
 ];
@@ -558,7 +618,7 @@ export const propertiesInfromation = [
     question: "How can get the property details of a reserved property ?",
     answer: `You can visit the "My Reservations" page to find your reservation. Click on the three dots under the Actions column, where you will find
     a link to the property page.`,
-  }
+  },
 ];
 
 export const reservationInfromation = [

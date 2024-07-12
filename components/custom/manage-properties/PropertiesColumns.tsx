@@ -42,8 +42,10 @@ const handlePropertyDelete = async (
 export const columns: ExtendedColumnDef[] = [
   {
     accessorKey: "_id",
+    header: "Ref Id",
     cell: ({ row }) => <div className="capitalize">{row.getValue("_id")}</div>,
-    enableHiding: false,
+    enableHiding: true,
+    columnTitle: "Property Ref ID",
   },
   {
     accessorKey: "property_id",

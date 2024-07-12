@@ -9,21 +9,22 @@ export function CheckboxComponent({ inputKey }: { inputKey: string }) {
   const { replace } = useRouter();
 
   const urlParam = searchParams.get(inputKey)?.toString();
-  let value = urlParam ? Boolean(urlParam) : false;
+  let value = urlParam === "true";
 
   const updateURL = (term: boolean) => {
     const params = new URLSearchParams(searchParams);
-    if (term) {
-      params.set(inputKey, String(term));
-      value = term;
-    } else {
-      params.delete(inputKey);
-      value = false;
-    }
+
+    params.set(inputKey, String(term));
+    value = term;
+
+    // if (term) {
+    // } else {
+    //   value = term;
+    //   params.delete(inputKey);
+    //   value = false;
+    // }
     replace(`${pathname}?${params.toString()}`);
   };
 
-  return (
-      <Checkbox checked={value} onCheckedChange={() => updateURL(!value)} />
-  );
+  return <Checkbox checked={value} onCheckedChange={() => updateURL(!value)} />;
 }

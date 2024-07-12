@@ -16,8 +16,12 @@ import { revalidatePath } from "next/cache";
 import Profile from "@/database/models/profiles.model";
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
-import { adminType, expirationDuration } from "@/constants";
-import { calculateFutureDate } from "@/lib/utils";
+import {
+  adminType,
+  defaultNoticePeriod,
+  expirationDuration,
+} from "@/constants";
+import { calculateFutureDate, isWithinNextMonths } from "@/lib/utils";
 
 export async function getReservationExist(_id: string) {
   try {
@@ -75,6 +79,7 @@ export async function getMyReservations(userId: string) {
           admin_comment: 1,
           user_comment: 1,
           document_submission_deadline: 1,
+          desired_semesters_stay: 1,
           from: 1,
           to: 1,
           property_id: "$property.property_id",
@@ -129,6 +134,14 @@ async function performReservation(
           from: propertyData.from,
           to: propertyData.to,
           document_submission_deadline: expiredDate,
+          desired_semesters_stay: reservationPayload.desired_semesters_stay,
+          notice_period: propertyData.notice_period,
+          rental_end: {
+            email_sent_count: 0,
+            last_email_sent_date: null,
+            tenant_confirmation_status: false,
+            property_dispatch: false,
+          },
         },
       ],
       opts
@@ -189,6 +202,7 @@ function checkCurrentReservationStatus(reservations: ReservationType[]) {
 
 export async function makeReservation(reservationPayload: {
   property_ref_id: string;
+  desired_semesters_stay: string;
 }) {
   try {
     const userId = await getUserId();
@@ -212,7 +226,11 @@ export async function makeReservation(reservationPayload: {
         );
         if (propertyData && propertyData.status === "available") {
           return await performReservation(
-            { ...reservationPayload, user_id: userId },
+            {
+              ...reservationPayload,
+              user_id: userId,
+              desired_semesters_stay: reservationPayload.desired_semesters_stay,
+            },
             propertyData
           );
         } else {
@@ -272,6 +290,7 @@ export async function getReservation(reservationId: string) {
           user_comment: 1,
           from: 1,
           to: 1,
+          desired_semesters_stay: 1,
           property_id: "$property.property_id",
         },
       },
@@ -489,6 +508,7 @@ export async function getAllReservations(
           admin_comment: 1,
           user_comment: 1,
           document_submission_deadline: 1,
+          desired_semesters_stay: 1,
           from: 1,
           to: 1,
           property_id: "$property.property_id",
@@ -673,41 +693,6 @@ export async function approveDocument(
   } catch (error) {
     console.log("Failed to reject the documents.", error);
     msg = "Internal Server Error. Failed to reject the documents !";
-    type = "error";
-  }
-
-  return {
-    msg,
-    type,
-  };
-}
-
-export async function updateRentalPeriod(
-  reservationId: string,
-  fromDate: string,
-  toDate: string
-) {
-  let msg = "";
-  let type = "";
-  try {
-    await connectToDatabase();
-
-    await Reservation.updateOne(
-      { _id: reservationId },
-      {
-        $set: {
-          from: fromDate,
-          to: toDate,
-        },
-      }
-    );
-
-    revalidatePath(`/reservation/${reservationId}`);
-    msg = "Rental period updated successfully";
-    type = "ok";
-  } catch (error) {
-    console.log("Failed to update rental period.", error);
-    msg = "Internal Server Error. Failed to update rental period !";
     type = "error";
   }
 

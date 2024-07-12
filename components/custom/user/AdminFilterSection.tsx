@@ -12,7 +12,7 @@ const AdminFilterSection = () => {
       <div className="grid grid-cols-6 gap-4 p-5">
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
-            <Label>NIC/passport</Label>
+            <Label>Enrollment Number</Label>
             <URLSyncInputSuspense>
               <InputComponent inputKey="user_id" />
             </URLSyncInputSuspense>
@@ -34,14 +34,14 @@ const AdminFilterSection = () => {
             </URLSyncInputSuspense>
           </div>
         </div>
-        <div className="col-span-6 md:col-span-3 lg:col-span-2">
+        {/* <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
             <Label>Enrollment Id</Label>
             <URLSyncInputSuspense>
               <InputComponent inputKey="enrollment_id" />
             </URLSyncInputSuspense>
           </div>
-        </div>
+        </div> */}
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
             <Label>Role</Label>

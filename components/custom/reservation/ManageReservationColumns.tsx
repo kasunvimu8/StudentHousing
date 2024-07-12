@@ -109,6 +109,14 @@ export const columns: ExtendedColumnDef[] = [
     enableHiding: false,
   },
   {
+    accessorKey: "desired_semesters_stay",
+    header: "Num. Semesters",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("desired_semesters_stay")}</div>
+    ),
+    columnTitle: "Num. Semesters",
+  },
+  {
     accessorKey: "from",
     header: "Available From",
     cell: ({ row }) => {

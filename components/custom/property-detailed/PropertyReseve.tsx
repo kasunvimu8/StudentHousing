@@ -8,18 +8,21 @@ import ConfirmationComponent from "@/components/shared/ConfirmationComponent";
 import { useRouter } from "next/navigation";
 import { reservationPayloadSchema } from "@/lib/validators";
 import { ZodError } from "zod";
-import { availableStatus } from "@/constants";
+import { availableStatus, reservationPeriods } from "@/constants";
 import { useToast } from "@/components/ui/use-toast";
 import DialogComponent from "@/components/shared/DialogComponent";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { BaseComponent } from "@/components/ui/dropdown/BaseComponent";
 
 const PropertyReserve = ({ property }: { property: Property }) => {
   const router = useRouter();
   const { toast } = useToast();
   const [check, setCheck] = useState(false);
+  const [period, setPeriod] = useState("");
 
   const isPropertyAvailable = property.status === availableStatus;
-  const reservationPayload = { property_ref_id: property._id };
+  const reservationPayload = { property_ref_id: property._id, desired_semesters_stay:  period};
   const validatePropertyState = () => {
     try {
       reservationPayloadSchema.parse(reservationPayload);
@@ -59,14 +62,36 @@ const PropertyReserve = ({ property }: { property: Property }) => {
         <DialogComponent
           buttonTitle="Reserve"
           dialogTitle={`Reserve Property ${property.property_id} - Are you absolutely sure ?`}
-          dialogDescription="Upon confirmation, the property will be temporarily reserved for you. Please submit the contracts promptly to secure your reservation in my reservation page. Failure to do so will result in cancellation of the reservation and adverse effects on your next reservations. Please visit information page for more details."
+          dialogDescription="Upon confirmation, the property will be temporarily reserved for you. After the reservation, please submit the contracts promptly to secure your reservation in my reservation page. Failure to do so will result in cancellation of the reservation and adverse effects on your next reservations. Please visit information page for more details."
           submitTitleMain="Reserve"
-          submitMainButtonDisable={!check}
+          submitMainButtonDisable={!check || period === ""}
           cls="py-5 px-7 text-bold primary-background-color secondary-font-color"
           clickSubmit={() => {
             handleReservation();
           }}
         >
+         <div className="flex flex-col justify-start gap-2">
+          <Label htmlFor="desired-semesters" className="text-left">
+            Please select desired number of semesters to reserve
+          </Label>
+          <Label htmlFor="info-desired" className="text-left text-xs">
+            * We cannot guarantee availability for all requested semesters, but try our best to accommodate you.
+          </Label>
+          <BaseComponent
+            value={period}
+            options={reservationPeriods}
+            optionsLabel={"Disired semesters stay"}
+            showAllItem={false}
+            handleSelect={(selectItem: string) => {
+              const periodItem = reservationPeriods.find(
+                (option) => option.id === selectItem
+              );
+              if (periodItem?.id) {
+                setPeriod(periodItem.id);
+              }
+            }}
+          />
+        </div>
           <div className="flex items-center space-x-2">
             <Checkbox
               id="terms"

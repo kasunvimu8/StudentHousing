@@ -1,4 +1,5 @@
 import { getSummaryData } from "@/actions/dashboard";
+import AdminActionSummary from "@/components/custom/Summary/AdminActionSummary";
 import AdminPropertySummary from "@/components/custom/Summary/AdminPropertySummary";
 import AdminReservationSummary from "@/components/custom/Summary/AdminReservationSummary";
 import AdminUserSummary from "@/components/custom/Summary/AdminUserSummary";
@@ -17,6 +18,8 @@ export default async function Page() {
     approvalWaiting,
     documentSubmission,
     users,
+    tanentNotConfirmed,
+    propertyNotDispatched,
   } = await getSummaryData();
   return (
     <div className="h-full w-full">
@@ -42,8 +45,6 @@ export default async function Page() {
           totalReservations={totalReservations}
           rentedReservation={rentedReservation}
           cancelled={cancelled}
-          deadlineMissed={deadlineMissed}
-          approvalWaiting={approvalWaiting}
           documentSubmission={documentSubmission}
         />
       </div>
@@ -54,6 +55,19 @@ export default async function Page() {
       </div>
       <div className="mx-auto py-5">
         <AdminUserSummary users={users} />
+      </div>
+      <div className="grid grid-cols-2 gap-4 pt-2">
+        <div className="col-span-2 md:col-span-1">
+          <PageTitle title="Admin Actions" />
+        </div>
+      </div>
+      <div className="mx-auto py-5">
+        <AdminActionSummary
+          deadlineMissed={deadlineMissed}
+          approvalWaiting={approvalWaiting}
+          tanentNotConfirmed={tanentNotConfirmed}
+          propertyNotDispatched={propertyNotDispatched}
+        />
       </div>
     </div>
   );

@@ -18,7 +18,13 @@ export async function signUp(data: any) {
     let type = "";
 
     // 1. Prepare data for insertion into database
-    const { name, email, password, user_id, enrollment_id } = data;
+    const {
+      name,
+      email,
+      password,
+      user_id,
+      //  enrollment_id
+    } = data;
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // 2. Insert the user into the database
@@ -36,7 +42,7 @@ export async function signUp(data: any) {
             user_email: email,
             user_id: user_id,
             user_name: name,
-            enrollment_id: enrollment_id,
+            // enrollment_id: enrollment_id,
             created_at: new Date(),
             total_quota: defaultUserReservationQuota,
             used_quota: 0,
@@ -217,7 +223,7 @@ export async function veriftConfirmEmail(token: string, user_id: string) {
     if (!record) {
       return {
         msg: "Error occured while processing email confirmation. Please try again later.",
-        type: "Email verification failed",
+        type: "error",
       };
     } else {
       if (record.verified) {
@@ -234,8 +240,6 @@ export async function veriftConfirmEmail(token: string, user_id: string) {
             },
           }
         );
-        console.log(res);
-
         return {
           msg: "Email verification successfull. Please login with your credentials.",
           type: "ok",

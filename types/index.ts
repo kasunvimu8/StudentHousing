@@ -149,7 +149,7 @@ export type FilterParamTypes = {
   reservation_id?: string;
   user_id?: string;
   status?: string;
-  document_submission_deadline?:string;
+  document_submission_deadline?: string;
 };
 
 export type SortOption = { [key: string]: 1 | -1 };
@@ -174,6 +174,7 @@ export type NavLinkData = {
 export type reservationPayload = {
   property_ref_id: string;
   user_id: string;
+  desired_semesters_stay: string;
 };
 
 export type ReservationType = {
@@ -192,6 +193,19 @@ export type ReservationType = {
   document_submission_deadline: string;
   from: string;
   to?: string;
+  desired_semesters_stay: string;
+  notice_period: number;
+  days_to_end_rental: number;
+  rental_end: {
+    email_sent_count: number;
+    last_email_sent_date: string;
+    tenant_confirmation_status: boolean;
+    property_dispatch: boolean;
+  };
+  rental_end_email_sent_count: number;
+  rental_end_last_email_sent_date: string;
+  rental_end_tenant_confirmation_status: boolean;
+  rental_end_property_dispatch: boolean;
 };
 
 // ----------------------------- User Profile -----------------------------
@@ -200,15 +214,20 @@ export type userProfileType = {
   user_email: string;
   user_id: string;
   user_name: string;
-  enrollment_id: string;
+  // enrollment_id: string;
   created_at: string;
   updated_at?: string;
   total_quota?: number;
   used_quota?: number;
+  address?: string;
+  country?: string;
+  nationalId?: string;
+  mobile?: string;
+  gender?: string;
 };
 
 export type userDetailsCompProps = {
-  userState: userProfileType,
-  updateLocalState: (key: string, value: any) => void
+  userState: userProfileType;
+  updateLocalState: (key: string, value: any) => void;
   isAdmin?: boolean;
 };

@@ -9,7 +9,7 @@ import { ImSpinner8 } from "react-icons/im";
 import Image from "next/image";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { PiEyeBold, PiEyeSlashBold } from "react-icons/pi";
 import { getUserType } from "@/actions/profiles";
 import { adminType } from "@/constants";
@@ -24,6 +24,9 @@ export function SignInForm() {
   const { toast } = useToast();
   const router = useRouter();
 
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect') || '/';
+
   const handleSubmit = async () => {
     setPending(true);
     const res = await signIn({ email, password });
@@ -35,7 +38,8 @@ export function SignInForm() {
         if (isAdmin) {
           router.push("/dashboard");
         } else {
-          router.push("/");
+          router.push(decodeURIComponent(redirect));
+          // router.push("/");
         }
       }
 

@@ -10,6 +10,7 @@ const adminRouts = [
   "/property/create",
   "/manage-reservations",
   "/manage-user",
+  "/manage-rentals",
   "/dashboard",
 ];
 const passwordReset = "/reset-password";
@@ -35,7 +36,11 @@ export default async function middleWare(request: NextRequest) {
   }
 
   if (!isPublicRoute && !isPasswordReset && !isConfirmEmail && !session?.user) {
-    return NextResponse.redirect(new URL("/login", request.nextUrl));
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = '/login';
+    redirectUrl.searchParams.set('redirect', request.nextUrl.pathname + request.nextUrl.search);
+
+    return NextResponse.redirect(redirectUrl);
   }
 
   return NextResponse.next();

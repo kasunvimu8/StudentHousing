@@ -4,6 +4,7 @@ const ReservationSchema = new Schema({
   user_id: { type: String, required: true },
   status: { type: String, required: true },
   created_at: { type: Date, required: true },
+  desired_semesters_stay: { type: String, required: true },
   property_ref_id: {
     type: Schema.Types.ObjectId,
     ref: "Property",
@@ -17,6 +18,8 @@ const ReservationSchema = new Schema({
   admin_comment: String,
   from: Date,
   to: Date,
+  notice_period : { type: Number },
+  rental_end: { type: Object },
 });
 
 ReservationSchema.pre("updateOne", function (next) {

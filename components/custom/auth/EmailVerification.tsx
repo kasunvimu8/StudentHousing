@@ -11,7 +11,7 @@ const EmailVerification = (data: { msg: string; type: string }) => {
       style={{ height: "calc(100vh - 300px)" }}
     >
       {data.type === "ok" ? (
-        <GoCheckCircleFill className="text-4xl hightlight-font-color mb-4" />
+        <GoCheckCircleFill className="text-4xl success-color mb-4" />
       ) : (
         <FaExclamationTriangle className="text-4xl hightlight-font-color mb-4" />
       )}
@@ -20,7 +20,13 @@ const EmailVerification = (data: { msg: string; type: string }) => {
       </h1>
       <p className="text-lg mb-4 text-center">{data.msg}</p>
       <Link href="/login" className="mt-2">
-        <div className="hightlight-font-color">Go to Login Page</div>
+        <div
+          className={`${
+            data.type === "ok" ? "success-color" : "hightlight-font-color"
+          }`}
+        >
+          Go to Login Page
+        </div>
       </Link>
     </div>
   );

@@ -9,23 +9,29 @@ import { useToast } from "@/components/ui/use-toast";
 import ConfirmationComponent from "@/components/shared/ConfirmationComponent";
 import DetailsSection from "@/components/custom/user/UserProfile";
 import { updateUserAction } from "@/actions/profiles";
+import { genders } from "@/constants";
 
 const initialState: userProfileType = {
   user_email: "",
   user_id: "",
   user_name: "",
-  enrollment_id: "",
+  // enrollment_id: "",
   created_at: "",
   total_quota: 0,
   used_quota: 0,
+  address: "",
+  country: "",
+  nationalId: "",
+  mobile: "",
+  gender: "",
 };
 
 const UpdatePropertyDetail = ({
   userData,
-  isAdmin
+  isAdmin,
 }: {
   userData: userProfileType;
-  isAdmin: boolean
+  isAdmin: boolean;
 }) => {
   const defaultState = userData ? userData : initialState;
   const [userState, setUserState] = useState(defaultState);
@@ -50,7 +56,7 @@ const UpdatePropertyDetail = ({
     }
   };
 
-  const updateUser = async () => {
+  const updateUser = async (userState: userProfileType) => {
     const res: { msg: string; type: string } = await updateUserAction(
       userState
     );
@@ -77,7 +83,7 @@ const UpdatePropertyDetail = ({
         <ConfirmationComponent
           title={`Update Profile - Are you absolutely sure ?`}
           description={""}
-          confirmedCallback={() => updateUser()}
+          confirmedCallback={() => updateUser(userState)}
         >
           <Button
             className="primary-background-color secondary-font-color self-end disabled:bg-white disabled:primary-font-color"
