@@ -6,10 +6,9 @@ const Hero = () => {
       <Image
         src="/images/hero.jpg"
         alt="Hero Image"
-        layout="fill"
-        objectFit="cover"
+        fill={true}
         quality={100}
-        className="z-[-1] rounded-lg"
+        className="z-[-1] rounded-lg object-cover"
       />
       <div
         className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center text-gray-100
