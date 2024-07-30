@@ -23,6 +23,19 @@ export default async function Page() {
   } = await getSummaryData();
   return (
     <div className="h-full w-full">
+      <div className="grid grid-cols-2 gap-4 pt-2">
+        <div className="col-span-2 md:col-span-1">
+          <PageTitle title="Admin Actions" />
+        </div>
+      </div>
+      <div className="mx-auto py-5">
+        <AdminActionSummary
+          deadlineMissed={deadlineMissed}
+          approvalWaiting={approvalWaiting}
+          tanentNotConfirmed={tanentNotConfirmed}
+          propertyNotDispatched={propertyNotDispatched}
+        />
+      </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="col-span-2 md:col-span-1">
           <PageTitle title="Properties" />
@@ -55,19 +68,6 @@ export default async function Page() {
       </div>
       <div className="mx-auto py-5">
         <AdminUserSummary users={users} />
-      </div>
-      <div className="grid grid-cols-2 gap-4 pt-2">
-        <div className="col-span-2 md:col-span-1">
-          <PageTitle title="Admin Actions" />
-        </div>
-      </div>
-      <div className="mx-auto py-5">
-        <AdminActionSummary
-          deadlineMissed={deadlineMissed}
-          approvalWaiting={approvalWaiting}
-          tanentNotConfirmed={tanentNotConfirmed}
-          propertyNotDispatched={propertyNotDispatched}
-        />
       </div>
     </div>
   );
