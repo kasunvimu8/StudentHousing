@@ -12,9 +12,15 @@ import { cn, formatDateTime } from "@/lib/utils";
 export const BaseComponent = ({
   date,
   handleSelect,
+  className,
+  fromYear,
+  toYear,
 }: {
   date: Date | undefined;
   handleSelect: (date: Date | undefined) => void;
+  className?: string;
+  fromYear?: number;
+  toYear?: number;
 }) => {
   return (
     <Popover>
@@ -23,7 +29,8 @@ export const BaseComponent = ({
           variant={"outline"}
           className={cn(
             "w-[250px] justify-start text-left font-normal bg-white",
-            !date && "text-muted-foreground"
+            !date && "text-muted-foreground",
+            className ?? className
           )}
         >
           {date ? formatDateTime(date).simpleDate : <span>Select a date</span>}
@@ -36,7 +43,10 @@ export const BaseComponent = ({
           selected={date}
           onSelect={handleSelect}
           initialFocus
-          className="bg-white"
+          className="bg-white margin-zero"
+          captionLayout="dropdown-buttons"
+          fromYear={fromYear}
+          toYear={toYear}
         />
       </PopoverContent>
     </Popover>

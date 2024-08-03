@@ -164,7 +164,7 @@ const StepTwo = ({
           </label>
         </div>
 
-        <div className="flex items-center pt-4">
+        <div className="flex items-center pt-2">
           <Checkbox
             id="terms"
             checked={dataProtectionCheck}
@@ -174,7 +174,7 @@ const StepTwo = ({
             htmlFor="terms"
             className="text-sm font-medium leading-none ml-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
-            By registering, you agree to our Data Protection and Legal Consent
+            Agree to our Data Protection and Legal Consent
           </label>
         </div>
       </div>

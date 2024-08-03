@@ -1,29 +1,41 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons"
-import { DayPicker } from "react-day-picker"
+import * as React from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+import { DayPicker } from "react-day-picker";
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import "react-day-picker/dist/style.css";
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker>
+export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
 function Calendar({
   className,
   classNames,
   showOutsideDays = true,
+  toYear,
+  fromYear,
   ...props
 }: CalendarProps) {
   return (
     <DayPicker
+      captionLayout="dropdown"
+      fromYear={fromYear}
+      toYear={toYear}
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
       classNames={{
+        caption_label: "flex items-center text-sm font-medium",
+        dropdown: "rdp-dropdown bg-card p-1 max-h-[50px]",
+        dropdown_icon: "ml-2",
+        dropdown_year: "rdp-dropdown_year ml-3",
+        button: "",
+        button_reset: "",
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
         month: "space-y-4",
         caption: "flex justify-center pt-1 relative items-center",
-        caption_label: "text-sm font-medium",
+        // caption_label: "text-sm font-medium",
         nav: "space-x-1 flex items-center",
         nav_button: cn(
           buttonVariants({ variant: "outline" }),
@@ -65,8 +77,8 @@ function Calendar({
       }}
       {...props}
     />
-  )
+  );
 }
-Calendar.displayName = "Calendar"
+Calendar.displayName = "Calendar";
 
-export { Calendar }
+export { Calendar };

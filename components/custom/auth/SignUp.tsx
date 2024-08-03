@@ -104,7 +104,7 @@ export function SignUpForm() {
           alt="Student Housing Logo"
           className="absolute top-4 left-4 md:top-8 md:left-8 p-1"
         />
-        <Card className="w-full max-w-md">
+        <Card className="w-full max-w-md mt-[80px]">
           <CardContent className="w-full space-y-6">
             <div className="text-center space-y-2 pt-10">
               <h1 className="text-2xl font-semibold tracking-tight">

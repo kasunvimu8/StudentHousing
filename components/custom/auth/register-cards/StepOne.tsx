@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { LuArrowRight } from "react-icons/lu";
+import { BaseComponent as Calender } from "@/components/ui/calendar/BaseComponent";
 
 type Errors = {
   email: string;
@@ -31,6 +32,11 @@ const StepOne = ({
   setErrors,
   setStep,
 }: StepOne) => {
+  // assuming that the student is less than 50 year old
+  // assuming the student is alteast older than 14 years
+  const fromYear = new Date().getFullYear() - 50;
+  const toYear = new Date().getFullYear() - 14;
+
   return (
     <div className="grid gap-2 p-2 space-y-1">
       <div className="grid gap-1 pb-2">
@@ -56,17 +62,16 @@ const StepOne = ({
         <Label className="p-1" htmlFor="name">
           Date of Birth
         </Label>
-        <Input
-          id="name"
-          placeholder="Elena Petrova"
-          type="text"
-          autoComplete="new-name"
-          value={name}
-          onChange={(e: React.FormEvent<HTMLInputElement>) => {
+        <Calender
+          className="w-full"
+          date={new Date()}
+          handleSelect={(value) => {
+            console.log(value);
             setErrors((erros: Errors) => ({ ...erros, name: "" }));
-            setName(e.currentTarget.value);
+            // setRelistingDate(String(formatDateToISOStringWithTimeZone(value)))
           }}
-          disabled={pending}
+          fromYear={fromYear}
+          toYear={toYear}
         />
         {errors.name && (
           <p className="hightlight-font-color text-xs">{errors.name}</p>
