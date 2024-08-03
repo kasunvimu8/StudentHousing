@@ -231,3 +231,22 @@ export type userDetailsCompProps = {
   updateLocalState: (key: string, value: any) => void;
   isAdmin?: boolean;
 };
+
+// ----------------------------- Erros  -----------------------------
+
+export type RegisterErrors = {
+  email: string;
+  password: string;
+  user_id: string;
+  name: string;
+  dob: string;
+  gender: string;
+  country: string;
+  phone: string;
+  passport: string;
+};
+
+export type Mobile = {
+  number: string;
+  countryCode: string;
+};

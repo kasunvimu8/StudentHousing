@@ -12,8 +12,9 @@ import {
 } from "@/components/ui/select";
 import { OptionType } from "@/types";
 import { cn } from "@/lib/utils";
+import Flag from "react-world-flags";
 
-export const BaseComponent = ({
+export const CountriesDropdown = ({
   value,
   options,
   optionsLabel,
@@ -53,7 +54,12 @@ export const BaseComponent = ({
               value={option.id}
               className="hover:section-light-background-color"
             >
-              {option.description}
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Flag code={option.id} className="w-5 h-5 mr-2" />
+                <span style={{ marginRight: "10px" }}>
+                  {option.description}
+                </span>
+              </div>
             </SelectItem>
           ))}
         </SelectGroup>

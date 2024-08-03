@@ -23,7 +23,11 @@ export async function signUp(data: any) {
       email,
       password,
       user_id,
-      //  enrollment_id
+      dob,
+      gender,
+      country,
+      phone,
+      passport,
     } = data;
     const hashedPassword = await bcrypt.hash(password, 10);
 

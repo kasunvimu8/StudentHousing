@@ -7,20 +7,15 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { PiEyeBold, PiEyeSlashBold } from "react-icons/pi";
 import { LuArrowLeft } from "react-icons/lu";
-
-type Errors = {
-  email: string;
-  password: string;
-  user_id: string;
-  name: string;
-};
+import { RegisterErrors } from "@/types";
 
 type StepTwo = {
   email: string;
   password: string;
   id: string;
+  passport: string;
   step: number;
-  errors: Errors;
+  errors: RegisterErrors;
   pending: boolean;
   showPassword: boolean;
   check: boolean;
@@ -29,8 +24,9 @@ type StepTwo = {
   setCheck: React.Dispatch<React.SetStateAction<boolean>>;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   setId: React.Dispatch<React.SetStateAction<string>>;
+  setPassport: React.Dispatch<React.SetStateAction<string>>;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
-  setErrors: React.Dispatch<React.SetStateAction<Errors>>;
+  setErrors: React.Dispatch<React.SetStateAction<RegisterErrors>>;
   setStep: React.Dispatch<React.SetStateAction<number>>;
   setShowPassword: React.Dispatch<React.SetStateAction<boolean>>;
   handleSubmit: () => void;
@@ -40,6 +36,7 @@ const StepTwo = ({
   email,
   password,
   id,
+  passport,
   step,
   errors,
   pending,
@@ -48,6 +45,7 @@ const StepTwo = ({
   dataProtectionCheck,
   setEmail,
   setId,
+  setPassport,
   setPassword,
   setErrors,
   setStep,
@@ -64,7 +62,7 @@ const StepTwo = ({
         </Label>
         <Input
           id="id"
-          placeholder="1234567"
+          placeholder="123456"
           type="text"
           autoComplete="new-id"
           value={id}
@@ -78,23 +76,23 @@ const StepTwo = ({
           <p className="hightlight-font-color text-xs">{errors.user_id}</p>
         )}
 
-        <Label className="p-1" htmlFor="name">
+        <Label className="p-1" htmlFor="passport">
           Passport Id
         </Label>
         <Input
-          id="name"
-          placeholder="Elena Petrova"
+          id="passport"
+          placeholder="123456"
           type="text"
-          autoComplete="new-name"
-          value={id}
+          autoComplete="new-passport"
+          value={passport}
           onChange={(e: React.FormEvent<HTMLInputElement>) => {
-            setErrors((erros: Errors) => ({ ...erros, name: "" }));
-            setId(e.currentTarget.value);
+            setErrors((erros: RegisterErrors) => ({ ...erros, passport: "" }));
+            setPassport(e.currentTarget.value);
           }}
           disabled={pending}
         />
-        {errors.name && (
-          <p className="hightlight-font-color text-xs">{errors.name}</p>
+        {errors.passport && (
+          <p className="hightlight-font-color text-xs">{errors.passport}</p>
         )}
 
         <Label className="p-1" htmlFor="email">

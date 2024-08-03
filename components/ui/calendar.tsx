@@ -6,7 +6,6 @@ import { DayPicker } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import "react-day-picker/dist/style.css";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
@@ -14,28 +13,17 @@ function Calendar({
   className,
   classNames,
   showOutsideDays = true,
-  toYear,
-  fromYear,
   ...props
 }: CalendarProps) {
   return (
     <DayPicker
-      captionLayout="dropdown"
-      fromYear={fromYear}
-      toYear={toYear}
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
       classNames={{
-        caption_label: "flex items-center text-sm font-medium",
-        dropdown: "rdp-dropdown bg-card p-1 max-h-[50px]",
-        dropdown_icon: "ml-2",
-        dropdown_year: "rdp-dropdown_year ml-3",
-        button: "",
-        button_reset: "",
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
         month: "space-y-4",
         caption: "flex justify-center pt-1 relative items-center",
-        // caption_label: "text-sm font-medium",
+        caption_label: "text-sm font-medium",
         nav: "space-x-1 flex items-center",
         nav_button: cn(
           buttonVariants({ variant: "outline" }),
@@ -61,7 +49,7 @@ function Calendar({
         day_range_start: "day-range-start",
         day_range_end: "day-range-end",
         day_selected:
-          "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+          "primary-background-color secondary-font-color hover:primary-background-color hover:secondary-font-color focus:primary-background-color focus:secondary-font-color",
         day_today: "bg-accent text-accent-foreground",
         day_outside:
           "day-outside text-muted-foreground opacity-50  aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",

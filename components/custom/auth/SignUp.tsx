@@ -12,6 +12,7 @@ import { FaArrowRight } from "react-icons/fa";
 import { Card, CardContent } from "@/components/ui/card";
 import StepOne from "@/components/custom/auth/register-cards/StepOne";
 import StepTwo from "@/components/custom/auth/register-cards/StepTwo";
+import { Mobile } from "@/types";
 
 export function SignUpForm() {
   const [errors, setErrors] = useState({
@@ -20,12 +21,25 @@ export function SignUpForm() {
     user_id: "",
     // enrollment_id: "",
     name: "",
+    dob: "",
+    gender: "",
+    country: "",
+    phone: "",
+    passport: "",
   });
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [id, setId] = useState("");
   const [enrollmentId, setEnrollmentId] = useState("");
   const [password, setPassword] = useState("");
+  const [dob, setdob] = useState<Date | undefined>(undefined);
+  const [gender, setGender] = useState<string>("");
+  const [country, setCountry] = useState<string>("");
+  const [passport, setPassport] = useState<string>("");
+  const [phone, setPhone] = useState<Mobile>({
+    countryCode: "de",
+    number: "",
+  });
 
   const [step, setStep] = useState(1);
   const [pending, setPending] = useState(false);
@@ -37,14 +51,19 @@ export function SignUpForm() {
 
   const handleSubmit = async () => {
     try {
-      setPending(true);
       const credentials = SignupFormSchema.parse({
         email,
         password,
         user_id: id,
-        // enrollment_id: enrollmentId,
         name,
+        gender,
+        country,
+        phone,
+        passport,
+        dob,
       });
+
+      setPending(true);
       const res = await signUp(credentials);
       if (res) {
         toast({
@@ -65,8 +84,12 @@ export function SignUpForm() {
           email: newErrors.email?.[0] || "",
           password: newErrors.password?.[0] || "",
           user_id: newErrors.user_id?.[0] || "",
-          // enrollment_id: newErrors.enrollment_id?.[0] || "",
           name: newErrors.name?.[0] || "",
+          dob: newErrors.dob?.[0] || "",
+          gender: newErrors.gender?.[0] || "",
+          country: newErrors.gender?.[0] || "",
+          phone: newErrors.gender?.[0] || "",
+          passport: newErrors.passport?.[0] || "",
         });
       }
     } finally {
@@ -121,18 +144,27 @@ export function SignUpForm() {
             {step === 1 ? (
               <StepOne
                 name={name}
+                dob={dob}
                 step={step}
+                phone={phone}
                 errors={errors}
                 pending={pending}
+                gender={gender}
+                country={country}
                 setName={setName}
                 setErrors={setErrors}
                 setStep={setStep}
+                setdob={setdob}
+                setGender={setGender}
+                setCountry={setCountry}
+                setPhone={setPhone}
               />
             ) : (
               <StepTwo
                 email={email}
                 password={password}
                 id={id}
+                passport={passport}
                 step={step}
                 errors={errors}
                 pending={pending}
@@ -148,6 +180,7 @@ export function SignUpForm() {
                 setDataProtectionCheck={setDataProtectionCheck}
                 setCheck={setCheck}
                 handleSubmit={handleSubmit}
+                setPassport={setPassport}
               />
             )}
           </CardContent>
