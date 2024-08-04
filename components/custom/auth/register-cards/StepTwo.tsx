@@ -172,7 +172,7 @@ const StepTwo = ({
             htmlFor="terms"
             className="text-sm font-medium leading-none ml-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
-            Agree to our Data Protection and Legal Consent
+            I Agree to the data protection and legal consent policies
           </label>
         </div>
       </div>
