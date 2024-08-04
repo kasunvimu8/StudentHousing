@@ -3,27 +3,38 @@
 import React, { useState } from "react";
 import { userProfileType } from "@/types";
 import { Button } from "@/components/ui/button";
-import { ZodError } from "zod";
-import { nameSchema } from "@/lib/validators";
+import { z } from "zod";
+import { profileUpdateSchema } from "@/lib/validators";
 import { useToast } from "@/components/ui/use-toast";
-import ConfirmationComponent from "@/components/shared/ConfirmationComponent";
 import DetailsSection from "@/components/custom/user/UserProfile";
 import { updateUserAction } from "@/actions/profiles";
-import { genders } from "@/constants";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const initialState: userProfileType = {
   user_email: "",
   user_id: "",
   user_name: "",
-  // enrollment_id: "",
   created_at: "",
   total_quota: 0,
   used_quota: 0,
   address: "",
   country: "",
-  nationalId: "",
-  mobile: "",
+  passport: "",
+  phone: {
+    countryCode: "",
+    number: "",
+  },
   gender: "",
+  dob: undefined,
 };
 
 const UpdatePropertyDetail = ({
@@ -33,66 +44,111 @@ const UpdatePropertyDetail = ({
   userData: userProfileType;
   isAdmin: boolean;
 }) => {
-  const defaultState = userData ? userData : initialState;
+  const defaultState = userData
+    ? {
+        ...initialState,
+        ...userData,
+        dob: userData.dob ? new Date(userData.dob) : undefined,
+      }
+    : initialState;
   const [userState, setUserState] = useState(defaultState);
+  const [open, setOpen] = useState(false);
+  const [errors, setErrors] = useState({
+    user_name: "",
+    dob: "",
+    gender: "",
+    country: "",
+    phone: "",
+  });
   const { toast } = useToast();
 
-  const updateLocalState = (key: string, value: any) => {
+  const updateLocalState = (key: any, value: any) => {
     setUserState((prev) => ({
       ...prev,
       [key]: value,
     }));
   };
 
-  const validateUserState = () => {
+  const validateData = () => {
     try {
-      nameSchema.parse(userState);
-      return true;
-    } catch (error) {
-      if (error instanceof ZodError) {
-        return false;
+      profileUpdateSchema.parse(userState);
+      setOpen(true);
+    } catch (e) {
+      if (e instanceof z.ZodError) {
+        const newErrors = e.flatten().fieldErrors;
+        setErrors({
+          ...errors,
+          user_name: newErrors.user_name?.[0] || "",
+          dob: newErrors.dob?.[0] || "",
+          gender: newErrors.gender?.[0] || "",
+          country: newErrors.country?.[0] || "",
+          phone: newErrors.phone?.[0] || "",
+        });
       }
-      return false;
     }
   };
 
   const updateUser = async (userState: userProfileType) => {
-    const res: { msg: string; type: string } = await updateUserAction(
-      userState
-    );
-    if (res) {
-      toast({
-        title: `Profile Data Update : ${
-          res.type === "ok" ? "Success" : "Failed"
-        }`,
-        description: res.msg,
-        variant: res.type === "ok" ? "ok" : "error",
-      });
+    try {
+      const res: { msg: string; type: string } = await updateUserAction(
+        userState
+      );
+      if (res) {
+        toast({
+          title: `Profile Data Update : ${
+            res.type === "ok" ? "Success" : "Failed"
+          }`,
+          description: res.msg,
+          variant: res.type === "ok" ? "ok" : "error",
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setOpen(false);
     }
   };
 
-  const disabled = !validateUserState();
   return (
     <div className="w-full">
       <DetailsSection
         userState={userState}
+        errors={errors}
+        setErrors={setErrors}
         updateLocalState={updateLocalState}
         isAdmin={isAdmin}
       />
       <div className="flex justify-end py-1">
-        <ConfirmationComponent
-          title={`Update Profile - Are you absolutely sure ?`}
-          description={""}
-          confirmedCallback={() => updateUser(userState)}
-        >
-          <Button
-            className="primary-background-color secondary-font-color self-end disabled:bg-white disabled:primary-font-color"
-            disabled={disabled}
-            size="lg"
-          >
-            Update
-          </Button>
-        </ConfirmationComponent>
+        <AlertDialog open={open}>
+          <AlertDialogTrigger asChild>
+            <Button
+              className="primary-background-color secondary-font-color self-end disabled:bg-white disabled:primary-font-color"
+              size="lg"
+              onClick={validateData}
+            >
+              Update
+            </Button>
+          </AlertDialogTrigger>
+
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                Update Profile - Are you absolutely sure ?
+              </AlertDialogTitle>
+            </AlertDialogHeader>
+            <AlertDialogFooter className="pt-3">
+              <AlertDialogCancel onClick={() => setOpen(false)}>
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction
+                className="primary-background-color secondary-font-color"
+                onClick={() => updateUser(userState)}
+              >
+                Confirm
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );

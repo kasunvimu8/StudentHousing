@@ -20,6 +20,7 @@ interface DatePickerProps {
   fromDate?: Date;
   placeholder?: string;
   toDate?: Date;
+  className?: string;
 }
 
 const DatePicker: FC<DatePickerProps> = ({
@@ -29,6 +30,7 @@ const DatePicker: FC<DatePickerProps> = ({
   placeholder = "Select date",
   fromDate = undefined,
   toDate = undefined,
+  className,
 }) => {
   // Utility functions
   const formatYear = (date: Date) => date.getFullYear().toString();
@@ -54,7 +56,8 @@ const DatePicker: FC<DatePickerProps> = ({
           variant={"outline"}
           className={cn(
             "w-full justify-start text-left font-normal py-2 h-[38px]",
-            !value && "text-muted-foreground"
+            !value && "text-muted-foreground",
+            className
           )}
           onClick={() => setOpen(!open)}
         >

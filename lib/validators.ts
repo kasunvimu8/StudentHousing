@@ -163,10 +163,17 @@ export const PasswordResetSchema = z
     path: ["confirmPassword"],
   });
 
-export const nameSchema = z.object({
+export const profileUpdateSchema = z.object({
   user_name: z
-    .string({
-      required_error: "Address is required",
-    })
-    .min(1),
+    .string()
+    .min(2, { message: "Name must be at least 2 characters long" })
+    .trim(),
+  dob: z.date({
+    required_error: "Date of birth is required",
+  }),
+  gender: z.enum(["male", "female", "other"], {
+    message: "Gender must be either Male, Female, or Diverse",
+  }),
+  country: z.string().min(1, { message: "Country must be provided" }).trim(),
+  phone: mobileSchema,
 });

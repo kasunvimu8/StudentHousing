@@ -221,14 +221,25 @@ export type userProfileType = {
   used_quota?: number;
   address?: string;
   country?: string;
-  nationalId?: string;
-  mobile?: string;
+  passport: string;
+  phone?: Mobile;
   gender?: string;
+  dob?: Date | undefined;
+};
+
+export type ProfileUpdateErrors = {
+  user_name: string;
+  dob: string;
+  gender: string;
+  country: string;
+  phone: string;
 };
 
 export type userDetailsCompProps = {
   userState: userProfileType;
-  updateLocalState: (key: string, value: any) => void;
+  errors: ProfileUpdateErrors;
+  setErrors: React.Dispatch<React.SetStateAction<ProfileUpdateErrors>>;
+  updateLocalState: (key: any, value: any) => void;
   isAdmin?: boolean;
 };
 

@@ -11,7 +11,7 @@ import { CountriesDropdown } from "@/components/ui/dropdown/CountriesDropdown";
 import { getAllcountries } from "@/lib/countries";
 import PhoneInput, { CountryData } from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { formOneSchema, mobileSchema } from "@/lib/validators";
+import { formOneSchema } from "@/lib/validators";
 import { z } from "zod";
 
 type StepOne = {
@@ -57,7 +57,7 @@ const StepOne = ({
     today.getMonth(),
     today.getDate()
   );
-  const toDate = new Date();
+  const toDate = today;
   const allCountries = getAllcountries();
 
   const nextStep = () => {
@@ -177,7 +177,7 @@ const StepOne = ({
           enableSearch={true}
           searchPlaceholder="Search"
           containerClass="phone-input-container"
-          inputClass="phone-input"
+          inputClass="!w-[250px]"
         />
         {errors.phone && (
           <p className="hightlight-font-color text-xs">{errors.phone}</p>

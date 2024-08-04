@@ -85,9 +85,9 @@ export async function updateUserAction(userState: userProfileType) {
       user_name: userState.user_name,
       address: userState.address,
       country: userState.country,
-      nationalId: userState.nationalId,
-      mobile: userState.mobile,
+      phone: userState.phone,
       gender: userState.gender,
+      dob: userState.dob,
     };
     const newData = isAdmin
       ? {
