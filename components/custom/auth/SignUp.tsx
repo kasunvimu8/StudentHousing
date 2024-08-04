@@ -2,19 +2,17 @@
 
 import { signUp } from "@/actions/authentications";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import Image from "next/image";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
-import { ReloadIcon } from "@radix-ui/react-icons";
 import { SignupFormSchema } from "@/lib/validators";
 import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { PiEyeBold, PiEyeSlashBold } from "react-icons/pi";
 import { FaArrowRight } from "react-icons/fa";
+import { Card, CardContent } from "@/components/ui/card";
+import StepOne from "@/components/custom/auth/register-cards/StepOne";
+import StepTwo from "@/components/custom/auth/register-cards/StepTwo";
+import { Mobile } from "@/types";
 
 export function SignUpForm() {
   const [errors, setErrors] = useState({
@@ -23,28 +21,49 @@ export function SignUpForm() {
     user_id: "",
     // enrollment_id: "",
     name: "",
+    dob: "",
+    gender: "",
+    country: "",
+    phone: "",
+    passport: "",
   });
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [id, setId] = useState("");
   const [enrollmentId, setEnrollmentId] = useState("");
   const [password, setPassword] = useState("");
+  const [dob, setdob] = useState<Date | undefined>(undefined);
+  const [gender, setGender] = useState<string>("");
+  const [country, setCountry] = useState<string>("");
+  const [passport, setPassport] = useState<string>("");
+  const [phone, setPhone] = useState<Mobile>({
+    countryCode: "de",
+    number: "",
+  });
+
+  const [step, setStep] = useState(1);
   const [pending, setPending] = useState(false);
   const [check, setCheck] = useState(false);
+  const [dataProtectionCheck, setDataProtectionCheck] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
   const handleSubmit = async () => {
     try {
-      setPending(true);
       const credentials = SignupFormSchema.parse({
         email,
         password,
         user_id: id,
-        // enrollment_id: enrollmentId,
         name,
+        gender,
+        country,
+        phone,
+        passport,
+        dob,
       });
+
+      setPending(true);
       const res = await signUp(credentials);
       if (res) {
         toast({
@@ -65,8 +84,12 @@ export function SignUpForm() {
           email: newErrors.email?.[0] || "",
           password: newErrors.password?.[0] || "",
           user_id: newErrors.user_id?.[0] || "",
-          // enrollment_id: newErrors.enrollment_id?.[0] || "",
           name: newErrors.name?.[0] || "",
+          dob: newErrors.dob?.[0] || "",
+          gender: newErrors.gender?.[0] || "",
+          country: newErrors.gender?.[0] || "",
+          phone: newErrors.gender?.[0] || "",
+          passport: newErrors.passport?.[0] || "",
         });
       }
     } finally {
@@ -104,158 +127,64 @@ export function SignUpForm() {
           alt="Student Housing Logo"
           className="absolute top-4 left-4 md:top-8 md:left-8 p-1"
         />
-
-        <div className="w-full max-w-md space-y-6">
-          <div className="text-center space-y-2 pt-16">
-            <h1 className="text-2xl font-semibold tracking-tight">Register</h1>
-            <p className="text-sm">
-              Enter your credentials below to create your account
-            </p>
-          </div>
-
-          <div className="grid gap-2 p-2">
-            <div className="grid gap-1 pb-2">
-              <Label className="p-1" htmlFor="name">
-                Name (First name and Last name)
-              </Label>
-              <Input
-                id="name"
-                placeholder="Elena Petrova"
-                type="text"
-                autoComplete="new-name"
-                value={name}
-                onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                  setErrors((erros) => ({ ...erros, name: "" }));
-                  setName(e.currentTarget.value);
-                }}
-                disabled={pending}
-              />
-              {errors.name && (
-                <p className="hightlight-font-color text-xs">{errors.name}</p>
-              )}
-
-              <Label className="p-1" htmlFor="user_id">
-                User Id (Enrollment Number)
-              </Label>
-              <Input
-                id="id"
-                placeholder="1234567"
-                type="text"
-                autoComplete="new-id"
-                value={id}
-                onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                  setErrors((erros) => ({ ...erros, user_id: "" }));
-                  setId(e.currentTarget.value);
-                }}
-                disabled={pending}
-              />
-              {errors.user_id && (
-                <p className="hightlight-font-color text-xs">
-                  {errors.user_id}
-                </p>
-              )}
-
-              {/* <Label className="p-1" htmlFor="enrollment_id">
-                Enrollment Number
-              </Label>
-              <Input
-                id="enrollment_id"
-                placeholder="1234567"
-                type="text"
-                autoComplete="new-enrollement-id"
-                value={enrollmentId}
-                onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                  setErrors((erros) => ({ ...erros, enrollment_id: "" }));
-                  setEnrollmentId(e.currentTarget.value);
-                }}
-                disabled={pending}
-              />
-              {errors.enrollment_id && (
-                <p className="hightlight-font-color text-xs">
-                  {errors.enrollment_id}
-                </p>
-              )} */}
-
-              <Label className="p-1" htmlFor="email">
-                Email
-              </Label>
-              <Input
-                id="email"
-                placeholder="name@example.com"
-                type="email"
-                autoComplete="new-email"
-                value={email}
-                onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                  setErrors((erros) => ({ ...erros, email: "" }));
-                  setEmail(e.currentTarget.value);
-                }}
-                disabled={pending}
-              />
-              {errors.email && (
-                <p className="hightlight-font-color text-xs">{errors.email}</p>
-              )}
-
-              <Label className="p-1" htmlFor="password">
-                Password
-              </Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  placeholder=""
-                  type={showPassword ? "text" : "password"}
-                  autoComplete="new-password"
-                  value={password}
-                  onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                    setPassword(e.currentTarget.value);
-                  }}
-                  disabled={pending}
-                  className="pr-10"
-                />
-                <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                  {showPassword ? (
-                    <PiEyeSlashBold
-                      onClick={() => setShowPassword(false)}
-                      className="cursor-pointer"
-                    />
-                  ) : (
-                    <PiEyeBold
-                      onClick={() => setShowPassword(true)}
-                      className="cursor-pointer"
-                    />
-                  )}
-                </div>
+        <Card className="w-full max-w-md mt-[80px]">
+          <CardContent className="w-full space-y-6">
+            <div className="text-center space-y-2 pt-10">
+              <h1 className="text-2xl font-semibold tracking-tight">
+                Register
+              </h1>
+              <div className="flex justify-center font-bold text-sm ">
+                Step {step} of 2
               </div>
-              {errors.password && (
-                <p className="hightlight-font-color text-xs">
-                  {errors.password}
-                </p>
-              )}
-
-              <div className="flex items-center pt-4">
-                <Checkbox
-                  id="terms"
-                  checked={check}
-                  onCheckedChange={() => setCheck((check) => !check)}
-                />
-                <label
-                  htmlFor="terms"
-                  className="text-sm font-medium leading-none ml-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  I confirm that the information provided is accurate
-                </label>
-              </div>
+              <p className="text-sm">
+                Enter your credentials below to create your account
+              </p>
             </div>
-            <Button
-              disabled={pending || !check}
-              onClick={() => handleSubmit()}
-              type="submit"
-              className="primary-background-color text-white disabled:opacity-30"
-            >
-              {pending && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
-              Create Account
-            </Button>
-          </div>
-        </div>
+
+            {step === 1 ? (
+              <StepOne
+                name={name}
+                dob={dob}
+                step={step}
+                phone={phone}
+                errors={errors}
+                pending={pending}
+                gender={gender}
+                country={country}
+                setName={setName}
+                setErrors={setErrors}
+                setStep={setStep}
+                setdob={setdob}
+                setGender={setGender}
+                setCountry={setCountry}
+                setPhone={setPhone}
+              />
+            ) : (
+              <StepTwo
+                email={email}
+                password={password}
+                id={id}
+                passport={passport}
+                step={step}
+                errors={errors}
+                pending={pending}
+                showPassword={showPassword}
+                check={check}
+                dataProtectionCheck={dataProtectionCheck}
+                setEmail={setEmail}
+                setId={setId}
+                setPassword={setPassword}
+                setErrors={setErrors}
+                setStep={setStep}
+                setShowPassword={setShowPassword}
+                setDataProtectionCheck={setDataProtectionCheck}
+                setCheck={setCheck}
+                handleSubmit={handleSubmit}
+                setPassport={setPassport}
+              />
+            )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

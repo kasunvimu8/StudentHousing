@@ -158,6 +158,10 @@ body {
   .success-color {
     color: #16a34a
   }
+
+  .margin-zero {
+    margin: 0px !important;
+  }
 }
 
 @layer utilities {

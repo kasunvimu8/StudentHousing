@@ -14,6 +14,7 @@ import { PiEyeBold, PiEyeSlashBold } from "react-icons/pi";
 import { getUserType } from "@/actions/profiles";
 import { adminType } from "@/constants";
 import { FaArrowRight } from "react-icons/fa";
+import { Card, CardContent } from "@/components/ui/card";
 
 export function SignInForm() {
   const [email, setEmail] = useState("");
@@ -25,7 +26,7 @@ export function SignInForm() {
   const router = useRouter();
 
   const searchParams = useSearchParams();
-  const redirect = searchParams.get('redirect') || '/';
+  const redirect = searchParams.get("redirect") || "/";
 
   const handleSubmit = async () => {
     setPending(true);
@@ -83,78 +84,81 @@ export function SignInForm() {
           alt="Student Housing Logo"
           className="absolute top-4 left-4 md:top-8 md:left-8 p-1"
         />
+        <Card className="w-full max-w-md">
+          <CardContent className="w-full">
+            <div className="text-center space-y-2 pt-16">
+              <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
+              <p className="text-sm">Enter your credentials below to login</p>
+            </div>
 
-        <div className="w-full max-w-md space-y-6">
-          <div className="text-center space-y-2 pt-16">
-            <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
-            <p className="text-sm">Enter your credentials below to login</p>
-          </div>
-
-          <div className="grid gap-2 p-2">
-            <div className="grid gap-2 pb-2">
-              <Label className="p-1" htmlFor="email">
-                Email
-              </Label>
-              <Input
-                id="email"
-                placeholder="name@example.com"
-                type="email"
-                autoComplete="new-email"
-                value={email}
-                onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                  setEmail(e.currentTarget.value);
-                }}
-                disabled={pending}
-              />
-              <Label className="p-1" htmlFor="password">
-                Password
-              </Label>
-              <div className="relative">
+            <div className="grid gap-2 p-2">
+              <div className="grid gap-2 pb-2">
+                <Label className="p-1" htmlFor="email">
+                  Email
+                </Label>
                 <Input
-                  id="password"
-                  placeholder=""
-                  type={showPassword ? "text" : "password"}
-                  autoComplete="new-password"
-                  value={password}
+                  id="email"
+                  placeholder="name@example.com"
+                  type="email"
+                  autoComplete="new-email"
+                  value={email}
                   onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                    setPassword(e.currentTarget.value);
+                    setEmail(e.currentTarget.value);
                   }}
                   disabled={pending}
-                  className="pr-10"
                 />
-                <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                  {showPassword ? (
-                    <PiEyeSlashBold
-                      onClick={() => setShowPassword(false)}
-                      className="cursor-pointer"
-                    />
-                  ) : (
-                    <PiEyeBold
-                      onClick={() => setShowPassword(true)}
-                      className="cursor-pointer"
-                    />
-                  )}
+                <Label className="p-1" htmlFor="password">
+                  Password
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    placeholder=""
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="new-password"
+                    value={password}
+                    onChange={(e: React.FormEvent<HTMLInputElement>) => {
+                      setPassword(e.currentTarget.value);
+                    }}
+                    disabled={pending}
+                    className="pr-10"
+                  />
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                    {showPassword ? (
+                      <PiEyeSlashBold
+                        onClick={() => setShowPassword(false)}
+                        className="cursor-pointer"
+                      />
+                    ) : (
+                      <PiEyeBold
+                        onClick={() => setShowPassword(true)}
+                        className="cursor-pointer"
+                      />
+                    )}
+                  </div>
+                </div>
+                <div className="flex font-normal text-xs justify-end pb-2">
+                  <button
+                    onClick={() => forgetPassword()}
+                    className="cursor-pointer"
+                  >
+                    Forget Password ?
+                  </button>
                 </div>
               </div>
-              <div className="flex font-normal text-xs justify-end pb-2">
-                <button
-                  onClick={() => forgetPassword()}
-                  className="cursor-pointer"
-                >
-                  Forget Password ?
-                </button>
-              </div>
+              <Button
+                disabled={pending}
+                onClick={() => handleSubmit()}
+                className="primary-background-color text-white"
+              >
+                {pending && (
+                  <ImSpinner8 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                Login
+              </Button>
             </div>
-            <Button
-              disabled={pending}
-              onClick={() => handleSubmit()}
-              className="primary-background-color text-white"
-            >
-              {pending && <ImSpinner8 className="mr-2 h-4 w-4 animate-spin" />}
-              Login
-            </Button>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
