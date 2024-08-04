@@ -52,6 +52,39 @@ export const reservationPayloadSchema = z.object({
     .min(1),
 });
 
+// Define the Mobile type using zod
+export const mobileSchema = z.object({
+  number: z
+    .string()
+    .min(5, { message: "Phone number must be at least 5 characters long" })
+    .regex(/^\d+$/, { message: "Phone number must contain only digits" })
+    .trim(),
+  countryCode: z
+    .string()
+    .min(1, { message: "Country code must be at least 1 character long" })
+    .regex(/^[A-Za-z]{2}$/, {
+      message: "Country code must contain only letters",
+    })
+    .trim(),
+});
+
+// Extend the formOneSchema
+export const formOneSchema = z.object({
+  name: z
+    .string()
+    .min(2, { message: "Name must be at least 2 characters long" })
+    .trim(),
+  dob: z.date({
+    required_error: "Date of birth is required",
+    invalid_type_error: "Invalid date format",
+  }),
+  gender: z.enum(["male", "female", "other"], {
+    message: "Gender must be either Male, Female, or Diverse",
+  }),
+  country: z.string().min(1, { message: "Country must be provided" }).trim(),
+  phone: mobileSchema,
+});
+
 export const SignupFormSchema = z.object({
   name: z
     .string()
@@ -62,10 +95,10 @@ export const SignupFormSchema = z.object({
     .string()
     .min(5, { message: "ID must be at least 5 characters long" })
     .trim(),
-  // enrollment_id: z
-  //   .string()
-  //   .min(5, { message: "ID must be at least 5 characters long" })
-  //   .trim(),
+  passport: z
+    .string()
+    .min(5, { message: "Passport ID must be at least 5 characters long" })
+    .trim(),
   password: z
     .string()
     .min(8, { message: "Be at least 8 characters long" })
@@ -75,6 +108,15 @@ export const SignupFormSchema = z.object({
       message: "Contain at least one special character",
     })
     .trim(),
+  dob: z.date({
+    required_error: "Date of birth is required",
+    invalid_type_error: "Invalid date format",
+  }),
+  gender: z.enum(["male", "female", "other"], {
+    message: "Gender must be either Male, Female, or Diverse",
+  }),
+  country: z.string().min(1, { message: "Country must be provided" }).trim(),
+  phone: mobileSchema,
 });
 
 export const SigninFormSchema = z.object({
@@ -121,10 +163,17 @@ export const PasswordResetSchema = z
     path: ["confirmPassword"],
   });
 
-export const nameSchema = z.object({
+export const profileUpdateSchema = z.object({
   user_name: z
-    .string({
-      required_error: "Address is required",
-    })
-    .min(1),
+    .string()
+    .min(2, { message: "Name must be at least 2 characters long" })
+    .trim(),
+  dob: z.date({
+    required_error: "Date of birth is required",
+  }),
+  gender: z.enum(["male", "female", "other"], {
+    message: "Gender must be either Male, Female, or Diverse",
+  }),
+  country: z.string().min(1, { message: "Country must be provided" }).trim(),
+  phone: mobileSchema,
 });

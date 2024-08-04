@@ -23,7 +23,11 @@ export async function signUp(data: any) {
       email,
       password,
       user_id,
-      //  enrollment_id
+      dob,
+      gender,
+      country,
+      phone,
+      passport,
     } = data;
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -42,10 +46,14 @@ export async function signUp(data: any) {
             user_email: email,
             user_id: user_id,
             user_name: name,
-            // enrollment_id: enrollment_id,
             created_at: new Date(),
             total_quota: defaultUserReservationQuota,
             used_quota: 0,
+            dob: dob,
+            gender: gender,
+            country: country,
+            phone: phone,
+            passport: passport,
           },
         ],
         opts

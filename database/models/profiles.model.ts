@@ -14,6 +14,12 @@ const ProfileSchema = new Schema({
   nationalId: { type: String },
   mobile: { type: String },
   gender: { type: String },
+  dob: { type: Date },
+  passport: { type: String },
+  phone: {
+    number: { type: String },
+    countryCode: { type: String },
+  },
 });
 
 ProfileSchema.pre("updateOne", function (next) {
