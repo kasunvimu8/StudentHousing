@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import { LuLoader2 } from "react-icons/lu";
+import { IoMdImages } from "react-icons/io";
 
 const PropertyImage = ({ images }: { images: string[] }) => {
   // TODO: Change here after the storage service is available
@@ -64,6 +65,10 @@ const PropertyImage = ({ images }: { images: string[] }) => {
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />
+        <div className="absolute bottom-0 right-2 md:bottom-4 md:right-8 m-4 text-xl text-white primary-background-color p-2 rounded flex items-center">
+          <span className="font-normal text-sm">{imageData.length} Photos</span>
+          <IoMdImages className="ml-1" />
+        </div>
       </Carousel>
     </div>
   );

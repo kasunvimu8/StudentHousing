@@ -8,13 +8,15 @@ const Footer = () => {
       <div className="w-full py-6">
         <ul className="flex justify-center mt-2 text-sm font-medium gap-10 p-2">
           <li>
-            <Link href={"/properties"}>Properties</Link>
+            <Link href={"https://www.linkedin.com/in/kasunvimu/"}>
+              Developer
+            </Link>
           </li>
           <li>
-            <Link href={"/information"}>Information</Link>
+            <Link href={"/imprint"}>Imprint</Link>
           </li>
           <li>
-            <Link href={"/contacts"}> Contact </Link>
+            <Link href={"/data-protection"}> Data Protection </Link>
           </li>
         </ul>
         <hr className="my-3 border-gray-200 sm:mx-auto" />
