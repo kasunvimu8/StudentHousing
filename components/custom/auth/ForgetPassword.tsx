@@ -27,9 +27,11 @@ export default function ForgetPasswordForm() {
       const res = await forgetPasswordEmailSent(emailData);
       if (res) {
         toast({
-          title: `Forget passsword Email Sent : ${res.type === "ok" ? "Success" : "Failed"}`,
+          title: `Forget passsword Email Sent : ${
+            res.type === "ok" ? "Success" : "Failed"
+          }`,
           description: res.msg,
-          variant: res.type === "ok" ? "ok" : "error"
+          variant: res.type === "ok" ? "ok" : "error",
         });
         if (res.type === "ok") {
           setIsSent(true);
@@ -122,7 +124,7 @@ export default function ForgetPasswordForm() {
                 {pending && (
                   <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                Get Password Rest Link
+                Request Password Rest Link
               </Button>
             )}
           </div>

@@ -170,6 +170,19 @@ export type NavLinkData = {
   isAdminRoute: boolean;
 };
 
+export type HeaderNavItem = {
+  id: string;
+  title: string;
+  route: string;
+  description: string;
+};
+
+export type HeaderNav = {
+  id: string;
+  label: string;
+  components: HeaderNavItem[];
+};
+
 // -------------------------- My Reservation Types --------------------------------------
 export type reservationPayload = {
   property_ref_id: string;
