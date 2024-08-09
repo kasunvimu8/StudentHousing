@@ -49,7 +49,7 @@ const headerConfigs = {
           title: "Dahsboard",
           description:
             "Dashboard of the properties, reservations, rentals, and users.",
-          route: "/dahsboard",
+          route: "/dashboard",
         },
       ],
     },
@@ -72,7 +72,7 @@ const headerConfigs = {
         {
           id: "manage-rentals",
           title: "Manage Rentals",
-          description: "Rental agreements end relisting properties",
+          description: "Manage rental end and relisting properties",
           route: "/manage-rentals",
         },
         {

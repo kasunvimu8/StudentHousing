@@ -16,12 +16,8 @@ import { revalidatePath } from "next/cache";
 import Profile from "@/database/models/profiles.model";
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
-import {
-  adminType,
-  defaultNoticePeriod,
-  expirationDuration,
-} from "@/constants";
-import { calculateFutureDate, isWithinNextMonths } from "@/lib/utils";
+import { adminType, documentSubmission, expirationDuration } from "@/constants";
+import { calculateFutureDate } from "@/lib/utils";
 
 export async function getReservationExist(_id: string) {
   try {
@@ -127,7 +123,7 @@ async function performReservation(
     await Reservation.create(
       [
         {
-          status: "document_submission",
+          status: documentSubmission,
           user_id: reservationPayload.user_id,
           created_at: new Date(),
           property_ref_id: reservationPayload.property_ref_id,
@@ -254,6 +250,99 @@ export async function makeReservation(reservationPayload: {
 
     return {
       msg: "Internal Server Error. Failed to make the reservation !",
+      type: "error",
+    };
+  }
+}
+
+export async function assignReservation(reservationPayload: {
+  property_ref_id: string;
+  desired_semesters_stay: string;
+  user_id: string;
+  from: Date | undefined;
+}) {
+  try {
+    const conn = await connectToDatabase();
+
+    // proceed reservation
+    const propertyData = await getProperty(reservationPayload.property_ref_id);
+    if (propertyData && propertyData.status === "available") {
+      const session = await mongoose.startSession();
+      session.startTransaction();
+      let msg = "";
+      let type = "";
+
+      const expiredDate = calculateFutureDate(new Date(), expirationDuration);
+      try {
+        const opts = { session };
+        // reserve the property
+        const res1 = await Property.updateOne(
+          { _id: propertyData._id },
+          { $set: { status: "reserved" } },
+          opts
+        );
+        if (res1.modifiedCount === 0) {
+          throw new Error("Property Cannot be modified or not found");
+        }
+
+        // add reservation entry
+        await Reservation.create(
+          [
+            {
+              status: documentSubmission,
+              user_id: reservationPayload.user_id,
+              created_at: new Date(),
+              property_ref_id: reservationPayload.property_ref_id,
+              from: reservationPayload.from,
+              to: propertyData.to,
+              document_submission_deadline: expiredDate,
+              desired_semesters_stay: reservationPayload.desired_semesters_stay,
+              notice_period: propertyData.notice_period,
+              rental_end: {
+                email_sent_count: 0,
+                last_email_sent_date: null,
+                tenant_confirmation_status: false,
+                property_dispatch: false,
+              },
+            },
+          ],
+          opts
+        );
+
+        // commit the transaction
+        await session.commitTransaction();
+        revalidatePath(`/property/view/${propertyData._id}`);
+        revalidatePath("/manage-reservations");
+
+        msg =
+          "The property has been temporarily reserved. The tenant should complete the reservation process through the standard procedure to finalize it.";
+        type = "ok";
+      } catch (error) {
+        // abort the transaction
+        await session.abortTransaction();
+
+        console.log("Exception in assign reservation transaction ", error);
+        msg = "Internal Server Error. Failed to assign reservation !";
+        type = "error";
+      } finally {
+        session.endSession();
+        return {
+          msg: msg,
+          type: type,
+        };
+      }
+    } else {
+      console.log("Property is not available, when user made the reservation");
+      return {
+        msg: "The property you are attempting to reserve isn't currently available. Please try again later.",
+        type: "error",
+      };
+    }
+  } catch (error) {
+    console.log("Failed to assign the reservation.", error);
+
+    return {
+      msg: "Internal Server Error. Failed to assign the reservation !",
       type: "error",
     };
   }

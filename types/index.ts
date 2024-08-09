@@ -150,6 +150,7 @@ export type FilterParamTypes = {
   user_id?: string;
   status?: string;
   document_submission_deadline?: string;
+  role?: string;
 };
 
 export type SortOption = { [key: string]: 1 | -1 };
@@ -254,6 +255,10 @@ export type userDetailsCompProps = {
   setErrors: React.Dispatch<React.SetStateAction<ProfileUpdateErrors>>;
   updateLocalState: (key: any, value: any) => void;
   isAdmin?: boolean;
+};
+
+export type userProfileExtended = userProfileType & {
+  role: string;
 };
 
 // ----------------------------- Erros  -----------------------------

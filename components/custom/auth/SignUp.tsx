@@ -30,7 +30,6 @@ export function SignUpForm() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [id, setId] = useState("");
-  const [enrollmentId, setEnrollmentId] = useState("");
   const [password, setPassword] = useState("");
   const [dob, setdob] = useState<Date | undefined>(undefined);
   const [gender, setGender] = useState<string>("");

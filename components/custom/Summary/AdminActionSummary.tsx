@@ -9,12 +9,12 @@ import Link from "next/link";
 const AdminActionSummary = ({
   deadlineMissed,
   approvalWaiting,
-  tanentNotConfirmed,
+  tenantNotConfirmed,
   propertyNotDispatched,
 }: {
   deadlineMissed: number;
   approvalWaiting: number;
-  tanentNotConfirmed: number;
+  tenantNotConfirmed: number;
   propertyNotDispatched: number;
 }) => {
   return (
@@ -60,7 +60,7 @@ const AdminActionSummary = ({
       <Link href="/manage-rentals?rental-end=true&confirm=false">
         <Card
           className={`${
-            tanentNotConfirmed > 0
+            tenantNotConfirmed > 0
               ? "section-highlight-background-color secondary-font-color"
               : "section-background-color"
           }`}
@@ -72,7 +72,7 @@ const AdminActionSummary = ({
             <LuTimerOff />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{tanentNotConfirmed}</div>
+            <div className="text-2xl font-bold">{tenantNotConfirmed}</div>
           </CardContent>
         </Card>
       </Link>

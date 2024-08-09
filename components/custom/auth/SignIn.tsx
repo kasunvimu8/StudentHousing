@@ -86,7 +86,7 @@ export function SignInForm() {
         />
         <Card className="w-full max-w-md">
           <CardContent className="w-full">
-            <div className="text-center space-y-2 pt-16">
+            <div className="text-center space-y-2 pt-10">
               <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
               <p className="text-sm">Enter your credentials below to login</p>
             </div>

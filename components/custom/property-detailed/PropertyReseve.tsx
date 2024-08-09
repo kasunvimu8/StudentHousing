@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Button } from "../../ui/button";
 import { makeReservation } from "@/actions/reservations";
-import { Property } from "@/types";
+import { Property, userProfileExtended } from "@/types";
 import ConfirmationComponent from "@/components/shared/ConfirmationComponent";
 import { useRouter } from "next/navigation";
 import { reservationPayloadSchema } from "@/lib/validators";
@@ -14,25 +14,26 @@ import DialogComponent from "@/components/shared/DialogComponent";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { BaseComponent } from "@/components/ui/dropdown/BaseComponent";
+import { AdminReservationDialog } from "./AdminReservationDialog";
 
-const PropertyReserve = ({ property }: { property: Property }) => {
+const PropertyReserve = ({
+  property,
+  isAdmin,
+  tenants,
+}: {
+  property: Property;
+  isAdmin: boolean;
+  tenants: userProfileExtended[];
+}) => {
   const router = useRouter();
   const { toast } = useToast();
   const [check, setCheck] = useState(false);
   const [period, setPeriod] = useState("");
 
   const isPropertyAvailable = property.status === availableStatus;
-  const reservationPayload = { property_ref_id: property._id, desired_semesters_stay:  period};
-  const validatePropertyState = () => {
-    try {
-      reservationPayloadSchema.parse(reservationPayload);
-      return true;
-    } catch (error) {
-      if (error instanceof ZodError) {
-        return false;
-      }
-      return false;
-    }
+  const reservationPayload = {
+    property_ref_id: property._id,
+    desired_semesters_stay: period,
   };
 
   const handleReservation = async () => {
@@ -45,7 +46,7 @@ const PropertyReserve = ({ property }: { property: Property }) => {
           res.type === "ok" ? "Success" : "Failed"
         }`,
         description: res.msg,
-        variant: res.type === "ok" ? "ok" : "error"
+        variant: res.type === "ok" ? "ok" : "error",
       });
 
       if (res.type === "ok") {
@@ -59,54 +60,61 @@ const PropertyReserve = ({ property }: { property: Property }) => {
   return (
     <div className="flex justify-end py-6">
       {isPropertyAvailable && (
-        <DialogComponent
-          buttonTitle="Reserve"
-          dialogTitle={`Reserve Property ${property.property_id} - Are you absolutely sure ?`}
-          dialogDescription="Upon confirmation, the property will be temporarily reserved for you. After the reservation, please submit the contracts promptly to secure your reservation in my reservation page. Failure to do so will result in cancellation of the reservation and adverse effects on your next reservations. Please visit information page for more details."
-          submitTitleMain="Reserve"
-          submitMainButtonDisable={!check || period === ""}
-          cls="py-5 px-7 text-bold primary-background-color secondary-font-color"
-          clickSubmit={() => {
-            handleReservation();
-          }}
-        >
-         <div className="flex flex-col justify-start gap-2">
-          <Label htmlFor="desired-semesters" className="text-left">
-            Please select desired number of semesters to reserve
-          </Label>
-          <Label htmlFor="info-desired" className="text-left text-xs">
-            * We cannot guarantee availability for all requested semesters, but try our best to accommodate you.
-          </Label>
-          <BaseComponent
-            value={period}
-            options={reservationPeriods}
-            optionsLabel={"Disired semesters stay"}
-            showAllItem={false}
-            handleSelect={(selectItem: string) => {
-              const periodItem = reservationPeriods.find(
-                (option) => option.id === selectItem
-              );
-              if (periodItem?.id) {
-                setPeriod(periodItem.id);
-              }
-            }}
-          />
-        </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="terms"
-              checked={check}
-              onCheckedChange={() => setCheck((check) => !check)}
-            />
-            <label
-              htmlFor="terms"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        <>
+          {isAdmin ? (
+            <AdminReservationDialog property={property} tenants={tenants} />
+          ) : (
+            <DialogComponent
+              buttonTitle="Reserve"
+              dialogTitle={`Reserve Property ${property.property_id} - Are you absolutely sure ?`}
+              dialogDescription="Upon confirmation, the property will be temporarily reserved for you. After the reservation, please submit the contracts promptly to secure your reservation in my reservation page. Failure to do so will result in cancellation of the reservation and adverse effects on your next reservations. Please visit information page for more details."
+              submitTitleMain="Reserve"
+              submitMainButtonDisable={!check || period === ""}
+              cls="py-5 px-7 text-bold primary-background-color secondary-font-color"
+              clickSubmit={() => {
+                handleReservation();
+              }}
             >
-              I hereby confirm that I have read and understood all information
-              regarding the reservation.
-            </label>
-          </div>
-        </DialogComponent>
+              <div className="flex flex-col justify-start gap-2">
+                <Label htmlFor="desired-semesters" className="text-left">
+                  Please select desired number of semesters to reserve
+                </Label>
+                <Label htmlFor="info-desired" className="text-left text-xs">
+                  * We cannot guarantee availability for all requested
+                  semesters, but try our best to accommodate you.
+                </Label>
+                <BaseComponent
+                  value={period}
+                  options={reservationPeriods}
+                  optionsLabel={"Desired semesters stay"}
+                  showAllItem={false}
+                  handleSelect={(selectItem: string) => {
+                    const periodItem = reservationPeriods.find(
+                      (option) => option.id === selectItem
+                    );
+                    if (periodItem?.id) {
+                      setPeriod(periodItem.id);
+                    }
+                  }}
+                />
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="terms"
+                  checked={check}
+                  onCheckedChange={() => setCheck((check) => !check)}
+                />
+                <label
+                  htmlFor="terms"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  I hereby confirm that I have read and understood all
+                  information regarding the reservation.
+                </label>
+              </div>
+            </DialogComponent>
+          )}
+        </>
       )}
     </div>
   );
