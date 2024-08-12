@@ -63,7 +63,7 @@ const getMarkers = (properties: Property[]) => {
             className={`text-sm primary-font-color pt-2 ${GeistSans.className}`}
           >
             <a
-              href={`property/${property._id}`}
+              href={`property/view/${property._id}`}
               className="flex items-center justify-center text-sm gap-2"
             >
               <Button className="section-highlight-background-color flex items-center justify-center gap-2">

@@ -12,9 +12,9 @@ const page = () => {
             <div className="flex items-center gap-1">
               <Link href="/" className="w-30 ml-2 mt-1">
                 <Image
-                  src="/images/logo.svg"
-                  width={102}
-                  height={52}
+                  src="/images/logo.png"
+                  width={180}
+                  height={50}
                   alt="Student Housing Logo"
                 />
               </Link>

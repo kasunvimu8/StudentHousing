@@ -5,6 +5,7 @@
 :root {
   --foreground-rgb: 38, 39, 41;
   --background-rgb: 255, 255, 255;
+
 }
 
 body {
@@ -18,13 +19,13 @@ body {
     --primary-light-font-color: 38, 39, 41, 50%;
     --primary-disable-font-color: 38, 39, 41, 30%;
     --secondary-font-color: 255, 255, 255;
-    --hightlight-font-color: 243, 145, 0;
-    --hightlight-light-font-color: 243, 145, 0, 50%;
+    --hightlight-font-color: 42, 39, 95;
+    --hightlight-light-font-color: 42, 39, 95, 75%;
 
     --primary-background-color: 38, 39, 41;
     --primary-light-background-color: 38, 39, 41, 20%;
     --section-background-color: 245, 245, 245, 50%;
-    --hightlight-background-color: 243, 145, 0;
+    --hightlight-background-color: 42, 39, 95, 75%;
     --section-light-background-color: 216, 216, 216, 20%;
   }
 }

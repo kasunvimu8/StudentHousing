@@ -23,11 +23,19 @@ const Header = async () => {
           <nav className="flex md:hidden items-center justify-start w-25">
             <MobileNavItems links={links} />
           </nav>
-          <Link href="/" className="w-30 ml-2 mt-1">
+          <Link href="/" className="w-30 ml-2 mt-1 hidden md:flex">
             <Image
-              src="/images/logo.svg"
-              width={102}
-              height={52}
+              src="/images/logo.png"
+              width={257}
+              height={70}
+              alt="Student Housing Logo"
+            />
+          </Link>
+          <Link href="/" className="w-30 ml-2 mt-1 md:hidden">
+            <Image
+              src="/images/logo.png"
+              width={180}
+              height={50}
               alt="Student Housing Logo"
             />
           </Link>

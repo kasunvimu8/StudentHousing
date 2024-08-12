@@ -1,4 +1,5 @@
 import PageTitle from "@/components/shared/PageTitle";
+import Link from "next/link";
 import React from "react";
 import { HiOutlineMail, HiOutlinePhone } from "react-icons/hi";
 import { MdAccessTime, MdOutlineLocationOn } from "react-icons/md";
@@ -13,7 +14,14 @@ const Page = () => {
       </div>
       <div className="mx-auto py-5">
         <div className="font-normal text-sm py-2">
-          Please visit the information page to quickly find the information you need. 
+          Please visit the{" "}
+          <Link
+            href="/information"
+            className="hightlight-font-color font-semibold"
+          >
+            information page
+          </Link>{" "}
+          to quickly find the information you need.
         </div>
         <div className="font-normal text-sm py-2">
           Still have questions ? We would love to hear from you.

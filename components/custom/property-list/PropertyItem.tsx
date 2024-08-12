@@ -126,11 +126,12 @@ const PropertyItem = ({ property }: { property: Property }) => {
               <div className="flex justify-end">
                 <a href={`property/view/${property._id}`}>
                   <Button
-                    className="section-highlight-background-color"
+                    // className="section-highlight-background-color"
                     size="sm"
+                    variant="outline"
                   >
                     <LuMoveRight
-                      className="h-5 w-5 text-xl secondary-font-color"
+                      className="h-5 w-5 text-xl hightlight-light-font-color"
                       strokeWidth={3}
                     />
                   </Button>
