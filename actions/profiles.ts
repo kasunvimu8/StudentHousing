@@ -192,6 +192,8 @@ export async function getAllProfiles(
           updated_at: 1,
           total_quota: 1,
           used_quota: 1,
+          country: 1,
+          gender: 1,
           role: "$authentication.role",
         },
       },

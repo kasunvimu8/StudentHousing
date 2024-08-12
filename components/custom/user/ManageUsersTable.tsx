@@ -15,6 +15,7 @@ const ManageUsersTable = async ({
     sort === "recent-update" ? { updated_at: -1 } : { created_at: -1 };
 
   const data = await getAllProfiles(sortOption, searchParams);
+  console.log(data);
   return (
     <DataTable
       columns={columns}

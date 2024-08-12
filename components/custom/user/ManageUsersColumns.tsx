@@ -1,7 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { userRoles } from "@/constants";
+import { genders, userRoles } from "@/constants";
+import { getAllcountries } from "@/lib/countries";
 import { formatDateTime } from "@/lib/utils";
 import { ExtendedColumnDef } from "@/types";
 import { CaretSortIcon } from "@radix-ui/react-icons";
@@ -18,19 +19,34 @@ export const columns: ExtendedColumnDef[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "user_name",
+    accessorKey: "user_id",
     cell: ({ row }) => (
-      <div>{row.getValue("user_name")}</div>
+      <div className="text-center font-medium">{row.getValue("user_id")}</div>
     ),
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Enrollment ID
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    enableHiding: false,
+    columnTitle: "Enrollment Number",
+  },
+  {
+    accessorKey: "user_name",
+    cell: ({ row }) => <div>{row.getValue("user_name")}</div>,
     header: "User Name",
     columnTitle: "User Name",
     enableHiding: false,
   },
   {
     accessorKey: "user_email",
-    cell: ({ row }) => (
-      <div>{row.getValue("user_email")}</div>
-    ),
+    cell: ({ row }) => <div>{row.getValue("user_email")}</div>,
     header: "Email",
     columnTitle: "Email",
     enableHiding: false,
@@ -46,23 +62,25 @@ export const columns: ExtendedColumnDef[] = [
     columnTitle: "Role",
   },
   {
-    accessorKey: "user_id",
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("user_id")}</div>
-    ),
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Enrollment Number
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
+    accessorKey: "gender",
+    cell: ({ row }) => {
+      const gender = row.getValue("gender");
+      const genderData = genders.find((item) => item.id === gender);
+      return <div className="capitalize">{genderData?.description || ""}</div>;
     },
-    enableHiding: false,
-    columnTitle: "Enrollment Number",
+    header: "Gender",
+    columnTitle: "Gender",
+  },
+  {
+    accessorKey: "country",
+    cell: ({ row }) => {
+      const gender = row.getValue("country");
+      const contries = getAllcountries();
+      const genderData = contries.find((item) => item.id === gender);
+      return <div className="capitalize">{genderData?.description || ""}</div>;
+    },
+    header: "Country",
+    columnTitle: "Country",
   },
   // {
   //   accessorKey: "enrollment_id",
