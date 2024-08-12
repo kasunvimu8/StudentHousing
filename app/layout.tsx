@@ -7,7 +7,8 @@ export const metadata: Metadata = {
   title: "Student Housing",
   description: "Student Housing Web Application",
   icons: {
-    icon: "/assets/images/logo.png",
+    icon: "/assets/images/logo-small.svg",
+    shortcut: "/assets/images/logo-small.svg",
   },
 };
 
