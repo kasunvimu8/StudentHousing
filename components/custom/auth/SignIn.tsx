@@ -78,15 +78,15 @@ export function SignInForm() {
 
       <div className="flex flex-col items-center justify-center flex-grow p-4 md:p-8 relative">
         <Image
-          src="/images/logo.svg"
-          width={102}
-          height={52}
+          src="/images/logo.png"
+          width={180}
+          height={50}
           alt="Student Housing Logo"
           className="absolute top-4 left-4 md:top-8 md:left-8 p-1"
         />
         <Card className="w-full max-w-md">
           <CardContent className="w-full">
-            <div className="text-center space-y-2 pt-16">
+            <div className="text-center space-y-2 pt-10">
               <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
               <p className="text-sm">Enter your credentials below to login</p>
             </div>

@@ -12,6 +12,8 @@ import PropertyDocuments from "@/components/custom/property-detailed/PropertyDoc
 import PropertyAdditionalInformation from "@/components/custom/property-detailed/PropertyAdditionalInformation";
 import PropertyReserve from "@/components/custom/property-detailed/PropertyReseve";
 import NoDataNotFoundPage from "@/components/shared/NotFoundPage";
+import { getAllProfiles, getUserType } from "@/actions/profiles";
+import { adminType } from "@/constants";
 
 const PropertyLocation = dynamic(
   () => import("@/components/custom/property-detailed/PropertyLocation"),
@@ -28,7 +30,17 @@ const PropertyDeatailPage = async ({
 }: {
   params: { propertyId: string };
 }) => {
-  const property: Property = await getProperty(params.propertyId);
+  const propertyPromise = getProperty(params.propertyId);
+  const userTypePromise = getUserType();
+  const tenantsPromise = getAllProfiles({ user_id: -1 }, { role: "user" });
+
+  const [property, userType, tenants] = await Promise.all([
+    propertyPromise,
+    userTypePromise,
+    tenantsPromise,
+  ]);
+
+  const isAdmin = userType === adminType;
 
   return (
     <div className="w-full h-full">
@@ -55,7 +67,11 @@ const PropertyDeatailPage = async ({
           <PropertyAdditionalInformation
             additional_information={property.additional_information}
           />
-          <PropertyReserve property={property} />
+          <PropertyReserve
+            property={property}
+            isAdmin={isAdmin}
+            tenants={tenants}
+          />
         </div>
       ) : (
         <NoDataNotFoundPage />

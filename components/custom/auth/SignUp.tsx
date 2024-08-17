@@ -30,7 +30,6 @@ export function SignUpForm() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [id, setId] = useState("");
-  const [enrollmentId, setEnrollmentId] = useState("");
   const [password, setPassword] = useState("");
   const [dob, setdob] = useState<Date | undefined>(undefined);
   const [gender, setGender] = useState<string>("");
@@ -121,9 +120,9 @@ export function SignUpForm() {
 
       <div className="flex flex-col items-center justify-center flex-grow p-4 md:p-8 relative">
         <Image
-          src="/images/logo.svg"
-          width={102}
-          height={52}
+          src="/images/logo.png"
+          width={180}
+          height={50}
           alt="Student Housing Logo"
           className="absolute top-4 left-4 md:top-8 md:left-8 p-1"
         />

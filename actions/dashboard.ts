@@ -19,7 +19,7 @@ export async function getSummaryData() {
     approvalWaiting: 0,
     documentSubmission: 0,
     users: 0,
-    tanentNotConfirmed: 0,
+    tenantNotConfirmed: 0,
     propertyNotDispatched: 0,
   };
   try {
@@ -90,7 +90,7 @@ export async function getSummaryData() {
 
       users: usersData,
 
-      tanentNotConfirmed:
+      tenantNotConfirmed:
         reservationData?.filter(
           (reservation) =>
             reservation.status === "rented" &&

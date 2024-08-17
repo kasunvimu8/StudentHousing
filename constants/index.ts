@@ -7,12 +7,12 @@ export const headerLinks = [
     id: "dashboard",
     isAdminRoute: true,
   },
-  {
-    label: "Properties",
-    route: "/properties",
-    id: "properties",
-    isAdminRoute: false,
-  },
+  // {
+  //   label: "Properties",
+  //   route: "/properties",
+  //   id: "properties",
+  //   isAdminRoute: false,
+  // },
   {
     label: "Contacts",
     route: "/contacts",
@@ -45,6 +45,12 @@ export const normalUserNavMenu = [
 ];
 
 export const adminUsernavigation = [
+  {
+    title: "Dashboard",
+    href: "/dashboard",
+    icon: "LuLayoutDashboard",
+    id: "dashboard",
+  },
   {
     title: "Manage Properties",
     href: "/manage-properties",
@@ -488,7 +494,7 @@ export const initialVisibilityManageRentals = {
   from: false,
   to: true,
   notice_period: true,
-  days_to_end_rental : true,
+  days_to_end_rental: true,
   rental_end_email_sent_count: true,
   rental_end_last_email_sent_date: true,
   rental_end_tenant_confirmation_status: true,

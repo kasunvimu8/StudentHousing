@@ -150,6 +150,7 @@ export type FilterParamTypes = {
   user_id?: string;
   status?: string;
   document_submission_deadline?: string;
+  role?: string;
 };
 
 export type SortOption = { [key: string]: 1 | -1 };
@@ -168,6 +169,19 @@ export type NavLinkData = {
   route: string;
   id: string;
   isAdminRoute: boolean;
+};
+
+export type HeaderNavItem = {
+  id: string;
+  title: string;
+  route: string;
+  description: string;
+};
+
+export type HeaderNav = {
+  id: string;
+  label: string;
+  components: HeaderNavItem[];
 };
 
 // -------------------------- My Reservation Types --------------------------------------
@@ -241,6 +255,10 @@ export type userDetailsCompProps = {
   setErrors: React.Dispatch<React.SetStateAction<ProfileUpdateErrors>>;
   updateLocalState: (key: any, value: any) => void;
   isAdmin?: boolean;
+};
+
+export type userProfileExtended = userProfileType & {
+  role: string;
 };
 
 // ----------------------------- Erros  -----------------------------

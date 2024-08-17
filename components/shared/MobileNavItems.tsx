@@ -18,10 +18,10 @@ const MobileNav = ({ links }: { links: NavLinkData[] }) => {
           className="flex flex-col gap-6 bg-white md:hidden topest-overlay"
         >
           <Image
-            src="/images/logo.svg"
+            src="/images/logo.png"
             alt="logo"
-            width={102}
-            height={52}
+            width={200}
+            height={55}
             className="mt-1"
           />
           <NavItems links={links} />

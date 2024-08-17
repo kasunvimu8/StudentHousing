@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import NavItems from "@/components/shared/NavItems";
 import MobileNavItems from "@/components/shared/MobileNavItems";
 import { UserNav } from "@/components/shared/UserNavigation";
 import { getUserType } from "@/actions/profiles";
 import { adminType, headerLinks } from "@/constants";
+import HeaderNavigation from "@/components/shared/HeaderNavigation";
 
 // ----- Header Component - Shared in all components except login, register & logout pages ----------//
 
@@ -23,17 +23,25 @@ const Header = async () => {
           <nav className="flex md:hidden items-center justify-start w-25">
             <MobileNavItems links={links} />
           </nav>
-          <Link href="/" className="w-30 ml-2 mt-1">
+          <Link href="/" className="w-30 ml-2 mt-1 hidden md:flex">
             <Image
-              src="/images/logo.svg"
-              width={102}
-              height={52}
+              src="/images/logo.png"
+              width={257}
+              height={70}
+              alt="Student Housing Logo"
+            />
+          </Link>
+          <Link href="/" className="w-30 ml-2 mt-1 md:hidden">
+            <Image
+              src="/images/logo.png"
+              width={180}
+              height={50}
               alt="Student Housing Logo"
             />
           </Link>
         </div>
-        <nav className="hidden md:flex items-center w-full max-w-xs">
-          <NavItems links={links} />
+        <nav className="hidden md:flex items-center  justify-center w-full">
+          <HeaderNavigation />
         </nav>
         <div className="flex items-center gap-2 pr-8 md:pr-10">
           <UserNav />

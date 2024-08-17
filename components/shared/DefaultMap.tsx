@@ -41,7 +41,7 @@ const DefaultMap = ({
     longitude,
     latitude,
   });
-  const [zoomLevel, setZoomLevel] = useState(13);
+  const [zoomLevel, setZoomLevel] = useState(17);
   // const map = useMap();
 
   const handleMarkerDragEnd = useCallback(() => {
@@ -67,9 +67,12 @@ const DefaultMap = ({
     [handleMarkerDragEnd]
   );
 
+  const centerLong = position?.longitude ?? campusLongitude;
+  const centerLat = position.latitude ?? campusLatitude;
+
   return (
     <MapContainer
-      center={[campusLongitude, campusLatitude]}
+      center={[centerLong, centerLat]}
       zoom={zoomLevel}
       zoomControl={true}
       scrollWheelZoom={true}

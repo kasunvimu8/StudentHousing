@@ -18,7 +18,7 @@ export default async function Page() {
     approvalWaiting,
     documentSubmission,
     users,
-    tanentNotConfirmed,
+    tenantNotConfirmed,
     propertyNotDispatched,
   } = await getSummaryData();
   return (
@@ -32,7 +32,7 @@ export default async function Page() {
         <AdminActionSummary
           deadlineMissed={deadlineMissed}
           approvalWaiting={approvalWaiting}
-          tanentNotConfirmed={tanentNotConfirmed}
+          tenantNotConfirmed={tenantNotConfirmed}
           propertyNotDispatched={propertyNotDispatched}
         />
       </div>

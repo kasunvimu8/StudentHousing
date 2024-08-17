@@ -37,8 +37,11 @@ export default async function middleWare(request: NextRequest) {
 
   if (!isPublicRoute && !isPasswordReset && !isConfirmEmail && !session?.user) {
     const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = '/login';
-    redirectUrl.searchParams.set('redirect', request.nextUrl.pathname + request.nextUrl.search);
+    redirectUrl.pathname = "/login";
+    redirectUrl.searchParams.set(
+      "redirect",
+      request.nextUrl.pathname + request.nextUrl.search
+    );
 
     return NextResponse.redirect(redirectUrl);
   }
@@ -55,6 +58,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|images/logo.svg).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|images/logo.png).*)",
   ],
 };
