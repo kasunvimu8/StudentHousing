@@ -155,7 +155,7 @@ export async function getAllAvailableProperties(
       }
     );
   } catch (error) {
-    console.log("Failed to fetch all properties.", error);
+    console.log("Failed to fetch all available properties.", error);
     return [];
   }
 }

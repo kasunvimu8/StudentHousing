@@ -1,6 +1,5 @@
 import React from "react";
 import PageTitle from "@/components/shared/PageTitle";
-import ClonePropertyInput from "@/components/custom/property-create/ClonePropertyInput";
 import { getUniquesPropertyIds } from "@/actions/properties";
 import PropertyCreate from "@/components/custom/property-create/PropertyCreate";
 
