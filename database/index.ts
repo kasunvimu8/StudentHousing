@@ -9,8 +9,6 @@ export const connectToDatabase = async () => {
 
   if (!MONGODB_URI) throw new Error("MONGODB_URI is missing");
 
-  console.log("LOG => MONGODB_URI : ", MONGODB_URI);
-
   if (mongoose && mongoose.connect) {
     cached.promise =
       cached.promise ||
