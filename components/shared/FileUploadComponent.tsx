@@ -1,6 +1,6 @@
 "use client";
 
-import { uploadPublicFile } from "@/actions/file-upload";
+import { uploadPublicPropertyFile } from "@/actions/file-upload";
 import FileDisplayItem from "@/components/shared/FileDisplayItem";
 import FileUploader from "@/components/shared/FileUploader";
 import Loading from "@/components/shared/Loading";
@@ -90,18 +90,21 @@ const FileUploadComponent: React.FC<FileUpload> = ({
 
         formDataArray.push({ data: formData, id: currentFile.id });
       }
-      const filePath = await uploadPublicFile(
+      const { msg, type } = await uploadPublicPropertyFile(
         formDataArray,
         "properties",
         uploadKey,
         propertyState.property_id
       );
 
-      setUploadStatus(true);
+      if (type === "ok") {
+        setUploadStatus(true);
+      }
+
       toast({
-        title: "File Upload Success",
-        description: "Files successfully uploaded",
-        variant: "ok",
+        title: `File Upload ${type === "ok" ? "Success" : "Failed"} `,
+        description: msg,
+        variant: type,
       });
     } catch (error) {
       toast({

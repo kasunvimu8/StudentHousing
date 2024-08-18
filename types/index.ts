@@ -16,6 +16,11 @@ export interface PropertySectionProps {
   isCreate?: boolean;
 }
 
+export interface ResponseT {
+  msg: string;
+  type: "ok" | "error";
+}
+
 // ------------------------SCHDCN UI Types----------------------------------------
 export type UrlQueryParams = {
   params: string;
