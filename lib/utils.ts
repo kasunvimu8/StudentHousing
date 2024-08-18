@@ -269,3 +269,7 @@ export function getRelsitingDate(dateString: string): string {
 
   return newDateString;
 }
+
+export const getFileExtension = (fileName: string) => {
+  return fileName.slice(((fileName.lastIndexOf(".") - 1) >>> 0) + 2);
+};

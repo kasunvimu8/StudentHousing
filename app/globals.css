@@ -146,8 +146,8 @@ body {
 
   .error-toast {
     @apply text-white;
-    background-color: #f39100;
-    border-color: #f39100
+    background-color: #dc2626;
+    border-color: #dc2626
   }
 
   .sucess-toast {
