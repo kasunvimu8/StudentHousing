@@ -13,6 +13,7 @@ const ContractDocumentSection: React.FC<PropertySectionProps> = ({
       propertyState={propertyState}
       updateLocalState={updateLocalState}
       uploadKey="documents"
+      title="Contract Documents"
     />
   );
 };

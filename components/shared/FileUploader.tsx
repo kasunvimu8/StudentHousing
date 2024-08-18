@@ -32,7 +32,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
 
     const filesWithUuid = acceptedFiles.map((file) => ({
       data: file,
-      id: uuidv4(),
+      id: uuidv4().split("-")[0],
     }));
 
     handleFileUpload(filesWithUuid);

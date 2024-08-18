@@ -5,6 +5,7 @@ import path from "path";
 import { deleteFile, handleUpload } from "@/lib/storage";
 import Property from "@/database/models/property.model";
 import { ResponseT } from "@/types";
+import { generateFileName } from "@/lib/utils";
 
 type formDatPaylaod = {
   data: FormData;
@@ -27,11 +28,12 @@ async function uploadPublicFile(
     );
 
     for (const formData of formDataList) {
-      const filePath = await handleUpload(
-        formData.data,
-        uploadPath,
-        formData.id
-      );
+      const file = formData.data.get("file") as File | null;
+
+      if (file) {
+        const name = generateFileName(file.name, formData.id);
+        const filePath = await handleUpload(formData.data, uploadPath, name);
+      }
     }
     return {
       msg: "Files uploaded successfully",
@@ -86,7 +88,6 @@ export async function uploadPublicPropertyFile(
   id: string
 ): Promise<ResponseT> {
   const data = await Property.find({ property_id: id });
-  console.log(data, id);
   if (data && data.length > 0) {
     return {
       msg: "Property ID already exists",

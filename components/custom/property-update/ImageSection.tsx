@@ -13,6 +13,7 @@ const ImageSectioon: React.FC<PropertySectionProps> = ({
       propertyState={propertyState}
       updateLocalState={updateLocalState}
       uploadKey="images"
+      title="Images"
     />
   );
 };

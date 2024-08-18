@@ -273,3 +273,22 @@ export function getRelsitingDate(dateString: string): string {
 export const getFileExtension = (fileName: string) => {
   return fileName.slice(((fileName.lastIndexOf(".") - 1) >>> 0) + 2);
 };
+
+export function generateFileName(
+  originalName: string,
+  uniqueId: string
+): string {
+  const nameWithoutSpaces = originalName.replace(/\s+/g, "_");
+
+  const fileExtension = nameWithoutSpaces.substring(
+    nameWithoutSpaces.lastIndexOf(".")
+  );
+
+  const baseName = nameWithoutSpaces.substring(
+    0,
+    nameWithoutSpaces.lastIndexOf(".")
+  );
+
+  const uniqueFileName = `${baseName}_${uniqueId}${fileExtension}`;
+  return uniqueFileName;
+}

@@ -7,7 +7,7 @@ import Loading from "@/components/shared/Loading";
 import SectionTitle from "@/components/shared/SectionTitle";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { getFileExtension } from "@/lib/utils";
+import { generateFileName } from "@/lib/utils";
 import { FileType } from "@/types";
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -16,12 +16,14 @@ interface FileUpload {
   propertyState: Record<string, any>;
   updateLocalState: (key: string, value: any) => void;
   uploadKey: string;
+  title: string;
 }
 
 const FileUploadComponent: React.FC<FileUpload> = ({
   propertyState,
   updateLocalState,
   uploadKey,
+  title,
 }) => {
   const [files, setFiles] = useState<FileType[]>([]);
   const [uploadStatus, setUploadStatus] = useState(false);
@@ -37,10 +39,12 @@ const FileUploadComponent: React.FC<FileUpload> = ({
       try {
         setFiles((prevFiles) => [...prevFiles, ...newFiles]);
 
-        updateLocalState(
-          uploadKey,
-          newFiles.map((file: FileType) => file?.data?.name)
-        );
+        const filePaths = newFiles.map((file: FileType) => {
+          const name = generateFileName(file.data.name, file.id);
+          return `public/properties/${uploadKey}/${name}`;
+        });
+
+        updateLocalState(uploadKey, filePaths);
 
         setUploadStatus(false);
       } catch (error) {
@@ -121,7 +125,7 @@ const FileUploadComponent: React.FC<FileUpload> = ({
 
   return (
     <div className="pt-3">
-      <SectionTitle title="Images" />
+      <SectionTitle title={title} />
       <div className="pt-2 font-normal text-xs primary-light-font-color flex items-center">
         Files need to be saved separately before creating the property. Please
         make sure that the property ID is provided before saving
@@ -135,18 +139,21 @@ const FileUploadComponent: React.FC<FileUpload> = ({
           />
         </div>
         <div className="col-span-2 md:col-span-1">
-          {files?.map((file) => (
-            <div
-              key={file.id}
-              className="flex items-center my-3 p-1 section-light-background-color rounded max-w-[600px]"
-            >
-              <FileDisplayItem
-                fileId={file.data.name}
-                name={`${file.id}.${getFileExtension(file.data.name)}`}
-                handleFileRemove={handleFileRemove}
-              />
-            </div>
-          ))}
+          {files?.map((file) => {
+            const name = generateFileName(file.data.name, file.id);
+            return (
+              <div
+                key={file.id}
+                className="flex items-center my-3 p-1 section-light-background-color rounded max-w-[600px]"
+              >
+                <FileDisplayItem
+                  fileId={name}
+                  name={name}
+                  handleFileRemove={handleFileRemove}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
       {!uploadStatus && (
