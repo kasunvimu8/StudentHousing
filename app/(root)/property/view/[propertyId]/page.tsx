@@ -45,9 +45,9 @@ const PropertyDeatailPage = async ({
   // to prevent hydration issues, passing the final urls from the server
   const images =
     property?.images?.length > 0
-      ? property.images.map((image: string) =>
-          image ? `${process.env.BASE_URL}/api/file/${image}` : ""
-        )
+      ? property.images
+          .filter((img: string) => !!img)
+          .map((image: string) => `${process.env.BASE_URL}/api/file/${image}`)
       : [];
 
   const documents =

@@ -52,11 +52,15 @@ const initialState: Property = {
 const UpdatePropertyDetail = ({
   property,
   updatePropertyAction,
+  imagesURL,
+  documentsURL,
 }: {
   property: Property;
   updatePropertyAction: (
     property: Property
   ) => Promise<{ msg: string; type: string }>;
+  imagesURL: string[];
+  documentsURL: string[];
 }) => {
   const defaultState = property ? property : initialState;
   const [propertyState, setPropertyState] = useState(defaultState);
@@ -101,7 +105,7 @@ const UpdatePropertyDetail = ({
           res.type === "ok" ? "Success" : "Failed"
         }`,
         description: res.msg,
-        variant: res.type === "ok" ? "ok" : "error"
+        variant: res.type === "ok" ? "ok" : "error",
       });
     }
   };
@@ -116,6 +120,8 @@ const UpdatePropertyDetail = ({
       <ImageSectioon
         propertyState={propertyState}
         updateLocalState={updateLocalState}
+        imagesURL={imagesURL}
+        isCreate={false}
       />
 
       <LocationSection
@@ -134,6 +140,8 @@ const UpdatePropertyDetail = ({
       <ContractDocumentSection
         propertyState={propertyState}
         updateLocalState={updateLocalState}
+        documentsURL={documentsURL}
+        isCreate={false}
       />
       <AdditionalInformation
         value={propertyState?.additional_information || ""}

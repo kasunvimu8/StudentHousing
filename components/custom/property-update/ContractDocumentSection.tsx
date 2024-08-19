@@ -7,6 +7,8 @@ import React from "react";
 const ContractDocumentSection: React.FC<PropertySectionProps> = ({
   propertyState,
   updateLocalState,
+  documentsURL,
+  isCreate,
 }) => {
   return (
     <FileUploadComponent
@@ -14,6 +16,8 @@ const ContractDocumentSection: React.FC<PropertySectionProps> = ({
       updateLocalState={updateLocalState}
       uploadKey="documents"
       title="Contract Documents"
+      fileUrls={documentsURL}
+      isCreate={!!isCreate}
     />
   );
 };

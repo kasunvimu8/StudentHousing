@@ -7,6 +7,8 @@ import React from "react";
 const ImageSectioon: React.FC<PropertySectionProps> = ({
   propertyState,
   updateLocalState,
+  imagesURL,
+  isCreate,
 }) => {
   return (
     <FileUploadComponent
@@ -14,6 +16,8 @@ const ImageSectioon: React.FC<PropertySectionProps> = ({
       updateLocalState={updateLocalState}
       uploadKey="images"
       title="Images"
+      fileUrls={imagesURL}
+      isCreate={!!isCreate}
     />
   );
 };

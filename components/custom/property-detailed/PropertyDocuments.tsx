@@ -3,18 +3,9 @@
 import React from "react";
 import SectionTitle from "@/components/shared/SectionTitle";
 import { LuDownload, LuExternalLink } from "react-icons/lu";
-import { getDocumentName } from "@/lib/utils";
+import { getDocumentName, handleDownloadDocument } from "@/lib/utils";
 
 const PropertyDocuments = ({ documents }: { documents: string[] }) => {
-  const handleDownloadDocument = (url: string) => {
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   return (
     <div className="pt-4">
       <SectionTitle title="Contract Documents" />

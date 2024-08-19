@@ -14,6 +14,8 @@ export interface PropertySectionProps {
     latitude: number;
   }) => void;
   isCreate?: boolean;
+  imagesURL?: string[];
+  documentsURL?: string[];
 }
 
 export interface ResponseT {

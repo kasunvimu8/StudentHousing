@@ -17,6 +17,8 @@ interface FileUpload {
   updateLocalState: (key: string, value: any) => void;
   uploadKey: string;
   title: string;
+  isCreate: boolean;
+  fileUrls?: string[];
 }
 
 const FileUploadComponent: React.FC<FileUpload> = ({
@@ -24,8 +26,12 @@ const FileUploadComponent: React.FC<FileUpload> = ({
   updateLocalState,
   uploadKey,
   title,
+  fileUrls,
+  isCreate,
 }) => {
   const [files, setFiles] = useState<FileType[]>([]);
+  const [filesIndicators, setFilesIndicators] = useState<string[]>([]);
+
   const [uploadStatus, setUploadStatus] = useState(false);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
@@ -38,6 +44,11 @@ const FileUploadComponent: React.FC<FileUpload> = ({
     if (newFiles?.length > 0) {
       try {
         setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+
+        const newFileIndicators = newFiles.map((file) => {
+          return generateFileName(file.data.name, file.id);
+        });
+        setFilesIndicators((prev) => [...prev, ...newFileIndicators]);
 
         const filePaths = newFiles.map((file: FileType) => {
           const name = generateFileName(file.data.name, file.id);
@@ -55,30 +66,31 @@ const FileUploadComponent: React.FC<FileUpload> = ({
 
   const fetchInitialFiles = async () => {
     try {
-      // Retrieve list of files from AWS S3 bucket
-      //   const fetchedFiles = await Storage.list("images/");
-
-      // Map fetched files to UploadedFile interface
-      const mappedFiles = propertyState.documents?.map((file: any) => ({
-        id: uuidv4(),
-        name: file.split("/").pop() || "",
-      }));
-
-      setFiles(mappedFiles);
+      const dataState =
+        uploadKey === "images" ? propertyState.images : propertyState.documents;
+      const fileIndicators = dataState?.map((fileUrl: string) =>
+        fileUrl.split("/").pop()
+      );
+      setFilesIndicators(fileIndicators);
     } catch (error) {
       console.error("Error fetching files:", error);
     }
   };
 
   const handleFileRemove = async (fileId: string) => {
+    //TODO
     try {
-      const updatedFiles = files.filter((file) => file.id !== fileId);
-      setFiles(updatedFiles);
-      updateLocalState(
-        uploadKey,
-        updatedFiles.map((file) => file?.data.name)
-      );
-      setUploadStatus(false);
+      const updatedFiles = filesIndicators.filter((id) => id !== fileId);
+      setFilesIndicators(updatedFiles);
+
+      // update the local state of the file
+      // update the
+
+      // updateLocalState(
+      //   uploadKey,
+      //   updatedFiles.map((file) => file?.data.name)
+      // );
+      // setUploadStatus(false);
     } catch (error) {
       console.error("Error removing file:", error);
     }
@@ -121,6 +133,10 @@ const FileUploadComponent: React.FC<FileUpload> = ({
     }
   };
 
+  const handleUpdate = async () => {
+    //TODO
+  };
+
   const limitExeeds = files.length >= 10;
 
   return (
@@ -139,17 +155,21 @@ const FileUploadComponent: React.FC<FileUpload> = ({
           />
         </div>
         <div className="col-span-2 md:col-span-1">
-          {files?.map((file) => {
-            const name = generateFileName(file.data.name, file.id);
+          {filesIndicators?.map((filesIndicator) => {
+            const fileUrl = fileUrls?.find((fileUrl) =>
+              fileUrl.includes(filesIndicator)
+            );
             return (
               <div
-                key={file.id}
+                key={filesIndicator}
                 className="flex items-center my-3 p-1 section-light-background-color rounded max-w-[600px]"
               >
                 <FileDisplayItem
-                  fileId={name}
-                  name={name}
+                  fileId={filesIndicator}
+                  fileUrl={fileUrl}
+                  name={filesIndicator}
                   handleFileRemove={handleFileRemove}
+                  editable={true}
                 />
               </div>
             );
@@ -162,9 +182,17 @@ const FileUploadComponent: React.FC<FileUpload> = ({
             className="primary-background-color secondary-font-color self-end disabled:bg-white disabled:primary-font-color"
             disabled={!propertyState.property_id || files.length === 0}
             size="lg"
-            onClick={handleUpload}
+            onClick={() => {
+              if (isCreate) {
+                handleUpload();
+              } else {
+                handleUpdate();
+              }
+            }}
           >
-            <span className="px-2"> Save Files</span>
+            <span className="px-2">
+              {isCreate ? "Save Files" : "Update Files"}
+            </span>
             {loading && <Loading />}
           </Button>
         </div>

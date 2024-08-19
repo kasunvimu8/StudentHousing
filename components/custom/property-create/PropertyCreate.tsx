@@ -150,6 +150,7 @@ const PropertyCreate = ({
         <ImageSectioon
           propertyState={propertyState}
           updateLocalState={updateLocalState}
+          isCreate={true}
         />
 
         <LocationSection
@@ -168,6 +169,7 @@ const PropertyCreate = ({
         <ContractDocumentSection
           propertyState={propertyState}
           updateLocalState={updateLocalState}
+          isCreate={true}
         />
         <AdditionalInformation
           value={propertyState?.additional_information || ""}
