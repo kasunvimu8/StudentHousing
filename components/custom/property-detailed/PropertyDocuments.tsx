@@ -6,6 +6,15 @@ import { LuDownload, LuExternalLink } from "react-icons/lu";
 import { getDocumentName } from "@/lib/utils";
 
 const PropertyDocuments = ({ documents }: { documents: string[] }) => {
+  const handleDownloadDocument = (url: string) => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="pt-4">
       <SectionTitle title="Contract Documents" />
@@ -23,7 +32,7 @@ const PropertyDocuments = ({ documents }: { documents: string[] }) => {
                   <LuExternalLink
                     className="text-lg cursor-pointer"
                     onClick={() => {
-                      console.log("view");
+                      window.open(document, "_blank");
                     }}
                   />
                 </div>
@@ -31,7 +40,7 @@ const PropertyDocuments = ({ documents }: { documents: string[] }) => {
                   <LuDownload
                     className="text-lg cursor-pointer"
                     onClick={() => {
-                      console.log("download");
+                      handleDownloadDocument(document);
                     }}
                   />
                 </div>

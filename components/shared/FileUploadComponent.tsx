@@ -41,7 +41,7 @@ const FileUploadComponent: React.FC<FileUpload> = ({
 
         const filePaths = newFiles.map((file: FileType) => {
           const name = generateFileName(file.data.name, file.id);
-          return `public/properties/${uploadKey}/${name}`;
+          return `public/properties/${propertyState.property_id}/${uploadKey}/${name}`;
         });
 
         updateLocalState(uploadKey, filePaths);

@@ -22,9 +22,7 @@ export async function handleUpload(
   if (!file) {
     throw new Error("No file provided");
   }
-  const filename = fileName
-    ? `${fileName}${path.extname(file.name)}`
-    : path.extname(file.name);
+  const filename = fileName ?? file.name;
   const maxSize = 5 * 1024 * 1024; // 5 MB
   // Check if the file size exceeds the maximum allowed size
   if (file.size > maxSize) {
@@ -32,17 +30,15 @@ export async function handleUpload(
   }
 
   const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
+  const buffer: any = Buffer.from(arrayBuffer);
 
-  // const filename = `${uuidv4()}${path.extname(file.name)}`;
   const destination = path.join(uploadPath, filename);
 
   // Ensure the directory exists
   fs.mkdirSync(path.dirname(destination), { recursive: true });
-  const uint8Array = new Uint8Array(buffer);
 
   // Write the file to the destination
-  await fs.promises.writeFile(destination, uint8Array);
+  await fs.promises.writeFile(destination, buffer);
 
   return destination;
 }

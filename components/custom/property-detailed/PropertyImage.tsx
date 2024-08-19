@@ -13,27 +13,31 @@ import { LuLoader2 } from "react-icons/lu";
 import { IoMdImages } from "react-icons/io";
 
 const PropertyImage = ({ images }: { images: string[] }) => {
-  // TODO: Change here after the storage service is available
   const getImages = (images: string[]) => {
-    return images.map((file: string, index: number) => {
-      const fileName = file.split("/").pop();
-      return {
-        src: `/images/sample/${fileName}`,
-        alt: `${fileName}-${index}`,
-        id: `${index}`,
-      };
+    let filteredImages = [];
+
+    images?.forEach((file: string) => {
+      if (file && file !== "") {
+        const fileName = file.split("/").pop();
+        filteredImages.push({
+          src: file,
+          alt: `${fileName}`,
+          id: `${fileName}`,
+        });
+      }
     });
+
+    if (filteredImages.length === 0) {
+      filteredImages.push({
+        src: "/images/sample_bed_not_found.png",
+        alt: "property_detailed_image_not_found",
+        id: "property_detailed_image_not_found",
+      });
+    }
+    return filteredImages;
   };
-  const imageData =
-    images.length > 0
-      ? getImages(images)
-      : [
-          {
-            src: "/images/sample_bed_not_found.png",
-            alt: "sample_bed_not_found",
-            id: "image_bed_not_found",
-          },
-        ];
+
+  const imageData = getImages(images);
 
   const [loaded, setLoaded] = useState(false);
   return (

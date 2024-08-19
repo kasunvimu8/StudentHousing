@@ -130,7 +130,6 @@ const PropertyCreate = ({
       console.log("Error occured during cloning the property", e);
     }
   };
-
   return (
     <div>
       <div className="grid grid-cols-2 gap-2">

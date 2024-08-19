@@ -251,17 +251,9 @@ export async function createPropertyAction(property: PropertyDeafultType) {
     await connectToDatabase();
 
     const userData = await getProfile();
-    // TODO: Create functionality handle with storage service
-    const images = property.images;
-    const imageUrls = images?.map(
-      (image: string) =>
-        `${process.env.IMAGE_BUCKET_URL}/${property.property_id}/${image}`
-    );
-    const docs = property.documents;
-    const docsUrls = docs?.map(
-      (docs: string) =>
-        `${process.env.DOC_BUCKET_URL}/${property.property_id}/${docs}`
-    );
+
+    const imageUrls = property.images;
+    const docsUrls = property.documents;
 
     await Property.create({
       ...property,

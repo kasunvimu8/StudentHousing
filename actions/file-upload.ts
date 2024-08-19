@@ -21,7 +21,8 @@ async function uploadPublicFile(
   try {
     const uploadPath = path.join(
       require("os").homedir(),
-      "storage/public",
+      "storage",
+      "public",
       section,
       id,
       subSection
@@ -52,7 +53,8 @@ async function uploadPrivateFile(id: string, formDataList: FormData[]) {
   try {
     const uploadPath = path.join(
       require("os").homedir(),
-      "storage/private",
+      "storage",
+      "private",
       "uploads",
       "00000"
     );
