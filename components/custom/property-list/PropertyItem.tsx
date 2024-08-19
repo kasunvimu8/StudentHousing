@@ -37,9 +37,9 @@ const PropertyItem = ({ property }: { property: Property }) => {
     : "";
 
   // TODO: Change here after the storage service is available
-  const fileName = property?.images[0]?.split("/")?.pop();
-  const src = fileName
-    ? `/images/sample/${fileName}`
+  const thumbnail = property?.thumbnail_url;
+  const src = thumbnail
+    ? `${process.env.BASE_URL}/api/file/${thumbnail}`
     : "/images/sample_bed_not_found.png";
 
   return (

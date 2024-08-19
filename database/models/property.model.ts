@@ -31,6 +31,7 @@ const PropertySchema = new Schema({
   notice_period: Number,
   property_id: { required: true, unique: true, type: String },
   room_id: String,
+  thumbnail_url: String,
 });
 
 PropertySchema.pre("updateOne", function (next) {

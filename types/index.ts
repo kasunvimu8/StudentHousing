@@ -66,6 +66,7 @@ export type PropertyDeafultType = {
   warm_rent?: number;
   deposit?: number;
   notice_period?: number;
+  thumbnail_url?: number;
 };
 
 export type Property = PropertyDeafultType & {

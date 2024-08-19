@@ -253,12 +253,14 @@ export async function createPropertyAction(property: PropertyDeafultType) {
     const userData = await getProfile();
 
     const imageUrls = property.images;
+    const thumbnail_url = property.images?.[0];
     const docsUrls = property.documents;
 
     await Property.create({
       ...property,
       images: imageUrls,
       documents: docsUrls,
+      thumbnail_url: thumbnail_url,
       created_at: new Date(),
       created_by: userData ? userData?.user_name : adminType,
     });
