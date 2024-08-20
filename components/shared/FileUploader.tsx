@@ -9,12 +9,14 @@ interface FileUploaderProps {
   handleFileUpload: (files: FileType[]) => void;
   info: string;
   limitExeeds?: boolean;
+  disabled: boolean;
 }
 
 const FileUploader: React.FC<FileUploaderProps> = ({
   handleFileUpload,
   info,
   limitExeeds = false,
+  disabled = false,
 }) => {
   const maxSize = 5 * 1024 * 1024;
   const { toast } = useToast();
@@ -40,6 +42,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     onDrop,
+    disabled: disabled,
     accept: {
       "image/*": [".png", ".jpg"],
       "application/pdf": [".pdf"],
@@ -47,7 +50,6 @@ const FileUploader: React.FC<FileUploaderProps> = ({
     maxSize: maxSize,
     maxFiles: 10,
   });
-
   return (
     <div className="col-span-3 md:col-span-1">
       <div {...getRootProps({ className: "dropzone" })}>

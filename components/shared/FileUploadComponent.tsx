@@ -1,6 +1,9 @@
 "use client";
 
-import { uploadPublicPropertyFile } from "@/actions/file-upload";
+import {
+  updatePublicPropertyFiles,
+  uploadPublicPropertyFile,
+} from "@/actions/file-upload";
 import FileDisplayItem from "@/components/shared/FileDisplayItem";
 import FileUploader from "@/components/shared/FileUploader";
 import Loading from "@/components/shared/Loading";
@@ -31,6 +34,7 @@ const FileUploadComponent: React.FC<FileUpload> = ({
 }) => {
   const [files, setFiles] = useState<FileType[]>([]);
   const [filesIndicators, setFilesIndicators] = useState<string[]>([]);
+  const [removedFiles, setRemovedFiles] = useState<string[]>([]);
 
   const [uploadStatus, setUploadStatus] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -54,8 +58,8 @@ const FileUploadComponent: React.FC<FileUpload> = ({
           const name = generateFileName(file.data.name, file.id);
           return `public/properties/${propertyState.property_id}/${uploadKey}/${name}`;
         });
-
-        updateLocalState(uploadKey, filePaths);
+        const dataState = propertyState[uploadKey];
+        updateLocalState(uploadKey, [...dataState, ...filePaths]);
 
         setUploadStatus(false);
       } catch (error) {
@@ -66,8 +70,7 @@ const FileUploadComponent: React.FC<FileUpload> = ({
 
   const fetchInitialFiles = async () => {
     try {
-      const dataState =
-        uploadKey === "images" ? propertyState.images : propertyState.documents;
+      const dataState = propertyState[uploadKey];
       const fileIndicators = dataState?.map((fileUrl: string) =>
         fileUrl.split("/").pop()
       );
@@ -78,19 +81,23 @@ const FileUploadComponent: React.FC<FileUpload> = ({
   };
 
   const handleFileRemove = async (fileId: string) => {
-    //TODO
     try {
       const updatedFiles = filesIndicators.filter((id) => id !== fileId);
       setFilesIndicators(updatedFiles);
 
-      // update the local state of the file
-      // update the
+      // update the state to be removed once hit save
+      setRemovedFiles((prevFiles) => [...prevFiles, fileId]);
 
-      // updateLocalState(
-      //   uploadKey,
-      //   updatedFiles.map((file) => file?.data.name)
-      // );
-      // setUploadStatus(false);
+      // update the local proeprty state
+      const dataState = propertyState[uploadKey];
+      const fileUrls = dataState?.filter((fileUrl: string) => {
+        const fileName = fileUrl.split("/").pop();
+
+        return fileName !== fileId;
+      });
+
+      updateLocalState(uploadKey, fileUrls);
+      setUploadStatus(false);
     } catch (error) {
       console.error("Error removing file:", error);
     }
@@ -134,17 +141,56 @@ const FileUploadComponent: React.FC<FileUpload> = ({
   };
 
   const handleUpdate = async () => {
-    //TODO
+    try {
+      let formDataArray = [];
+      const dataState = propertyState[uploadKey];
+
+      for (const currentFile of files) {
+        const formData = new FormData();
+        formData.append("file", currentFile.data);
+
+        formDataArray.push({ data: formData, id: currentFile.id });
+      }
+      const { msg, type } = await updatePublicPropertyFiles(
+        formDataArray,
+        "properties",
+        uploadKey,
+        propertyState.property_id,
+        removedFiles,
+        dataState
+      );
+
+      if (type === "ok") {
+        setUploadStatus(true);
+        setRemovedFiles([]);
+      }
+
+      toast({
+        title: `File Update ${type === "ok" ? "Success" : "Failed"} `,
+        description: msg,
+        variant: type,
+      });
+    } catch (error) {
+      toast({
+        title: "File Update Failed",
+        description: (error as Error).message || "An unknown error occurred.",
+        variant: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const limitExeeds = files.length >= 10;
-
   return (
     <div className="pt-3">
       <SectionTitle title={title} />
       <div className="pt-2 font-normal text-xs primary-light-font-color flex items-center">
         Files need to be saved separately before creating the property. Please
-        make sure that the property ID is provided before saving
+        also ensure that the property ID is provided before saving Files.
+        Additionally, do not change the property ID after uploading files. If
+        you need to change the property ID, remove the existing files and
+        re-upload all of them after changing the property ID.
       </div>
       <div className="w-full grid grid-cols-2 gap-2 md:gap-8 py-5">
         <div className="col-span-2 md:col-span-1">
@@ -152,6 +198,7 @@ const FileUploadComponent: React.FC<FileUpload> = ({
             handleFileUpload={handleFileUpload}
             info="Drag & Drop or Select .png or .jpg files"
             limitExeeds={limitExeeds}
+            disabled={!propertyState.property_id}
           />
         </div>
         <div className="col-span-2 md:col-span-1">
@@ -180,7 +227,9 @@ const FileUploadComponent: React.FC<FileUpload> = ({
         <div className="flex justify-end">
           <Button
             className="primary-background-color secondary-font-color self-end disabled:bg-white disabled:primary-font-color"
-            disabled={!propertyState.property_id || files.length === 0}
+            disabled={
+              !propertyState.property_id || (files.length === 0 && isCreate)
+            }
             size="lg"
             onClick={() => {
               if (isCreate) {

@@ -75,14 +75,6 @@ async function uploadPrivateFile(id: string, formDataList: FormData[]) {
   }
 }
 
-export async function removeFile(filePath: string): Promise<void> {
-  const fullPath = path.join(process.cwd(), filePath);
-  await deleteFile(fullPath);
-
-  // Optionally revalidate any path after deletion
-  revalidatePath("/");
-}
-
 export async function uploadPublicPropertyFile(
   formDataList: formDatPaylaod[],
   section: string,
@@ -98,4 +90,54 @@ export async function uploadPublicPropertyFile(
   }
 
   return uploadPublicFile(formDataList, section, subSection, id);
+}
+
+export async function updatePublicPropertyFiles(
+  formDataList: formDatPaylaod[],
+  section: string,
+  subSection: string,
+  id: string,
+  removedFiles: string[],
+  filePropertyUrls: string[]
+): Promise<ResponseT> {
+  try {
+    // first upload if any new files are added
+    if (formDataList.length > 0) {
+      await uploadPublicFile(formDataList, section, subSection, id);
+    }
+    await Property.updateOne(
+      { property_id: id },
+      {
+        $set: {
+          [subSection]: filePropertyUrls,
+        },
+      }
+    );
+
+    // remove delted files in the server
+    for (const fileUrl of removedFiles) {
+      const uploadPath = path.join(
+        require("os").homedir(),
+        "storage",
+        "public",
+        section,
+        id,
+        subSection,
+        fileUrl
+      );
+      await deleteFile(uploadPath);
+    }
+
+    revalidatePath("/");
+    return {
+      msg: "Property files updated successfully",
+      type: "ok",
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      msg: "Failed to update files",
+      type: "error",
+    };
+  }
 }
