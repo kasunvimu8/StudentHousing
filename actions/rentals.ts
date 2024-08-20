@@ -122,10 +122,8 @@ export async function getAllRentals(
           address: "$property.address",
           room_id: "$property.room_id",
           days_to_end_rental: {
-            $dateDiff: {
-              startDate: "$$NOW",
-              endDate: "$to",
-              unit: "day",
+            $trunc: {
+              $divide: [{ $subtract: ["$to", "$$NOW"] }, 1000 * 60 * 60 * 24],
             },
           },
         },
