@@ -40,6 +40,8 @@ const FileUploadComponent: React.FC<FileUpload> = ({
     fetchInitialFiles();
   }, []);
 
+  const dataState = propertyState[uploadKey];
+
   const handleFileUpload = async (newFiles: FileType[]) => {
     if (newFiles?.length > 0) {
       try {
@@ -54,7 +56,6 @@ const FileUploadComponent: React.FC<FileUpload> = ({
           const name = generateFileName(file.data.name, file.id);
           return `properties/${propertyState.property_id}/${uploadKey}/${name}`;
         });
-        const dataState = propertyState[uploadKey];
         updateLocalState(uploadKey, [...dataState, ...filePaths]);
 
         setUploadStatus(false);
@@ -66,7 +67,6 @@ const FileUploadComponent: React.FC<FileUpload> = ({
 
   const fetchInitialFiles = async () => {
     try {
-      const dataState = propertyState[uploadKey];
       const fileIndicators = dataState?.map((fileUrl: string) =>
         fileUrl.split("/").pop()
       );
@@ -81,11 +81,24 @@ const FileUploadComponent: React.FC<FileUpload> = ({
       const updatedFiles = filesIndicators.filter((id) => id !== fileId);
       setFilesIndicators(updatedFiles);
 
-      // update the state to be removed once hit save
-      setRemovedFiles((prevFiles) => [...prevFiles, fileId]);
+      const isNewFileRemoved = files?.find((file: FileType) => {
+        const name = generateFileName(file.data.name, file.id);
+
+        return name === fileId;
+      });
+
+      if (isNewFileRemoved) {
+        // remove the file from files (just uploaded file got deleted)
+        const filesUpdated = files.filter((file) => {
+          const name = generateFileName(file.data.name, file.id);
+          return name !== fileId;
+        });
+        setFiles(filesUpdated);
+      } else {
+        setRemovedFiles((prevFiles) => [...prevFiles, fileId]);
+      }
 
       // update the local proeprty state
-      const dataState = propertyState[uploadKey];
       const fileUrls = dataState?.filter((fileUrl: string) => {
         const fileName = fileUrl.split("/").pop();
 
@@ -143,7 +156,6 @@ const FileUploadComponent: React.FC<FileUpload> = ({
     try {
       setLoading(true);
       let formDataArray = [];
-      const dataState = propertyState[uploadKey];
 
       for (const currentFile of files) {
         const formData = new FormData();

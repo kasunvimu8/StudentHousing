@@ -137,12 +137,12 @@ const UpdatePropertyDetail = ({
         equipments={propertyState.equipments}
         updateLocalState={updateLocalState}
       />
-      <ContractDocumentSection
+      {/* <ContractDocumentSection
         propertyState={propertyState}
         updateLocalState={updateLocalState}
         documentsURL={documentsURL}
         isCreate={false}
-      />
+      /> */}
       <AdditionalInformation
         value={propertyState?.additional_information || ""}
         updateLocalState={updateLocalState}
