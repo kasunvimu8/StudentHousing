@@ -13,7 +13,7 @@ type formDatPaylaod = {
   id: string;
 };
 
-async function uploadPublicFile(
+async function uploadFile(
   formDataList: formDatPaylaod[],
   section: string,
   subSection: string,
@@ -23,7 +23,6 @@ async function uploadPublicFile(
     const uploadPath = path.join(
       require("os").homedir(),
       "storage",
-      "public",
       section,
       id,
       subSection
@@ -50,34 +49,8 @@ async function uploadPublicFile(
   }
 }
 
-async function uploadPrivateFile(id: string, formDataList: FormData[]) {
-  try {
-    const uploadPath = path.join(
-      require("os").homedir(),
-      "storage",
-      "private",
-      "uploads",
-      "00000"
-    );
-    for (const formData of formDataList) {
-      const filePath = await handleUpload(formData, uploadPath);
-    }
-
-    return {
-      msg: "Files uploaded successfully",
-      type: "ok",
-    };
-  } catch (err) {
-    console.log(err);
-    return {
-      msg: "Failed to upload files",
-      type: "error",
-    };
-  }
-}
-
 /* Handle Property Document Upload */
-export async function uploadPublicPropertyFile(
+export async function uploadPropertyFile(
   formDataList: formDatPaylaod[],
   section: string,
   subSection: string,
@@ -91,11 +64,11 @@ export async function uploadPublicPropertyFile(
     };
   }
 
-  return uploadPublicFile(formDataList, section, subSection, id);
+  return uploadFile(formDataList, section, subSection, id);
 }
 
 /* Handle Property Document Update */
-export async function updatePublicPropertyFiles(
+export async function updatePropertyFiles(
   formDataList: formDatPaylaod[],
   section: string,
   subSection: string,
@@ -106,7 +79,7 @@ export async function updatePublicPropertyFiles(
   try {
     // first upload if any new files are added
     if (formDataList.length > 0) {
-      await uploadPublicFile(formDataList, section, subSection, id);
+      await uploadFile(formDataList, section, subSection, id);
     }
     await Property.updateOne(
       { property_id: id },
@@ -122,7 +95,6 @@ export async function updatePublicPropertyFiles(
       const uploadPath = path.join(
         require("os").homedir(),
         "storage",
-        "public",
         section,
         id,
         subSection,
@@ -146,7 +118,7 @@ export async function updatePublicPropertyFiles(
 }
 
 /* Handle Reservation Document Upload */
-export async function uploadPublicContractFile(
+export async function uploadContractFile(
   formDataList: formDatPaylaod[],
   reservationId: string
 ): Promise<ResponseT> {
@@ -154,7 +126,6 @@ export async function uploadPublicContractFile(
     const uploadPath = path.join(
       require("os").homedir(),
       "storage",
-      "public",
       "contracts",
       reservationId
     );
@@ -184,7 +155,7 @@ export async function uploadPublicContractFile(
 }
 
 /* Handle Reservation Document Submission */
-export async function updatePublicContractFiles(
+export async function updateContractFiles(
   formDataList: formDatPaylaod[],
   reservationId: string,
   removedFiles: string[],
@@ -198,7 +169,6 @@ export async function updatePublicContractFiles(
       const uploadPath = path.join(
         require("os").homedir(),
         "storage",
-        "public",
         "contracts",
         reservationId,
         fileUrl
@@ -208,7 +178,7 @@ export async function updatePublicContractFiles(
 
     // first upload if any new files are added
     if (formDataList.length > 0) {
-      await uploadPublicContractFile(formDataList, reservationId);
+      await uploadContractFile(formDataList, reservationId);
     }
 
     await Reservation.updateOne(

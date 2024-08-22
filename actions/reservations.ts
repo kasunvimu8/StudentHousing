@@ -20,7 +20,7 @@ import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
 import { adminType, documentSubmission, expirationDuration } from "@/constants";
 import { calculateFutureDate } from "@/lib/utils";
-import { updatePublicContractFiles } from "./file-upload";
+import { updateContractFiles } from "./file-upload";
 
 type formDatPaylaod = {
   data: FormData;
@@ -406,11 +406,7 @@ export async function getReservation(reservationId: string) {
   }
 }
 
-async function checkSubmitedDocuments(
-  documents: string[],
-  reservationId: string,
-  is_admin: boolean
-) {
+async function checkSubmitedDocuments(documents: string[], is_admin: boolean) {
   const user_id = await getUserId();
   // TODO handle document submission here
   await connectToDatabase();
@@ -431,13 +427,9 @@ async function checkSubmitedDocuments(
   documents.forEach((document: string) => {
     const str = document?.split("-");
     const userId = str?.[0];
-    const RefId = str?.[1];
-    const docName = str?.[2];
+    const docName = str?.[1];
 
     if (userId !== user_id) {
-      isDocumentsOkay = false;
-    }
-    if (RefId !== reservationId) {
       isDocumentsOkay = false;
     }
     if (docName) {
@@ -461,39 +453,6 @@ async function checkSubmitedDocuments(
   }
 
   return isDocumentsOkay;
-
-  // try {
-
-  //   await Reservation.updateOne(
-  //     { _id: reservationId },
-  //     {
-  //       $set: {
-  //         status: nextStatus,
-  //         signed_documents: documentUrls,
-  //         user_comment: comment,
-  //         admin_comment: "",
-  //       },
-  //     }
-  //   );
-
-  //   msg = "Documents uploaded successfully";
-  //   type = "ok";
-
-  //   if (is_admin) {
-  //     revalidatePath("/manage-reservations");
-  //   } else {
-  //     revalidatePath("/my-reservations");
-  //   }
-  // } catch (error) {
-  //   console.log("Exception in reservation transaction ", error);
-  //   msg = "Internal Server Error. Failed to create reservation entries !";
-  //   type = "error";
-  // } finally {
-  //   return {
-  //     msg: msg,
-  //     type: type,
-  //   };
-  // }
 }
 
 function getFilterOptions(options: FilterParamTypes) {
@@ -799,13 +758,9 @@ export async function handleContractDocumentSubmission(
 ): Promise<ResponseT> {
   try {
     const fileUrls = filesIndicators?.map(
-      (filesIndicator) => `public/contracts/${reservationId}/${filesIndicator}`
+      (filesIndicator) => `contracts/${reservationId}/${filesIndicator}`
     );
-    const filesOkay = await checkSubmitedDocuments(
-      filesIndicators,
-      reservationId,
-      isAdmin
-    );
+    const filesOkay = await checkSubmitedDocuments(filesIndicators, isAdmin);
 
     if (!filesOkay)
       return {
@@ -813,7 +768,7 @@ export async function handleContractDocumentSubmission(
         type: "error",
       };
 
-    return await updatePublicContractFiles(
+    return await updateContractFiles(
       formDataArray,
       reservationId,
       removedFiles,

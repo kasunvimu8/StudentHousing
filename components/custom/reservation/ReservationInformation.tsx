@@ -3,7 +3,6 @@ import { formatDateTime } from "@/lib/utils";
 import { ReservationType } from "@/types";
 import Link from "next/link";
 import React from "react";
-import { LuCopy } from "react-icons/lu";
 import DocumentsList from "./DocumentsList";
 
 const ReservationInformation = async ({
@@ -12,18 +11,16 @@ const ReservationInformation = async ({
   reservation: ReservationType;
 }) => {
   const userId = await getUserId();
-  const ref = reservation._id;
-  const convention = `${userId}-${ref}`;
+  const convention = `${userId}`;
 
   return (
     <ul className="list-disc p-2">
       <li className="p-1 font-normal text-sm">
         {`Please upload the files listed below. Ensure that each document is named
-        according to your ID used during account creation (e.g., Passport ID or
-        NIC). Adhering to the file `}
+        according to your ID used during account creation. Adhering to the file `}
         <span className="font-bold">
           naming conventions is mandatory.
-          {`(<passport_id>-<reservation_id>-<file_name>.pdf)`}
+          {`(<enrollment_id>-<file_name>.pdf)`}
         </span>
         <DocumentsList convention={convention} />
       </li>

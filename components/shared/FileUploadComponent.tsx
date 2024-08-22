@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  updatePublicPropertyFiles,
-  uploadPublicPropertyFile,
-} from "@/actions/file-upload";
+import { updatePropertyFiles, uploadPropertyFile } from "@/actions/file-upload";
 import FileDisplayItem from "@/components/shared/FileDisplayItem";
 import FileUploader from "@/components/shared/FileUploader";
 import Loading from "@/components/shared/Loading";
@@ -55,7 +52,7 @@ const FileUploadComponent: React.FC<FileUpload> = ({
 
         const filePaths = newFiles.map((file: FileType) => {
           const name = generateFileName(file.data.name, file.id);
-          return `public/properties/${propertyState.property_id}/${uploadKey}/${name}`;
+          return `properties/${propertyState.property_id}/${uploadKey}/${name}`;
         });
         const dataState = propertyState[uploadKey];
         updateLocalState(uploadKey, [...dataState, ...filePaths]);
@@ -112,7 +109,7 @@ const FileUploadComponent: React.FC<FileUpload> = ({
 
         formDataArray.push({ data: formData, id: currentFile.id });
       }
-      const { msg, type } = await uploadPublicPropertyFile(
+      const { msg, type } = await uploadPropertyFile(
         formDataArray,
         "properties",
         uploadKey,
@@ -154,7 +151,7 @@ const FileUploadComponent: React.FC<FileUpload> = ({
 
         formDataArray.push({ data: formData, id: currentFile.id });
       }
-      const { msg, type } = await updatePublicPropertyFiles(
+      const { msg, type } = await updatePropertyFiles(
         formDataArray,
         "properties",
         uploadKey,
