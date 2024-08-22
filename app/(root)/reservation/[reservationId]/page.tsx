@@ -43,6 +43,13 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
   const isAdmin = userType === adminType;
   let editable = isDocumentSubmission || (isAdmin && !isCancelled && !isRented);
 
+  const fileUrls =
+    reservation?.signed_documents && reservation.signed_documents.length > 0
+      ? reservation?.signed_documents
+          .filter((doc: string) => !!doc)
+          .map((doc: string) => `${process.env.BASE_URL}/api/file/${doc}`)
+      : [];
+
   return (
     <div className="h-full w-full">
       <div className="grid grid-cols-2 gap-2">
@@ -145,7 +152,7 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
             </div>
           )}
 
-          {isRented || (isAdmin && isDocumentSubmission) ? (
+          {isAdmin && isDocumentSubmission ? (
             <></>
           ) : (
             <div className="mx-auto py-5">
@@ -154,6 +161,7 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
                 editable={editable}
                 isDocumentSubmission={isDocumentSubmission}
                 isAdmin={isAdmin}
+                fileUrls={fileUrls}
               />
             </div>
           )}

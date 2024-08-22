@@ -3,10 +3,12 @@
 import { connectToDatabase } from "@/database";
 import Reservation from "@/database/models/reservation.model";
 import {
+  FileType,
   FilterParamTypes,
   Property as PropertyType,
   reservationPayload,
   ReservationType,
+  ResponseT,
   SortOption,
 } from "@/types";
 import { getProperty } from "./properties";
@@ -18,6 +20,12 @@ import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
 import { adminType, documentSubmission, expirationDuration } from "@/constants";
 import { calculateFutureDate } from "@/lib/utils";
+import { updatePublicContractFiles } from "./file-upload";
+
+type formDatPaylaod = {
+  data: FormData;
+  id: string;
+};
 
 export async function getReservationExist(_id: string) {
   try {
@@ -398,25 +406,21 @@ export async function getReservation(reservationId: string) {
   }
 }
 
-export async function submitDocuments(
-  documents: any,
+async function checkSubmitedDocuments(
+  documents: string[],
   reservationId: string,
-  nextStatus: string,
-  is_admin: boolean,
-  comment: string
+  is_admin: boolean
 ) {
   const user_id = await getUserId();
   // TODO handle document submission here
   await connectToDatabase();
-
-  let msg = "";
-  let type = "";
 
   // checking whether document naming convention is okay
   let isDocumentsOkay = true;
 
   if (documents.length !== 3) {
     isDocumentsOkay = false;
+    return false;
   }
 
   let fileNames = {
@@ -424,8 +428,8 @@ export async function submitDocuments(
     "id.pdf": false,
     "enrollment_certificate.pdf": false,
   };
-  documents.forEach((document: { id: string; name: string }) => {
-    const str = document?.name?.split("-");
+  documents.forEach((document: string) => {
+    const str = document?.split("-");
     const userId = str?.[0];
     const RefId = str?.[1];
     const docName = str?.[2];
@@ -456,47 +460,40 @@ export async function submitDocuments(
     isDocumentsOkay = true;
   }
 
-  if (!isDocumentsOkay)
-    return {
-      msg: "One or more documents have been incorrectly named. Kindly adhere to the document naming guidelines.",
-      type: "error",
-    };
+  return isDocumentsOkay;
 
-  try {
-    const documentUrls = documents.map(
-      (doc: { id: string; name: string }) =>
-        `${process.env.RESERVATION_BUCKET_URL}/${reservationId}/${doc.name}`
-    );
-    await Reservation.updateOne(
-      { _id: reservationId },
-      {
-        $set: {
-          status: nextStatus,
-          signed_documents: documentUrls,
-          user_comment: comment,
-          admin_comment: "",
-        },
-      }
-    );
+  // try {
 
-    msg = "Documents uploaded successfully";
-    type = "ok";
+  //   await Reservation.updateOne(
+  //     { _id: reservationId },
+  //     {
+  //       $set: {
+  //         status: nextStatus,
+  //         signed_documents: documentUrls,
+  //         user_comment: comment,
+  //         admin_comment: "",
+  //       },
+  //     }
+  //   );
 
-    if (is_admin) {
-      revalidatePath("/manage-reservations");
-    } else {
-      revalidatePath("/my-reservations");
-    }
-  } catch (error) {
-    console.log("Exception in reservation transaction ", error);
-    msg = "Internal Server Error. Failed to create reservation entries !";
-    type = "error";
-  } finally {
-    return {
-      msg: msg,
-      type: type,
-    };
-  }
+  //   msg = "Documents uploaded successfully";
+  //   type = "ok";
+
+  //   if (is_admin) {
+  //     revalidatePath("/manage-reservations");
+  //   } else {
+  //     revalidatePath("/my-reservations");
+  //   }
+  // } catch (error) {
+  //   console.log("Exception in reservation transaction ", error);
+  //   msg = "Internal Server Error. Failed to create reservation entries !";
+  //   type = "error";
+  // } finally {
+  //   return {
+  //     msg: msg,
+  //     type: type,
+  //   };
+  // }
 }
 
 function getFilterOptions(options: FilterParamTypes) {
@@ -777,11 +774,11 @@ export async function approveDocument(
     );
 
     revalidatePath(`/reservation/${reservationId}`);
-    msg = "Reservation documents rejected successfully";
+    msg = "Reservation documents approved";
     type = "ok";
   } catch (error) {
-    console.log("Failed to reject the documents.", error);
-    msg = "Internal Server Error. Failed to reject the documents !";
+    console.log("Failed to approve the documents.", error);
+    msg = "Internal Server Error. Failed to aprove the documents !";
     type = "error";
   }
 
@@ -789,4 +786,46 @@ export async function approveDocument(
     msg,
     type,
   };
+}
+
+export async function handleContractDocumentSubmission(
+  formDataArray: formDatPaylaod[],
+  reservationId: string,
+  removedFiles: string[],
+  filesIndicators: string[],
+  nextStatus: string,
+  isAdmin: boolean,
+  comment: string
+): Promise<ResponseT> {
+  try {
+    const fileUrls = filesIndicators?.map(
+      (filesIndicator) => `public/contracts/${reservationId}/${filesIndicator}`
+    );
+    const filesOkay = await checkSubmitedDocuments(
+      filesIndicators,
+      reservationId,
+      isAdmin
+    );
+
+    if (!filesOkay)
+      return {
+        msg: "One or more documents have been incorrectly named. Kindly adhere to the document naming guidelines.",
+        type: "error",
+      };
+
+    return await updatePublicContractFiles(
+      formDataArray,
+      reservationId,
+      removedFiles,
+      fileUrls,
+      nextStatus,
+      comment
+    );
+  } catch (err) {
+    console.log(err);
+    return {
+      msg: "Failed to save constract documents",
+      type: "error",
+    };
+  }
 }

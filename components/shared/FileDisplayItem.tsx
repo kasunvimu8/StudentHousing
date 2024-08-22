@@ -22,24 +22,28 @@ const FileDisplayItem = ({
         <span className="font-medium text-sm">{name}</span>
       </div>
       <div className="flex justify-end gap-2">
-        <div className="primary-font-color p-1 rounded">
-          <LuExternalLink
-            strokeWidth="3"
-            onClick={() => {
-              if (fileUrl) window.open(fileUrl, "_blank");
-            }}
-            className="w-4 h-4 cursor-pointer"
-          />
-        </div>
-        <div className="primary-font-color p-1 rounded">
-          <LuDownload
-            strokeWidth="3"
-            onClick={() => {
-              if (fileUrl) handleDownloadDocument(fileUrl);
-            }}
-            className="w-4 h-4 cursor-pointer"
-          />
-        </div>
+        {fileUrl && (
+          <>
+            <div className="primary-font-color p-1 rounded">
+              <LuExternalLink
+                strokeWidth="3"
+                onClick={() => {
+                  if (fileUrl) window.open(fileUrl, "_blank");
+                }}
+                className="w-4 h-4 cursor-pointer"
+              />
+            </div>
+            <div className="primary-font-color p-1 rounded">
+              <LuDownload
+                strokeWidth="3"
+                onClick={() => {
+                  if (fileUrl) handleDownloadDocument(fileUrl);
+                }}
+                className="w-4 h-4 cursor-pointer"
+              />
+            </div>
+          </>
+        )}
 
         {editable && (
           <div className="primary-font-color p-1 rounded ">

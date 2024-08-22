@@ -406,7 +406,7 @@ export const reservationStatuses = [
     workflowNumber: 4,
     workflowDispaly: true,
     showInDropdown: true,
-    actionDescription: "Congratulations! The living place is now yours",
+    actionDescription: "Congratulations! The living place is now yours 💐",
     adminActionDescription: "The Reservation has been completed succesfully",
   },
   {

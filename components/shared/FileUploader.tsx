@@ -10,12 +10,14 @@ interface FileUploaderProps {
   info: string;
   limitExeeds?: boolean;
   disabled: boolean;
+  limitSize: number;
 }
 
 const FileUploader: React.FC<FileUploaderProps> = ({
   handleFileUpload,
   info,
   limitExeeds = false,
+  limitSize = 10,
   disabled = false,
 }) => {
   const maxSize = 5 * 1024 * 1024;
@@ -25,7 +27,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
     if (limitExeeds) {
       toast({
         title: "File Upload Failed",
-        description: "You are not allowed to upload more than 10 files",
+        description: `You are not allowed to upload more than ${limitSize} files`,
         variant: "error",
       });
 
@@ -48,7 +50,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
       "application/pdf": [".pdf"],
     },
     maxSize: maxSize,
-    maxFiles: 10,
+    maxFiles: limitSize,
   });
   return (
     <div className="col-span-3 md:col-span-1">

@@ -13,7 +13,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { generateFileName } from "@/lib/utils";
 import { FileType } from "@/types";
 import React, { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 interface FileUpload {
   propertyState: Record<string, any>;
@@ -122,6 +121,9 @@ const FileUploadComponent: React.FC<FileUpload> = ({
 
       if (type === "ok") {
         setUploadStatus(true);
+
+        // in case of user delte files during the property create
+        setRemovedFiles([]);
       }
 
       toast({
@@ -142,6 +144,7 @@ const FileUploadComponent: React.FC<FileUpload> = ({
 
   const handleUpdate = async () => {
     try {
+      setLoading(true);
       let formDataArray = [];
       const dataState = propertyState[uploadKey];
 
@@ -181,7 +184,7 @@ const FileUploadComponent: React.FC<FileUpload> = ({
     }
   };
 
-  const limitExeeds = files.length >= 10;
+  const limitExeeds = filesIndicators.length >= 10;
   return (
     <div className="pt-3">
       <SectionTitle title={title} />
@@ -199,6 +202,7 @@ const FileUploadComponent: React.FC<FileUpload> = ({
             info="Drag & Drop or Select .png or .jpg files"
             limitExeeds={limitExeeds}
             disabled={!propertyState.property_id}
+            limitSize={10}
           />
         </div>
         <div className="col-span-2 md:col-span-1">

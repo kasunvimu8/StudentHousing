@@ -6,6 +6,7 @@ import { deleteFile, handleUpload } from "@/lib/storage";
 import Property from "@/database/models/property.model";
 import { ResponseT } from "@/types";
 import { generateFileName } from "@/lib/utils";
+import Reservation from "@/database/models/reservation.model";
 
 type formDatPaylaod = {
   data: FormData;
@@ -75,6 +76,7 @@ async function uploadPrivateFile(id: string, formDataList: FormData[]) {
   }
 }
 
+/* Handle Property Document Upload */
 export async function uploadPublicPropertyFile(
   formDataList: formDatPaylaod[],
   section: string,
@@ -92,6 +94,7 @@ export async function uploadPublicPropertyFile(
   return uploadPublicFile(formDataList, section, subSection, id);
 }
 
+/* Handle Property Document Update */
 export async function updatePublicPropertyFiles(
   formDataList: formDatPaylaod[],
   section: string,
@@ -131,6 +134,98 @@ export async function updatePublicPropertyFiles(
     revalidatePath("/");
     return {
       msg: "Property files updated successfully",
+      type: "ok",
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      msg: "Failed to update files",
+      type: "error",
+    };
+  }
+}
+
+/* Handle Reservation Document Upload */
+export async function uploadPublicContractFile(
+  formDataList: formDatPaylaod[],
+  reservationId: string
+): Promise<ResponseT> {
+  try {
+    const uploadPath = path.join(
+      require("os").homedir(),
+      "storage",
+      "public",
+      "contracts",
+      reservationId
+    );
+
+    for (const formData of formDataList) {
+      const file = formData.data.get("file") as File | null;
+
+      if (file) {
+        const filePath = await handleUpload(
+          formData.data,
+          uploadPath,
+          file.name
+        );
+      }
+    }
+    return {
+      msg: "Files uploaded successfully",
+      type: "ok",
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      msg: "Failed to upload files",
+      type: "error",
+    };
+  }
+}
+
+/* Handle Reservation Document Submission */
+export async function updatePublicContractFiles(
+  formDataList: formDatPaylaod[],
+  reservationId: string,
+  removedFiles: string[],
+  fileContractUrls: string[],
+  nextStatus: string,
+  comment: string
+): Promise<ResponseT> {
+  try {
+    // remove delted files in the server
+    for (const fileUrl of removedFiles) {
+      const uploadPath = path.join(
+        require("os").homedir(),
+        "storage",
+        "public",
+        "contracts",
+        reservationId,
+        fileUrl
+      );
+      await deleteFile(uploadPath);
+    }
+
+    // first upload if any new files are added
+    if (formDataList.length > 0) {
+      await uploadPublicContractFile(formDataList, reservationId);
+    }
+
+    await Reservation.updateOne(
+      { _id: reservationId },
+      {
+        $set: {
+          status: nextStatus,
+          signed_documents: fileContractUrls,
+          user_comment: comment,
+          admin_comment: "",
+        },
+      }
+    );
+
+    revalidatePath("/");
+    return {
+      msg: "Files updated successfully",
       type: "ok",
     };
   } catch (err) {
