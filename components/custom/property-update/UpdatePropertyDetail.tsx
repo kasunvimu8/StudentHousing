@@ -14,6 +14,7 @@ import { propertyFormSchema } from "@/lib/validators";
 import { useToast } from "@/components/ui/use-toast";
 import ConfirmationComponent from "@/components/shared/ConfirmationComponent";
 import AdditionalInformation from "./AdditionalInformation";
+import ThumbnailImageSection from "./ThumbnailImageSection";
 
 const initialState: Property = {
   _id: "",
@@ -54,6 +55,7 @@ const UpdatePropertyDetail = ({
   updatePropertyAction,
   imagesURL,
   documentsURL,
+  thumnailUrl,
 }: {
   property: Property;
   updatePropertyAction: (
@@ -61,6 +63,7 @@ const UpdatePropertyDetail = ({
   ) => Promise<{ msg: string; type: string }>;
   imagesURL: string[];
   documentsURL: string[];
+  thumnailUrl: string | undefined;
 }) => {
   const defaultState = property ? property : initialState;
   const [propertyState, setPropertyState] = useState(defaultState);
@@ -117,6 +120,13 @@ const UpdatePropertyDetail = ({
         propertyState={propertyState}
         updateLocalState={updateLocalState}
       />
+      <ThumbnailImageSection
+        propertyState={propertyState}
+        updateLocalState={updateLocalState}
+        imageURL={thumnailUrl}
+        isCreate={true}
+      />
+
       <ImageSectioon
         propertyState={propertyState}
         updateLocalState={updateLocalState}
@@ -137,12 +147,12 @@ const UpdatePropertyDetail = ({
         equipments={propertyState.equipments}
         updateLocalState={updateLocalState}
       />
-      {/* <ContractDocumentSection
+      <ContractDocumentSection
         propertyState={propertyState}
         updateLocalState={updateLocalState}
         documentsURL={documentsURL}
         isCreate={false}
-      /> */}
+      />
       <AdditionalInformation
         value={propertyState?.additional_information || ""}
         updateLocalState={updateLocalState}

@@ -29,7 +29,7 @@ const PropertyImage = ({ images }: { images: string[] }) => {
 
     if (filteredImages.length === 0) {
       filteredImages.push({
-        src: "/images/sample_bed_not_found.png",
+        src: "/images/not_found.jpg",
         alt: "property_detailed_image_not_found",
         id: "property_detailed_image_not_found",
       });

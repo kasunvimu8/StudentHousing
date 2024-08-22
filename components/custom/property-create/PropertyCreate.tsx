@@ -2,7 +2,7 @@
 
 import React, { ReactNode, useState } from "react";
 import ClonePropertyInput from "./ClonePropertyInput";
-import { ComboContentType, Property, PropertyDeafultType } from "@/types";
+import { ComboContentType, PropertyDeafultType } from "@/types";
 import { useToast } from "@/components/ui/use-toast";
 import { propertyFormSchema } from "@/lib/validators";
 import { ZodError } from "zod";
@@ -16,7 +16,8 @@ import ConfirmationComponent from "@/components/shared/ConfirmationComponent";
 import { Button } from "@/components/ui/button";
 import { createPropertyAction, getProperty } from "@/actions/properties";
 import { useRouter } from "next/navigation";
-import AdditionalInformation from "../property-update/AdditionalInformation";
+import AdditionalInformation from "@/components/custom/property-update/AdditionalInformation";
+import ThumbnailImageSection from "@/components/custom/property-update/ThumbnailImageSection";
 
 const initialState: PropertyDeafultType = {
   title: "",
@@ -147,6 +148,13 @@ const PropertyCreate = ({
           updateLocalState={updateLocalState}
           isCreate={true}
         />
+
+        <ThumbnailImageSection
+          propertyState={propertyState}
+          updateLocalState={updateLocalState}
+          isCreate={true}
+        />
+
         <ImageSectioon
           propertyState={propertyState}
           updateLocalState={updateLocalState}

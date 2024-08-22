@@ -206,3 +206,64 @@ export async function updateContractFiles(
     };
   }
 }
+
+/* Handle Thumbnail upload */
+export async function uploadThumbnail(
+  formData: FormData,
+  id: string,
+  thumbnailUrl: string,
+  removeFileUrl: string | null
+): Promise<ResponseT> {
+  try {
+    const file = formData.get("file") as File | null;
+    if (file) {
+      // remove delted files in the server
+      if (removeFileUrl) {
+        const removeFile = path.join(
+          require("os").homedir(),
+          "storage",
+          removeFileUrl
+        );
+        console.log(removeFile);
+        await deleteFile(removeFile);
+      }
+
+      // first upload if any new files are added
+      const uploadPath = path.join(
+        require("os").homedir(),
+        "storage",
+        "properties",
+        id,
+        "images"
+      );
+      const name = generateFileName(file.name, "thumbnail");
+      const filePath = await handleUpload(formData, uploadPath, name);
+
+      await Property.updateOne(
+        { property_id: id },
+        {
+          $set: {
+            thumbnail_url: thumbnailUrl,
+          },
+        }
+      );
+
+      revalidatePath("/");
+      return {
+        msg: "Files updated successfully",
+        type: "ok",
+      };
+    } else {
+      return {
+        msg: "Failed to update files. File not received.",
+        type: "error",
+      };
+    }
+  } catch (err) {
+    console.log(err);
+    return {
+      msg: "Failed to update files",
+      type: "error",
+    };
+  }
+}

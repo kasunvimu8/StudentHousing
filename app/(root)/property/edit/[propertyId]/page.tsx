@@ -22,6 +22,10 @@ const page = async ({ params }: { params: { propertyId: string } }) => {
           .map((doc: string) => `${process.env.BASE_URL}/api/file/${doc}`)
       : [];
 
+  const thumnailUrl = property?.thumbnail_url
+    ? `${process.env.BASE_URL}/api/file/${property?.thumbnail_url}`
+    : undefined;
+
   return (
     <div className="h-full w-full">
       {property && property._id ? (
@@ -35,6 +39,7 @@ const page = async ({ params }: { params: { propertyId: string } }) => {
               updatePropertyAction={updateProperty}
               imagesURL={imagesURL}
               documentsURL={documentsURL}
+              thumnailUrl={thumnailUrl}
             />
           </div>
         </div>

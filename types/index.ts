@@ -15,6 +15,7 @@ export interface PropertySectionProps {
   }) => void;
   isCreate?: boolean;
   imagesURL?: string[];
+  imageURL?: string;
   documentsURL?: string[];
 }
 

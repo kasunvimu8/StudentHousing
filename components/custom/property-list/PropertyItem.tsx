@@ -40,7 +40,7 @@ const PropertyItem = ({ property }: { property: Property }) => {
   const thumbnail = property?.thumbnail_url;
   const src = thumbnail
     ? `${process.env.BASE_URL}/api/file/${thumbnail}`
-    : "/images/sample_bed_not_found.png";
+    : "/images/not_found.jpg";
 
   return (
     <div className="flex">
