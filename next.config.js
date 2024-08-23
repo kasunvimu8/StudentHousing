@@ -1,6 +1,19 @@
 module.exports = {
   images: {
-    domains: ["localhost", "https://217.92.198.91/"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "217.92.198.91",
+        port: "",
+        pathname: "/api/file/**",
+      },
+      {
+        protocol: "http",
+        hostname: "217.92.198.91",
+        port: "3000",
+        pathname: "/api/file/**",
+      },
+    ],
   },
   async redirects() {
     return [
