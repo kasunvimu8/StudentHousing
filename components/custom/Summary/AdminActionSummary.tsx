@@ -2,20 +2,24 @@
 
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LuTimerOff } from "react-icons/lu";
+import { LuListStart, LuTimerOff } from "react-icons/lu";
 import { ImStopwatch } from "react-icons/im";
 import Link from "next/link";
+import { TbPlaylistX } from "react-icons/tb";
+import { MdOutlineDateRange } from "react-icons/md";
 
 const AdminActionSummary = ({
   deadlineMissed,
   approvalWaiting,
   tenantNotConfirmed,
   propertyNotDispatched,
+  idleProperties,
 }: {
   deadlineMissed: number;
   approvalWaiting: number;
   tenantNotConfirmed: number;
   propertyNotDispatched: number;
+  idleProperties: number;
 }) => {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -69,7 +73,7 @@ const AdminActionSummary = ({
             <CardTitle className="text-sm font-medium">
               End date unconfirmed
             </CardTitle>
-            <LuTimerOff />
+            <MdOutlineDateRange />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{tenantNotConfirmed}</div>
@@ -88,10 +92,29 @@ const AdminActionSummary = ({
             <CardTitle className="text-sm font-medium">
               Property not relisted
             </CardTitle>
-            <LuTimerOff />
+            <LuListStart />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{propertyNotDispatched}</div>
+          </CardContent>
+        </Card>
+      </Link>
+      <Link href="/manage-properties?status=idle">
+        <Card
+          className={`${
+            idleProperties > 0
+              ? "section-highlight-background-color secondary-font-color"
+              : "section-background-color"
+          }`}
+        >
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Idle Properties
+            </CardTitle>
+            <TbPlaylistX />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{idleProperties}</div>
           </CardContent>
         </Card>
       </Link>

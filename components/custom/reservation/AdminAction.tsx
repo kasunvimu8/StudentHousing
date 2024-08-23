@@ -35,7 +35,7 @@ export const AdminActionReservationCancel = ({
   const { toast } = useToast();
   const [user, setUser] = useState(userRoles[0]?.id || "");
   const [comment, setComment] = useState("");
-  const [listingEnable, setListingEnable] = useState(true);
+  const [listingEnable, setListingEnable] = useState(false);
 
   const cancelReservationHandle = async (
     comment: string,
@@ -94,7 +94,10 @@ export const AdminActionReservationCancel = ({
           }}
         />
         <Label htmlFor="propertyId" className="text-left pt-2">
-          Should the property be automatically relisted after cancellation?
+          Should the property be automatically relisted after cancellation
+          <span className="text-xs font-normal pl-1">
+            (By default it will be listed as a idle property)
+          </span>
         </Label>
         <Switch
           checked={listingEnable}

@@ -20,7 +20,11 @@ import { PiWarningCircleLight } from "react-icons/pi";
 import { MdOutlineDone } from "react-icons/md";
 import { useState } from "react";
 import { BaseComponent as Calender } from "@/components/ui/calendar/BaseComponent";
-import { handleRelistingProperty, sendRentalEndConfirmationEmail } from "@/actions/rentals";
+import {
+  handleRelistingProperty,
+  sendRentalEndConfirmationEmail,
+} from "@/actions/rentals";
+import { TbPlaylistX } from "react-icons/tb";
 
 export function RentalDialog({
   data,
@@ -60,12 +64,14 @@ export function RentalDialog({
   const handleRelisting = async (
     date: string,
     reservation_id: string,
-    property_id: string
+    property_id: string,
+    status: string
   ) => {
     const res = await handleRelistingProperty(
       date,
       reservation_id,
-      property_id
+      property_id,
+      status
     );
 
     actionOutputHandle("Relisting", res.type, res.msg);
@@ -179,7 +185,25 @@ export function RentalDialog({
                       handleRelisting(
                         relistingDate,
                         data.reservation_id,
-                        data.property_id
+                        data.property_id,
+                        "idle"
+                      );
+                    }}
+                  >
+                    Mark as Idle <TbPlaylistX className="w-5 h-5" />
+                  </Button>
+                </DialogClose>
+                <DialogClose asChild>
+                  <Button
+                    type="submit"
+                    className="primary-background-color secondary-font-color gap-2"
+                    disabled={false}
+                    onClick={() => {
+                      handleRelisting(
+                        relistingDate,
+                        data.reservation_id,
+                        data.property_id,
+                        "available"
                       );
                     }}
                   >

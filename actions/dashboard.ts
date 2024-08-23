@@ -21,6 +21,7 @@ export async function getSummaryData() {
     users: 0,
     tenantNotConfirmed: 0,
     propertyNotDispatched: 0,
+    idleProperties: 0,
   };
   try {
     await connectToDatabase();
@@ -57,6 +58,10 @@ export async function getSummaryData() {
 
       reservedProperties:
         propertiesData?.filter((property) => property.status === "reserved")
+          ?.length || 0,
+
+      idleProperties:
+        propertiesData?.filter((property) => property.status === "idle")
           ?.length || 0,
 
       totalReservations: reservationData.length || 0,

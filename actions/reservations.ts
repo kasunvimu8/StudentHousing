@@ -631,18 +631,15 @@ export async function cancelReservation(
         }
       }
 
-      // if the listing enabled, then update the state of the property to available
-      if (listingEnable) {
-        const res3 = await Property.updateOne(
-          { _id: propertyId },
-          { $set: { status: "available" } },
-          opts
+      const res3 = await Property.updateOne(
+        { _id: propertyId },
+        { $set: { status: listingEnable ? "available" : "idle" } },
+        opts
+      );
+      if (res3.modifiedCount === 0) {
+        throw new Error(
+          "Reservation property cannot be modified or property not found"
         );
-        if (res3.modifiedCount === 0) {
-          throw new Error(
-            "Reservation property cannot be modified or property not found"
-          );
-        }
       }
 
       // commit the transaction

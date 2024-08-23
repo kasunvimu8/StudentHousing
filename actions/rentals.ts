@@ -157,7 +157,8 @@ export async function getAllRentals(
 export async function handleRelistingProperty(
   date: string,
   reservationId: string,
-  propertyId: string
+  propertyId: string,
+  status: string
 ) {
   let msg = "";
   let type = "";
@@ -190,7 +191,7 @@ export async function handleRelistingProperty(
 
       const res2 = await Property.updateOne(
         { _id: propertyId },
-        { $set: { status: "available", from: date } },
+        { $set: { status: status, from: date } },
         opts
       );
 
@@ -202,7 +203,7 @@ export async function handleRelistingProperty(
       await session.commitTransaction();
       revalidatePath("/", "layout");
 
-      msg = "Property relisted successfully";
+      msg = "Property changed successfully";
       type = "ok";
     } catch (error) {
       await session.abortTransaction();

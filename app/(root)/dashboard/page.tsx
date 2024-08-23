@@ -20,6 +20,7 @@ export default async function Page() {
     users,
     tenantNotConfirmed,
     propertyNotDispatched,
+    idleProperties,
   } = await getSummaryData();
   return (
     <div className="h-full w-full">
@@ -34,6 +35,7 @@ export default async function Page() {
           approvalWaiting={approvalWaiting}
           tenantNotConfirmed={tenantNotConfirmed}
           propertyNotDispatched={propertyNotDispatched}
+          idleProperties={idleProperties}
         />
       </div>
       <div className="grid grid-cols-2 gap-4">

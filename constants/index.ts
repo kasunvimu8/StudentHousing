@@ -336,6 +336,10 @@ export const propertyStatuses = [
     id: "reserved",
     description: "Reserved",
   },
+  {
+    id: "idle",
+    description: "Idle",
+  },
 ];
 
 export const adminsortOptions = [
