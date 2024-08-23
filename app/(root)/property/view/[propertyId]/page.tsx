@@ -42,6 +42,21 @@ const PropertyDeatailPage = async ({
 
   const isAdmin = userType === adminType;
 
+  // to prevent hydration issues, passing the final urls from the server
+  const images =
+    property?.images?.length > 0
+      ? property.images
+          .filter((img: string) => !!img)
+          .map((image: string) => `${process.env.BASE_URL}/api/file/${image}`)
+      : [];
+
+  const documents =
+    property?.documents?.length > 0
+      ? property.documents
+          .filter((doc: string) => !!doc)
+          .map((doc: string) => `${process.env.BASE_URL}/api/file/${doc}`)
+      : [];
+
   return (
     <div className="w-full h-full">
       {property && property._id ? (
@@ -54,7 +69,7 @@ const PropertyDeatailPage = async ({
               {property?.address}
             </h3>
           </div>
-          <PropertyImage images={property.images} />
+          <PropertyImage images={images} />
           <PropertySummary property={property} />
           <PropertyDetail property={property} />
           <PropertyLocation
@@ -63,7 +78,7 @@ const PropertyDeatailPage = async ({
           />
           <PropertyCost property={property} />
           <PropertyEquipment equipments={property.equipments} />
-          <PropertyDocuments documents={property.documents} />
+          <PropertyDocuments documents={documents} />
           <PropertyAdditionalInformation
             additional_information={property.additional_information}
           />

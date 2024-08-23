@@ -406,7 +406,7 @@ export const reservationStatuses = [
     workflowNumber: 4,
     workflowDispaly: true,
     showInDropdown: true,
-    actionDescription: "Congratulations! The living place is now yours",
+    actionDescription: "Congratulations! The living place is now yours 💐",
     adminActionDescription: "The Reservation has been completed succesfully",
   },
   {
@@ -557,8 +557,8 @@ export const defaultUserReservationQuota = 2;
 export const defaultNoticePeriod = 3;
 
 // ----------------------- Authentication Specific Config ------------------------- //
-export const sessionPeriodMinutes = 60;
-export const resetLinkValidation = 60;
+export const sessionPeriodMinutes = 120;
+export const resetLinkValidation = 15;
 export const adminType = "admin";
 
 // ----------------------- Information Configuration -------------------- //

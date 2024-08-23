@@ -207,24 +207,12 @@ export async function updateProperty(property: PropertyData) {
     await connectToDatabase();
 
     const userData = await getProfile();
-    // TODO: Update functionality handle with storage service
-    const images = property.images;
-    const imageUrls = images?.map(
-      (image: string) =>
-        `${process.env.IMAGE_BUCKET_URL}/${property.property_id}/${image}`
-    );
-    const docs = property.documents;
-    const docsUrls = docs?.map(
-      (docs: string) =>
-        `${process.env.DOC_BUCKET_URL}/${property.property_id}/${docs}`
-    );
+
     await Property.updateOne(
       { _id: property._id },
       {
         $set: {
           ...property,
-          images: imageUrls,
-          documents: docsUrls,
           created_at: new Date(),
           created_by: userData ? userData?.user_name : adminType,
         },
@@ -251,22 +239,16 @@ export async function createPropertyAction(property: PropertyDeafultType) {
     await connectToDatabase();
 
     const userData = await getProfile();
-    // TODO: Create functionality handle with storage service
-    const images = property.images;
-    const imageUrls = images?.map(
-      (image: string) =>
-        `${process.env.IMAGE_BUCKET_URL}/${property.property_id}/${image}`
-    );
-    const docs = property.documents;
-    const docsUrls = docs?.map(
-      (docs: string) =>
-        `${process.env.DOC_BUCKET_URL}/${property.property_id}/${docs}`
-    );
+
+    const imageUrls = property.images;
+    const thumbnail_url = property.images?.[0];
+    const docsUrls = property.documents;
 
     await Property.create({
       ...property,
       images: imageUrls,
       documents: docsUrls,
+      thumbnail_url: thumbnail_url,
       created_at: new Date(),
       created_by: userData ? userData?.user_name : adminType,
     });

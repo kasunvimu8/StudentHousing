@@ -3,7 +3,7 @@
 import React from "react";
 import SectionTitle from "@/components/shared/SectionTitle";
 import { LuDownload, LuExternalLink } from "react-icons/lu";
-import { getDocumentName } from "@/lib/utils";
+import { getDocumentName, handleDownloadDocument } from "@/lib/utils";
 
 const PropertyDocuments = ({ documents }: { documents: string[] }) => {
   return (
@@ -23,7 +23,7 @@ const PropertyDocuments = ({ documents }: { documents: string[] }) => {
                   <LuExternalLink
                     className="text-lg cursor-pointer"
                     onClick={() => {
-                      console.log("view");
+                      window.open(document, "_blank");
                     }}
                   />
                 </div>
@@ -31,7 +31,7 @@ const PropertyDocuments = ({ documents }: { documents: string[] }) => {
                   <LuDownload
                     className="text-lg cursor-pointer"
                     onClick={() => {
-                      console.log("download");
+                      handleDownloadDocument(document);
                     }}
                   />
                 </div>

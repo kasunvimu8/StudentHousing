@@ -6,7 +6,7 @@ import React from "react";
 
 export default async function Page() {
   const userType = await getUserType();
-  const userData =  await getProfile();
+  const userData = await getProfile();
   const isAdmin = userType === adminType;
   return (
     <div className="h-full w-full">
@@ -16,10 +16,7 @@ export default async function Page() {
         </div>
       </div>
       <div className="mx-auto py-5">
-        <UpdatePropertyDetail
-          userData={userData}
-          isAdmin={isAdmin}
-        />
+        <UpdatePropertyDetail userData={userData} isAdmin={isAdmin} />
       </div>
     </div>
   );

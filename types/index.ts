@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { LatLngExpression } from "leaflet";
 import { ReactNode } from "react";
+import { NextApiRequest } from "next";
 
 // ------------------ Intefaces ------------------------//
 export interface PropertySectionProps {
@@ -13,6 +14,14 @@ export interface PropertySectionProps {
     latitude: number;
   }) => void;
   isCreate?: boolean;
+  imagesURL?: string[];
+  imageURL?: string;
+  documentsURL?: string[];
+}
+
+export interface ResponseT {
+  msg: string;
+  type: "ok" | "error";
 }
 
 // ------------------------SCHDCN UI Types----------------------------------------
@@ -60,6 +69,7 @@ export type PropertyDeafultType = {
   warm_rent?: number;
   deposit?: number;
   notice_period?: number;
+  thumbnail_url?: number;
 };
 
 export type Property = PropertyDeafultType & {
@@ -261,8 +271,6 @@ export type userProfileExtended = userProfileType & {
   role: string;
 };
 
-// ----------------------------- Erros  -----------------------------
-
 export type RegisterErrors = {
   email: string;
   password: string;
@@ -278,4 +286,10 @@ export type RegisterErrors = {
 export type Mobile = {
   number: string;
   countryCode: string;
+};
+
+// ----------------------------- Erros  -----------------------------
+export type FileType = {
+  id: string;
+  data: File;
 };

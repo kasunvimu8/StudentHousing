@@ -7,6 +7,25 @@ import React from "react";
 
 const page = async ({ params }: { params: { propertyId: string } }) => {
   const property: Property = await getProperty(params.propertyId);
+
+  const imagesURL =
+    property?.images?.length > 0
+      ? property.images
+          .filter((img: string) => !!img)
+          .map((image: string) => `${process.env.BASE_URL}/api/file/${image}`)
+      : [];
+
+  const documentsURL =
+    property?.documents?.length > 0
+      ? property.documents
+          .filter((doc: string) => !!doc)
+          .map((doc: string) => `${process.env.BASE_URL}/api/file/${doc}`)
+      : [];
+
+  const thumnailUrl = property?.thumbnail_url
+    ? `${process.env.BASE_URL}/api/file/${property?.thumbnail_url}`
+    : undefined;
+
   return (
     <div className="h-full w-full">
       {property && property._id ? (
@@ -18,6 +37,9 @@ const page = async ({ params }: { params: { propertyId: string } }) => {
             <UpdatePropertyDetail
               property={property}
               updatePropertyAction={updateProperty}
+              imagesURL={imagesURL}
+              documentsURL={documentsURL}
+              thumnailUrl={thumnailUrl}
             />
           </div>
         </div>
