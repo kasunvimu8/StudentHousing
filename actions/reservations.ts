@@ -140,6 +140,7 @@ async function performReservation(
           document_submission_deadline: expiredDate,
           desired_semesters_stay: reservationPayload.desired_semesters_stay,
           notice_period: propertyData.notice_period,
+          admin_assigned_reservation: false,
           rental_end: {
             email_sent_count: 0,
             last_email_sent_date: null,
@@ -306,6 +307,7 @@ export async function assignReservation(reservationPayload: {
               document_submission_deadline: expiredDate,
               desired_semesters_stay: reservationPayload.desired_semesters_stay,
               notice_period: propertyData.notice_period,
+              admin_assigned_reservation: true,
               rental_end: {
                 email_sent_count: 0,
                 last_email_sent_date: null,
@@ -388,6 +390,7 @@ export async function getReservation(reservationId: string) {
           from: 1,
           to: 1,
           desired_semesters_stay: 1,
+          admin_assigned_reservation: 1,
           property_id: "$property.property_id",
         },
       },
@@ -710,7 +713,8 @@ export async function rejectReservationDocument(
 export async function approveDocument(
   reservationId: string,
   fromDate: string,
-  toDate: string
+  toDate: string,
+  terminateDate: string
 ) {
   let msg = "";
   let type = "";
@@ -728,6 +732,9 @@ export async function approveDocument(
         },
       }
     );
+
+    // TODO: set existing reservation and property status
+    //http://localhost:3000/reservation/66b600f8f928f711b16cebdd
 
     revalidatePath(`/reservation/${reservationId}`);
     msg = "Reservation documents approved";

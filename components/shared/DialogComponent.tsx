@@ -24,6 +24,7 @@ const DialogComponent = ({
   submitTitleSecondary,
   clickSubmit,
   displayButtonDisable = false,
+  bodyClass,
 }: {
   children: ReactNode;
   buttonTitle: string;
@@ -35,6 +36,7 @@ const DialogComponent = ({
   submitTitleSecondary?: string;
   clickSubmit: () => void;
   displayButtonDisable?: boolean;
+  bodyClass?: string;
 }) => {
   return (
     <div>
@@ -48,7 +50,7 @@ const DialogComponent = ({
             {buttonTitle}
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className={bodyClass ? bodyClass : "sm:max-w-[425px]"}>
           <DialogHeader>
             <DialogTitle>{dialogTitle}</DialogTitle>
             <DialogDescription className="pt-4">

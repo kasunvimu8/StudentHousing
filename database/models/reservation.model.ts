@@ -18,8 +18,9 @@ const ReservationSchema = new Schema({
   admin_comment: String,
   from: Date,
   to: Date,
-  notice_period : { type: Number },
+  notice_period: { type: Number },
   rental_end: { type: Object },
+  admin_assigned_reservation: { type: Boolean, default: false },
 });
 
 ReservationSchema.pre("updateOne", function (next) {

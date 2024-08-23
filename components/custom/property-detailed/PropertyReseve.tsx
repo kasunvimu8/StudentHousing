@@ -8,7 +8,7 @@ import ConfirmationComponent from "@/components/shared/ConfirmationComponent";
 import { useRouter } from "next/navigation";
 import { reservationPayloadSchema } from "@/lib/validators";
 import { ZodError } from "zod";
-import { availableStatus, reservationPeriods } from "@/constants";
+import { availableStatus, idleStatus, reservationPeriods } from "@/constants";
 import { useToast } from "@/components/ui/use-toast";
 import DialogComponent from "@/components/shared/DialogComponent";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -30,7 +30,9 @@ const PropertyReserve = ({
   const [check, setCheck] = useState(false);
   const [period, setPeriod] = useState("");
 
-  const isPropertyAvailable = property.status === availableStatus;
+  const showAction =
+    property.status === availableStatus ||
+    (property.status === idleStatus && isAdmin);
   const reservationPayload = {
     property_ref_id: property._id,
     desired_semesters_stay: period,
@@ -59,7 +61,7 @@ const PropertyReserve = ({
 
   return (
     <div className="flex justify-end py-6">
-      {isPropertyAvailable && (
+      {showAction && (
         <>
           {isAdmin ? (
             <AdminReservationDialog property={property} tenants={tenants} />

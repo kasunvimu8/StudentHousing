@@ -220,6 +220,7 @@ export type ReservationType = {
   desired_semesters_stay: string;
   notice_period: number;
   days_to_end_rental: number;
+  admin_assigned_reservation: boolean;
   rental_end: {
     email_sent_count: number;
     last_email_sent_date: string;

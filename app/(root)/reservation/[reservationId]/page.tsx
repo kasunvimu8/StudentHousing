@@ -189,6 +189,9 @@ const page = async ({ params }: { params: { reservationId: string } }) => {
                 userId={reservation.user_id}
                 from={reservation.from}
                 to={reservation.to}
+                admin_assigned_reservation={
+                  reservation.admin_assigned_reservation
+                }
               />
             </div>
           )}

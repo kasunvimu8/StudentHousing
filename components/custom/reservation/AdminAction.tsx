@@ -184,14 +184,17 @@ export const ApproveReservation = ({
   desired_semesters_stay,
   from,
   to,
+  admin_assigned_reservation,
 }: {
   reservationId: string;
   desired_semesters_stay: string;
   from: string | undefined;
   to: string | undefined;
+  admin_assigned_reservation: boolean;
 }) => {
   const router = useRouter();
   const [fromDate, setfromDate] = useState(from ? from : "");
+  const [terminateDate, setTerminateDate] = useState("");
   const [toDate, setToDate] = useState(
     to ? to : from ? calculateEndDate(from, desired_semesters_stay) : ""
   );
@@ -200,7 +203,8 @@ export const ApproveReservation = ({
     const res: { msg: string; type: string } = await approveDocument(
       reservationId,
       fromDate,
-      toDate
+      toDate,
+      terminateDate
     );
     if (res) {
       toast({
@@ -220,51 +224,91 @@ export const ApproveReservation = ({
     <DialogComponent
       buttonTitle="Approve Documents"
       dialogTitle="Approve Documents"
-      dialogDescription="Once approved, the property will be allocated to the user permanently."
+      dialogDescription="Once comfirmed, the property will be allocated to the user permanently."
       submitTitleMain="Confirm"
       submitMainButtonDisable={
-        !(fromDate && fromDate !== "" && toDate && toDate !== "")
+        !(
+          fromDate &&
+          fromDate !== "" &&
+          toDate &&
+          toDate !== "" &&
+          (!admin_assigned_reservation ||
+            (admin_assigned_reservation &&
+              terminateDate &&
+              terminateDate !== ""))
+        )
       }
       cls="py-5 px-7 text-bold primary-background-color secondary-font-color"
       clickSubmit={() => {
         approve();
       }}
+      bodyClass="sm:max-w-[425px] md:max-w-[700px] lg:max-w-[900px]"
     >
-      <div className="flex flex-col justify-start gap-2">
-        <div className="grid grid-cols-3 gap-2">
-          <div className="text-sm font-normal primary-light-font-color flex items-center col-span-2 pb-1">
-            Tenant desired duration of stay
+      {admin_assigned_reservation && (
+        <div className="py-2 border-2 border-dashed border-gray-100 p-1">
+          <div className="text-sm font-normal hightlight-font-color flex items-center col-span-2 pb-1">
+            This reservation pertains to changing the accommodation of an
+            existing tenant. Once confirmed, the current rental will terminate
+            on the specified date below, and the property will automatically be
+            marked as idle.
           </div>
-          <div className="text-sm font-normal">
-            {desired_semesters_stay} Semesters
+
+          <div className="grid grid-cols-3 gap-2 pt-1">
+            <div className="text-sm font-normal primary-light-font-color flex items-center">
+              Existing contract terminate Date
+            </div>
+            <div className="text-sm font-normal col-span-2">
+              <Calender
+                date={
+                  terminateDate === "" ? undefined : new Date(terminateDate)
+                }
+                handleSelect={(value) =>
+                  setTerminateDate(
+                    String(formatDateToISOStringWithTimeZone(value))
+                  )
+                }
+              />
+            </div>
           </div>
         </div>
-        <Label htmlFor="propertyId" className="text-left p-2 gap-1">
-          End date of the rental is display according to the tenant's desired
-          semters stays. Please update the exact rental period if needed.
-        </Label>
-        <div className="grid grid-cols-3 gap-2">
-          <div className="text-sm font-normal primary-light-font-color flex items-center">
-            Rented From
+      )}
+      <div className="py-2 p-1">
+        <div className="flex flex-col justify-start gap-2">
+          <div className="grid grid-cols-3 gap-2">
+            <div className="text-sm font-normal primary-light-font-color flex items-center col-span-2 pb-1">
+              Tenant desired duration of stay
+            </div>
+            <div className="text-sm font-normal">
+              {desired_semesters_stay} Semesters
+            </div>
           </div>
-          <div className="text-sm font-normal col-span-2">
-            <Calender
-              date={fromDate === "" ? undefined : new Date(fromDate)}
-              handleSelect={(value) =>
-                setfromDate(String(formatDateToISOStringWithTimeZone(value)))
-              }
-            />
-          </div>
-          <div className="text-sm font-normal primary-light-font-color flex items-center">
-            Rented To
-          </div>
-          <div className="text-sm font-normal col-span-2">
-            <Calender
-              date={toDate === "" ? undefined : new Date(toDate)}
-              handleSelect={(value) =>
-                setToDate(String(formatDateToISOStringWithTimeZone(value)))
-              }
-            />
+          <Label htmlFor="propertyId" className="text-left py-2 gap-1">
+            End date of the rental is display according to the tenant's desired
+            semters stays. Please update the exact rental period if needed.
+          </Label>
+          <div className="grid grid-cols-3 gap-2">
+            <div className="text-sm font-normal primary-light-font-color flex items-center">
+              Rented From
+            </div>
+            <div className="text-sm font-normal col-span-2">
+              <Calender
+                date={fromDate === "" ? undefined : new Date(fromDate)}
+                handleSelect={(value) =>
+                  setfromDate(String(formatDateToISOStringWithTimeZone(value)))
+                }
+              />
+            </div>
+            <div className="text-sm font-normal primary-light-font-color flex items-center">
+              Rented To
+            </div>
+            <div className="text-sm font-normal col-span-2">
+              <Calender
+                date={toDate === "" ? undefined : new Date(toDate)}
+                handleSelect={(value) =>
+                  setToDate(String(formatDateToISOStringWithTimeZone(value)))
+                }
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -279,6 +323,7 @@ export const AdminActionDocumentReview = ({
   userId,
   from,
   to,
+  admin_assigned_reservation,
 }: {
   propertyId: string;
   desired_semesters_stay: string;
@@ -286,6 +331,7 @@ export const AdminActionDocumentReview = ({
   userId: string;
   from: string;
   to?: string;
+  admin_assigned_reservation: boolean;
 }) => {
   return (
     <div className="flex justify-end gap-4">
@@ -306,6 +352,7 @@ export const AdminActionDocumentReview = ({
         from={from}
         to={to}
         desired_semesters_stay={desired_semesters_stay}
+        admin_assigned_reservation={admin_assigned_reservation}
       />
     </div>
   );
