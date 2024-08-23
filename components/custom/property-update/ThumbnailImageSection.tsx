@@ -9,6 +9,7 @@ import { generateFileName } from "@/lib/utils";
 import React, { useState } from "react";
 import { uploadThumbnail } from "@/actions/file-upload";
 import Image from "next/image";
+import { error } from "console";
 
 const ThumbnailImageSection: React.FC<PropertySectionProps> = ({
   propertyState,
@@ -28,26 +29,36 @@ const ThumbnailImageSection: React.FC<PropertySectionProps> = ({
     setLoading(true);
     try {
       if (thumbnail) {
-        const formData = new FormData();
-        formData.append("file", thumbnail);
+        if (thumbnail.size > 5 * 1024 * 1024) {
+          alert("File size exceeds the maximum limit of 5MB.");
+          toast({
+            title: "File Upload Failed",
+            description: "File size exceeds the maximum limit of 5MB",
+            variant: "error",
+          });
+          return;
+        } else {
+          const formData = new FormData();
+          formData.append("file", thumbnail);
 
-        const name = generateFileName(thumbnail.name, "thumbnail");
-        const { msg, type } = await uploadThumbnail(
-          formData,
-          propertyState.property_id,
-          propertyState.thumbnail_url,
-          initialThumbnailUrl
-        );
+          const name = generateFileName(thumbnail.name, "thumbnail");
+          const { msg, type } = await uploadThumbnail(
+            formData,
+            propertyState.property_id,
+            propertyState.thumbnail_url,
+            initialThumbnailUrl
+          );
 
-        if (type === "ok") {
-          setUploadStatus(true);
+          if (type === "ok") {
+            setUploadStatus(true);
+          }
+
+          toast({
+            title: `File Upload ${type === "ok" ? "Success" : "Failed"} `,
+            description: msg,
+            variant: type,
+          });
         }
-
-        toast({
-          title: `File Upload ${type === "ok" ? "Success" : "Failed"} `,
-          description: msg,
-          variant: type,
-        });
       }
     } catch (error) {
       toast({
