@@ -234,6 +234,7 @@ const ContractDocument = ({
         <SubmitDocumentsButton
           filesIndicators={filesIndicators}
           handleUpdate={handleUpdate}
+          isAdmin={isAdmin}
         />
       )}
     </div>

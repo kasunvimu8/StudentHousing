@@ -721,6 +721,41 @@ export async function approveDocument(
   try {
     await connectToDatabase();
 
+    // TODO: set existing reservation and property status
+    if (terminateDate && terminateDate !== "") {
+      const reservationNew = await Reservation.findById(reservationId);
+
+      if (!reservationNew) {
+        throw new Error("Reservation not found");
+      }
+
+      const oldReservation = await Reservation.findOne({
+        status: "rented",
+        user_id: reservationNew.user_id,
+        to: { $gt: new Date() },
+      });
+      if (!oldReservation) {
+        throw new Error("Previous reservation not found");
+      }
+      await Reservation.updateOne(
+        { _id: oldReservation._id },
+        {
+          $set: {
+            to: new Date(terminateDate),
+            rental_end: {
+              tenant_confirmation_status: true,
+              property_dispatch: true,
+              email_sent_count: 0,
+            },
+          },
+        }
+      );
+      await Property.updateOne(
+        { _id: oldReservation.property_ref_id },
+        { $set: { status: "idle" } }
+      );
+    }
+
     await Reservation.updateOne(
       { _id: reservationId },
       {
@@ -732,9 +767,6 @@ export async function approveDocument(
         },
       }
     );
-
-    // TODO: set existing reservation and property status
-    //http://localhost:3000/reservation/66b600f8f928f711b16cebdd
 
     revalidatePath(`/reservation/${reservationId}`);
     msg = "Reservation documents approved";

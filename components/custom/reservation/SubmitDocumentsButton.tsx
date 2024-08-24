@@ -9,9 +9,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 const SubmitDocumentsButton = ({
   filesIndicators,
   handleUpdate,
+  isAdmin,
 }: {
   filesIndicators: string[];
   handleUpdate: (comment: string) => {};
+  isAdmin: boolean;
 }) => {
   const [comment, setComment] = useState("");
   const [check, setCheck] = useState(false);
@@ -26,7 +28,11 @@ const SubmitDocumentsButton = ({
       <DialogComponent
         buttonTitle="Upload"
         dialogTitle="Upload Documents - Confirmation"
-        dialogDescription="Once you confirm, your contract documents will be uploaded to the administration for review. No alterations can be made to any document thereafter."
+        dialogDescription={
+          isAdmin
+            ? "Administrators are not required to update or upload documents by default. It is highly recommended to request a resubmission if any changes are needed for uploaded documents. This feature should only be used if absolutely necessary."
+            : "Once you confirm, your contract documents will be uploaded to the administration for review. No alterations can be made to any document thereafter."
+        }
         submitTitleMain="Upload Documents"
         cls="py-5 px-7 text-bold primary-background-color secondary-font-color"
         clickSubmit={() => {
@@ -36,17 +42,22 @@ const SubmitDocumentsButton = ({
         submitMainButtonDisable={!check}
       >
         <div className="flex flex-col justify-start gap-2">
-          <Label htmlFor="propertyId" className="text-left pt-2">
-            Additional Comments
-          </Label>
-          <Textarea
-            placeholder="Type any additional comments here."
-            value={comment}
-            rows={4}
-            onChange={(e) => {
-              setComment(e.currentTarget.value);
-            }}
-          />
+          {!isAdmin && (
+            <>
+              <Label htmlFor="propertyId" className="text-left pt-2">
+                Additional Comments
+              </Label>
+              <Textarea
+                placeholder="Type any additional comments here."
+                value={comment}
+                rows={4}
+                onChange={(e) => {
+                  setComment(e.currentTarget.value);
+                }}
+              />
+            </>
+          )}
+
           <div className="flex items-center space-x-2">
             <Checkbox
               id="terms"
