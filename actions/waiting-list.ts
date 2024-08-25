@@ -4,6 +4,7 @@ import { connectToDatabase } from "@/database";
 import WaitingList from "@/database/models/waiting-list.model";
 import { getUserId } from "@/actions/profiles";
 import { ResponseT } from "@/types";
+import { revalidatePath } from "next/cache";
 
 export async function fetchExistingWaitingList() {
   try {
@@ -20,6 +21,7 @@ export async function fetchExistingWaitingList() {
       maxRent: waitingList.max_rent,
       apartmentType: waitingList.apartment_type,
       additionalData: waitingList.additional_data,
+      desiredSemesters: waitingList.desired_semesters_stay,
     };
   } catch (error) {
     console.error("Error fetching waiting list:", error);
@@ -32,6 +34,7 @@ export async function saveWaitingList(data: {
   maxRent: number;
   apartmentType: string;
   additionalData: string;
+  desiredSemesters: string;
 }): Promise<ResponseT> {
   try {
     await connectToDatabase();
@@ -44,6 +47,7 @@ export async function saveWaitingList(data: {
       existingEntry.max_rent = data.maxRent;
       existingEntry.apartment_type = data.apartmentType;
       existingEntry.additional_data = data.additionalData;
+      existingEntry.desired_semesters_stay = data.desiredSemesters;
 
       await existingEntry.save();
       return {
@@ -58,10 +62,12 @@ export async function saveWaitingList(data: {
         max_rent: data.maxRent,
         apartment_type: data.apartmentType,
         additional_data: data.additionalData,
+        desired_semesters_stay: data.desiredSemesters,
         created_at: new Date(),
       });
 
       await newEntry.save();
+      revalidatePath("/properties");
       return {
         msg: "Waiting list record created successfully",
         type: "ok",
@@ -84,6 +90,7 @@ export async function deleteWaitingListEntry(): Promise<ResponseT> {
 
     if (existingEntry) {
       await WaitingList.deleteOne({ user_id: userId });
+      revalidatePath("/properties");
       return {
         msg: "Waiting list record deleted successfully",
         type: "ok",

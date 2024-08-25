@@ -1,13 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button } from "../../ui/button";
 import { makeReservation } from "@/actions/reservations";
 import { Property, userProfileExtended } from "@/types";
-import ConfirmationComponent from "@/components/shared/ConfirmationComponent";
 import { useRouter } from "next/navigation";
-import { reservationPayloadSchema } from "@/lib/validators";
-import { ZodError } from "zod";
 import { availableStatus, idleStatus, reservationPeriods } from "@/constants";
 import { useToast } from "@/components/ui/use-toast";
 import DialogComponent from "@/components/shared/DialogComponent";

@@ -5,6 +5,7 @@ const WaitingListSchema = new Schema({
   from_date: { type: Date, required: true },
   max_rent: { type: Number, required: true },
   apartment_type: { type: String, required: true },
+  desired_semesters_stay: { type: String, required: true },
   additional_data: { type: String },
   created_at: { type: Date, required: true, default: Date.now },
   updated_at: { type: Date, default: Date.now },

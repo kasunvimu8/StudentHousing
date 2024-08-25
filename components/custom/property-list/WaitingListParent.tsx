@@ -9,6 +9,7 @@ export default async function WaitingListParent() {
     maxRent: 0,
     apartmentType: "all",
     additionalData: "",
+    desiredSemesters: "1",
   };
 
   return <WaitingListForm existingData={data} isUpdate={!!waitingListData} />;

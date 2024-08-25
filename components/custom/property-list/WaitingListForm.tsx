@@ -7,7 +7,7 @@ import {
   deleteWaitingListEntry,
   saveWaitingList,
 } from "@/actions/waiting-list";
-import { propertyTypes } from "@/constants";
+import { propertyTypes, reservationPeriods } from "@/constants";
 import { BaseComponent as Select } from "@/components/ui/dropdown/BaseComponent";
 import {
   Dialog,
@@ -31,6 +31,7 @@ const WaitingListSchema = z.object({
   fromDate: z.date(),
   maxRent: z.number().gt(0),
   apartmentType: z.string().min(1),
+  desiredSemesters: z.string().min(1),
   additionalData: z.string().optional(),
 });
 
@@ -42,6 +43,7 @@ export default function WaitingListForm({
     fromDate: Date;
     maxRent: number;
     apartmentType: string;
+    desiredSemesters: string;
     additionalData: string;
   };
   isUpdate: boolean;
@@ -58,6 +60,16 @@ export default function WaitingListForm({
       [field]: value,
     }));
   };
+
+  function resetFormData() {
+    setFormData({
+      fromDate: new Date(),
+      maxRent: 0,
+      apartmentType: "all",
+      desiredSemesters: "1",
+      additionalData: "",
+    });
+  }
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -96,6 +108,7 @@ export default function WaitingListForm({
     try {
       const { msg, type } = await deleteWaitingListEntry();
       if (type === "ok") {
+        resetFormData();
         setOpen(false);
       }
 
@@ -178,6 +191,25 @@ export default function WaitingListForm({
               handleSelect={(value) => {
                 setErrors((erros) => ({ ...erros, apartmentType: "" }));
                 handleChange("apartmentType", value);
+              }}
+            />
+            {errors.apartmentType && (
+              <p className="failure-color text-xs pt-1">
+                {errors.apartmentType}
+              </p>
+            )}
+          </div>
+
+          <div className="flex flex-col">
+            <label className="pb-1">Desired Num. of Semesters</label>
+            <Select
+              value={formData.desiredSemesters || ""}
+              options={reservationPeriods}
+              optionsLabel="Select Num. of Semesters"
+              showAllItem={false}
+              handleSelect={(value) => {
+                setErrors((erros) => ({ ...erros, desiredSemesters: "" }));
+                handleChange("desiredSemesters", value);
               }}
             />
             {errors.apartmentType && (

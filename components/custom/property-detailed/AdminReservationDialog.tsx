@@ -110,11 +110,7 @@ export function AdminReservationDialog({
               <DialogTitle>{`Reserve Property ${property.property_id} for Tenant`}</DialogTitle>
               <DialogDescription className="pt-4">
                 Upon confirmation, the property will be temporarily reserved for
-                the below selected tenant. After the reservation, please submit
-                the contracts promptly to secure your reservation in my
-                reservation page. Failure to do so will result in cancellation
-                of the reservation and adverse effects on your next
-                reservations. Please visit information page for more details
+                the below selected tenant
               </DialogDescription>
             </DialogHeader>
 

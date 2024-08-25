@@ -443,7 +443,7 @@ export const genders = [
 // ----------------------- Filter Constants ----------------------- //
 
 export const availableStatus = "available";
-export const idleStatus = "available";
+export const idleStatus = "idle";
 
 // ----------------------- Data Table Config ------------------------- //
 
