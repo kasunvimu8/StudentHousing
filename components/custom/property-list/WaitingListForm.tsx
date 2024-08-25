@@ -131,15 +131,17 @@ export default function WaitingListForm({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] md:max-w-[700px] lg:max-w-[900px]">
         <DialogHeader>
-          <DialogTitle>Additing to the waiting list ?</DialogTitle>
+          <DialogTitle>Do you want to add to the waiting list ?</DialogTitle>
           <DialogDescription className="pt-4 flex items-center gap-2">
             Please provide us with the details of your interests, and we will
             allocate you a place once one becomes available.
           </DialogDescription>
-          <div className="w-full text-xs font-normal primary-font-color flex items-center hightlight-font-color">
-            <LuInfo className="mr-1" />
-            Update does not impact your position in the waiting list.
-          </div>
+          {isUpdate && (
+            <div className="w-full text-xs font-normal primary-font-color flex items-center hightlight-font-color">
+              <LuInfo className="mr-1" />
+              Update entry does not impact your position in the waiting list.
+            </div>
+          )}
           <div className="w-full text-xs font-normal primary-font-color flex items-center hightlight-font-color">
             <LuInfo className="mr-1" />
             If you are searching for a place immediately, keep the from date as
