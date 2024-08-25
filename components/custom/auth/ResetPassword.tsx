@@ -135,9 +135,7 @@ export default function ResetPasswordForm({
                 </div>
               </div>
               {errors.password && (
-                <p className="hightlight-font-color text-xs">
-                  {errors.password}
-                </p>
+                <p className="failure-color text-xs">{errors.password}</p>
               )}
 
               <Label className="p-1" htmlFor="password">
@@ -171,7 +169,7 @@ export default function ResetPasswordForm({
                 </div>
               </div>
               {errors.confirmPassword && (
-                <p className="hightlight-font-color text-xs">
+                <p className="failure-color text-xs">
                   {errors.confirmPassword}
                 </p>
               )}

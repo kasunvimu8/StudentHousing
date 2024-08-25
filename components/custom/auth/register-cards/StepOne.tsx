@@ -104,9 +104,7 @@ const StepOne = ({
           }}
           disabled={pending}
         />
-        {errors.name && (
-          <p className="hightlight-font-color text-xs">{errors.name}</p>
-        )}
+        {errors.name && <p className="failure-color text-xs">{errors.name}</p>}
 
         <Label className="p-1" htmlFor="name">
           Date of Birth
@@ -121,9 +119,7 @@ const StepOne = ({
           fromDate={fromDate}
           toDate={toDate}
         />
-        {errors.dob && (
-          <p className="hightlight-font-color text-xs">{errors.dob}</p>
-        )}
+        {errors.dob && <p className="failure-color text-xs">{errors.dob}</p>}
 
         <Label className="p-1" htmlFor="gender">
           Gender
@@ -140,7 +136,7 @@ const StepOne = ({
           }}
         />
         {errors.gender && (
-          <p className="hightlight-font-color text-xs">{errors.gender}</p>
+          <p className="failure-color text-xs">{errors.gender}</p>
         )}
 
         <Label className="p-1" htmlFor="country">
@@ -158,7 +154,7 @@ const StepOne = ({
           }}
         />
         {errors.country && (
-          <p className="hightlight-font-color text-xs">{errors.country}</p>
+          <p className="failure-color text-xs">{errors.country}</p>
         )}
 
         <Label className="p-1" htmlFor="phone">
@@ -180,7 +176,7 @@ const StepOne = ({
           inputClass="!w-[250px]"
         />
         {errors.phone && (
-          <p className="hightlight-font-color text-xs">{errors.phone}</p>
+          <p className="failure-color text-xs">{errors.phone}</p>
         )}
 
         <div className="flex justify-end pt-2">

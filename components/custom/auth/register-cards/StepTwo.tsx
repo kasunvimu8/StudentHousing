@@ -73,7 +73,7 @@ const StepTwo = ({
           disabled={pending}
         />
         {errors.user_id && (
-          <p className="hightlight-font-color text-xs">{errors.user_id}</p>
+          <p className="failure-color text-xs">{errors.user_id}</p>
         )}
 
         <Label className="p-1" htmlFor="passport">
@@ -92,7 +92,7 @@ const StepTwo = ({
           disabled={pending}
         />
         {errors.passport && (
-          <p className="hightlight-font-color text-xs">{errors.passport}</p>
+          <p className="failure-color text-xs">{errors.passport}</p>
         )}
 
         <Label className="p-1" htmlFor="email">
@@ -111,7 +111,7 @@ const StepTwo = ({
           disabled={pending}
         />
         {errors.email && (
-          <p className="hightlight-font-color text-xs">{errors.email}</p>
+          <p className="failure-color text-xs">{errors.email}</p>
         )}
 
         <Label className="p-1" htmlFor="password">
@@ -145,7 +145,7 @@ const StepTwo = ({
           </div>
         </div>
         {errors.password && (
-          <p className="hightlight-font-color text-xs">{errors.password}</p>
+          <p className="failure-color text-xs">{errors.password}</p>
         )}
 
         <div className="flex items-center pt-4">

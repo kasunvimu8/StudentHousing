@@ -1,8 +1,8 @@
 import { getSummaryData } from "@/actions/dashboard";
-import AdminActionSummary from "@/components/custom/Summary/AdminActionSummary";
-import AdminPropertySummary from "@/components/custom/Summary/AdminPropertySummary";
-import AdminReservationSummary from "@/components/custom/Summary/AdminReservationSummary";
-import AdminUserSummary from "@/components/custom/Summary/AdminUserSummary";
+import AdminActionSummary from "@/components/custom/summary/AdminActionSummary";
+import AdminPropertySummary from "@/components/custom/summary/AdminPropertySummary";
+import AdminReservationSummary from "@/components/custom/summary/AdminReservationSummary";
+import AdminUserSummary from "@/components/custom/summary/AdminUserSummary";
 import PageTitle from "@/components/shared/PageTitle";
 import React from "react";
 

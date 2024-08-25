@@ -89,9 +89,7 @@ const DetailsSection: React.FC<userDetailsCompProps> = ({
             }}
           />
           {errors.user_name && (
-            <p className="hightlight-font-color text-xs pt-1">
-              {errors.user_name}
-            </p>
+            <p className="failure-color text-xs pt-1">{errors.user_name}</p>
           )}
         </HeaderItemLayout>
         <HeaderItemLayout title="Address">
@@ -123,7 +121,7 @@ const DetailsSection: React.FC<userDetailsCompProps> = ({
             className="w-[250px]"
           />
           {errors.dob && (
-            <p className="hightlight-font-color text-xs pt-1">{errors.dob}</p>
+            <p className="failure-color text-xs pt-1">{errors.dob}</p>
           )}
         </HeaderItemLayout>
         <HeaderItemLayout
@@ -145,9 +143,7 @@ const DetailsSection: React.FC<userDetailsCompProps> = ({
             }}
           />
           {errors.gender && (
-            <p className="hightlight-font-color text-xs pt-1">
-              {errors.gender}
-            </p>
+            <p className="failure-color text-xs pt-1">{errors.gender}</p>
           )}
         </HeaderItemLayout>
         <HeaderItemLayout
@@ -170,9 +166,7 @@ const DetailsSection: React.FC<userDetailsCompProps> = ({
             }}
           />
           {errors.country && (
-            <p className="hightlight-font-color text-xs pt-1">
-              {errors.country}
-            </p>
+            <p className="failure-color text-xs pt-1">{errors.country}</p>
           )}
         </HeaderItemLayout>
         <HeaderItemLayout
@@ -200,7 +194,7 @@ const DetailsSection: React.FC<userDetailsCompProps> = ({
             containerClass="phone-input-container"
           />
           {errors.phone && (
-            <p className="hightlight-font-color text-xs pt-1">{errors.phone}</p>
+            <p className="failure-color text-xs pt-1">{errors.phone}</p>
           )}
         </HeaderItemLayout>
       </div>

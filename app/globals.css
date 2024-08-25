@@ -160,6 +160,10 @@ body {
     color: #16a34a
   }
 
+  .failure-color {
+    color: #dc2626
+  }
+
   .margin-zero {
     margin: 0px !important;
   }

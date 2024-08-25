@@ -5,6 +5,7 @@ import {
 } from "@/components/custom/property-list/PropertyItemLoading";
 import PropertyList from "@/components/custom/property-list/PropertyList";
 import PropertyMapParent from "@/components/custom/property-list/PropertyMapParent";
+import WaitingListParent from "@/components/custom/property-list/WaitingListParent";
 import Hero from "@/components/shared/Hero";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FilterParamTypes } from "@/types";
@@ -25,7 +26,7 @@ export default async function Home({
       <div className="mb-5">
         <Tabs defaultValue="list" className="w-full mb-5">
           {/* list and map tabs */}
-          <TabsList className="grid grid-cols-2 gap-1 section-light-background-color mb-5">
+          <TabsList className="grid grid-cols-3 gap-1 section-light-background-color mb-5">
             <TabsTrigger value="list">
               <LuList className="text-lg" />
               <span className="pl-2 text-base">List</span>
@@ -35,6 +36,9 @@ export default async function Home({
               <span className="pl-2 text-base">Map</span>
             </TabsTrigger>
           </TabsList>
+          <div className="flex justify-end text-right">
+            <WaitingListParent />
+          </div>
 
           {/* property list */}
           <TabsContent value="list" className="h-full w-full">
