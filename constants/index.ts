@@ -75,6 +75,12 @@ export const adminUsernavigation = [
     icon: "LuUserCog2",
     id: "manage-users",
   },
+  {
+    title: "Manage Waiting List",
+    href: "/manage-waiting-list",
+    icon: "LuListPlus",
+    id: "manage-waiting-list",
+  },
 ];
 
 //--------------------- Pagination configurations ---------------------------------//

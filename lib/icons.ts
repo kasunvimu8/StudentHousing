@@ -9,6 +9,7 @@ import {
   LuUser2,
   LuUserCog2,
   LuLayoutDashboard,
+  LuListPlus,
 } from "react-icons/lu";
 import { CgSmartHomeWashMachine } from "react-icons/cg";
 import { GiHomeGarage } from "react-icons/gi";
@@ -61,6 +62,7 @@ export const equipmentIcons = {
   LuUserCog2: LuUserCog2,
   BsHouseDown: BsHouseDown,
   LuLayoutDashboard: LuLayoutDashboard,
+  LuListPlus: LuListPlus,
 };
 
 export const getIconFromKey = (id: string): IconType => {

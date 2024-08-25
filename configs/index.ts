@@ -81,6 +81,13 @@ const headerConfigs = {
           description: "Manage user accounts and details",
           route: "/manage-users",
         },
+        {
+          id: "manage-waiting-list",
+          title: "Manage Waiting List",
+          description:
+            "Manage waiting list and matching against vacant properties",
+          route: "/manage-waiting-list",
+        },
       ],
     },
     {

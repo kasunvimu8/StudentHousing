@@ -10,7 +10,10 @@ export async function fetchExistingWaitingList() {
   try {
     await connectToDatabase();
     const userId = await getUserId();
-    const waitingList = await WaitingList.findOne({ user_id: userId });
+    const waitingList = await WaitingList.findOne({
+      user_id: userId,
+      fulfilled: false,
+    });
 
     if (!waitingList) {
       return null;
@@ -39,7 +42,10 @@ export async function saveWaitingList(data: {
   try {
     await connectToDatabase();
     const userId = await getUserId();
-    const existingEntry = await WaitingList.findOne({ user_id: userId });
+    const existingEntry = await WaitingList.findOne({
+      user_id: userId,
+      fulfilled: false,
+    });
 
     if (existingEntry) {
       // Update existing entry
@@ -63,6 +69,7 @@ export async function saveWaitingList(data: {
         apartment_type: data.apartmentType,
         additional_data: data.additionalData,
         desired_semesters_stay: data.desiredSemesters,
+        fulfilled: false,
         created_at: new Date(),
       });
 
@@ -86,10 +93,13 @@ export async function deleteWaitingListEntry(): Promise<ResponseT> {
   try {
     await connectToDatabase();
     const userId = await getUserId();
-    const existingEntry = await WaitingList.findOne({ user_id: userId });
+    const existingEntry = await WaitingList.findOne({
+      user_id: userId,
+      fulfilled: false,
+    });
 
     if (existingEntry) {
-      await WaitingList.deleteOne({ user_id: userId });
+      await WaitingList.deleteOne({ user_id: userId, fulfilled: false });
       revalidatePath("/properties");
       return {
         msg: "Waiting list record deleted successfully",
@@ -107,5 +117,23 @@ export async function deleteWaitingListEntry(): Promise<ResponseT> {
       msg: "Internal Server Error. Cannot delete the entry!",
       type: "error",
     };
+  }
+}
+
+export async function fetchAllWaitingList() {
+  try {
+    await connectToDatabase();
+    const waitingList = await WaitingList.findOne({
+      fulfilled: false,
+    });
+
+    if (!waitingList) {
+      return [];
+    }
+
+    return waitingList;
+  } catch (error) {
+    console.error("Error fetching waiting list:", error);
+    return null;
   }
 }
