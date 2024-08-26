@@ -5,6 +5,8 @@ import WaitingList from "@/database/models/waiting-list.model";
 import { getUserId } from "@/actions/profiles";
 import { ResponseT } from "@/types";
 import { revalidatePath } from "next/cache";
+import { getMyReservations } from "@/actions/reservations";
+import { checkCurrentReservationStatus } from "@/lib/utils";
 
 export async function fetchExistingWaitingList() {
   try {
@@ -61,6 +63,16 @@ export async function saveWaitingList(data: {
         type: "ok",
       };
     } else {
+      const currentReservations = await getMyReservations(userId);
+      const currentlyReservationExists =
+        checkCurrentReservationStatus(currentReservations);
+
+      if (currentlyReservationExists) {
+        return {
+          msg: "You already have a active reservation and cannot be added to the waiting list",
+          type: "error",
+        };
+      }
       // Create new entry
       const newEntry = new WaitingList({
         user_id: userId,
@@ -123,7 +135,7 @@ export async function deleteWaitingListEntry(): Promise<ResponseT> {
 export async function fetchAllWaitingList() {
   try {
     await connectToDatabase();
-    const waitingList = await WaitingList.findOne({
+    const waitingList = await WaitingList.find({
       fulfilled: false,
     });
 
@@ -134,6 +146,6 @@ export async function fetchAllWaitingList() {
     return waitingList;
   } catch (error) {
     console.error("Error fetching waiting list:", error);
-    return null;
+    return [];
   }
 }

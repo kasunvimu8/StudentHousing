@@ -19,7 +19,10 @@ import Profile from "@/database/models/profiles.model";
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
 import { adminType, documentSubmission, expirationDuration } from "@/constants";
-import { calculateFutureDate } from "@/lib/utils";
+import {
+  calculateFutureDate,
+  checkCurrentReservationStatus,
+} from "@/lib/utils";
 import { updateContractFiles } from "./file-upload";
 
 type formDatPaylaod = {
@@ -188,21 +191,6 @@ async function performReservation(
       type: type,
     };
   }
-}
-
-function checkCurrentReservationStatus(reservations: ReservationType[]) {
-  const now = new Date();
-
-  for (const reservation of reservations) {
-    const endDate = reservation.to ? new Date(reservation.to) : null;
-
-    // Check if end date is in the future or not available
-    if (!endDate || endDate > now) {
-      return true;
-    }
-  }
-
-  return false;
 }
 
 export async function makeReservation(reservationPayload: {

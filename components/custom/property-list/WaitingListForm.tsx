@@ -26,6 +26,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import Loading from "@/components/shared/Loading";
 import { MdDeleteOutline } from "react-icons/md";
+import { WaitinRecordType } from "@/types";
 
 const WaitingListSchema = z.object({
   fromDate: z.date(),
@@ -39,13 +40,7 @@ export default function WaitingListForm({
   existingData,
   isUpdate,
 }: {
-  existingData: {
-    fromDate: Date;
-    maxRent: number;
-    apartmentType: string;
-    desiredSemesters: string;
-    additionalData: string;
-  };
+  existingData: WaitinRecordType;
   isUpdate: boolean;
 }) {
   const [formData, setFormData] = useState(existingData);

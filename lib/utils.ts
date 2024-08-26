@@ -4,7 +4,7 @@ import * as configs from "@/constants";
 import { twMerge } from "tailwind-merge";
 import qs from "query-string";
 
-import { UrlQueryParams, RemoveUrlQueryParams } from "@/types";
+import { UrlQueryParams, RemoveUrlQueryParams, ReservationType } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -301,3 +301,18 @@ export const handleDownloadDocument = (url: string) => {
   link.click();
   document.body.removeChild(link);
 };
+
+export function checkCurrentReservationStatus(reservations: ReservationType[]) {
+  const now = new Date();
+
+  for (const reservation of reservations) {
+    const endDate = reservation.to ? new Date(reservation.to) : null;
+
+    // Check if end date is in the future or not available
+    if (!endDate || endDate > now) {
+      return true;
+    }
+  }
+
+  return false;
+}

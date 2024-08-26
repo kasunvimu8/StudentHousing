@@ -294,3 +294,11 @@ export type FileType = {
   id: string;
   data: File;
 };
+
+export type WaitinRecordType = {
+  fromDate: Date;
+  maxRent: number;
+  apartmentType: string;
+  desiredSemesters: string;
+  additionalData: string;
+};

@@ -298,3 +298,17 @@ export async function getUniquesPropertyIds() {
     return [];
   }
 }
+
+export async function fetchAllAssignableProperties() {
+  try {
+    await connectToDatabase();
+
+    const properties = await Property.find({
+      $or: [{ status: "available" }, { status: "idle" }],
+    });
+    return JSON.parse(JSON.stringify(properties));
+  } catch (error) {
+    console.log("Failed to fetch properties.", error);
+    return [];
+  }
+}
