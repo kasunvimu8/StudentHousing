@@ -29,11 +29,13 @@ import { MdDeleteOutline } from "react-icons/md";
 import { WaitinRecordType } from "@/types";
 
 const WaitingListSchema = z.object({
-  fromDate: z.date(),
-  maxRent: z.number().gt(0),
-  apartmentType: z.string().min(1),
-  desiredSemesters: z.string().min(1),
-  additionalData: z.string().optional(),
+  _id: z.string(),
+  user_id: z.string(),
+  from_date: z.date(),
+  max_rent: z.number().gt(0),
+  apartment_type: z.string().min(1),
+  desired_semesters_stay: z.string().min(1),
+  additional_data: z.string().optional(),
 });
 
 export default function WaitingListForm({
@@ -58,11 +60,13 @@ export default function WaitingListForm({
 
   function resetFormData() {
     setFormData({
-      fromDate: new Date(),
-      maxRent: 0,
-      apartmentType: "all",
-      desiredSemesters: "1",
-      additionalData: "",
+      _id: formData._id,
+      from_date: new Date(),
+      max_rent: 0,
+      apartment_type: "all",
+      desired_semesters_stay: "1",
+      additional_data: "",
+      user_id: formData.user_id,
     });
   }
 
@@ -161,36 +165,36 @@ export default function WaitingListForm({
             <label className="pb-1">From Date</label>
             <DatePicker
               value={
-                formData.fromDate ? new Date(formData.fromDate) : undefined
+                formData.from_date ? new Date(formData.from_date) : undefined
               }
               onChange={(value: string) => {
-                setErrors((erros) => ({ ...erros, fromDate: "" }));
-                handleChange("fromDate", new Date(value));
+                setErrors((erros) => ({ ...erros, from_date: "" }));
+                handleChange("from_date", new Date(value));
               }}
               selectionType="year"
               fromDate={today}
               toDate={toDate}
             />
-            {errors.fromDate && (
-              <p className="failure-color text-xs pt-1">{errors.fromDate}</p>
+            {errors.from_date && (
+              <p className="failure-color text-xs pt-1">{errors.from_date}</p>
             )}
           </div>
 
           <div className="flex flex-col">
             <label className="pb-1">Apartment Type</label>
             <Select
-              value={formData.apartmentType || ""}
+              value={formData.apartment_type || ""}
               options={propertyTypes}
               optionsLabel="Select Property Status"
               showAllItem={true}
               handleSelect={(value) => {
-                setErrors((erros) => ({ ...erros, apartmentType: "" }));
-                handleChange("apartmentType", value);
+                setErrors((erros) => ({ ...erros, apartment_type: "" }));
+                handleChange("apartment_type", value);
               }}
             />
-            {errors.apartmentType && (
+            {errors.apartment_type && (
               <p className="failure-color text-xs pt-1">
-                {errors.apartmentType}
+                {errors.apartment_type}
               </p>
             )}
           </div>
@@ -198,18 +202,21 @@ export default function WaitingListForm({
           <div className="flex flex-col">
             <label className="pb-1">Desired Num. of Semesters</label>
             <Select
-              value={formData.desiredSemesters || ""}
+              value={formData.desired_semesters_stay || ""}
               options={reservationPeriods}
               optionsLabel="Select Num. of Semesters"
               showAllItem={false}
               handleSelect={(value) => {
-                setErrors((erros) => ({ ...erros, desiredSemesters: "" }));
-                handleChange("desiredSemesters", value);
+                setErrors((erros) => ({
+                  ...erros,
+                  desired_semesters_stay: "",
+                }));
+                handleChange("desired_semesters_stay", value);
               }}
             />
-            {errors.apartmentType && (
+            {errors.desired_semesters_stay && (
               <p className="failure-color text-xs pt-1">
-                {errors.apartmentType}
+                {errors.desired_semesters_stay}
               </p>
             )}
           </div>
@@ -218,15 +225,15 @@ export default function WaitingListForm({
             <label className="pb-1">Max Rent (€)</label>
             <Input
               type="number"
-              value={formData.maxRent || ""}
+              value={formData.max_rent || ""}
               onChange={(e) => {
-                setErrors((erros) => ({ ...erros, maxRent: "" }));
-                handleChange("maxRent", Number(e.target.value));
+                setErrors((erros) => ({ ...erros, max_rent: "" }));
+                handleChange("max_rent", Number(e.target.value));
               }}
               className="w-full border p-2"
             />
-            {errors.maxRent && (
-              <p className="failure-color text-xs pt-1">{errors.maxRent}</p>
+            {errors.max_rent && (
+              <p className="failure-color text-xs pt-1">{errors.max_rent}</p>
             )}
           </div>
 
@@ -234,9 +241,9 @@ export default function WaitingListForm({
             <label className="pb-1">Additional Details</label>
             <Textarea
               placeholder="Type any additional comments here."
-              value={formData.additionalData}
+              value={formData.additional_data}
               rows={2}
-              onChange={(e) => handleChange("additionalData", e.target.value)}
+              onChange={(e) => handleChange("additional_data", e.target.value)}
             />
           </div>
         </div>

@@ -12,7 +12,6 @@ export default async function Page() {
     waitingListData,
     allAssignableProperties,
   ]);
-
   return (
     <div className="h-full w-full">
       <div className="grid grid-cols-2 gap-4">

@@ -1,7 +1,7 @@
 import { Schema, model, models } from "mongoose";
 
 const WaitingListSchema = new Schema({
-  user_id: { type: String, required: true, ref: "User" },
+  user_id: { type: String, required: true },
   from_date: { type: Date, required: true },
   max_rent: { type: Number, required: true },
   apartment_type: { type: String, required: true },

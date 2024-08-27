@@ -296,9 +296,12 @@ export type FileType = {
 };
 
 export type WaitinRecordType = {
-  fromDate: Date;
-  maxRent: number;
-  apartmentType: string;
-  desiredSemesters: string;
-  additionalData: string;
+  _id: string;
+  user_id: string;
+  from_date: Date;
+  max_rent: number;
+  apartment_type: string;
+  desired_semesters_stay: string;
+  additional_data?: string;
+  created_at?: Date;
 };
