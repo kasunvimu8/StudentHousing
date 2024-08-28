@@ -1,4 +1,3 @@
-import { furnishing } from "@/constants";
 import * as z from "zod";
 
 export const propertyFormSchema = z.object({
@@ -70,9 +69,13 @@ export const mobileSchema = z.object({
 
 // Extend the formOneSchema
 export const formOneSchema = z.object({
-  name: z
+  first_name: z
     .string()
-    .min(2, { message: "Name must be at least 2 characters long" })
+    .min(2, { message: "First Name must be at least 2 characters long" })
+    .trim(),
+  last_name: z
+    .string()
+    .min(2, { message: "Last Name must be at least 2 characters long" })
     .trim(),
   dob: z.date({
     required_error: "Date of birth is required",
@@ -86,9 +89,13 @@ export const formOneSchema = z.object({
 });
 
 export const SignupFormSchema = z.object({
-  name: z
+  first_name: z
     .string()
-    .min(2, { message: "Name must be at least 2 characters long" })
+    .min(2, { message: "First Name must be at least 2 characters long" })
+    .trim(),
+  last_name: z
+    .string()
+    .min(2, { message: "Last Name must be at least 2 characters long" })
     .trim(),
   email: z.string().email({ message: "Please enter a valid email" }).trim(),
   user_id: z
@@ -164,7 +171,11 @@ export const PasswordResetSchema = z
   });
 
 export const profileUpdateSchema = z.object({
-  user_name: z
+  last_name: z
+    .string()
+    .min(2, { message: "Name must be at least 2 characters long" })
+    .trim(),
+  first_name: z
     .string()
     .min(2, { message: "Name must be at least 2 characters long" })
     .trim(),

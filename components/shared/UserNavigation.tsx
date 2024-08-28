@@ -29,7 +29,7 @@ export async function UserNav() {
         >
           <Avatar className="h-10 w-10">
             <AvatarFallback className="font-bold uppercase">
-              {userData?.user_name?.substring(0, 2) || "NN"}
+              {userData?.last_name?.substring(0, 2) || "NN"}
             </AvatarFallback>
           </Avatar>
         </Button>
@@ -42,7 +42,7 @@ export async function UserNav() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
-              {userData?.user_name}
+              {`${userData?.first_name} ${userData?.last_name}`}
             </p>
             <p className="text-xs leading-none text-muted-foreground">
               {userData?.user_email}

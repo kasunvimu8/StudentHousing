@@ -82,7 +82,8 @@ export async function updateUserAction(userState: userProfileType) {
     const isAdmin = userType === adminType;
 
     const commonData = {
-      user_name: userState.user_name,
+      first_name: userState.first_name,
+      last_name: userState.last_name,
       address: userState.address,
       country: userState.country,
       phone: userState.phone,
@@ -138,9 +139,9 @@ function getFilterOptions(options: FilterParamTypes) {
             $options: "i",
           },
         });
-      } else if (key === "user_name" && optionKey !== "all") {
+      } else if (key === "last_name" && optionKey !== "all") {
         filterCriterions.push({
-          user_name: {
+          last_name: {
             $regex: optionKey,
             $options: "i",
           },
@@ -186,7 +187,8 @@ export async function getAllProfiles(
           _id: 1,
           user_email: 1,
           user_id: 1,
-          user_name: 1,
+          last_name: 1,
+          first_name: 1,
           // enrollment_id: 1,
           created_at: 1,
           updated_at: 1,

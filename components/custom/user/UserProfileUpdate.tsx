@@ -22,7 +22,8 @@ import {
 const initialState: userProfileType = {
   user_email: "",
   user_id: "",
-  user_name: "",
+  last_name: "",
+  first_name: "",
   created_at: "",
   total_quota: 0,
   used_quota: 0,
@@ -54,7 +55,8 @@ const UpdatePropertyDetail = ({
   const [userState, setUserState] = useState(defaultState);
   const [open, setOpen] = useState(false);
   const [errors, setErrors] = useState({
-    user_name: "",
+    last_name: "",
+    first_name: "",
     dob: "",
     gender: "",
     country: "",
@@ -78,7 +80,8 @@ const UpdatePropertyDetail = ({
         const newErrors = e.flatten().fieldErrors;
         setErrors({
           ...errors,
-          user_name: newErrors.user_name?.[0] || "",
+          last_name: newErrors.last_name?.[0] || "",
+          first_name: newErrors.first_name?.[0] || "",
           dob: newErrors.dob?.[0] || "",
           gender: newErrors.gender?.[0] || "",
           country: newErrors.country?.[0] || "",

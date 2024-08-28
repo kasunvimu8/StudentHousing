@@ -15,7 +15,8 @@ import { formOneSchema } from "@/lib/validators";
 import { z } from "zod";
 
 type StepOne = {
-  name: string;
+  firstName: string;
+  lastName: string;
   dob: Date | undefined;
   step: number;
   errors: RegisterErrors;
@@ -23,7 +24,8 @@ type StepOne = {
   gender: string;
   country: string;
   phone: Mobile;
-  setName: React.Dispatch<React.SetStateAction<string>>;
+  setFirstName: React.Dispatch<React.SetStateAction<string>>;
+  setLastName: React.Dispatch<React.SetStateAction<string>>;
   setGender: React.Dispatch<React.SetStateAction<string>>;
   setCountry: React.Dispatch<React.SetStateAction<string>>;
   setPhone: React.Dispatch<React.SetStateAction<Mobile>>;
@@ -33,7 +35,8 @@ type StepOne = {
 };
 
 const StepOne = ({
-  name,
+  firstName,
+  lastName,
   dob,
   gender,
   country,
@@ -41,7 +44,8 @@ const StepOne = ({
   errors,
   pending,
   phone,
-  setName,
+  setFirstName,
+  setLastName,
   setErrors,
   setStep,
   setdob,
@@ -63,7 +67,8 @@ const StepOne = ({
   const nextStep = () => {
     try {
       formOneSchema.parse({
-        name,
+        first_name: firstName,
+        last_name: lastName,
         dob,
         gender,
         country,
@@ -76,7 +81,8 @@ const StepOne = ({
         const newErrors = e.flatten().fieldErrors;
         setErrors({
           ...errors,
-          name: newErrors.name?.[0] || "",
+          last_name: newErrors.last_name?.[0] || "",
+          first_name: newErrors.first_name?.[0] || "",
           dob: newErrors.dob?.[0] || "",
           gender: newErrors.gender?.[0] || "",
           country: newErrors.country?.[0] || "",
@@ -90,21 +96,47 @@ const StepOne = ({
     <div className="grid gap-2 p-2 space-y-1">
       <div className="grid gap-1 pb-2">
         <Label className="p-1" htmlFor="name">
-          Name (First name and Last name)
+          First Name
         </Label>
         <Input
-          id="name"
-          placeholder="Enter your name"
+          id="first_name"
+          placeholder="Enter your first name"
           type="text"
-          autoComplete="new-name"
-          value={name}
+          autoComplete="new-first-name"
+          value={firstName}
           onChange={(e: React.FormEvent<HTMLInputElement>) => {
-            setErrors((erros: RegisterErrors) => ({ ...erros, name: "" }));
-            setName(e.currentTarget.value);
+            setErrors((erros: RegisterErrors) => ({
+              ...erros,
+              first_name: "",
+            }));
+            setFirstName(e.currentTarget.value);
           }}
           disabled={pending}
         />
-        {errors.name && <p className="failure-color text-xs">{errors.name}</p>}
+        {errors.first_name && (
+          <p className="failure-color text-xs">{errors.first_name}</p>
+        )}
+        <Label className="p-1" htmlFor="name">
+          Last Name
+        </Label>
+        <Input
+          id="last_name"
+          placeholder="Enter your last name"
+          type="text"
+          autoComplete="new-last-name"
+          value={lastName}
+          onChange={(e: React.FormEvent<HTMLInputElement>) => {
+            setErrors((erros: RegisterErrors) => ({
+              ...erros,
+              last_name: "",
+            }));
+            setLastName(e.currentTarget.value);
+          }}
+          disabled={pending}
+        />
+        {errors.first_name && (
+          <p className="failure-color text-xs">{errors.first_name}</p>
+        )}
 
         <Label className="p-1" htmlFor="name">
           Date of Birth

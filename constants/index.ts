@@ -515,7 +515,8 @@ export const initialVisibilityManageRentals = {
 
 export const initialVisibilityManageUsers = {
   _id: false,
-  user_name: true,
+  last_name: true,
+  first_name: true,
   user_email: true,
   user_id: true,
   role: true,

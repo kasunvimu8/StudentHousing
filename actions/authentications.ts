@@ -19,7 +19,8 @@ export async function signUp(data: any) {
 
     // 1. Prepare data for insertion into database
     const {
-      name,
+      first_name,
+      last_name,
       email,
       password,
       user_id,
@@ -45,7 +46,8 @@ export async function signUp(data: any) {
           {
             user_email: email,
             user_id: user_id,
-            user_name: name,
+            last_name: last_name,
+            first_name: first_name,
             created_at: new Date(),
             total_quota: defaultUserReservationQuota,
             used_quota: 0,
@@ -82,7 +84,7 @@ export async function signUp(data: any) {
 
       const res = await sendVerifyEmail({
         to: email,
-        userName: name,
+        userName: `${first_name}  ${last_name}`,
         actionLink: resetLink,
       });
 
@@ -170,7 +172,8 @@ export async function forgetPasswordEmailSent(email: string) {
       userData.user_email &&
       userData.user_id &&
       profileData &&
-      profileData.user_name
+      profileData.first_name &&
+      profileData.last_name
     ) {
       const token = await getToken();
       if (token) {
@@ -190,7 +193,7 @@ export async function forgetPasswordEmailSent(email: string) {
           // handle sending email
           const res = await sendPasswordResetEmail({
             to: userData.user_email,
-            userName: profileData.user_name,
+            userName: `${profileData.first_name}  ${profileData.last_name}`,
             actionLink: resetLink,
           });
           msg = res.msg;

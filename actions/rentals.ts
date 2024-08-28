@@ -311,7 +311,7 @@ export async function sendRentalEndConfirmationEmail(reservation_id: string) {
           const resetLink = `${process.env.BASE_URL}/confirm-move-out/${reservation_id}`;
           const res1 = await sendRentalEndEmail({
             to: profileData.user_email,
-            userName: profileData.user_name,
+            userName: `${profileData.first_name} ${profileData.last_name}`,
             actionLink: resetLink,
             body: `Your rental contract is ending soon.
             Please confirm with us the your moving out date on ${endDate}, by visiting the link below.

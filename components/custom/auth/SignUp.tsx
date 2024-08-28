@@ -20,7 +20,8 @@ export function SignUpForm() {
     password: "",
     user_id: "",
     // enrollment_id: "",
-    name: "",
+    first_name: "",
+    last_name: "",
     dob: "",
     gender: "",
     country: "",
@@ -28,7 +29,8 @@ export function SignUpForm() {
     passport: "",
   });
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [dob, setdob] = useState<Date | undefined>(undefined);
@@ -54,7 +56,8 @@ export function SignUpForm() {
         email,
         password,
         user_id: id,
-        name,
+        first_name: firstName,
+        last_name: lastName,
         gender,
         country,
         phone,
@@ -83,7 +86,8 @@ export function SignUpForm() {
           email: newErrors.email?.[0] || "",
           password: newErrors.password?.[0] || "",
           user_id: newErrors.user_id?.[0] || "",
-          name: newErrors.name?.[0] || "",
+          first_name: newErrors.first_name?.[0] || "",
+          last_name: newErrors.last_name?.[0] || "",
           dob: newErrors.dob?.[0] || "",
           gender: newErrors.gender?.[0] || "",
           country: newErrors.gender?.[0] || "",
@@ -142,7 +146,8 @@ export function SignUpForm() {
 
             {step === 1 ? (
               <StepOne
-                name={name}
+                firstName={firstName}
+                lastName={lastName}
                 dob={dob}
                 step={step}
                 phone={phone}
@@ -150,7 +155,8 @@ export function SignUpForm() {
                 pending={pending}
                 gender={gender}
                 country={country}
-                setName={setName}
+                setFirstName={setFirstName}
+                setLastName={setLastName}
                 setErrors={setErrors}
                 setStep={setStep}
                 setdob={setdob}

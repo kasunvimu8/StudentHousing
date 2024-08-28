@@ -20,9 +20,9 @@ const AdminFilterSection = () => {
         </div>
         <div className="col-span-6 md:col-span-3 lg:col-span-2">
           <div className="flex flex-col gap-2 p-1">
-            <Label>Name</Label>
+            <Label>Last Name</Label>
             <URLSyncInputSuspense>
-              <InputComponent inputKey="user_name" />
+              <InputComponent inputKey="last_name" />
             </URLSyncInputSuspense>
           </div>
         </div>

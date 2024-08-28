@@ -238,7 +238,8 @@ export type ReservationType = {
 export type userProfileType = {
   user_email: string;
   user_id: string;
-  user_name: string;
+  last_name: string;
+  first_name: string;
   // enrollment_id: string;
   created_at: string;
   updated_at?: string;
@@ -253,7 +254,8 @@ export type userProfileType = {
 };
 
 export type ProfileUpdateErrors = {
-  user_name: string;
+  last_name: string;
+  first_name: string;
   dob: string;
   gender: string;
   country: string;
@@ -276,7 +278,8 @@ export type RegisterErrors = {
   email: string;
   password: string;
   user_id: string;
-  name: string;
+  last_name: string;
+  first_name: string;
   dob: string;
   gender: string;
   country: string;

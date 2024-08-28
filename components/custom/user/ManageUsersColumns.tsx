@@ -38,10 +38,17 @@ export const columns: ExtendedColumnDef[] = [
     columnTitle: "Enrollment Number",
   },
   {
-    accessorKey: "user_name",
-    cell: ({ row }) => <div>{row.getValue("user_name")}</div>,
+    accessorKey: "last_name",
+    cell: ({ row }) => <div>{row.getValue("last_name")}</div>,
     header: "User Name",
     columnTitle: "User Name",
+    enableHiding: false,
+  },
+  {
+    accessorKey: "first_name",
+    cell: ({ row }) => <div>{row.getValue("first_name")}</div>,
+    header: "First Name",
+    columnTitle: "First Name",
     enableHiding: false,
   },
   {

@@ -214,7 +214,7 @@ export async function updateProperty(property: PropertyData) {
         $set: {
           ...property,
           created_at: new Date(),
-          created_by: userData ? userData?.user_name : adminType,
+          created_by: userData.user_id,
         },
       }
     );
@@ -250,7 +250,7 @@ export async function createPropertyAction(property: PropertyDeafultType) {
       documents: docsUrls,
       thumbnail_url: thumbnail_url,
       created_at: new Date(),
-      created_by: userData ? userData?.user_name : adminType,
+      created_by: userData?.user_id,
     });
 
     revalidatePath("/", "layout");

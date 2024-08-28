@@ -76,20 +76,36 @@ const DetailsSection: React.FC<userDetailsCompProps> = ({
         <HeaderItemLayout title="Passport ID">
           <Input value={userState.passport} className="bg-white" disabled />
         </HeaderItemLayout>
-        <HeaderItemLayout title="Name">
+        <HeaderItemLayout title="First Name">
           <Input
-            value={userState.user_name}
+            value={userState.first_name}
             className="bg-white"
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
               setErrors((erros: ProfileUpdateErrors) => ({
                 ...erros,
-                user_name: "",
+                first_name: "",
               }));
-              updateLocalState("user_name", e.currentTarget.value);
+              updateLocalState("first_name", e.currentTarget.value);
             }}
           />
-          {errors.user_name && (
-            <p className="failure-color text-xs pt-1">{errors.user_name}</p>
+          {errors.first_name && (
+            <p className="failure-color text-xs pt-1">{errors.first_name}</p>
+          )}
+        </HeaderItemLayout>
+        <HeaderItemLayout title="Last Name">
+          <Input
+            value={userState.last_name}
+            className="bg-white"
+            onChange={(e: React.FormEvent<HTMLInputElement>) => {
+              setErrors((erros: ProfileUpdateErrors) => ({
+                ...erros,
+                last_name: "",
+              }));
+              updateLocalState("last_name", e.currentTarget.value);
+            }}
+          />
+          {errors.last_name && (
+            <p className="failure-color text-xs pt-1">{errors.last_name}</p>
           )}
         </HeaderItemLayout>
         <HeaderItemLayout title="Address">
