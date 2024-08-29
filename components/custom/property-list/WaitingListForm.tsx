@@ -250,7 +250,7 @@ export default function WaitingListForm({
             />
           </div>
         </div>
-        <DialogFooter className="pt-5">
+        <DialogFooter className="pt-5 gap-2">
           {isUpdate && (
             <Button
               className="primary-background-color secondary-font-color gap-2"
