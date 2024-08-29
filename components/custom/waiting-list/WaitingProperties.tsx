@@ -73,7 +73,7 @@ const WaitingProperties = ({
                     </div>
                     <div className="flex flex-col items-start">
                       <div className="primary-light-font-color text-xs">
-                        Max Rent
+                        Rent
                       </div>
                       <div className="text-sm primary-font-color">
                         {item.warm_rent} €

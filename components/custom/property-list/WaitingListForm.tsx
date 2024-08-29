@@ -137,7 +137,10 @@ export default function WaitingListForm({
       }}
     >
       <DialogTrigger asChild>
-        <Button variant="link" className="font-normal text-sm">
+        <Button
+          variant="link"
+          className="font-normal text-sm flex flex-col items-center justify-end text-center whitespace-normal"
+        >
           Couldn't find what you're looking for ? Join our waiting list.
         </Button>
       </DialogTrigger>
@@ -149,19 +152,19 @@ export default function WaitingListForm({
             allocate you a place once one becomes available.
           </DialogDescription>
           {isUpdate && (
-            <div className="w-full text-xs font-normal primary-font-color flex items-center hightlight-font-color">
+            <div className="w-full text-xs font-normal primary-font-color flex hightlight-font-color">
               <LuInfo className="mr-1" />
               Update entry does not impact your position in the waiting list.
             </div>
           )}
-          <div className="w-full text-xs font-normal primary-font-color flex items-center hightlight-font-color">
+          <div className="w-full text-xs font-normal primary-font-color flex hightlight-font-color">
             <LuInfo className="mr-1" />
             If you are searching for a place immediately, keep the from date as
             today.
           </div>
         </DialogHeader>
         <div className="grid grid-cols-2 gap-4">
-          <div className="flex flex-col">
+          <div className="col-span-2  md:col-span-1">
             <label className="pb-1">From Date</label>
             <DatePicker
               value={
@@ -180,7 +183,7 @@ export default function WaitingListForm({
             )}
           </div>
 
-          <div className="flex flex-col">
+          <div className="col-span-2  md:col-span-1">
             <label className="pb-1">Apartment Type</label>
             <Select
               value={formData.apartment_type || ""}
@@ -199,7 +202,7 @@ export default function WaitingListForm({
             )}
           </div>
 
-          <div className="flex flex-col">
+          <div className="col-span-2  md:col-span-1">
             <label className="pb-1">Desired Num. of Semesters</label>
             <Select
               value={formData.desired_semesters_stay || ""}
@@ -221,7 +224,7 @@ export default function WaitingListForm({
             )}
           </div>
 
-          <div className="flex flex-col">
+          <div className="col-span-2  md:col-span-1">
             <label className="pb-1">Max Rent (€)</label>
             <Input
               type="number"
