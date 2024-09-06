@@ -123,7 +123,9 @@ export const AdminActionReservationCancel = ({
 
 export const AdminActionReject = ({
   reservationId,
+  propertyId,
   cls,
+  userId,
 }: {
   propertyId: string;
   reservationId: string;
