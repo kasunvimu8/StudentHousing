@@ -163,7 +163,7 @@ export async function updateContractFiles(
   removedFiles: string[],
   fileContractUrls: string[],
   nextStatus: string,
-  comment: string
+  comment: string,
   isAdmin: boolean
 ): Promise<ResponseT> {
   try {
@@ -204,7 +204,11 @@ export async function updateContractFiles(
     await sendInfoEmail({
       to: profile.user_email,
       name: `${profile.first_name} ${profile.last_name}`,
-      title: `${isAdmin ? 'Admin has changed the uploaded documents' : 'Reservation Status Changed'}`,
+      title: `${
+        isAdmin
+          ? "Admin has changed the uploaded documents"
+          : "Reservation Status Changed"
+      }`,
       desc: "Please visit the Reservation Details page by accessing the 'My Reservations' page to see the current status. If you have any questions or need further assistance, feel free to contact our administration available on the contact page.",
     });
 
