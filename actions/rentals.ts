@@ -8,7 +8,7 @@ import { revalidatePath } from "next/cache";
 import { FilterParamTypes, ReservationType, SortOption } from "@/types";
 import { formatDateTime, isWithinNextMonths } from "@/lib/utils";
 import { defaultNoticePeriod } from "@/constants";
-import { sendRentalEndEmail } from "@/lib/email";
+import { sendInfoEmail, sendRentalEndEmail } from "@/lib/email";
 import Profile from "@/database/models/profiles.model";
 
 export async function updateRentalPeriod(
@@ -30,6 +30,17 @@ export async function updateRentalPeriod(
         },
       }
     );
+
+    const reservation = await Reservation.findById(reservationId);
+    const profile = await Profile.findOne({
+      user_id: reservation.user_id,
+    });
+    await sendInfoEmail({
+      to: profile.user_email,
+      name: `${profile.first_name} ${profile.last_name}`,
+      title: "Rental Period Updated",
+      desc: "The rental period has been successfully updated by the administrator. If you have any questions or need further assistance, feel free to contact our administration available on the contact page.",
+    });
 
     revalidatePath(`/reservation/${reservationId}`);
     msg = "Rental period updated successfully";
@@ -262,6 +273,17 @@ export async function confirmMovingOut(reservationId: string) {
     );
     msg = "Moving out confirmed successfully";
     type = "ok";
+
+    const reservation = await Reservation.findById(reservationId);
+    const profile = await Profile.findOne({
+      user_id: reservation.user_id,
+    });
+    await sendInfoEmail({
+      to: profile.user_email,
+      name: `${profile.first_name} ${profile.last_name}`,
+      title: "Moving Out Confirmed",
+      desc: "Your move-out has been successfully confirmed. Thank you for your cooperation. If you have any questions or need further assistance, feel free to contact our administration available on the contact page.",
+    });
 
     revalidatePath(`/confirm-move-out/${reservationId}`);
     revalidatePath("/manage-rentals");

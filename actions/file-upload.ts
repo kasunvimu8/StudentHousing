@@ -7,6 +7,8 @@ import Property from "@/database/models/property.model";
 import { ResponseT } from "@/types";
 import { generateFileName } from "@/lib/utils";
 import Reservation from "@/database/models/reservation.model";
+import Profile from "@/database/models/profiles.model";
+import { sendInfoEmail } from "@/lib/email";
 
 type formDatPaylaod = {
   data: FormData;
@@ -162,6 +164,7 @@ export async function updateContractFiles(
   fileContractUrls: string[],
   nextStatus: string,
   comment: string
+  isAdmin: boolean
 ): Promise<ResponseT> {
   try {
     // remove delted files in the server
@@ -192,6 +195,18 @@ export async function updateContractFiles(
         },
       }
     );
+
+    //sending email notification
+    const reservation = await Reservation.findById(reservationId);
+    const profile = await Profile.findOne({
+      user_id: reservation.user_id,
+    });
+    await sendInfoEmail({
+      to: profile.user_email,
+      name: `${profile.first_name} ${profile.last_name}`,
+      title: `${isAdmin ? 'Admin has changed the uploaded documents' : 'Reservation Status Changed'}`,
+      desc: "Please visit the Reservation Details page by accessing the 'My Reservations' page to see the current status. If you have any questions or need further assistance, feel free to contact our administration available on the contact page.",
+    });
 
     revalidatePath("/");
     return {

@@ -3,11 +3,9 @@
 import { connectToDatabase } from "@/database";
 import Reservation from "@/database/models/reservation.model";
 import {
-  FileType,
   FilterParamTypes,
   Property as PropertyType,
   reservationPayload,
-  ReservationType,
   ResponseT,
   SortOption,
 } from "@/types";
@@ -24,6 +22,7 @@ import {
   checkCurrentReservationStatus,
 } from "@/lib/utils";
 import { updateContractFiles } from "./file-upload";
+import { sendInfoEmail } from "@/lib/email";
 
 type formDatPaylaod = {
   data: FormData;
@@ -170,10 +169,21 @@ async function performReservation(
 
     // commit the transaction
     await session.commitTransaction();
+
+    //sending email notification
+    const profile = await Profile.findOne({
+      user_id: reservationPayload.user_id,
+    });
+    await sendInfoEmail({
+      to: profile.user_email,
+      name: `${profile.first_name} ${profile.last_name}`,
+      title: "Temporary Reservation Success",
+      desc: "Your temporary reservation has been successfully created. You can find your reservations under the 'My Reservations' page. Please proceed with the necessary contract document submission by visiting the Reservation Details page. Failure to do so within the deadline will result in the cancellation of the temporary reservation. If you have any questions or need further assistance, feel free to contact our administration available on the contact page.",
+    });
+
     revalidatePath(`/property/view/${propertyData._id}`);
     revalidatePath("/my-reservations");
     revalidatePath("/my-profile");
-
     msg =
       "Property reserved successfully for a temporary period. Please visit my reservation page to upload documents to complete the process";
     type = "ok";
@@ -309,6 +319,18 @@ export async function assignReservation(reservationPayload: {
 
         // commit the transaction
         await session.commitTransaction();
+
+        //sending email notification
+        const profile = await Profile.findOne({
+          user_id: reservationPayload.user_id,
+        });
+        await sendInfoEmail({
+          to: profile.user_email,
+          name: `${profile.first_name} ${profile.last_name}`,
+          title: "Temporary Reservation Assignment",
+          desc: "Your temporary reservation assignment based on the waiting list has been successfully created. You can find your reservations under the 'My Reservations' page. Please proceed with the necessary contract document submission by visiting the Reservation Details page. Failure to do so within the deadline will result in the cancellation of the temporary reservation. If you have any questions or need further assistance, feel free to contact our administration available on the contact page.",
+        });
+
         revalidatePath(`/property/view/${propertyData._id}`);
         revalidatePath("/manage-reservations");
 
@@ -636,6 +658,17 @@ export async function cancelReservation(
       // commit the transaction
       await session.commitTransaction();
 
+      //sending email notification
+      const profile = await Profile.findOne({
+        user_id: user_id,
+      });
+      await sendInfoEmail({
+        to: profile.user_email,
+        name: `${profile.first_name} ${profile.last_name}`,
+        title: "Reservation Status Changed",
+        desc: "The status of your reservation has changed. Please visit the Reservation Details page by accessing the 'My Reservations' page. If you have any questions or need further assistance, feel free to contact our administration available on the contact page.",
+      });
+
       revalidatePath(`/reservation/${reservationId}`);
 
       msg = "Reservation calncelled successfully";
@@ -663,7 +696,8 @@ export async function cancelReservation(
 
 export async function rejectReservationDocument(
   reservationId: string,
-  comment: string
+  comment: string,
+  userId: string
 ) {
   let msg = "";
   let type = "";
@@ -683,6 +717,17 @@ export async function rejectReservationDocument(
       }
     );
 
+    //sending email notification
+    const profile = await Profile.findOne({
+      user_id: userId,
+    });
+    await sendInfoEmail({
+      to: profile.user_email,
+      name: `${profile.first_name} ${profile.last_name}`,
+      title: "Reservation Status Changed",
+      desc: "The status of your reservation has changed. Please visit the Reservation Details page by accessing the 'My Reservations' page. If you have any questions or need further assistance, feel free to contact our administration available on the contact page.",
+    });
+
     revalidatePath(`/reservation/${reservationId}`);
     msg = "Reservation documents rejected successfully";
     type = "ok";
@@ -700,6 +745,7 @@ export async function rejectReservationDocument(
 
 export async function approveDocument(
   reservationId: string,
+  userId: string,
   fromDate: string,
   toDate: string,
   terminateDate: string
@@ -756,6 +802,17 @@ export async function approveDocument(
       }
     );
 
+    //sending email notification
+    const profile = await Profile.findOne({
+      user_id: userId,
+    });
+    await sendInfoEmail({
+      to: profile.user_email,
+      name: `${profile.first_name} ${profile.last_name}`,
+      title: "Reservation Status Changed",
+      desc: "The status of your reservation has changed. Please visit the Reservation Details page by accessing the 'My Reservations' page. If you have any questions or need further assistance, feel free to contact our administration available on the contact page.",
+    });
+
     revalidatePath(`/reservation/${reservationId}`);
     msg = "Reservation documents approved";
     type = "ok";
@@ -798,7 +855,8 @@ export async function handleContractDocumentSubmission(
       removedFiles,
       fileUrls,
       nextStatus,
-      comment
+      comment,
+      isAdmin
     );
   } catch (err) {
     console.log(err);

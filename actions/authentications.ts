@@ -4,7 +4,11 @@ import { defaultUserReservationQuota, resetLinkValidation } from "@/constants";
 import { connectToDatabase } from "@/database";
 import Authentication from "@/database/models/authentications.model";
 import Profile from "@/database/models/profiles.model";
-import { sendPasswordResetEmail, sendVerifyEmail } from "@/lib/email";
+import {
+  sendInfoEmail,
+  sendPasswordResetEmail,
+  sendVerifyEmail,
+} from "@/lib/email";
 import { createSession, deleteSession } from "@/lib/session";
 import getToken from "@/lib/token";
 import bcrypt from "bcrypt";
@@ -251,6 +255,15 @@ export async function veriftConfirmEmail(token: string, user_id: string) {
             },
           }
         );
+        const profile = await Profile.findOne({
+          user_id: user_id,
+        });
+        await sendInfoEmail({
+          to: record.user_email,
+          name: `${profile.first_name} ${profile.last_name}`,
+          title: "Email Verification Success",
+          desc: "Your email address has been successfully verified. You can now fully access your account and all the features available to you. If you have any questions or need further assistance, feel free to contact our administration avaialble in the contact page",
+        });
         return {
           msg: "Email verification successfull. Please login with your credentials.",
           type: "ok",
@@ -306,6 +319,17 @@ export async function resetPassword(data: {
       msg = "Password reset completed successfully";
       type = "ok";
     }
+
+    const profile = await Profile.findOne({
+      user_id: data.user_id,
+    });
+
+    await sendInfoEmail({
+      to: record.user_email,
+      name: `${profile.first_name} ${profile.last_name}`,
+      title: "Password Reset Success",
+      desc: "Your password has been successfully reset. You can now log in to your account using the new password. If you have any questions or need further assistance, feel free to contact our administration available on the contact page.",
+    });
   } catch (error) {
     msg = "Error occured while password reset";
     type = "error";
