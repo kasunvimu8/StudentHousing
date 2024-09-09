@@ -10,6 +10,7 @@ import { formatDateTime, isWithinNextMonths } from "@/lib/utils";
 import { defaultNoticePeriod } from "@/constants";
 import { sendInfoEmail, sendRentalEndEmail } from "@/lib/email";
 import Profile from "@/database/models/profiles.model";
+import logger from "@/lib/logger";
 
 export async function updateRentalPeriod(
   reservationId: string,
@@ -35,6 +36,12 @@ export async function updateRentalPeriod(
     const profile = await Profile.findOne({
       user_id: reservation.user_id,
     });
+
+    // logging
+    logger.info(
+      `#RENTAL PERIOD UPDATE : rental period has updated sucessfully of the reservation ${reservationId}, from data : ${fromDate}, to date : ${toDate}`
+    );
+
     await sendInfoEmail({
       to: profile.user_email,
       name: `${profile.first_name} ${profile.last_name}`,
@@ -46,7 +53,13 @@ export async function updateRentalPeriod(
     msg = "Rental period updated successfully";
     type = "ok";
   } catch (error) {
-    console.log("Failed to update rental period.", error);
+    // logging
+    logger.error(
+      `#RENTAL PERIOD UPDATE :  rental period update failed of the reservation ${reservationId}, from data : ${fromDate}, to date : ${toDate} with error: ${JSON.stringify(
+        error
+      )}`
+    );
+
     msg = "Internal Server Error. Failed to update rental period !";
     type = "error";
   }
@@ -212,6 +225,11 @@ export async function handleRelistingProperty(
 
       // commit the transaction
       await session.commitTransaction();
+
+      // logging
+      logger.info(
+        `#RENTAL RELISITING : rented property relisting handle of the property id ${propertyId} sucessfully completed for the exiting reservation ${reservationId}. Property is set to availabel from ${date} and status is set to ${status}`
+      );
       revalidatePath("/", "layout");
 
       msg = "Property changed successfully";
@@ -219,14 +237,25 @@ export async function handleRelistingProperty(
     } catch (error) {
       await session.abortTransaction();
 
-      console.log("Exception in relisting transaction", error);
+      // logging
+      logger.error(
+        `#RENTAL RELISITING : rented property relisting transaction handle of the property id ${propertyId} failed. reservation details are id : ${reservationId} , from : ${date} , status : ${status}. The error was ${JSON.stringify(
+          error
+        )}`
+      );
+
       msg = "Internal Server Error. Failed to relist the property !";
       type = "error";
     } finally {
       session.endSession();
     }
   } catch (error) {
-    console.log("Failed to relist the property.", error);
+    // logging
+    logger.error(
+      `#RENTAL RELISITING : rented property relisting handle of the property id ${propertyId} failed. reservation details are id : ${reservationId} , from : ${date} , status : ${status}. The error was ${JSON.stringify(
+        error
+      )}`
+    );
     msg = "Internal Server Error. Failed to relist the property !";
     type = "error";
   }
@@ -271,6 +300,14 @@ export async function confirmMovingOut(reservationId: string) {
         },
       }
     );
+
+    // logging
+    logger.info(
+      `#RENTAL MOVEOUT CONFIRM : Successfully confirmed move-out for tenant with reservation ID ${reservationId}`
+    );
+
+    revalidatePath(`/confirm-move-out/${reservationId}`);
+    revalidatePath("/manage-rentals");
     msg = "Moving out confirmed successfully";
     type = "ok";
 
@@ -284,11 +321,14 @@ export async function confirmMovingOut(reservationId: string) {
       title: "Moving Out Confirmed",
       desc: "Your move-out has been successfully confirmed. Thank you for your cooperation. If you have any questions or need further assistance, feel free to contact our administration available on the contact page.",
     });
-
-    revalidatePath(`/confirm-move-out/${reservationId}`);
-    revalidatePath("/manage-rentals");
   } catch (error) {
-    console.log(`Failed to confirm move out ${reservationId}`, error);
+    // logging
+    logger.error(
+      `#RENTAL MOVEOUT CONFIRM : confirmed move-out handling process failed for tenant with reservation ID ${reservationId}. The error was ${JSON.stringify(
+        error
+      )}`
+    );
+
     msg = "Internal Server Error. Failed to confirm move out.";
     type = "error";
   } finally {
@@ -319,9 +359,11 @@ export async function sendRentalEndConfirmationEmail(reservation_id: string) {
         : "-";
 
       if (!(profileData && profileData.user_email)) {
-        console.log(
-          `Failed to find user email for reservation id - ${reservation_id}`
+        // logging
+        logger.error(
+          `#RENTAL SENT EMAIL CONFIRMATION : rental end email confirmation send process failed for tenant with reservation ID ${reservation_id}. User email is not found.`
         );
+
         msg =
           "Error occured while processing moving-out email confirmation request";
         type = "error";
@@ -330,11 +372,11 @@ export async function sendRentalEndConfirmationEmail(reservation_id: string) {
           msg = "The tenant has already confirmed the moving-out.";
           type = "ok";
         } else {
-          const resetLink = `${process.env.BASE_URL}/confirm-move-out/${reservation_id}`;
+          const link = `${process.env.BASE_URL}/confirm-move-out/${reservation_id}`;
           const res1 = await sendRentalEndEmail({
             to: profileData.user_email,
             userName: `${profileData.first_name} ${profileData.last_name}`,
-            actionLink: resetLink,
+            actionLink: link,
             body: `Your rental contract is ending soon.
             Please confirm with us the your moving out date on ${endDate}, by visiting the link below.
             If you need further extentions for valid reasons, you may contact administrator immediately listed in the student housing contact page.
@@ -367,6 +409,17 @@ export async function sendRentalEndConfirmationEmail(reservation_id: string) {
 
           // commit the transaction
           await session.commitTransaction();
+
+          // logging
+          logger.info(
+            `#RENTAL SENT EMAIL CONFIRMATION : email confirmation is successfully sent to the user with user id ${
+              profileData.user_id
+            } and email ${
+              profileData.user_email
+            } with the reservation id ${reservation_id}. Total sent emails : ${
+              reservation?.rental_end?.email_sent_count + 1
+            }`
+          );
           revalidatePath("/manage-rentals");
 
           msg = "Moving out confirmation email sent successfully";
@@ -375,16 +428,25 @@ export async function sendRentalEndConfirmationEmail(reservation_id: string) {
       }
     } catch (error) {
       await session.abortTransaction();
-      console.log(
-        `Failed to send moving-out email confirmation request - ${reservation_id}`,
-        error
+      // logging
+      logger.error(
+        `#RENTAL SENT EMAIL CONFIRMATION : rental end email confirmation send transaction process failed for tenant with reservation ID ${reservation_id}. The error was ${JSON.stringify(
+          error
+        )}.`
       );
+
       msg =
         "Error occured while processing  moving-out email confirmation request. Please try again later.";
       type = "error";
     }
   } catch (error) {
-    console.log("Failed to relist the property.", error);
+    // logging
+    logger.error(
+      `#RENTAL SENT EMAIL CONFIRMATION : rental end email confirmation send process failed for tenant with reservation ID ${reservation_id}. The error was ${JSON.stringify(
+        error
+      )}.`
+    );
+
     msg = "Internal Server Error. Failed to relist the property !";
     type = "error";
   }
