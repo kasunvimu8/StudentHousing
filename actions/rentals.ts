@@ -173,7 +173,12 @@ export async function getAllRentals(
 
     return filteredReservations;
   } catch (error) {
-    console.log("Failed to fetch all rentals ", error);
+    // logging
+    logger.error(
+      `#RENTAL GET ALL : get all rentals failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return undefined;
   }
 }
@@ -279,7 +284,12 @@ export async function getRental(reservationId: string) {
 
     return reservation;
   } catch (error) {
-    console.log(`Failed to fetch reservation ${reservationId}`, error);
+    // logging
+    logger.error(
+      `#RENTAL GET : rentals holding the reservation id  ${reservationId} fetch is failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return undefined;
   }
 }

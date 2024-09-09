@@ -84,7 +84,13 @@ export async function getProperyCount(
       matchOptions.length > 0 ? { $and: matchOptions } : {}
     );
   } catch (error) {
-    console.log("Failed to fetch properties count", error);
+    // logging
+    logger.error(
+      `#PROPERTY GET COUNT : get property count failed with error ${JSON.stringify(
+        error
+      )}`
+    );
+
     return 0;
   }
 }
@@ -127,7 +133,12 @@ export async function getProperties(
     const properties = await Property.aggregate(query);
     return properties;
   } catch (error) {
-    console.log("Failed to fetch properties.", error);
+    // logging
+    logger.error(
+      `#PROPERTY GET : get properties for list page failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return [];
   }
 }
@@ -156,7 +167,12 @@ export async function getAllAvailableProperties(
       }
     );
   } catch (error) {
-    console.log("Failed to fetch all available properties.", error);
+    // logging
+    logger.error(
+      `#PROPERTY GET ALL AVAILABLE: get all available properties failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return [];
   }
 }
@@ -170,7 +186,12 @@ export async function getProperty(propertyId: string) {
 
     return property;
   } catch (error) {
-    console.log("Failed to fetch property", error);
+    // logging
+    logger.error(
+      `#PROPERTY GET : get property with id ${propertyId} failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return undefined;
   }
 }
@@ -349,7 +370,12 @@ export async function getUniquesPropertyIds() {
       },
     ]);
   } catch (error) {
-    console.log("Failed to fetch all properties.", error);
+    // logging
+    logger.error(
+      `#PROPERTY GET IDS: get unique propertiy ids failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return [];
   }
 }
@@ -363,7 +389,12 @@ export async function fetchAllAssignableProperties() {
     });
     return JSON.parse(JSON.stringify(properties));
   } catch (error) {
-    console.log("Failed to fetch properties.", error);
+    // logging
+    logger.error(
+      `#PROPERTY GET ALL ASSIGNABLE : get all assignable properties failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return [];
   }
 }

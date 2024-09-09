@@ -5,6 +5,7 @@ import Profile from "@/database/models/profiles.model";
 import { decrypt } from "@/lib/session";
 import { FilterParamTypes, SortOption, userProfileType } from "@/types";
 import { adminType } from "@/constants";
+import logger from "@/lib/logger";
 
 export async function getProfile() {
   const session = cookies().get("session")?.value;
@@ -20,7 +21,12 @@ export async function getProfile() {
       userData = JSON.parse(JSON.stringify(user));
     }
   } catch (error) {
-    console.log("Failed to get user profile data", error);
+    // logging
+    logger.error(
+      `#PROFILE GET : get profile of user id ${userId} failed with error ${JSON.stringify(
+        error
+      )}`
+    );
   }
 
   return userData;
@@ -37,7 +43,12 @@ export async function getUserProfile(userId: string) {
       userData = JSON.parse(JSON.stringify(user));
     }
   } catch (error) {
-    console.log(`Failed to get user profile data ${userId}`, error);
+    // logging
+    logger.error(
+      `#PROFILE GET BY ID : get profile of provided user id ${userId} failed with error ${JSON.stringify(
+        error
+      )}`
+    );
   }
   return userData;
 }
@@ -70,7 +81,12 @@ export async function getUserAvailableQuota(userId: string) {
 
     return availabelQuota;
   } catch (error) {
-    console.log("Failed to get user quota details", error);
+    // logging
+    logger.error(
+      `#PROFILE GET USER QUOTA : get user quota of the  user id ${userId} failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return 0;
   }
 }
@@ -105,12 +121,25 @@ export async function updateUserAction(userState: userProfileType) {
       }
     );
 
+    // logging
+    logger.info(
+      `#PROFILE UPDATE : update profile data of the  user id ${userState.user_id} successfully completed`
+    );
+
     return {
       msg: "Profile data updated successfully",
       type: "ok",
     };
   } catch (error) {
-    console.log("Failed to update profile", error);
+    // logging
+    logger.error(
+      `#PROFILE UPDATE : update user details od the user id ${
+        userState.user_id
+      } failed. provided data ${JSON.stringify(
+        userState
+      )}. The error was ${JSON.stringify(error)}`
+    );
+
     return {
       msg: "Failed to update profile",
       type: "error",
@@ -208,6 +237,11 @@ export async function getAllProfiles(
     const profile = data.length > 0 ? JSON.parse(JSON.stringify(data)) : [];
     return profile;
   } catch (error) {
-    console.log("Failed to get all user profile data", error);
+    // logging
+    logger.error(
+      `#PROFILE GET ALL : get all profiles failed with error ${JSON.stringify(
+        error
+      )}`
+    );
   }
 }
