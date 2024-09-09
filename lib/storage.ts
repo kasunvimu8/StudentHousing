@@ -3,18 +3,14 @@ import path from "path";
 
 // Function to delete a file
 export const deleteFile = async (filePath: string): Promise<void> => {
-  try {
-    await new Promise<void>((resolve, reject) => {
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          return reject(new Error("Failed to delete file"));
-        }
-        resolve();
-      });
+  await new Promise<void>((resolve, reject) => {
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        return reject(new Error("Failed to delete file"));
+      }
+      resolve();
     });
-  } catch (err) {
-    console.error("Failed to delete file: " + filePath + err);
-  }
+  });
 };
 
 export async function handleUpload(

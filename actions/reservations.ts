@@ -23,6 +23,7 @@ import {
 } from "@/lib/utils";
 import { updateContractFiles } from "./file-upload";
 import { sendInfoEmail } from "@/lib/email";
+import logger from "@/lib/logger";
 
 type formDatPaylaod = {
   data: FormData;
@@ -36,7 +37,12 @@ export async function getReservationExist(_id: string) {
     const data = await Reservation.find({ property_ref_id: _id });
     return data.length > 0;
   } catch (error) {
-    console.log("Failed to get reservation exist.", error);
+    // logging
+    logger.error(
+      `#RESERVATION GET EXISTS : get reservation exists failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return false;
   }
 }
@@ -51,7 +57,12 @@ export async function getReservationStatus(_id: string) {
 
     return reservation.status;
   } catch (error) {
-    console.log("Failed to fetch get reservation status.", error);
+    // logging
+    logger.error(
+      `#RESERVATION GET STATUS : get reservation status failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return undefined;
   }
 }
@@ -101,7 +112,12 @@ export async function getMyReservations(userId: string) {
 
     return reservations;
   } catch (error) {
-    console.log(`Failed to fetch reservations for user id ${userId}`, error);
+    // logging
+    logger.error(
+      `#RESERVATION GET MY RESERVATION : get my reservation failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return undefined;
   }
 }
@@ -170,6 +186,13 @@ async function performReservation(
     // commit the transaction
     await session.commitTransaction();
 
+    // logging
+    logger.info(
+      `#RESERVATION CREATE : reservation created successfully for the property id : ${
+        propertyData._id
+      }. reservation data : ${JSON.stringify(reservationPayload)} `
+    );
+
     //sending email notification
     const profile = await Profile.findOne({
       user_id: reservationPayload.user_id,
@@ -184,6 +207,7 @@ async function performReservation(
     revalidatePath(`/property/view/${propertyData._id}`);
     revalidatePath("/my-reservations");
     revalidatePath("/my-profile");
+
     msg =
       "Property reserved successfully for a temporary period. Please visit my reservation page to upload documents to complete the process";
     type = "ok";
@@ -191,7 +215,13 @@ async function performReservation(
     // abort the transaction
     await session.abortTransaction();
 
-    console.log("Exception in reservation transaction ", error);
+    // logging
+    logger.error(
+      `#RESERVATION CREATE : Exception in create reservation with error ${JSON.stringify(
+        error
+      )}`
+    );
+
     msg = "Internal Server Error. Failed to create reservation entries !";
     type = "error";
   } finally {
@@ -218,6 +248,11 @@ export async function makeReservation(reservationPayload: {
 
     if (quota > 0) {
       if (currentlyReservationExists) {
+        // logging
+        logger.error(
+          `#RESERVATION CREATE : reservation create failed. The use already have an active reservation`
+        );
+
         return {
           msg: "You currently have an active reservation. Please note that only one reservation can be held at a time",
           type: "error",
@@ -237,9 +272,11 @@ export async function makeReservation(reservationPayload: {
             propertyData
           );
         } else {
-          console.log(
-            "Property is not available, when user made the reservation"
+          // logging
+          logger.error(
+            `#RESERVATION CREATE : reservation create failed. Property is not available, when user made the reservation`
           );
+
           return {
             msg: "The property you are attempting to reserve isn't currently available. Please try again later.",
             type: "error",
@@ -247,13 +284,23 @@ export async function makeReservation(reservationPayload: {
         }
       }
     } else {
+      // logging
+      logger.error(
+        `#RESERVATION CREATE : reservation create failed. The User has reached reservation quota limit.`
+      );
+
       return {
         msg: "You have reached your reservation quota limit. No further reservations can be made",
         type: "error",
       };
     }
   } catch (error) {
-    console.log("Failed to make the reservation.", error);
+    // logging
+    logger.error(
+      `#RESERVATION CREATE : reservation create failed with error: ${JSON.stringify(
+        error
+      )}`
+    );
 
     return {
       msg: "Internal Server Error. Failed to make the reservation !",
@@ -320,6 +367,13 @@ export async function assignReservation(reservationPayload: {
         // commit the transaction
         await session.commitTransaction();
 
+        // logging
+        logger.info(
+          `#RESERVATION ASSIGN : reservation assigned successfully for the property id : ${
+            propertyData._id
+          }. reservation data : ${JSON.stringify(reservationPayload)} `
+        );
+
         //sending email notification
         const profile = await Profile.findOne({
           user_id: reservationPayload.user_id,
@@ -341,7 +395,15 @@ export async function assignReservation(reservationPayload: {
         // abort the transaction
         await session.abortTransaction();
 
-        console.log("Exception in assign reservation transaction ", error);
+        // logging
+        logger.error(
+          `#RESERVATION ASSIGN : reservation assign with property id ${
+            reservationPayload.property_ref_id
+          } transaction failed. Passed data ${JSON.stringify(
+            reservationPayload
+          )}. The error was ${JSON.stringify(error)}`
+        );
+
         msg = "Internal Server Error. Failed to assign reservation !";
         type = "error";
       } finally {
@@ -352,15 +414,24 @@ export async function assignReservation(reservationPayload: {
         };
       }
     } else {
-      console.log("Property is not available, when user made the reservation");
+      // logging
+      logger.error(
+        `#RESERVATION ASSIGN : reservation assign with property id ${reservationPayload.property_ref_id} failed. Property is not available, when user made the reservation`
+      );
       return {
         msg: "The property you are attempting to reserve isn't currently available. Please try again later.",
         type: "error",
       };
     }
   } catch (error) {
-    console.log("Failed to assign the reservation.", error);
-
+    // logging
+    logger.error(
+      `#RESERVATION ASSIGN : reservation assign with property id ${
+        reservationPayload.property_ref_id
+      } failed. Passed data ${JSON.stringify(
+        reservationPayload
+      )}. The error was ${JSON.stringify(error)}`
+    );
     return {
       msg: "Internal Server Error. Failed to assign the reservation !",
       type: "error",
@@ -414,7 +485,12 @@ export async function getReservation(reservationId: string) {
 
     return reservation;
   } catch (error) {
-    console.log(`Failed to get reservation ${reservationId}`, error);
+    // logging
+    logger.error(
+      `#RESERVATION GET : get reservation id ${reservationId} failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return false;
   }
 }
@@ -584,7 +660,12 @@ export async function getAllReservations(
 
     return reservations;
   } catch (error) {
-    console.log("Failed to fetch all reservations ", error);
+    // logging
+    logger.error(
+      `#RESERVATION GET ALL : get reservation all failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return undefined;
   }
 }
@@ -658,6 +739,14 @@ export async function cancelReservation(
       // commit the transaction
       await session.commitTransaction();
 
+      // logging
+      logger.info(
+        `#RESERVATION CANCEL : cancellation of the reservation id ${reservationId} with property id ${propertyId} is success. The passed data user_id: ${user_id} , user: ${user} , comment: ${comment} and listingEnable: ${listingEnable}.`
+      );
+      logger.info(
+        `#RESERVATION STATUS CHANGE: reservation status change for the reservation id : ${reservationId} to reservation_canceled`
+      );
+
       //sending email notification
       const profile = await Profile.findOne({
         user_id: user_id,
@@ -676,14 +765,26 @@ export async function cancelReservation(
     } catch (error) {
       await session.abortTransaction();
 
-      console.log("Exception in reservation transaction", error);
+      // logging
+      logger.error(
+        `#RESERVATION CANCEL : cancel reservation transaction failed of the reservation id ${reservationId} with property id ${propertyId} failed. The passed data user_id: ${user_id} , user: ${user} , comment: ${comment} and listingEnable: ${listingEnable}. The error was ${JSON.stringify(
+          error
+        )}`
+      );
+
       msg = "Internal Server Error. Failed to cancel the reservation !";
       type = "error";
     } finally {
       session.endSession();
     }
   } catch (error) {
-    console.log("Failed to cancel the reservation.", error);
+    // logging
+    logger.error(
+      `#RESERVATION CANCEL : cancel reservation failed of the reservation id ${reservationId} with property id ${propertyId} failed. The passed data user_id: ${user_id} , user: ${user} , comment: ${comment} and listingEnable: ${listingEnable}. The error was ${JSON.stringify(
+        error
+      )}`
+    );
+
     msg = "Internal Server Error. Failed to cancel the reservation !";
     type = "error";
   }
@@ -717,6 +818,14 @@ export async function rejectReservationDocument(
       }
     );
 
+    // logging
+    logger.info(
+      `#RESERVATION REJECT DOCUMENTS : reject documents handle success for the reservation id ${reservationId}. The passed data user_id: ${userId} and comment: ${comment}.`
+    );
+    logger.info(
+      `#RESERVATION STATUS CHANGE: reservation status change for the reservation id : ${reservationId} to document_submission`
+    );
+
     //sending email notification
     const profile = await Profile.findOne({
       user_id: userId,
@@ -732,7 +841,12 @@ export async function rejectReservationDocument(
     msg = "Reservation documents rejected successfully";
     type = "ok";
   } catch (error) {
-    console.log("Failed to reject the documents.", error);
+    // logging
+    logger.error(
+      `#RESERVATION REJECT DOCUMENTS : reject documents handle failed of the reservation id ${reservationId}. The passed data user_id: ${userId} and comment: ${comment}. The error was ${JSON.stringify(
+        error
+      )}`
+    );
     msg = "Internal Server Error. Failed to reject the documents !";
     type = "error";
   }
@@ -802,6 +916,15 @@ export async function approveDocument(
       }
     );
 
+    // logging
+    logger.info(
+      `#RESERVATION APPROVE DOCUMENTS : reservation with id ${reservationId} approval success. Passed data was userId : ${userId} , from date : ${fromDate} , to date : ${toDate} and terminate date : ${terminateDate}.
+      }`
+    );
+    logger.info(
+      `#RESERVATION STATUS CHANGE: reservation status change for the reservation id : ${reservationId} to rented`
+    );
+
     //sending email notification
     const profile = await Profile.findOne({
       user_id: userId,
@@ -817,7 +940,12 @@ export async function approveDocument(
     msg = "Reservation documents approved";
     type = "ok";
   } catch (error) {
-    console.log("Failed to approve the documents.", error);
+    // logging
+    logger.error(
+      `#RESERVATION APPROVE DOCUMENTS : reservation with id ${reservationId} approval failed. Passed data was userId : ${userId} , from date : ${fromDate} , to date : ${toDate} and terminate date : ${terminateDate}. The error was ${JSON.stringify(
+        error
+      )}`
+    );
     msg = "Internal Server Error. Failed to aprove the documents !";
     type = "error";
   }
@@ -858,8 +986,13 @@ export async function handleContractDocumentSubmission(
       comment,
       isAdmin
     );
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    // logging
+    logger.error(
+      `#RESERVATION CONTRACT DOCUMENTS SUBMISSION: reservation with id ${reservationId} contract documents update failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return {
       msg: "Failed to save constract documents",
       type: "error",

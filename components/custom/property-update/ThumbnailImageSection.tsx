@@ -9,7 +9,6 @@ import { generateFileName } from "@/lib/utils";
 import React, { useState } from "react";
 import { uploadThumbnail } from "@/actions/file-upload";
 import Image from "next/image";
-import { error } from "console";
 
 const ThumbnailImageSection: React.FC<PropertySectionProps> = ({
   propertyState,

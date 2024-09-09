@@ -128,11 +128,6 @@ export function removeKeysFromQuery({
   );
 }
 
-export const handleError = (error: unknown) => {
-  console.error(error);
-  throw new Error(typeof error === "string" ? error : JSON.stringify(error));
-};
-
 export const removeSpaceAndCasesensitivity = (str: string) =>
   str.toLowerCase().replace(/\s/g, "");
 

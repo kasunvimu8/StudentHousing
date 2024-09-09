@@ -35,9 +35,7 @@ async function sendEmail(data: {
       msg: "Email sent successfully",
     };
   } catch (error: any) {
-    console.error("Failed to send email:", error.message);
     if (error.response) {
-      console.error("Error response body:", error.response.body);
     }
     return {
       type: "error",

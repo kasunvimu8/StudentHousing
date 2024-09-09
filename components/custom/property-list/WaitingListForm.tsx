@@ -97,7 +97,6 @@ export default function WaitingListForm({
         variant: type,
       });
     } catch (error) {
-      console.log("Waiting list record submit error : ", error);
     } finally {
       setLoading(false);
     }
@@ -118,9 +117,7 @@ export default function WaitingListForm({
         description: msg,
         variant: type,
       });
-    } catch (error) {
-      console.log("Waiting list record delete error : ", error);
-    }
+    } catch (error) {}
   };
 
   const today = new Date();

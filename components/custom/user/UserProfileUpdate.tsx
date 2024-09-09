@@ -106,7 +106,6 @@ const UpdatePropertyDetail = ({
         });
       }
     } catch (e) {
-      console.log(e);
     } finally {
       setOpen(false);
     }
