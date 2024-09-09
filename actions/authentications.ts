@@ -9,12 +9,14 @@ import {
   sendPasswordResetEmail,
   sendVerifyEmail,
 } from "@/lib/email";
+import logger from "@/lib/logger";
 import { createSession, deleteSession } from "@/lib/session";
 import getToken from "@/lib/token";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { getUserId } from "./profiles";
 
 export async function signUp(data: any) {
   try {
@@ -95,14 +97,37 @@ export async function signUp(data: any) {
       // commit the transaction
       await session.commitTransaction();
       revalidatePath("/manage-users");
-    } catch (err: any) {
-      await session.abortTransaction();
-      const errCode = err?.code === 11000;
 
-      msg = errCode
-        ? "Account already exists for your credentials"
-        : "Registration Failed. Please try again";
+      // logging
+      logger.info(
+        `#SIGN UP : user id:  ${user_id}, user email : ${email} user is successfully registered`
+      );
+    } catch (error: unknown) {
+      await session.abortTransaction();
+
       type = "error";
+      if (error instanceof Error) {
+        const errCode = (error as any).code === 11000;
+
+        msg = errCode
+          ? "Account already exists for your credentials"
+          : "Registration Failed. Please try again";
+
+        // logging
+        logger.error(
+          `#SIGN UP : user id: ${user_id}, user email: ${email}, user registration failed: ${error.message}`
+        );
+      } else {
+        // Handle unexpected error types
+        msg = "Registration Failed. Please try again";
+
+        // logging
+        logger.error(
+          `#SIGN UP : user id: ${user_id}, user email: ${email}, unexpected error during registration: ${JSON.stringify(
+            error
+          )}`
+        );
+      }
     } finally {
       session.endSession();
     }
@@ -111,8 +136,13 @@ export async function signUp(data: any) {
       msg,
       type,
     };
-  } catch (error) {
-    console.log("User registration Failed", error);
+  } catch (error: unknown) {
+    // logging
+    logger.error(
+      `#SIGN UP : user id:  ${data.user_id}, user email : ${
+        data.email
+      } user registration is failed ${JSON.stringify(error)}`
+    );
     return {
       msg: "Registration Failed. Please try again",
       type: "error",
@@ -129,6 +159,11 @@ export async function signIn(data: { email: string; password: string }) {
     const userData = JSON.parse(JSON.stringify(user));
 
     if (userData && !userData.verified) {
+      // logging
+      logger.error(
+        `#SIGN IN : User with email: ${email}, log in failed. Email address is not verified`
+      );
+
       return {
         msg: "Login Failed. Your email address is not verified yet",
         type: "error",
@@ -138,18 +173,34 @@ export async function signIn(data: { email: string; password: string }) {
     if (userData && (await bcrypt.compare(password, userData.password))) {
       await createSession(email, userData.role, userData.user_id);
 
+      // logging
+      logger.info(
+        `#SIGN IN : User with email : ${email} user is successfully logged in`
+      );
+
       return {
         msg: "Successfully logged in! Please remember to log out after your session if you are using a public device.",
         type: "ok",
       };
     } else {
+      // logging
+      logger.error(
+        `#SIGN IN : User with email: ${email}, log in failed. Credentials are invalid.`
+      );
+
       return {
         msg: "Login Failed. Please provide valid credentials",
         type: "error",
       };
     }
-  } catch (error) {
-    console.log("User Login Failed", error);
+  } catch (error: unknown) {
+    // logging
+    logger.error(
+      `#SIGN IN : User with email: ${
+        data.email
+      }, log in failed. exception occured : ${JSON.stringify(error)}`
+    );
+
     return {
       msg: "Login Failed. Please try again",
       type: "error",
@@ -158,8 +209,11 @@ export async function signIn(data: { email: string; password: string }) {
 }
 
 export async function signOut() {
-  deleteSession();
+  const userId = await getUserId();
+  // logging
+  logger.info(`#LOGOUT : user id:  ${userId} user is successfully logged out`);
 
+  deleteSession();
   redirect("/login");
 }
 
@@ -202,25 +256,53 @@ export async function forgetPasswordEmailSent(email: string) {
           });
           msg = res.msg;
           type = res.type;
+
+          // logging
+          if (type === "ok") {
+            logger.info(
+              `#FORGET PASSWORD EMAIL SENT : Id with user  ${userData.user_id} password reset email successfully sent to ${userData.user_email}`
+            );
+          } else {
+            logger.error(
+              `#FORGET PASSWORD EMAIL SENT : Id with user  ${userData.user_id} password reset email sending to ${userData.user_email} is failed. ${msg}`
+            );
+          }
         } else {
-          console.log("Error occurred while saving token in database");
+          // logging
+          logger.error(
+            `#FORGET PASSWORD EMAIL SENT : Id with user  ${userData.user_id} password reset email sending to ${userData.user_email} is failed. Error occurred while saving token in database`
+          );
+
           msg = "Error occured while sending password reset email";
           type = "error";
         }
       } else {
-        console.log("Error occurred while creating the token");
+        // logging
+        logger.error(
+          `#FORGET PASSWORD EMAIL SENT : Id with user  ${userData.user_id} password reset email sending to ${userData.user_email} is failed. Error occurred while creating the token`
+        );
         msg = "Error occured while sending password reset email";
         type = "error";
       }
     } else {
+      // logging
+      logger.error(
+        `#FORGET PASSWORD EMAIL SENT : Id with user  ${userData.user_id} password reset email sending to ${userData.user_email} is failed. No account found for entered email`
+      );
+
       msg = "No user information found for given credentials";
       type = "error";
-      console.log("No account found for entered email", email);
     }
   } catch (error) {
+    // logging
+    logger.error(
+      `#FORGET PASSWORD EMAIL SENT : Email with user  ${email}, password reset email sending failed. No account found for entered email ${JSON.stringify(
+        error
+      )}`
+    );
+
     msg = "Error occured while sending password reset email";
     type = "error";
-    console.log("Failed to get user profile data", error);
   }
 
   return {
@@ -236,12 +318,22 @@ export async function veriftConfirmEmail(token: string, user_id: string) {
       user_id: user_id,
     });
     if (!record) {
+      // logging
+      logger.error(
+        `#CONFIRM EMAIL : Email verification failed of the user  ${user_id}`
+      );
+
       return {
         msg: "Error occured while processing email confirmation. Please try again later.",
         type: "error",
       };
     } else {
       if (record.verified) {
+        // logging
+        logger.info(
+          `#CONFIRM EMAIL : Email already verified of the user  ${user_id}`
+        );
+
         return {
           msg: "Email already verified",
           type: "ok",
@@ -255,6 +347,12 @@ export async function veriftConfirmEmail(token: string, user_id: string) {
             },
           }
         );
+
+        // logging
+        logger.info(
+          `#CONFIRM EMAIL : Email verification success of the user  ${user_id}`
+        );
+
         const profile = await Profile.findOne({
           user_id: user_id,
         });
@@ -264,6 +362,7 @@ export async function veriftConfirmEmail(token: string, user_id: string) {
           title: "Email Verification Success",
           desc: "Your email address has been successfully verified. You can now fully access your account and all the features available to you. If you have any questions or need further assistance, feel free to contact our administration avaialble in the contact page",
         });
+
         return {
           msg: "Email verification successfull. Please login with your credentials.",
           type: "ok",
@@ -271,9 +370,11 @@ export async function veriftConfirmEmail(token: string, user_id: string) {
       }
     }
   } catch (error) {
-    console.log(
-      `Failed verifying the email token - ${user_id} - ${token}`,
-      error
+    // logging
+    logger.info(
+      `#CONFIRM EMAIL : Email verification failed of the user ${user_id}. Error  ${JSON.stringify(
+        error
+      )}`
     );
     return {
       msg: "Error occured while processing email confirmation. Please try again later.",
@@ -304,6 +405,11 @@ export async function resetPassword(data: {
     ) {
       msg = "Problem occured during password reset";
       type = "error";
+
+      // logging
+      logger.error(
+        `#PASSWORD RESET : User id:  ${data.user_id} password reset failed`
+      );
     } else {
       const hashedPassword = await bcrypt.hash(data.password, 10);
       const result = await Authentication.updateOne(
@@ -318,22 +424,33 @@ export async function resetPassword(data: {
 
       msg = "Password reset completed successfully";
       type = "ok";
+
+      // logging
+      logger.info(
+        `#PASSWORD RESET : User id:  ${data.user_id} password reset completed successfully`
+      );
+
+      const profile = await Profile.findOne({
+        user_id: data.user_id,
+      });
+
+      await sendInfoEmail({
+        to: record.user_email,
+        name: `${profile.first_name} ${profile.last_name}`,
+        title: "Password Reset Success",
+        desc: "Your password has been successfully reset. You can now log in to your account using the new password. If you have any questions or need further assistance, feel free to contact our administration available on the contact page.",
+      });
     }
-
-    const profile = await Profile.findOne({
-      user_id: data.user_id,
-    });
-
-    await sendInfoEmail({
-      to: record.user_email,
-      name: `${profile.first_name} ${profile.last_name}`,
-      title: "Password Reset Success",
-      desc: "Your password has been successfully reset. You can now log in to your account using the new password. If you have any questions or need further assistance, feel free to contact our administration available on the contact page.",
-    });
   } catch (error) {
     msg = "Error occured while password reset";
     type = "error";
-    console.log(`Failed reset password - ${data.user_id}`, error);
+
+    // logging
+    logger.error(
+      `#PASSWORD RESET : User id:  ${
+        data.user_id
+      } password reset failed. Error: ${JSON.stringify(error)}`
+    );
   } finally {
     return {
       msg,
@@ -355,11 +472,26 @@ export async function veriftToken(token: string, user_id: string) {
       record.reset_password_token.expires < new Date() ||
       record.reset_password_token.used
     ) {
+      // logging
+      logger.error(
+        `#TOKEN VERIFICARTION : User id  ${user_id} with  token ${token} initial verification failed`
+      );
+
       return undefined;
     } else {
+      // logging
+      logger.info(
+        `#TOKEN VERIFICARTION : User id  ${user_id} with  token ${token}, initial verification is successfully`
+      );
+
       return record;
     }
   } catch (error) {
-    console.log(`Failed verifying the token - ${token}`, error);
+    // logging
+    logger.error(
+      `#TOKEN VERIFICARTION : User id  ${user_id} with  token ${token} initial verification failed ${JSON.stringify(
+        error
+      )}`
+    );
   }
 }
