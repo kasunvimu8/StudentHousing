@@ -59,7 +59,7 @@ export function SignInForm() {
     <div className="relative min-h-screen overflow-auto flex items-center justify-end">
       <Link
         href="/register"
-        className="absolute right-4 top-4 md:right-8 md:top-8 hiver:bg-slate-50 z-10 p-2 rounded-lg"
+        className="absolute right-4 top-4 md:right-8 md:top-8 hover:bg-slate-50 z-10 p-2 rounded-lg"
       >
         <p className="text-sm">Register</p>
       </Link>
