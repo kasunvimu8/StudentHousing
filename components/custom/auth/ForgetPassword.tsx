@@ -48,42 +48,46 @@ export default function ForgetPasswordForm() {
   };
 
   return (
-    <div className="relative h-screen flex flex-col md:grid md:grid-cols-2">
+    <div className="relative min-h-screen overflow-auto flex items-center justify-end">
       <Link
         href="/login"
         className="absolute text-sm right-4 top-4 md:right-8 md:top-8 hover:bg-slate-50 z-10 p-2 rounded-lg"
       >
         <p className="text-sm">Login</p>
       </Link>
+      <Image
+        src="/images/logo.png"
+        width={200}
+        height={60}
+        alt="Student Housing Logo"
+        className="absolute top-4 left-4 md:top-8 md:left-8 p-1 z-10"
+      />
 
-      <div className="hidden md:flex text-white flex-col justify-center p-10 primary-background-color border-t-8 border-b-8 border-[white]">
-        <h2 className="text-4xl font-bold mb-2">Recover Your Password</h2>
-        <p className="text-lg">
-          If you've forgotten your password, don't worry. Simply enter your
-          email below, and we'll send you a link to create a new one.
-        </p>
-      </div>
+      {/* background image */}
+      <Image
+        src="/images/background.jpg"
+        alt="Background"
+        fill={true}
+        quality={100}
+        className="z-[-1] rounded-lg object-cover"
+      />
 
-      <div className="flex flex-col items-center justify-center flex-grow p-4 md:p-8 relative">
-        <Image
-          src="/images/logo.png"
-          width={180}
-          height={50}
-          alt="Student Housing Logo"
-          className="absolute top-4 left-4 md:top-8 md:left-8 p-1"
-        />
+      <div className="relative z-10 p-8 bg-white rounded-xl shadow-lg max-w-md w-full m-8 mt-[80px]">
+        <div className="text-2xl font-light mb-2 text-center">
+          Welcome to Student Housing in Burgahausen
+        </div>
+
+        <div className="text-center space-y-2 pt-5">
+          <h1 className="text-2xl font-semibold tracking-tight">
+            Recover Your Password
+          </h1>
+          <p className="text-sm">
+            Enter your email to recieve the password reset link
+          </p>
+        </div>
 
         <div className="w-full max-w-md space-y-6">
-          <div className="text-center space-y-2 pt-16">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              Forget Password
-            </h1>
-            <p className="text-sm">
-              Enter your email below to recieve password reset link
-            </p>
-          </div>
-
-          <div className="grid gap-2 p-2">
+          <div className="grid gap-2 p-2 py-5">
             <div className="grid gap-1 pb-2">
               <Label className="p-1" htmlFor="email">
                 Email

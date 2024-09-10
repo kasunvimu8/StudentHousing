@@ -101,95 +101,96 @@ export function SignUpForm() {
   };
 
   return (
-    <div className="relative h-screen flex flex-col md:grid md:grid-cols-2">
+    <div className="relative min-h-screen overflow-auto flex items-center justify-end">
       <Link
         href="/login"
         className="absolute text-sm right-4 top-4 md:right-8 md:top-8 hover:bg-slate-50 z-10 p-2 rounded-lg"
       >
         <p className="text-sm">Login</p>
       </Link>
+      <Image
+        src="/images/logo.png"
+        width={200}
+        height={60}
+        alt="Student Housing Logo"
+        className="absolute top-4 left-4 md:top-8 md:left-8 p-1 z-10"
+      />
 
-      <div className="hidden md:flex text-white flex-col justify-center p-10 primary-background-color border-t-8 border-b-8 border-[white]">
-        <h2 className="text-4xl font-bold mb-2">Let's Find Your Place!</h2>
-        <p className="text-lg">
-          Create your profile and explore affordable housing options.
-        </p>
+      {/* background image */}
+      <Image
+        src="/images/background.jpg"
+        alt="Background"
+        fill={true}
+        quality={100}
+        className="z-[-1] rounded-lg object-cover"
+      />
+
+      {/* Login Container aligned to the right */}
+      <div className="relative z-10 p-8 bg-white rounded-xl shadow-lg max-w-md w-full m-8 mt-[80px]">
+        <div className="text-2xl font-light mb-2 text-center">
+          Welcome to Student Housing in Burgahausen
+        </div>
+
+        <div className="text-center space-y-2 pt-5">
+          <h1 className="text-2xl font-semibold tracking-tight">Register</h1>
+          <div className="flex justify-center font-bold text-sm ">
+            Step {step} of 2
+          </div>
+          <p className="text-sm">Enter your details below to register</p>
+        </div>
+        {step === 1 ? (
+          <StepOne
+            firstName={firstName}
+            lastName={lastName}
+            dob={dob}
+            step={step}
+            phone={phone}
+            errors={errors}
+            pending={pending}
+            gender={gender}
+            country={country}
+            setFirstName={setFirstName}
+            setLastName={setLastName}
+            setErrors={setErrors}
+            setStep={setStep}
+            setdob={setdob}
+            setGender={setGender}
+            setCountry={setCountry}
+            setPhone={setPhone}
+          />
+        ) : (
+          <StepTwo
+            email={email}
+            password={password}
+            id={id}
+            passport={passport}
+            step={step}
+            errors={errors}
+            pending={pending}
+            showPassword={showPassword}
+            check={check}
+            dataProtectionCheck={dataProtectionCheck}
+            setEmail={setEmail}
+            setId={setId}
+            setPassword={setPassword}
+            setErrors={setErrors}
+            setStep={setStep}
+            setShowPassword={setShowPassword}
+            setDataProtectionCheck={setDataProtectionCheck}
+            setCheck={setCheck}
+            handleSubmit={handleSubmit}
+            setPassport={setPassport}
+          />
+        )}
+
         <Link href="/info">
-          <div className="flex items-center cursor-pointer pt-1">
-            <p className="text-lg mr-2">For more information </p>
-            <FaArrowRight />
+          <div className="flex items-center justify-end cursor-pointer pt-1">
+            <div className="text-xs font-normal mr-2">
+              To the information page
+            </div>
+            <FaArrowRight className="w-3 h-3" />
           </div>
         </Link>
-      </div>
-
-      <div className="flex flex-col items-center justify-center flex-grow p-4 md:p-8 relative">
-        <Image
-          src="/images/logo.png"
-          width={180}
-          height={50}
-          alt="Student Housing Logo"
-          className="absolute top-4 left-4 md:top-8 md:left-8 p-1"
-        />
-        <Card className="w-full max-w-md mt-[80px]">
-          <CardContent className="w-full space-y-6">
-            <div className="text-center space-y-2 pt-10">
-              <h1 className="text-2xl font-semibold tracking-tight">
-                Register
-              </h1>
-              <div className="flex justify-center font-bold text-sm ">
-                Step {step} of 2
-              </div>
-              <p className="text-sm">
-                Enter your credentials below to create your account
-              </p>
-            </div>
-
-            {step === 1 ? (
-              <StepOne
-                firstName={firstName}
-                lastName={lastName}
-                dob={dob}
-                step={step}
-                phone={phone}
-                errors={errors}
-                pending={pending}
-                gender={gender}
-                country={country}
-                setFirstName={setFirstName}
-                setLastName={setLastName}
-                setErrors={setErrors}
-                setStep={setStep}
-                setdob={setdob}
-                setGender={setGender}
-                setCountry={setCountry}
-                setPhone={setPhone}
-              />
-            ) : (
-              <StepTwo
-                email={email}
-                password={password}
-                id={id}
-                passport={passport}
-                step={step}
-                errors={errors}
-                pending={pending}
-                showPassword={showPassword}
-                check={check}
-                dataProtectionCheck={dataProtectionCheck}
-                setEmail={setEmail}
-                setId={setId}
-                setPassword={setPassword}
-                setErrors={setErrors}
-                setStep={setStep}
-                setShowPassword={setShowPassword}
-                setDataProtectionCheck={setDataProtectionCheck}
-                setCheck={setCheck}
-                handleSubmit={handleSubmit}
-                setPassport={setPassport}
-              />
-            )}
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

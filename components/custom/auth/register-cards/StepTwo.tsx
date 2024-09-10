@@ -8,6 +8,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import { PiEyeBold, PiEyeSlashBold } from "react-icons/pi";
 import { LuArrowLeft } from "react-icons/lu";
 import { RegisterErrors } from "@/types";
+import Link from "next/link";
 
 type StepTwo = {
   email: string;
@@ -156,7 +157,7 @@ const StepTwo = ({
           />
           <label
             htmlFor="terms"
-            className="text-sm font-medium leading-none ml-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            className="text-xs font-medium leading-none ml-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
             I confirm that the information provided is accurate
           </label>
@@ -170,9 +171,12 @@ const StepTwo = ({
           />
           <label
             htmlFor="terms"
-            className="text-sm font-medium leading-none ml-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            className="text-xs font-medium leading-none ml-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
-            I Agree to the data protection and legal consent policies
+            I Agree to the{" "}
+            <Link href="/data-protection" className="underline">
+              data protection and legal consent policies
+            </Link>
           </label>
         </div>
       </div>
