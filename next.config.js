@@ -9,14 +9,14 @@ module.exports = {
       },
       {
         protocol: "https",
-        hostname: "217.92.198.91",
+        hostname: "student-housing-burghausen.de",
         port: "",
         pathname: "/api/file/**",
       },
       {
         protocol: "http",
-        hostname: "217.92.198.91",
-        port: "3000",
+        hostname: "student-housing-burghausen.de",
+        port: "",
         pathname: "/api/file/**",
       },
     ],
