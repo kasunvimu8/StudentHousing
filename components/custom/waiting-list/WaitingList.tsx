@@ -45,9 +45,7 @@ export function WaitingListMatcher({
           description: msg,
           variant: type,
         });
-      } catch (error) {
-        console.log("Waiting list record matching error : ", error);
-      }
+      } catch (error) {}
     }
   };
 

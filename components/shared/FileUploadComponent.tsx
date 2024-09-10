@@ -59,9 +59,7 @@ const FileUploadComponent: React.FC<FileUpload> = ({
         updateLocalState(uploadKey, [...dataState, ...filePaths]);
 
         setUploadStatus(false);
-      } catch (error) {
-        console.error("Error uploading file:", error);
-      }
+      } catch (error) {}
     }
   };
 
@@ -71,9 +69,7 @@ const FileUploadComponent: React.FC<FileUpload> = ({
         fileUrl.split("/").pop()
       );
       setFilesIndicators(fileIndicators);
-    } catch (error) {
-      console.error("Error fetching files:", error);
-    }
+    } catch (error) {}
   };
 
   const handleFileRemove = async (fileId: string) => {
@@ -107,9 +103,7 @@ const FileUploadComponent: React.FC<FileUpload> = ({
 
       updateLocalState(uploadKey, fileUrls);
       setUploadStatus(false);
-    } catch (error) {
-      console.error("Error removing file:", error);
-    }
+    } catch (error) {}
   };
 
   const handleUpload = async () => {

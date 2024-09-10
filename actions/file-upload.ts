@@ -7,6 +7,9 @@ import Property from "@/database/models/property.model";
 import { ResponseT } from "@/types";
 import { generateFileName } from "@/lib/utils";
 import Reservation from "@/database/models/reservation.model";
+import Profile from "@/database/models/profiles.model";
+import { sendInfoEmail } from "@/lib/email";
+import logger from "@/lib/logger";
 
 type formDatPaylaod = {
   data: FormData;
@@ -34,14 +37,22 @@ async function uploadFile(
       if (file) {
         const name = generateFileName(file.name, formData.id);
         const filePath = await handleUpload(formData.data, uploadPath, name);
+
+        // logging
+        logger.info(`#FILE UPLOAD COMMON: File upload success ${filePath}`);
       }
     }
+
     return {
       msg: "Files uploaded successfully",
       type: "ok",
     };
   } catch (err) {
-    console.log(err);
+    // logging
+    logger.error(
+      `#FILE UPLOAD COMMON: File upload failed ${JSON.stringify(err)}`
+    );
+
     return {
       msg: "Failed to upload files",
       type: "error",
@@ -58,6 +69,11 @@ export async function uploadPropertyFile(
 ): Promise<ResponseT> {
   const data = await Property.find({ property_id: id });
   if (data && data.length > 0) {
+    // logging
+    logger.error(
+      `#FILE UPLOAD : File upload failed. Try to uplaod file when creating a new property but the property id already exists`
+    );
+
     return {
       msg: "Property ID already exists",
       type: "error",
@@ -101,7 +117,17 @@ export async function updatePropertyFiles(
         fileUrl
       );
       await deleteFile(uploadPath);
+
+      // logging
+      logger.info(
+        `#FILE UPLOAD COMMON: File deletion success url : ${uploadPath}`
+      );
     }
+
+    // logging
+    logger.info(
+      `#FILE UPLOAD : File upload sucess. property files upload process successfully completed`
+    );
 
     revalidatePath("/");
     return {
@@ -109,7 +135,12 @@ export async function updatePropertyFiles(
       type: "ok",
     };
   } catch (err) {
-    console.log(err);
+    // logging
+    logger.error(
+      `#FILE UPLOAD : File upload failed. property files upload process failed with error: ${JSON.stringify(
+        err
+      )}`
+    );
     return {
       msg: "Failed to update files",
       type: "error",
@@ -139,6 +170,11 @@ export async function uploadContractFile(
           uploadPath,
           file.name
         );
+
+        // logging
+        logger.info(
+          `#FILE UPLOAD : Reservation contract file upload success ${filePath}`
+        );
       }
     }
     return {
@@ -146,7 +182,12 @@ export async function uploadContractFile(
       type: "ok",
     };
   } catch (err) {
-    console.log(err);
+    // logging
+    logger.error(
+      `#FILE UPLOAD : File upload failed. Reservation contract file upload process failed with error: ${JSON.stringify(
+        err
+      )}`
+    );
     return {
       msg: "Failed to upload files",
       type: "error",
@@ -161,7 +202,8 @@ export async function updateContractFiles(
   removedFiles: string[],
   fileContractUrls: string[],
   nextStatus: string,
-  comment: string
+  comment: string,
+  isAdmin: boolean
 ): Promise<ResponseT> {
   try {
     // remove delted files in the server
@@ -174,6 +216,11 @@ export async function updateContractFiles(
         fileUrl
       );
       await deleteFile(uploadPath);
+
+      // logging
+      logger.info(
+        `#FILE UPLOAD COMMON: File deletion success url : ${uploadPath}`
+      );
     }
 
     // first upload if any new files are added
@@ -193,13 +240,43 @@ export async function updateContractFiles(
       }
     );
 
+    //sending email notification
+    const reservation = await Reservation.findById(reservationId);
+    const profile = await Profile.findOne({
+      user_id: reservation.user_id,
+    });
+    await sendInfoEmail({
+      to: profile.user_email,
+      name: `${profile.first_name} ${profile.last_name}`,
+      title: `${
+        isAdmin
+          ? "Admin has changed the uploaded documents"
+          : "Reservation Status Changed"
+      }`,
+      desc: "Please visit the Reservation Details page by accessing the 'My Reservations' page to see the current status. If you have any questions or need further assistance, feel free to contact our administration available on the contact page.",
+    });
+
+    // logging
+    logger.info(
+      `#RESERVATION STATUS CHANGE: reservation status change for the reservation id : ${reservationId} to : ${nextStatus}`
+    );
+    logger.info(
+      `#FILE UPLOAD: reservation contract files uploaded success reservation id : ${reservationId}`
+    );
+
     revalidatePath("/");
     return {
       msg: "Files updated successfully",
       type: "ok",
     };
   } catch (err) {
-    console.log(err);
+    // logging
+    logger.error(
+      `#FILE UPLOAD: reservation contract files uploaded failed ${JSON.stringify(
+        err
+      )}`
+    );
+
     return {
       msg: "Failed to update files",
       type: "error",
@@ -224,8 +301,12 @@ export async function uploadThumbnail(
           "storage",
           removeFileUrl
         );
-        console.log(removeFile);
         await deleteFile(removeFile);
+
+        // logging
+        logger.info(
+          `#FILE UPLOAD COMMON: File deletion success url : ${removeFile}`
+        );
       }
 
       // first upload if any new files are added
@@ -248,19 +329,32 @@ export async function uploadThumbnail(
         }
       );
 
+      // logging
+      logger.info(
+        `#FILE UPLOAD: Thubnail image changed of the property id : ${id}`
+      );
+
       revalidatePath("/");
       return {
         msg: "Files updated successfully",
         type: "ok",
       };
     } else {
+      // logging
+      logger.error(`#FILE UPLOAD: Thubnail image upload failed. File is empty`);
+
       return {
         msg: "Failed to update files. File not received.",
         type: "error",
       };
     }
   } catch (err) {
-    console.log(err);
+    // logging
+    logger.error(
+      `#FILE UPLOAD: Thubnail image upload failed with error ${JSON.stringify(
+        err
+      )}`
+    );
     return {
       msg: "Failed to update files",
       type: "error",

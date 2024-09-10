@@ -123,7 +123,9 @@ export const AdminActionReservationCancel = ({
 
 export const AdminActionReject = ({
   reservationId,
+  propertyId,
   cls,
+  userId,
 }: {
   propertyId: string;
   reservationId: string;
@@ -137,7 +139,8 @@ export const AdminActionReject = ({
   const rejectDocuments = async (comment: string) => {
     const res: { msg: string; type: string } = await rejectReservationDocument(
       reservationId,
-      comment
+      comment,
+      userId
     );
     if (res) {
       toast({
@@ -150,6 +153,7 @@ export const AdminActionReject = ({
       }
     }
   };
+
   return (
     <DialogComponent
       buttonTitle="Reject and Resubmission"
@@ -181,12 +185,14 @@ export const AdminActionReject = ({
 
 export const ApproveReservation = ({
   reservationId,
+  userId,
   desired_semesters_stay,
   from,
   to,
   admin_assigned_reservation,
 }: {
   reservationId: string;
+  userId: string;
   desired_semesters_stay: string;
   from: string | undefined;
   to: string | undefined;
@@ -202,6 +208,7 @@ export const ApproveReservation = ({
   const approve = async () => {
     const res: { msg: string; type: string } = await approveDocument(
       reservationId,
+      userId,
       fromDate,
       toDate,
       terminateDate
@@ -348,6 +355,7 @@ export const AdminActionDocumentReview = ({
         cls="primary-font-color bg-white"
       />
       <ApproveReservation
+        userId={userId}
         reservationId={reservationId}
         from={from}
         to={to}

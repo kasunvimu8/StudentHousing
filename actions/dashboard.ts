@@ -5,6 +5,7 @@ import { connectToDatabase } from "@/database";
 import Profile from "@/database/models/profiles.model";
 import Property from "@/database/models/property.model";
 import Reservation from "@/database/models/reservation.model";
+import logger from "@/lib/logger";
 import { isWithinNextMonths } from "@/lib/utils";
 
 export async function getSummaryData() {
@@ -121,7 +122,10 @@ export async function getSummaryData() {
 
     return data;
   } catch (error) {
-    console.log("Failed to get summary data", error);
+    // logging
+    logger.error(
+      `#DASHBOARD : get summary data failed with error ${JSON.stringify(error)}`
+    );
     return data;
   }
 }

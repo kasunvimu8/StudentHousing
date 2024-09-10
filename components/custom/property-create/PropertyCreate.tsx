@@ -127,9 +127,7 @@ const PropertyCreate = ({
       if (cloneProperty) {
         setPropertyState({ ...propertyState, ...extractData });
       }
-    } catch (e) {
-      console.log("Error occured during cloning the property", e);
-    }
+    } catch (e) {}
   };
   return (
     <div>

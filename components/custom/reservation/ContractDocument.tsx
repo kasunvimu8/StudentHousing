@@ -72,9 +72,7 @@ const ContractDocument = ({
 
           return updatedIndicators;
         });
-      } catch (error) {
-        console.error("Error uploading file:", error);
-      }
+      } catch (error) {}
     }
   };
 
@@ -90,9 +88,7 @@ const ContractDocument = ({
       } else {
         setFilesIndicators([]);
       }
-    } catch (error) {
-      console.error("Error fetching files:", error);
-    }
+    } catch (error) {}
   };
 
   const handleFileRemove = async (fileId: string) => {
@@ -112,9 +108,7 @@ const ContractDocument = ({
         const filesUpdated = files.filter((file) => file.data.name !== fileId);
         setFiles(filesUpdated);
       }
-    } catch (error) {
-      console.error("Error removing file:", error);
-    }
+    } catch (error) {}
   };
 
   const handleUpdate = async (comment: string) => {

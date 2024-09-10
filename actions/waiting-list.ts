@@ -14,11 +14,13 @@ import mongoose from "mongoose";
 import Reservation from "@/database/models/reservation.model";
 import { documentSubmission, expirationDuration } from "@/constants";
 import Property from "@/database/models/property.model";
+import logger from "@/lib/logger";
 
 export async function fetchExistingWaitingList(): Promise<WaitinRecordType | null> {
+  await connectToDatabase();
+  const userId = await getUserId();
+
   try {
-    await connectToDatabase();
-    const userId = await getUserId();
     const waitingList = await WaitingList.findOne({
       user_id: userId,
       fulfilled: false,
@@ -39,7 +41,12 @@ export async function fetchExistingWaitingList(): Promise<WaitinRecordType | nul
       created_at: waitingList.created_at,
     };
   } catch (error) {
-    console.error("Error fetching waiting list:", error);
+    // logging
+    logger.error(
+      `#WAITING LIST GET : get waiting list data of the user ${userId} failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return null;
   }
 }
@@ -51,9 +58,10 @@ export async function saveWaitingList(data: {
   desired_semesters_stay: string;
   additional_data?: string;
 }): Promise<ResponseT> {
+  await connectToDatabase();
+  const userId = await getUserId();
+
   try {
-    await connectToDatabase();
-    const userId = await getUserId();
     const existingEntry = await WaitingList.findOne({
       user_id: userId,
       fulfilled: false,
@@ -68,6 +76,12 @@ export async function saveWaitingList(data: {
       existingEntry.desired_semesters_stay = data.desired_semesters_stay;
 
       await existingEntry.save();
+
+      // logging
+      logger.info(
+        `#WAITING LIST SAVE: Successfully updated the waiting list data of the user ${userId}. Passed new data from_date : ${data.from_date} , max_rent : ${data.max_rent} , apartment_type : ${data.apartment_type} , additional_data : ${data.additional_data} and desired_semesters_stay ${data.desired_semesters_stay}`
+      );
+
       return {
         msg: "Waiting list record updated successfully",
         type: "ok",
@@ -96,6 +110,12 @@ export async function saveWaitingList(data: {
       });
 
       await newEntry.save();
+
+      // logging
+      logger.info(
+        `#WAITING LIST SAVE: Successfully created the waiting list record for the user ${userId}. Passed data from_date : ${data.from_date} , max_rent : ${data.max_rent} , apartment_type : ${data.apartment_type} , additional_data : ${data.additional_data} and desired_semesters_stay ${data.desired_semesters_stay}`
+      );
+
       revalidatePath("/properties");
       return {
         msg: "Waiting list record created successfully",
@@ -103,7 +123,13 @@ export async function saveWaitingList(data: {
       };
     }
   } catch (error) {
-    console.error("Error saving waiting list:", error);
+    // logging
+    logger.error(
+      `#WAITING LIST SAVE: save  waiting list data of the user ${userId} failed with error ${JSON.stringify(
+        error
+      )}`
+    );
+
     return {
       msg: "Internal Server Error. Cannot save the entry!",
       type: "error",
@@ -112,9 +138,10 @@ export async function saveWaitingList(data: {
 }
 
 export async function deleteWaitingListEntry(): Promise<ResponseT> {
+  await connectToDatabase();
+  const userId = await getUserId();
+
   try {
-    await connectToDatabase();
-    const userId = await getUserId();
     const existingEntry = await WaitingList.findOne({
       user_id: userId,
       fulfilled: false,
@@ -122,6 +149,11 @@ export async function deleteWaitingListEntry(): Promise<ResponseT> {
 
     if (existingEntry) {
       await WaitingList.deleteOne({ user_id: userId, fulfilled: false });
+      // logging
+      logger.info(
+        `#WAITING LIST DELETE: Successfully deleted the waiting list record of the user ${userId}.`
+      );
+
       revalidatePath("/properties");
       return {
         msg: "Waiting list record deleted successfully",
@@ -134,7 +166,12 @@ export async function deleteWaitingListEntry(): Promise<ResponseT> {
       };
     }
   } catch (error) {
-    console.error("Error deleting waiting list:", error);
+    // logging
+    logger.error(
+      `#WAITING LIST DELETE: Waiting list record delete failed for the user ${userId} with error ${JSON.stringify(
+        error
+      )}`
+    );
     return {
       msg: "Internal Server Error. Cannot delete the entry!",
       type: "error",
@@ -155,7 +192,12 @@ export async function fetchAllWaitingList() {
 
     return JSON.parse(JSON.stringify(waitingList));
   } catch (error) {
-    console.error("Error fetching waiting list:", error);
+    // logging
+    logger.error(
+      `#WAITING LIST ALL : Waiting list all record fetching failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return [];
   }
 }
@@ -218,18 +260,30 @@ export async function matchPropertyAndWaitingList(
 
     // commit the transaction
     await session.commitTransaction();
-    revalidatePath("/manage-waiting-list");
 
+    // logging
+    logger.info(
+      `#WAITING LIST MATCH : Waiting list match failed. Property data : ${JSON.stringify(
+        property
+      )} and waiting list data ${JSON.stringify(waitingList)}`
+    );
+
+    revalidatePath("/manage-waiting-list");
     msg = "Waiting List record and property reservation successfully completed";
     type = "ok";
   } catch (error) {
     // abort the transaction
     await session.abortTransaction();
 
-    console.log(
-      "Exception in waiting list record and property reservation transaction ",
-      error
+    // logging
+    logger.error(
+      `#WAITING LIST MATCH : Waiting list match failed. Property data : ${JSON.stringify(
+        property
+      )} and waiting list data ${JSON.stringify(
+        waitingList
+      )}.  The error was ${JSON.stringify(error)}`
     );
+
     msg = "Internal Server Error. Failed to create reservation entries !";
     type = "error";
   } finally {

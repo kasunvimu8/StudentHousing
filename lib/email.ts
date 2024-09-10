@@ -35,9 +35,7 @@ async function sendEmail(data: {
       msg: "Email sent successfully",
     };
   } catch (error: any) {
-    console.error("Failed to send email:", error.message);
     if (error.response) {
-      console.error("Error response body:", error.response.body);
     }
     return {
       type: "error",
@@ -80,7 +78,7 @@ export async function sendRentalEndEmail(data: {
   to: string;
   userName: string;
   actionLink: string;
-  body : string;
+  body: string;
 }) {
   return await sendEmail({
     to: data.to,
@@ -88,6 +86,15 @@ export async function sendRentalEndEmail(data: {
     title: "Confirm Your Moving Out Date",
     userName: data.userName,
     actionLink: data.actionLink,
-    body: data.body
+    body: data.body,
   });
+}
+
+export async function sendInfoEmail(data: {
+  to: string;
+  name: string;
+  title: string;
+  desc: string;
+}) {
+  // handle sending emails here
 }

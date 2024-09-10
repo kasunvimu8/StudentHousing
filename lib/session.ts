@@ -4,7 +4,7 @@ import { sessionPeriodMinutes } from "@/constants";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
-const secretKey = process.env.AUTH_SECRET
+const secretKey = process.env.AUTH_SECRET;
 const key = new TextEncoder().encode(secretKey);
 
 export async function encrypt(payload: any) {

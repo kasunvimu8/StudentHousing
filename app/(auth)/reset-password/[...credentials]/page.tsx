@@ -5,8 +5,8 @@ import React from "react";
 import { FaExclamationTriangle } from "react-icons/fa";
 
 const page = async ({ params }: { params: { credentials: string[] } }) => {
-  const user_id: any = params.credentials?.[0];
-  const token: any = params.credentials?.[1];
+  const user_id = params.credentials?.[0];
+  const token = params.credentials?.[1];
   let isVerified: boolean = false;
 
   if (token && user_id) {

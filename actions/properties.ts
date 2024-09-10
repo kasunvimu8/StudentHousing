@@ -12,6 +12,7 @@ import {
 import { getReservationExist } from "./reservations";
 import { revalidatePath } from "next/cache";
 import { getProfile } from "./profiles";
+import logger from "@/lib/logger";
 
 function getFilterOptions(options: FilterParamTypes) {
   let filterCriterions: any = [];
@@ -83,7 +84,13 @@ export async function getProperyCount(
       matchOptions.length > 0 ? { $and: matchOptions } : {}
     );
   } catch (error) {
-    console.log("Failed to fetch properties count", error);
+    // logging
+    logger.error(
+      `#PROPERTY GET COUNT : get property count failed with error ${JSON.stringify(
+        error
+      )}`
+    );
+
     return 0;
   }
 }
@@ -126,7 +133,12 @@ export async function getProperties(
     const properties = await Property.aggregate(query);
     return properties;
   } catch (error) {
-    console.log("Failed to fetch properties.", error);
+    // logging
+    logger.error(
+      `#PROPERTY GET : get properties for list page failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return [];
   }
 }
@@ -155,7 +167,12 @@ export async function getAllAvailableProperties(
       }
     );
   } catch (error) {
-    console.log("Failed to fetch all available properties.", error);
+    // logging
+    logger.error(
+      `#PROPERTY GET ALL AVAILABLE: get all available properties failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return [];
   }
 }
@@ -169,7 +186,12 @@ export async function getProperty(propertyId: string) {
 
     return property;
   } catch (error) {
-    console.log("Failed to fetch property", error);
+    // logging
+    logger.error(
+      `#PROPERTY GET : get property with id ${propertyId} failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return undefined;
   }
 }
@@ -180,21 +202,35 @@ export async function deleteProperty(_id: string) {
 
     const isReservationExist = await getReservationExist(_id);
     if (isReservationExist) {
+      // logging
+      logger.error(
+        `#PROPERTY DELETE : property with id: ${_id} delete failed.Reservaton exists`
+      );
+
       return {
         msg: "Reservaton exists! Please remove the property-related reservation before deleting the property.",
         type: "error",
       };
     } else {
       await Property.deleteOne({ _id: _id });
-      revalidatePath("/", "layout");
 
+      // logging
+      logger.info(
+        `#PROPERTY DELETE : property with id: ${_id} delete success.`
+      );
+      revalidatePath("/", "layout");
       return {
         msg: "Property Deleted Successfully !",
         type: "ok",
       };
     }
   } catch (error) {
-    console.log("Failed to delete a property.", error);
+    // logging
+    logger.error(
+      `#PROPERTY DELETE : property with id: ${_id} delete failed with error: ${JSON.stringify(
+        error
+      )}`
+    );
     return {
       msg: "Internal Server Error. Cannot delete property!",
       type: "error",
@@ -219,6 +255,12 @@ export async function updateProperty(property: PropertyData) {
       }
     );
 
+    // logging
+    logger.info(
+      `#PROPERTY UPDATE : property with id: ${
+        property._id
+      } update success. propety data ${JSON.stringify(property)}`
+    );
     revalidatePath("/", "layout");
 
     return {
@@ -226,7 +268,12 @@ export async function updateProperty(property: PropertyData) {
       type: "ok",
     };
   } catch (error) {
-    console.log("Failed to update property.", error);
+    // logging
+    logger.error(
+      `#PROPERTY UPDATE : property with id: ${
+        property._id
+      } update failed with error: ${JSON.stringify(error)}`
+    );
     return {
       msg: "Internal Server Error. Cannot update property details property!",
       type: "error",
@@ -253,18 +300,47 @@ export async function createPropertyAction(property: PropertyDeafultType) {
       created_by: userData?.user_id,
     });
 
+    // logging
+    logger.info(
+      `#PROPERTY CREATE : property created successfully. propety data ${JSON.stringify(
+        property
+      )}`
+    );
+
     revalidatePath("/", "layout");
     return {
       msg: "Property Created Successfully !",
       type: "ok",
     };
-  } catch (error: any) {
-    const errCode = error?.code === 11000;
-    console.log("Failed to create property.", error);
-    return {
-      msg: errCode
+  } catch (error: unknown) {
+    let msg: string;
+
+    if (error instanceof Error) {
+      const errCode = (error as any).code === 11000;
+
+      msg = errCode
         ? "Property already exists in the system."
-        : "Internal Server Error. Cannot create property!",
+        : "Internal Server Error. Cannot create property!";
+
+      // logging
+      logger.error(
+        `#PROPERTY CREATE : Failed to create property with error ${JSON.stringify(
+          error
+        )}`
+      );
+    } else {
+      msg = "Internal Server Error. Cannot create property!";
+
+      // logging
+      logger.error(
+        `#PROPERTY CREATE : Failed to create property with unexpected error: ${JSON.stringify(
+          error
+        )}`
+      );
+    }
+
+    return {
+      msg: msg,
       type: "error",
     };
   }
@@ -294,7 +370,12 @@ export async function getUniquesPropertyIds() {
       },
     ]);
   } catch (error) {
-    console.log("Failed to fetch all properties.", error);
+    // logging
+    logger.error(
+      `#PROPERTY GET IDS: get unique propertiy ids failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return [];
   }
 }
@@ -308,7 +389,12 @@ export async function fetchAllAssignableProperties() {
     });
     return JSON.parse(JSON.stringify(properties));
   } catch (error) {
-    console.log("Failed to fetch properties.", error);
+    // logging
+    logger.error(
+      `#PROPERTY GET ALL ASSIGNABLE : get all assignable properties failed with error ${JSON.stringify(
+        error
+      )}`
+    );
     return [];
   }
 }
