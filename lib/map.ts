@@ -3,9 +3,9 @@ import L from "leaflet";
 export const createCustomIcon = function (type: string) {
   const url =
     type === "uni"
-      ? "/images/uni.png"
+      ? "/images/highlight-location.png"
       : type === "lab"
-      ? "/images/lab.png"
+      ? "/images/highlight-location.png"
       : "/images/placeholder.gif";
 
   return new L.Icon({

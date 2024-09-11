@@ -14,7 +14,7 @@ const GotoTop = () => {
 
   return (
     <div className="flex justify-end  py-[15px] md:py-[20px]">
-      <Button className="primary-background-color secondary-font-color">
+      <Button className="highlight-background-color secondary-font-color">
         <LuArrowUp onClick={goUp} />
       </Button>
     </div>

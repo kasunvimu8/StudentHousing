@@ -75,6 +75,11 @@ body {
     background: rgb(var(--section-background-color));
   }
 
+  .highlight-background-color {
+    background: rgb(var(--hightlight-background-color));
+    background-color: rgb(var(--hightlight-background-color));
+  }
+
   .section-highlight-background-color {
     background: rgb(var(--hightlight-background-color));
   }

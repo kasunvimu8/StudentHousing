@@ -21,7 +21,7 @@ const Footer = () => {
         </ul>
         <hr className="my-3 border-gray-200 sm:mx-auto" />
         <span className="block text-sm text-center ">
-          © 2024 All Rights Reserved.
+          © 2024 All Rights Reserved
         </span>
       </div>
     </footer>

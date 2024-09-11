@@ -134,8 +134,8 @@ const StepOne = ({
           }}
           disabled={pending}
         />
-        {errors.first_name && (
-          <p className="failure-color text-xs">{errors.first_name}</p>
+        {errors.last_name && (
+          <p className="failure-color text-xs">{errors.last_name}</p>
         )}
 
         <Label className="p-1" htmlFor="name">

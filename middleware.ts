@@ -3,7 +3,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { decrypt } from "./lib/session";
 import { adminType } from "./constants";
 
-const publicRoutes = ["/login", "/register", "/forget-password", "/info"];
+const publicRoutes = [
+  "/login",
+  "/register",
+  "/forget-password",
+  "/info",
+  "/data-protection",
+  "/imprint",
+];
 const adminRouts = [
   "/manage-properties",
   "/property/edit",
@@ -59,6 +66,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|images/logo.png).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|images/logo.png|images/background.jpg).*)",
   ],
 };

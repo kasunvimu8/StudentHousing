@@ -17,7 +17,7 @@ interface CustomCluster extends L.Marker {
 
 const createClusterCustomIcon = function (cluster: CustomCluster) {
   return L.divIcon({
-    html: `<span class="cluster-icon">${cluster.getChildCount()}</span>`,
+    html: `<span class="cluster-icon !highlight-background-color">${cluster.getChildCount()}</span>`,
     className: "custom-marker-cluster",
     iconSize: [33, 33],
   });
@@ -26,10 +26,10 @@ const createClusterCustomIcon = function (cluster: CustomCluster) {
 const createCustomIcon = function (type: string) {
   const url =
     type === "uni"
-      ? "/images/uni.png"
+      ? "/images/highlight-location.png"
       : type === "lab"
-      ? "/images/lab.png"
-      : "/images/placeholder.png";
+      ? "/images/highlight-location.png"
+      : "/images/location.png";
 
   return new L.Icon({
     iconUrl: url,
