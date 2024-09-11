@@ -2,6 +2,18 @@ const headerConfigs = {
   // configuration settings for user navigation
   user: [
     {
+      id: "properties",
+      label: "Properties",
+      components: [
+        {
+          id: "properties",
+          title: "Properties",
+          description: "List of all available properties to reserve.",
+          route: "/properties",
+        },
+      ],
+    },
+    {
       id: "reservations",
       label: "Reservations",
       components: [
@@ -41,8 +53,8 @@ const headerConfigs = {
 
   admin: [
     {
-      id: "dahsboard",
-      label: "Dahsboard",
+      id: "home",
+      label: "Home",
       components: [
         {
           id: "dahsboard",
@@ -50,6 +62,12 @@ const headerConfigs = {
           description:
             "Dashboard of the properties, reservations, rentals, and users.",
           route: "/dashboard",
+        },
+        {
+          id: "properties",
+          title: "Properties",
+          description: "List of all available properties to reserve.",
+          route: "/properties",
         },
       ],
     },

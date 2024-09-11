@@ -2,17 +2,11 @@
 
 export const headerLinks = [
   {
-    label: "Dashboard",
-    route: "/dashboard",
-    id: "dashboard",
-    isAdminRoute: true,
+    label: "Properties",
+    route: "/properties",
+    id: "properties",
+    isAdminRoute: false,
   },
-  // {
-  //   label: "Properties",
-  //   route: "/properties",
-  //   id: "properties",
-  //   isAdminRoute: false,
-  // },
   {
     label: "Contacts",
     route: "/contacts",
