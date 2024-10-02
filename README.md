@@ -3,11 +3,12 @@
 ## 🛠️ Prerequisites
 
 Before you start, you will need to have the following installed:
+
 - Git
 - Docker and Docker Compose
 - Node.js v20.11.1(LTS)
 - MongoDB
-- Email Server Account (SendGrid or NodeMailer)
+- Email Server Account (NodeMailer & OFFICE 365)
 - Amazon S3
 - A modern web browser (Chrome, Firefox, etc.)
 
@@ -59,6 +60,7 @@ Clone the project repository to your local machine using Git.
 ```bash
 git clone git@github.com:kasunvimu8/student-housing.git
 ```
+
 ### 3.Set up the Environment Configuration
 
 Make sure that that you created a .env.local file with the necessary keys similar to the .env_example
@@ -67,22 +69,24 @@ Make sure that that you created a .env.local file with the necessary keys simila
 
 First, run the development server:
 
-   ```bash
-   npm run dev
-   ```
+```bash
+npm run dev
+```
+
 Create production build:
 
-   ```bash
-   npm run build
-   ```
+```bash
+npm run build
+```
+
 run production server:
 
-   ```bash
-   npm start
-   ```
+```bash
+npm start
+```
 
 ## 📝 Design & Guidelines
 
 ### Design
 
-Figma design for the project can be found [here](https://www.figma.com/file/lPeRLZfiV24L872YwWm4ZJ/Student-Housing?type=design&node-id=18%3A2055&mode=design&t=QfrTuZD2Xzrv8BE3-1) 
+Figma design for the project can be found [here](https://www.figma.com/file/lPeRLZfiV24L872YwWm4ZJ/Student-Housing?type=design&node-id=18%3A2055&mode=design&t=QfrTuZD2Xzrv8BE3-1)

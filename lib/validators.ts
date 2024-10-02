@@ -81,7 +81,7 @@ export const formOneSchema = z.object({
     required_error: "Date of birth is required",
     invalid_type_error: "Invalid date format",
   }),
-  gender: z.enum(["male", "female", "other"], {
+  gender: z.enum(["male", "female", "diverse"], {
     message: "Gender must be either Male, Female, or Diverse",
   }),
   country: z.string().min(1, { message: "Country must be provided" }).trim(),
@@ -119,7 +119,7 @@ export const SignupFormSchema = z.object({
     required_error: "Date of birth is required",
     invalid_type_error: "Invalid date format",
   }),
-  gender: z.enum(["male", "female", "other"], {
+  gender: z.enum(["male", "female", "diverse"], {
     message: "Gender must be either Male, Female, or Diverse",
   }),
   country: z.string().min(1, { message: "Country must be provided" }).trim(),
@@ -182,7 +182,7 @@ export const profileUpdateSchema = z.object({
   dob: z.date({
     required_error: "Date of birth is required",
   }),
-  gender: z.enum(["male", "female", "other"], {
+  gender: z.enum(["male", "female", "diverse"], {
     message: "Gender must be either Male, Female, or Diverse",
   }),
   country: z.string().min(1, { message: "Country must be provided" }).trim(),
