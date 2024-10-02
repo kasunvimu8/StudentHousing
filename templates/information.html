@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      .container {
+        background-color: #ffffff;
+        width: 100%;
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        box-sizing: border-box;
+      }
+      .header {
+        background-color: #fbfbfb;
+        color: #262729;
+        padding: 1px;
+        text-align: center;
+        margin: 10px 0px;
+      }
+      .footer {
+        background-color: #262729;
+        color: #ffffff;
+        text-align: center;
+        padding: 10px;
+        font-size: 12px;
+      }
+      .content {
+        margin: 20px 0;
+        text-align: left;
+        line-height: 1.6;
+      }
+      a {
+        text-decoration: none;
+        color: #fff;
+      }
+      img.logo {
+        display: block;
+        margin: 0 auto 10px auto;
+        max-width: 100%;
+        height: auto;
+      }
+      hr {
+        border: 0;
+        height: 1px;
+        background-color: #ddd;
+        margin: 20px 0;
+      }
+      @media only screen and (max-width: 620px) {
+        .container {
+          width: 100%;
+          margin: 10px auto;
+          padding: 10px;
+        }
+        .header,
+        .footer {
+          padding: 5px;
+        }
+        .content {
+          margin: 10px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Logo section -->
+      <img
+        src="https://student-housing-burghausen.de/images/logo.png"
+        class="logo"
+        alt="Logo"
+      />
+      <!-- Header title section -->
+      <div class="header">
+        <h3>{{title}}</h3>
+      </div>
+      <!-- Main content section -->
+      <div class="content">
+        <p>Dear {{name}},</p>
+        <p>{{body}}</p>
+
+        <!-- Thank you message -->
+        <p>Thank you for your attention to this information.</p>
+      </div>
+      <!-- Footer section -->
+      <div class="footer">
+        <p>admin@student-housing-burghausen.de</p>
+        <a href="https://student-housing-burghausen.de/" style="color: #ffffff"
+          >www.student-housing-burghausen.de</a
+        >
+      </div>
+    </div>
+  </body>
+</html>
