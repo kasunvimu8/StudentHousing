@@ -273,7 +273,8 @@ export async function forgetPasswordEmailSent(email: string) {
             `#FORGET PASSWORD EMAIL SENT : Id with user  ${userData.user_id} password reset email sending to ${userData.user_email} is failed. Error occurred while saving token in database`
           );
 
-          msg = "Error occured while sending password reset email";
+          msg =
+            "Error occured while sending password reset email. Data was not able to be updated";
           type = "error";
         }
       } else {
@@ -281,7 +282,8 @@ export async function forgetPasswordEmailSent(email: string) {
         logger.error(
           `#FORGET PASSWORD EMAIL SENT : Id with user  ${userData.user_id} password reset email sending to ${userData.user_email} is failed. Error occurred while creating the token`
         );
-        msg = "Error occured while sending password reset email";
+        msg =
+          "Error occured while sending password reset email. No token was created";
         type = "error";
       }
     } else {
