@@ -3,6 +3,7 @@
 import nodemailer, { Transporter } from "nodemailer";
 import fs from "fs";
 import path from "path";
+import logger from "@/lib/logger";
 
 interface EmailOptions {
   to: string;
@@ -47,14 +48,20 @@ export const sendEmail = async ({
 
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log("Email sent: " + info.response);
+    // logging
+    logger.info(
+      `#EMAIL SEND : Subject :  ${subject}, user email : ${to} email sending successfully completed`
+    );
 
     return {
       type: "ok",
       msg: "Email sent successfully",
     };
   } catch (error) {
-    console.log("Error sending email: ", error);
+    // logging
+    logger.error(
+      `#EMAIL SEND : Subject :  ${subject}, user email : ${to} email sending failed`
+    );
     return {
       type: "error",
       msg: "Error occurred during email sending",
