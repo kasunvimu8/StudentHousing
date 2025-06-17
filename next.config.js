@@ -19,6 +19,13 @@ module.exports = {
         port: "",
         pathname: "/api/file/**",
       },
+    {
+        protocol: "https",
+        hostname: "student-housing-lovat.vercel.app",
+        port: "",
+        pathname: "/api/file/**",
+      },
+
     ],
   },
   async redirects() {
