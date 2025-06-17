@@ -4,8 +4,7 @@ import path from "path";
 import os from "os";
 import DailyRotateFile from "winston-daily-rotate-file";
 
-const homeDir = os.homedir();
-const logDir = path.join(homeDir, "logs");
+const logDir = path.join(process.cwd(), "logs");
 
 // Ensure the logs directory exists
 if (!fs.existsSync(logDir)) {

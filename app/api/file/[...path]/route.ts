@@ -7,7 +7,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { path: string[] } }
 ) {
-  const filePath = path.join(os.homedir(), "storage", ...params.path);
+  const filePath = path.join(process.cwd(), "storage", ...params.path);
 
   if (!fs.existsSync(filePath)) {
     return NextResponse.json({ error: "File not found" }, { status: 404 });
