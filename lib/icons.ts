@@ -1,13 +1,13 @@
 import {
-  LuHome,
+  LuHouse,
   LuShowerHead,
   LuWalletCards,
-  LuParkingCircle,
+  LuCircleParking,
   LuDog,
   LuWifi,
   LuLogOut,
-  LuUser2,
-  LuUserCog2,
+  LuUser,
+  LuUserCog,
   LuLayoutDashboard,
   LuListPlus,
 } from "react-icons/lu";
@@ -33,10 +33,10 @@ import {
 import { IconType } from "react-icons";
 
 export const equipmentIcons = {
-  LuHome: LuHome,
+  LuHouse: LuHouse,
   LuShowerHead: LuShowerHead,
   LuWalletCards: LuWalletCards,
-  LuParkingCircle: LuParkingCircle,
+  LuParkingCircle: LuCircleParking,
   LuDog: LuDog,
   CgSmartHomeWashMachine: CgSmartHomeWashMachine,
   GiHomeGarage: GiHomeGarage,
@@ -58,8 +58,8 @@ export const equipmentIcons = {
   TbHomeShield: TbHomeShield,
   BsHouseGear: BsHouseGear,
   LuLogOut: LuLogOut,
-  LuUser2: LuUser2,
-  LuUserCog2: LuUserCog2,
+  LuUser2: LuUser,
+  LuUserCog: LuUserCog,
   BsHouseDown: BsHouseDown,
   LuLayoutDashboard: LuLayoutDashboard,
   LuListPlus: LuListPlus,

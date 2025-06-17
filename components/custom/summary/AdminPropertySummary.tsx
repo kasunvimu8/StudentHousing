@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LuHome } from "react-icons/lu";
+import { LuHouse } from "react-icons/lu";
 import { TbHomeCheck, TbHomePlus } from "react-icons/tb";
 import Link from "next/link";
 
@@ -19,7 +19,7 @@ const AdminPropertySummary = ({
         <Card className="section-background-color">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total</CardTitle>
-            <LuHome />
+            <LuHouse />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{totalProperties}</div>

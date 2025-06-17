@@ -27,7 +27,7 @@ export const normalUserNavMenu = [
   {
     title: "My Reservations",
     href: "/my-reservations",
-    icon: "LuHome",
+    icon: "LuHouse",
     id: "my-reservations",
   },
   {
@@ -66,7 +66,7 @@ export const adminUsernavigation = [
   {
     title: "Manage Users",
     href: "/manage-users",
-    icon: "LuUserCog2",
+    icon: "LuUserCog",
     id: "manage-users",
   },
   {

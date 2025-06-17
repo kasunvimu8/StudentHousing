@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/pagination";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { numberPagesDisplayInPagination } from "@/constants";
-import { LuHome } from "react-icons/lu";
+import { LuHouse } from "react-icons/lu";
 import GotoTop from "@/components/ui/pagination/GotoTop";
 
 const PaginationComponent = ({
@@ -103,7 +103,7 @@ const PaginationComponent = ({
       ) : (
         <div className="flex-center wrapper min-h-[200px] w-full flex-col gap-3 py-10 md:py-20 text-center justify-center items-center">
           <div className="flex justify-center">
-            <LuHome className="align-center w-[40px] h-[40px] primary-font-color opacity-40" />
+            <LuHouse className="align-center w-[40px] h-[40px] primary-font-color opacity-40" />
           </div>
           <h3 className="text-lg font-medium">No Data Found</h3>
           <div className="text-sm font-normal ">Please try again later !</div>

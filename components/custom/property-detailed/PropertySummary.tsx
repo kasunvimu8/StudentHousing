@@ -4,7 +4,7 @@ import { Property } from "@/types";
 import React from "react";
 import {
   LuBuilding,
-  LuBoxSelect,
+  LuSquareDashed,
   LuEuro,
   LuSofa,
   LuCalendarDays,
@@ -50,7 +50,7 @@ const PropertySummary = ({ property }: { property: Property }) => {
         </div>
         <div className="grid gap-1">
           <div className="flex items-center justify-self-center primary-light-font-color">
-            <LuBoxSelect className="text-xl" />
+            <LuSquareDashed className="text-xl" />
           </div>
           <div className="flex items-center justify-self-center text-center text-sm lg:text-lg font-semibold primary-font-color">
             {property?.size} m<sup>2</sup>

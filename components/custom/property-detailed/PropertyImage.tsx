@@ -9,7 +9,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-import { LuLoader2 } from "react-icons/lu";
+import { LuLoader } from "react-icons/lu";
 import { IoMdImages } from "react-icons/io";
 
 const PropertyImage = ({ images }: { images: string[] }) => {
@@ -51,7 +51,7 @@ const PropertyImage = ({ images }: { images: string[] }) => {
                   {!loaded && (
                     <div className="absolute inset-0 flex items-center justify-center h-[250px] sm:h-[350px] md:h-[500px]">
                       <div className="flex items-center justify-center w-full h-full">
-                        <LuLoader2 className="primary-font-color animate-spin z-10 w-8 h-8" />
+                        <LuLoader className="primary-font-color animate-spin z-10 w-8 h-8" />
                       </div>
                     </div>
                   )}

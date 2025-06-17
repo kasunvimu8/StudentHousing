@@ -6,7 +6,7 @@ import {
   LuMoveRight,
   LuSofa,
   LuBedSingle,
-  LuBoxSelect,
+  LuSquareDashed,
 } from "react-icons/lu";
 import { Button } from "../../ui/button";
 import Image from "next/image";
@@ -115,7 +115,7 @@ const PropertyItem = ({ property }: { property: Property }) => {
             <div className="col-span-2">
               <div className="grid grid-row gap-1 font-medium">
                 <div className="flex items-center justify-self-center">
-                  <LuBoxSelect className="text-xl" />
+                  <LuSquareDashed className="text-xl" />
                 </div>
                 <div className="flex items-center justify-self-center text-xs primary-light-font-color">
                   {property?.size} m<sup>2</sup>

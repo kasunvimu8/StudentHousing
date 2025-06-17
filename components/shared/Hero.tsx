@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Hero = () => {
   return (
-    <div className="relative w-full h-[300px] md:h-[450px] mb-6">
+    <div className="relative w-full h-[300px] mb-6">
       <Image
         src="/images/background.jpg"
         alt="Hero Image"
