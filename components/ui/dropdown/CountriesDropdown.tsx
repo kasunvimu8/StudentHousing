@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/select";
 import { OptionType } from "@/types";
 import { cn } from "@/lib/utils";
-import Flag from "react-world-flags";
+// @ts-ignore
+const Flag = require("react-world-flags").default;
 
 export const CountriesDropdown = ({
   value,
